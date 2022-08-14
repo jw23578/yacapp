@@ -3,11 +3,13 @@
 
 #include <QObject>
 #include "yacappmacros.h"
+#include <QColor>
 
 class FooterConfig : public QObject
 {
     Q_OBJECT
     YACAPPPROPERTY(double, height, Height, 0)
+    YACAPPPROPERTY(QColor, color, Color, "white")
 public:
     explicit FooterConfig(QObject *parent = nullptr);
 

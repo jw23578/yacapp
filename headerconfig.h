@@ -3,12 +3,14 @@
 
 #include <QObject>
 #include "yacappmacros.h"
+#include <QColor>
 
 class HeaderConfig : public QObject
 {
     Q_OBJECT
     YACAPPPROPERTY(QString, title, Title, "")
     YACAPPPROPERTY(double, height, Height, 0)
+    YACAPPPROPERTY(QColor, color, Color, "white")
 public:
     explicit HeaderConfig(QObject *parent = nullptr);
 

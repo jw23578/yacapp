@@ -29,7 +29,7 @@ Rectangle
             spacing: 1
             Repeater
             {
-                model: config.content.items.length
+                model: config.content.itemCount
                 delegate: Loader {
                     active: true;
                     asynchronous: true

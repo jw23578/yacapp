@@ -58,12 +58,19 @@ Rectangle
                 text: config.header.height
                 onDisplayTextChanged: config.header.height = text
             }
+            YACColorDialogWithHeader
+            {
+                headerText: "Color"
+                color: config.header.color
+                onColorChanged: config.header.color = color
+            }
         }
         EditorSection
         {
             sectionCaption: "Content"
             YACComboBoxWithHeader
             {
+                id: menueType
                 headerText: "Type"
                 currentIndex: find(config.content.type)
                 onCurrentTextChanged: config.content.type = currentText
@@ -71,9 +78,36 @@ Rectangle
             }
             YACLineEditWithHeader
             {
+                visible: menueType.currentText == "webview"
                 headerText: "Url"
                 text: config.content.url
                 onDisplayTextChanged: config.content.url = text
+            }
+            Column
+            {
+                id: columnItems
+                visible: menueType.currentText == "column"
+                width: parent.width
+                Repeater
+                {
+                    model: config.content.itemCount
+                    delegate: Column
+                    {
+                        width: columnItems.width
+                        YACLineEditWithHeader
+                        {
+                            id: theFilename
+                            headerText: "Filename"
+                            text: config.content.items[index].filename
+                        }
+                        YACLineEditWithHeader
+                        {
+                            headerText: "Height"
+                            doubleEdit: true
+                            text: config.content.items[index].height
+                            onDisplayTextChanged: config.content.items[index].height = text
+                        }                    }
+                }
             }
         }
 
@@ -86,6 +120,12 @@ Rectangle
                 doubleEdit: true
                 text: config.footer.height
                 onDisplayTextChanged: config.footer.height = text
+            }
+            YACColorDialogWithHeader
+            {
+                headerText: "Color"
+                color: config.footer.color
+                onColorChanged: config.footer.color = color
             }
         }
     }
