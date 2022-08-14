@@ -2,6 +2,8 @@ import QtQuick 2.0
 import com.yacapp.parsedconfig 1.0
 import QtWebView 1.15
 
+import "items"
+
 Rectangle
 {
     id: theSuperForm

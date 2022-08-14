@@ -1,13 +1,14 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>SuperForm.qml</file>
-        <file>YACButton.qml</file>
-        <file>YACFooter.qml</file>
-        <file>YACHeader.qml</file>
-        <file>MainForm.qml</file>
+        <file>qml/SuperForm.qml</file>
+        <file>qml/YACFooter.qml</file>
+        <file>qml/YACHeader.qml</file>
+        <file>qml/MainForm.qml</file>
         <file>mainDesignMode.qml</file>
-        <file>editor/EditorForm.qml</file>
-        <file>editor/EditorSection.qml</file>
+        <file>qml/editor/EditorForm.qml</file>
+        <file>qml/editor/EditorSection.qml</file>
+        <file>qml/items/YACButton.qml</file>
+        <file>qml/items/YACProjectText.qml</file>
     </qresource>
 </RCC>

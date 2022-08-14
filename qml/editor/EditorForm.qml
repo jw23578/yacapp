@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import com.yacapp.parsedconfig 1.0
+import "../items"
 
 Rectangle
 {
@@ -8,6 +9,31 @@ Rectangle
     Column
     {
         width: parent.width
+        Row
+        {
+            width: parent.width
+            YACButton
+            {
+                width: parent.width / 2
+                text: "Load Project"
+            }
+            Item
+            {
+                width: 1
+                height: 1
+            }
+            YACButton
+            {
+                width: parent.width / 2 - 1
+                text: "Save Project"
+            }
+        }
+        YACProjectText
+        {
+            width: parent.width
+            text: "Project: "
+        }
+
         EditorSection
         {
             sectionCaption: "Header"
