@@ -4,6 +4,12 @@
 #define stringFromJSON(name, uppercasename) \
     set##uppercasename(config[#name].toString());
 
+#define toJSON(name) \
+    config[#name] = name()
+
+#define colorToJSON(colorName) \
+    config[#colorName] = colorName().name()
+
 #define YACAPPCONSTANTPROPERTY(type, name, uppercasename, defaultvalue) \
     private: \
     type m_##name = {defaultvalue}; \

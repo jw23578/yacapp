@@ -6,8 +6,10 @@ import "../items"
 
 Rectangle
 {
+    id: editorForm
     property ParsedConfig config: null
     property GlobalProjectConfig global: null
+    signal loadConfig(string filename)
     color: "silver"
     FolderDialog {
         id: folderDialog
@@ -41,7 +43,12 @@ Rectangle
             width: parent.width
             text: "Project: " + global.projectName
         }
-
+        YACComboBoxWithHeader
+        {
+            headerText: "Files"
+            onActivated: editorForm.loadConfig(text)
+            model: yacApp.knownFiles
+        }
         EditorSection
         {
             sectionCaption: "Header"
@@ -94,11 +101,17 @@ Rectangle
                     delegate: Column
                     {
                         width: columnItems.width
+                        YACButton
+                        {
+                            text: "Edit"
+                            onClicked: editorForm.loadConfig(config.content.items[index].filename)
+                        }
                         YACLineEditWithHeader
                         {
                             id: theFilename
                             headerText: "Filename"
                             text: config.content.items[index].filename
+                            onDisplayTextChanged: config.content.items[index].filename = text
                         }
                         YACLineEditWithHeader
                         {
@@ -106,7 +119,8 @@ Rectangle
                             doubleEdit: true
                             text: config.content.items[index].height
                             onDisplayTextChanged: config.content.items[index].height = text
-                        }                    }
+                        }
+                    }
                 }
             }
         }

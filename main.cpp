@@ -4,7 +4,7 @@
 
 #include <QLocale>
 #include <QTranslator>
-#include "parsedconfig.h"
+#include "configmodels/parsedconfig.h"
 #include "yacapp.h"
 #include "configmodels/globalprojectconfig.h"
 

@@ -16,6 +16,7 @@ public:
     explicit BackgroundConfig(QObject *parent = nullptr);
 
     void setConfig(QJsonValue const &config);
+    QJsonObject getConfig();
 
 signals:
 

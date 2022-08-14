@@ -19,6 +19,8 @@ public:
     void setConfig(QJsonValue const &config,
                    const QString &baseUrl);
 
+    QJsonObject getConfig();
+
 signals:
 
 };

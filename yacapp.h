@@ -2,7 +2,7 @@
 #define YACAPP_H
 
 #include <QObject>
-#include "parsedconfig.h"
+#include "configmodels/parsedconfig.h"
 #include "configmodels/globalprojectconfig.h"
 
 class YACAPP : public QObject
@@ -11,7 +11,9 @@ class YACAPP : public QObject
     YACAPPPROPERTY(QString, baseUrl, BaseUrl, "");
     YACAPPREADONLYPROPERTY(ParsedConfig*, mainConfig, new ParsedConfig);
     YACAPPREADONLYPROPERTY(GlobalProjectConfig*, globalConfig, new GlobalProjectConfig);
+    YACAPPPROPERTY(QStringList, knownFiles, KnownFiles, QStringList())
     QMap<QString, ParsedConfig*> fileName2ParsedConfig;
+    void addKnownFile(QString const &filename);
 public:
     explicit YACAPP(QObject *parent = nullptr);
     void init();

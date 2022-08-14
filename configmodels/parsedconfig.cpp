@@ -1,6 +1,7 @@
 #include "parsedconfig.h"
 #include <QFile>
 #include <QQmlEngine>
+#include <QJsonObject>
 
 ParsedConfig::ParsedConfig(QObject *parent):
     QObject(parent)
@@ -21,4 +22,18 @@ bool ParsedConfig::init(const QString &jsonConfigFile,
     content()->setConfig(config["content"]);
     header()->setConfig(config["header"]);
     footer()->setConfig(config["footer"]);
+}
+
+void ParsedConfig::save(const QString &jsonConfigFile, const QString &baseUrl)
+{
+    QJsonObject config;
+    config["background"] = background()->getConfig();
+    config["header"] = header()->getConfig();
+    config["footer"] = footer()->getConfig();
+    config["content"] = content()->getConfig();
+    config["menue"] = menue()->getConfig();
+
+    QFile jsonFile(jsonConfigFile);
+    jsonFile.open(QIODevice::WriteOnly);
+    jsonFile.write(QJsonDocument(config).toJson());
 }

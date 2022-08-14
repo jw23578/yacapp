@@ -13,8 +13,10 @@ public:
     explicit GlobalProjectConfig(QObject *parent = nullptr);
 
     void setConfig(QJsonValue const &config);
+    void getConfig(QJsonObject &config);
 
     void init(const QString &jsonConfigFile);
+    void save(const QString &jsonConfigFile);
 signals:
 
 };

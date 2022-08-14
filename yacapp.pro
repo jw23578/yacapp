@@ -5,16 +5,16 @@ QT += quick widgets
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        backgroundconfig.cpp \
+        configmodels/backgroundconfig.cpp \
+        configmodels/contentconfig.cpp \
+        configmodels/contentitem.cpp \
+        configmodels/footerconfig.cpp \
         configmodels/globalprojectconfig.cpp \
-        contentconfig.cpp \
-        contentitem.cpp \
-        footerconfig.cpp \
-        headerconfig.cpp \
+        configmodels/headerconfig.cpp \
+        configmodels/menueconfig.cpp \
+        configmodels/menueitem.cpp \
+        configmodels/parsedconfig.cpp \
         main.cpp \
-        menueconfig.cpp \
-        menueitem.cpp \
-        parsedconfig.cpp \
         yacapp.cpp
 
 RESOURCES += qml.qrc
@@ -36,14 +36,14 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-  backgroundconfig.h \
+  configmodels/backgroundconfig.h \
+  configmodels/contentconfig.h \
+  configmodels/contentitem.h \
+  configmodels/footerconfig.h \
   configmodels/globalprojectconfig.h \
-  contentconfig.h \
-  contentitem.h \
-  footerconfig.h \
-  headerconfig.h \
-  menueconfig.h \
-  menueitem.h \
-  parsedconfig.h \
+  configmodels/headerconfig.h \
+  configmodels/menueconfig.h \
+  configmodels/menueitem.h \
+  configmodels/parsedconfig.h \
   yacapp.h \
   yacappmacros.h

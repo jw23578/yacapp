@@ -9,6 +9,15 @@ Column
     id: mainForm
     property var config: null
     signal currentItemChanged(ParsedConfig config)
+    function openFilename(filename)
+    {
+        theStackView.push("SuperForm.qml", {
+                              "config": yacApp.getConfig(filename),
+                              "stackView": theStackView
+                          }
+                          )
+    }
+
     YACHeader
     {
         id: header

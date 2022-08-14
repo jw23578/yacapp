@@ -3,6 +3,7 @@
 #include <QJsonArray>
 #include <QFile>
 #include <QJsonDocument>
+#include <QJsonObject>
 
 MenueConfig::MenueConfig(QObject *parent)
     : QObject{parent}
@@ -31,4 +32,11 @@ void MenueConfig::setConfig(const QJsonValue &config,
         appendItem(item);
     }
     setItemCount(m_items.length());
+}
+
+QJsonObject MenueConfig::getConfig()
+{
+    QJsonObject config;
+    toJSON(type);
+    return config;
 }

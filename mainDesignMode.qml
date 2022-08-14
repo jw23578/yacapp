@@ -27,6 +27,7 @@ Window {
         anchors.left: mainForm.right
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+        onLoadConfig: mainForm.openFilename(filename)
     }
 
 

@@ -14,6 +14,18 @@ void YACAPP::init()
     globalConfig()->init(baseUrl() + "global.json");
     mainConfig()->init(baseUrl() + globalConfig()->mainFormFilename(),
                        baseUrl());
+    m_knownFiles.clear();
+    addKnownFile(globalConfig()->mainFormFilename());
+}
+
+void YACAPP::addKnownFile(QString const &filename)
+{
+    if (m_knownFiles.contains(filename))
+    {
+        return;
+    }
+    m_knownFiles.append(filename);
+    emit knownFilesChanged();
 }
 
 ParsedConfig *YACAPP::getConfig(const QString &filename)
@@ -26,6 +38,7 @@ ParsedConfig *YACAPP::getConfig(const QString &filename)
         configIt = fileName2ParsedConfig.find(fullFilename);
         configIt.value()->init(fullFilename, baseUrl());
     }
+    addKnownFile(filename);
     return configIt.value();
 }
 

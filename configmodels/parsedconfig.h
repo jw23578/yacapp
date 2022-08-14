@@ -25,6 +25,9 @@ class ParsedConfig : public QObject
     bool init(const QString &jsonConfigFile,
               const QString &baseUrl);
 
+    void save(const QString &jsonConfigFile,
+              const QString &baseUrl);
+
 signals:
 
 };

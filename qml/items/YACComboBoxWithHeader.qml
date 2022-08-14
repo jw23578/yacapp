@@ -12,6 +12,7 @@ Column
     {
         return input.find(needle)
     }
+    signal activated(string text)
 
     Text
     {
@@ -23,5 +24,6 @@ Column
         id: input
         x: height
         width: parent.width - x
+        onActivated: parent.activated(textAt(index))
     }
 }
