@@ -54,6 +54,7 @@ Rectangle
             YACLineEditWithHeader
             {
                 headerText: "Height"
+                doubleEdit: true
                 text: config.header.height
                 onDisplayTextChanged: config.header.height = text
             }
@@ -61,17 +62,31 @@ Rectangle
         EditorSection
         {
             sectionCaption: "Content"
-            YACLineEditWithHeader
+            YACComboBoxWithHeader
             {
                 headerText: "Type"
-                text: config.content.type
-                onDisplayTextChanged: config.content.type = text
+                currentIndex: find(config.content.type)
+                onCurrentTextChanged: config.content.type = currentText
+                model: config.content.typeOptions
+            }
+            YACLineEditWithHeader
+            {
+                headerText: "Url"
+                text: config.content.url
+                onDisplayTextChanged: config.content.url = text
             }
         }
 
         EditorSection
         {
             sectionCaption: "Footer"
+            YACLineEditWithHeader
+            {
+                headerText: "Height"
+                doubleEdit: true
+                text: config.footer.height
+                onDisplayTextChanged: config.footer.height = text
+            }
         }
     }
 }

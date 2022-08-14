@@ -34,6 +34,20 @@
     void name##Changed(); \
     private:
 
+#define YACAPPPROPERTYWITHOPTIONS(type, name, uppercasename, defaultvalue, ...) \
+    private: \
+    type m_##name = {defaultvalue}; \
+    QStringList m_##name##Options = {__VA_ARGS__}; \
+    public: \
+    Q_PROPERTY(type name READ name WRITE set##uppercasename NOTIFY name##Changed) \
+    Q_PROPERTY(QStringList name##Options READ name##Options) \
+    type name() const {return m_##name;} \
+    QStringList name##Options() const {return m_##name##Options;} \
+    void set##uppercasename(type n){if (m_##name == n) return; m_##name = n; emit name##Changed();} \
+    Q_SIGNAL \
+    void name##Changed(); \
+    private:
+
 #define YACOBJECTLISTPROPERTY(type, singular, uppercasesingular, className) \
 Q_PROPERTY(QQmlListProperty<type> singular##s READ singular##s CONSTANT) \
 QList<type *> m_##singular##s; \

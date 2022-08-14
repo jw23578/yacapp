@@ -2,6 +2,12 @@ import QtQuick 2.0
 
 Column
 {
+    DoubleValidator
+    {
+        id: doubleValidator
+    }
+
+    property bool doubleEdit: false
     width: parent.width
     property alias headerText: header.text
     property alias text: input.text
@@ -16,5 +22,6 @@ Column
         id: input
         x: height
         width: parent.width - x
+        validator: parent.doubleEdit ? doubleValidator : null
     }
 }

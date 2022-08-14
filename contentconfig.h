@@ -10,7 +10,7 @@
 class ContentConfig : public QObject
 {
     Q_OBJECT
-    YACAPPPROPERTY(QString, type, Type, "");
+    YACAPPPROPERTYWITHOPTIONS(QString, type, Type, "", "webview", "column");
     YACAPPPROPERTY(QString, url, Url, "");
     YACOBJECTLISTPROPERTY(ContentItem, item, Item, ContentConfig)
 public:
