@@ -10,17 +10,19 @@ MenueConfig::MenueConfig(QObject *parent)
 
 }
 
-void MenueConfig::setConfig(const QJsonValue &config)
+void MenueConfig::setConfig(const QJsonValue &config,
+                            const QString &baseUrl)
 {
     if (config["filename"].toString().length())
     {
-        QFile jsonFile(config["filename"].toString());
+        QFile jsonFile(baseUrl + config["filename"].toString());
         jsonFile.open(QIODevice::ReadOnly);
         QByteArray fileData(jsonFile.readAll());
-        setConfig(QJsonDocument::fromJson(fileData)["menue"]);
+        setConfig(QJsonDocument::fromJson(fileData)["menue"], baseUrl);
         return;
     }
     setType(config["type"].toString());
+    setItemCount(0);
     QJsonArray array(config["items"].toArray());
     for (int i(0); i < array.size(); ++i)
     {
@@ -28,4 +30,5 @@ void MenueConfig::setConfig(const QJsonValue &config)
         item->setConfig(array[i]);
         appendItem(item);
     }
+    setItemCount(m_items.length());
 }

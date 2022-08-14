@@ -10,5 +10,6 @@
         <file>qml/editor/EditorSection.qml</file>
         <file>qml/items/YACButton.qml</file>
         <file>qml/items/YACProjectText.qml</file>
+        <file>qml/items/YACLineEditWithHeader.qml</file>
     </qresource>
 </RCC>

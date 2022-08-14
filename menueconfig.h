@@ -11,11 +11,13 @@ class MenueConfig : public QObject
 {
     Q_OBJECT
     YACAPPPROPERTY(QString, type, Type, "")
+    YACAPPPROPERTY(int, itemCount, ItemCount, 0);
     YACOBJECTLISTPROPERTY(MenueItem, item, Item, MenueConfig)
 public:
     explicit MenueConfig(QObject *parent = nullptr);
 
-    void setConfig(QJsonValue const &config);
+    void setConfig(QJsonValue const &config,
+                   const QString &baseUrl);
 
 signals:
 

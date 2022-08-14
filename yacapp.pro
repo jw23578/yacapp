@@ -1,4 +1,4 @@
-QT += quick
+QT += quick widgets
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -6,6 +6,7 @@ QT += quick
 
 SOURCES += \
         backgroundconfig.cpp \
+        configmodels/globalprojectconfig.cpp \
         contentconfig.cpp \
         contentitem.cpp \
         footerconfig.cpp \
@@ -36,6 +37,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
   backgroundconfig.h \
+  configmodels/globalprojectconfig.h \
   contentconfig.h \
   contentitem.h \
   footerconfig.h \

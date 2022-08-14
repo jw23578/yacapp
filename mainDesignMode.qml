@@ -20,6 +20,7 @@ Window {
     EditorForm
     {
         config: yacApp.mainConfig
+        global: yacApp.globalConfig
         anchors.top: parent.top
         anchors.left: mainForm.right
         anchors.right: parent.right

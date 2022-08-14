@@ -1,6 +1,9 @@
 #ifndef YACAPPMACROS_H
 #define YACAPPMACROS_H
 
+#define stringFromJSON(name, uppercasename) \
+    set##uppercasename(config[#name].toString());
+
 #define YACAPPCONSTANTPROPERTY(type, name, uppercasename, defaultvalue) \
     private: \
     type m_##name = {defaultvalue}; \

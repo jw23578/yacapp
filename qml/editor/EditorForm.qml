@@ -1,11 +1,18 @@
 import QtQuick 2.0
+import Qt.labs.platform 1.0
 import com.yacapp.parsedconfig 1.0
+import com.yacapp.globalprojectconfig 1.0
 import "../items"
 
 Rectangle
 {
     property ParsedConfig config: null
+    property GlobalProjectConfig global: null
     color: "silver"
+    FolderDialog {
+        id: folderDialog
+        onFolderChanged: yacApp.loadNewProject(folder + "/")
+    }
     Column
     {
         width: parent.width
@@ -16,6 +23,7 @@ Rectangle
             {
                 width: parent.width / 2
                 text: "Load Project"
+                onClicked: folderDialog.open()
             }
             Item
             {
@@ -31,31 +39,21 @@ Rectangle
         YACProjectText
         {
             width: parent.width
-            text: "Project: "
+            text: "Project: " + global.projectName
         }
 
         EditorSection
         {
             sectionCaption: "Header"
-            Text
+            YACLineEditWithHeader
             {
-                text: "Title"
-            }
-            TextInput
-            {
-                x: height
-                width: parent.width
+                headerText: "Title"
                 text: config.header.title
                 onDisplayTextChanged: config.header.title = text
             }
-            Text
+            YACLineEditWithHeader
             {
-                text: "Height"
-            }
-            TextInput
-            {
-                x: height
-                width: parent.width
+                headerText: "Height"
                 text: config.header.height
                 onDisplayTextChanged: config.header.height = text
             }

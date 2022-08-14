@@ -22,7 +22,8 @@ class ParsedConfig : public QObject
     YACAPPREADONLYPROPERTY(FooterConfig*, footer, new FooterConfig());
     public:
         explicit ParsedConfig(QObject *parent = nullptr);
-    bool init(const QString &jsonConfigFile);
+    bool init(const QString &jsonConfigFile,
+              const QString &baseUrl);
 
 signals:
 

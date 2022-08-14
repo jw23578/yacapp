@@ -57,7 +57,7 @@ Rectangle
 
         Repeater
         {
-            model: config.menue.items.length
+            model: config.menue.itemCount
             YACButton
             {
                 width: parent.width
