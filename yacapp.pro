@@ -47,3 +47,6 @@ HEADERS += \
   configmodels/parsedconfig.h \
   yacapp.h \
   yacappmacros.h
+
+DISTFILES += \
+  README.md

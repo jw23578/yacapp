@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     YACAPP yacApp;
     yacApp.setBaseUrl("/home/jw78/wes23/");
     QUrl url(QStringLiteral("qrc:/main.qml"));
-    if (app.arguments().contains("designer"))
+    if (app.arguments().contains("Configurator"))
     {
         url = QStringLiteral("qrc:/mainDesignMode.qml");
         yacApp.setBaseUrl("");
