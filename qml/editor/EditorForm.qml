@@ -61,6 +61,12 @@ Rectangle
         EditorSection
         {
             sectionCaption: "Content"
+            YACLineEditWithHeader
+            {
+                headerText: "Type"
+                text: config.content.type
+                onDisplayTextChanged: config.content.type = text
+            }
         }
 
         EditorSection

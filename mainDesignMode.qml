@@ -8,7 +8,7 @@ Window {
     width: 1280
     height: 480
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("YAC-App Designer")
 
     MainForm
     {
@@ -16,9 +16,11 @@ Window {
         width: 640
         height: 480
         config: yacApp.mainConfig
+        onCurrentItemChanged: editorForm.config = config
     }
     EditorForm
     {
+        id: editorForm
         config: yacApp.mainConfig
         global: yacApp.globalConfig
         anchors.top: parent.top

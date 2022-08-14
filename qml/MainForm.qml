@@ -1,11 +1,14 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
+import com.yacapp.parsedconfig 1.0
+
 
 Column
 {
     id: mainForm
     property var config: null
+    signal currentItemChanged(ParsedConfig config)
     YACHeader
     {
         id: header
@@ -24,6 +27,7 @@ Column
         onCurrentItemChanged: {
             header.headerConfig = currentItem.config.header
             footer.footerConfig = currentItem.config.footer
+            mainForm.currentItemChanged(currentItem.config)
         }
     }
     YACFooter
