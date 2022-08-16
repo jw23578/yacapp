@@ -29,5 +29,11 @@ QJsonObject ContentConfig::getConfig()
     QJsonObject config;
     toJSON(type);
     toJSON(url);
+    QJsonArray itemArray;
+    for (int i(0); i < itemCount(); ++i)
+    {
+        itemArray.append(item(i)->getConfig());
+    }
+    config["items"] = itemArray;
     return config;
 }

@@ -13,6 +13,7 @@ public:
     explicit ContentItem(QObject *parent = nullptr);
 
     void setConfig(QJsonValue const &config);
+    QJsonObject getConfig();
 
 signals:
 
