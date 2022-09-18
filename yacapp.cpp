@@ -29,6 +29,16 @@ void YACAPP::addKnownFile(QString const &filename)
     emit knownFilesChanged();
 }
 
+void YACAPP::addKnownMenueFile(const QString &filename)
+{
+    if (m_knownMenueFiles.contains(filename))
+    {
+        return;
+    }
+    m_knownMenueFiles.append(filename);
+    emit knownMenueFilesChanged();
+}
+
 ParsedConfig *YACAPP::getConfig(const QString &filename)
 {
     QString fullFilename(baseUrl() + filename);
@@ -40,6 +50,24 @@ ParsedConfig *YACAPP::getConfig(const QString &filename)
         configIt.value()->init(fullFilename, baseUrl());
     }
     addKnownFile(filename);
+    return configIt.value();
+}
+
+MenueConfig *YACAPP::getMenueConfig(const QString &filename)
+{
+    if (!filename.size())
+    {
+        return &emptyMenue;
+    }
+    QString fullFilename(baseUrl() + filename);
+    QMap<QString, MenueConfig*>::Iterator configIt(fileName2MenueConfig.find(fullFilename));
+    if (configIt == fileName2MenueConfig.end())
+    {
+        fileName2MenueConfig[fullFilename] = new MenueConfig;
+        configIt = fileName2MenueConfig.find(fullFilename);
+        configIt.value()->init(fullFilename, baseUrl());
+    }
+    addKnownMenueFile(filename);
     return configIt.value();
 }
 
@@ -57,11 +85,21 @@ void YACAPP::loadNewProject(const QString &folder)
 
 void YACAPP::saveCurrentProject()
 {
-    QMap<QString, ParsedConfig*>::iterator it(fileName2ParsedConfig.begin());
-    while (it != fileName2ParsedConfig.end())
     {
-      it.value()->save(it.key(), baseUrl());
-      ++it;
+        QMap<QString, ParsedConfig*>::iterator it(fileName2ParsedConfig.begin());
+        while (it != fileName2ParsedConfig.end())
+        {
+            it.value()->save(it.key(), baseUrl());
+            ++it;
+        }
+    }
+    {
+        QMap<QString, MenueConfig*>::iterator it(fileName2MenueConfig.begin());
+        while (it != fileName2MenueConfig.end())
+        {
+            it.value()->save(it.key(), baseUrl());
+            ++it;
+        }
     }
 }
 

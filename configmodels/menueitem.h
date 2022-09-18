@@ -16,6 +16,7 @@ public:
 
     void setConfig(QJsonValue const &config);
 
+    QJsonObject getConfig();
 signals:
 
 };

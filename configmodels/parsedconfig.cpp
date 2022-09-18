@@ -17,8 +17,9 @@ bool ParsedConfig::init(const QString &jsonConfigFile,
     QByteArray fileData(jsonFile.readAll());
     config = QJsonDocument::fromJson(fileData);
 
+    setMenueFilename(config["menueFilename"].toString());
+
     background()->setConfig(config["background"]);
-    menue()->setConfig(config["menue"], baseUrl);
     content()->setConfig(config["content"]);
     header()->setConfig(config["header"]);
     footer()->setConfig(config["footer"]);
@@ -28,11 +29,11 @@ bool ParsedConfig::init(const QString &jsonConfigFile,
 void ParsedConfig::save(const QString &jsonConfigFile, const QString &baseUrl)
 {
     QJsonObject config;
+    stringToJSON(menueFilename);
     config["background"] = background()->getConfig();
     config["header"] = header()->getConfig();
     config["footer"] = footer()->getConfig();
     config["content"] = content()->getConfig();
-    config["menue"] = menue()->getConfig();
     config["splashscreen"] = splashscreen()->getConfig();
 
     QJsonObject::Iterator it(config.begin());

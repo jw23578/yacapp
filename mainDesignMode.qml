@@ -30,6 +30,23 @@ Window {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         onLoadConfig: mainForm.openFilename(filename)
+        onConfigChanged:
+        {
+            menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
+        }
+        Component.onCompleted:
+        {
+            menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
+        }
+    }
+    MenueEditor
+    {
+        id: menueEditor
+        anchors.left: mainForm.left
+        anchors.top: mainForm.bottom
+        anchors.topMargin: 10
+        anchors.right: mainForm.right
+        anchors.bottom: parent.bottom
     }
 
 

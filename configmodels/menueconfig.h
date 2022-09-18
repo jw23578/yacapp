@@ -10,8 +10,7 @@
 class MenueConfig : public QObject
 {
     Q_OBJECT
-    YACAPPPROPERTY(QString, filename, Filename, "");
-    YACAPPPROPERTY(QString, type, Type, "")
+    YACAPPPROPERTYWITHOPTIONS(QString, type, Type, "", "default", "+ Button");
     YACAPPPROPERTY(int, itemCount, ItemCount, 0);
     YACOBJECTLISTPROPERTY(MenueItem, item, Item, MenueConfig)
 public:
@@ -22,6 +21,8 @@ public:
 
     QJsonObject getConfig();
 
+    bool init(const QString &jsonConfigFile, const QString &baseUrl);
+    void save(const QString &jsonConfigFile, const QString &baseUrl);
 signals:
 
 };

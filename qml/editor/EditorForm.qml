@@ -10,6 +10,7 @@ Rectangle
     property ParsedConfig config: null
     property GlobalProjectConfig global: null
     signal loadConfig(string filename)
+    signal menueFilenameChanged(string filename)
     FolderDialog {
         id: folderDialog
         onFolderChanged: yacApp.loadNewProject(folder + "/")
@@ -115,7 +116,7 @@ Rectangle
                     sectionCaption: "Content"
                     YACComboBoxWithHeader
                     {
-                        id: menueType
+                        id: contentType
                         headerText: "Type"
                         currentIndex: find(config.content.type)
                         onCurrentTextChanged: config.content.type = currentText
@@ -123,7 +124,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
-                        visible: menueType.currentText == "webview"
+                        visible: contentType.currentText == "webview"
                         headerText: "Url"
                         text: config.content.url
                         onDisplayTextChanged: config.content.url = text
@@ -131,7 +132,7 @@ Rectangle
                     Column
                     {
                         id: columnItems
-                        visible: menueType.currentText == "column"
+                        visible: contentType.currentText == "column"
                         width: parent.width
                         Repeater
                         {

@@ -13,5 +13,6 @@
         <file>qml/items/YACLineEditWithHeader.qml</file>
         <file>qml/items/YACComboBoxWithHeader.qml</file>
         <file>qml/items/YACColorDialogWithHeader.qml</file>
+        <file>qml/editor/MenueEditor.qml</file>
     </qresource>
 </RCC>

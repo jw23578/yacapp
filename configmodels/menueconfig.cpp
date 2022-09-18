@@ -11,18 +11,20 @@ MenueConfig::MenueConfig(QObject *parent)
 
 }
 
+bool MenueConfig::init(const QString &jsonConfigFile,
+                        const QString &baseUrl)
+{
+    QFile jsonFile(jsonConfigFile);
+    jsonFile.open(QIODevice::ReadOnly);
+    QByteArray fileData(jsonFile.readAll());
+    QJsonDocument config = QJsonDocument::fromJson(fileData);
+
+    setConfig(config["menue"], baseUrl);
+}
+
 void MenueConfig::setConfig(const QJsonValue &config,
                             const QString &baseUrl)
 {
-    if (config["filename"].toString().length())
-    {
-        setFilename(config["filename"].toString());
-        QFile jsonFile(baseUrl + config["filename"].toString());
-        jsonFile.open(QIODevice::ReadOnly);
-        QByteArray fileData(jsonFile.readAll());
-        setConfig(QJsonDocument::fromJson(fileData)["menue"], baseUrl);
-        return;
-    }
     setType(config["type"].toString());
     clearItems();
     setItemCount(0);
@@ -40,6 +42,37 @@ QJsonObject MenueConfig::getConfig()
 {
     QJsonObject config;
     stringToJSON(type);
-    stringToJSON(filename);
+    if (itemCount())
+    {
+        QJsonArray itemArray;
+        for (int i(0); i < itemCount(); ++i)
+        {
+            itemArray.append(item(i)->getConfig());
+        }
+        config["items"] = itemArray;
+    }
     return config;
+}
+
+void MenueConfig::save(const QString &jsonConfigFile, const QString &baseUrl)
+{
+    QJsonObject config;
+    config["menue"] = getConfig();
+
+    QJsonObject::Iterator it(config.begin());
+    while (it != config.end())
+    {
+        if (it.value() == QJsonObject())
+        {
+            it = config.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+
+    QFile jsonFile(jsonConfigFile);
+    jsonFile.open(QIODevice::WriteOnly);
+    jsonFile.write(QJsonDocument(config).toJson());
 }

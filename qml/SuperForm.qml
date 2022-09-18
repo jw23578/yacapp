@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import com.yacapp.parsedconfig 1.0
+import com.yacapp.menueconfig 1.0
 import QtWebView 1.15
 
 import "items"
@@ -8,6 +9,7 @@ Rectangle
 {
     id: theSuperForm
     property ParsedConfig config: null
+    property MenueConfig menue: yacApp.getMenueConfig("")
     property var stackView: null
     color: config.background.color
     WebView
@@ -50,42 +52,51 @@ Rectangle
     Column
     {
         id: defaultMenue
-        visible: config.menue.type === ""
+        visible: menue.type === "" || menue.type === "default"
         anchors.centerIn: parent
         spacing: 1
         width: parent.width * 3 / 4
 
         Repeater
         {
-            model: config.menue.itemCount
+            model: menue.itemCount
             YACButton
             {
                 width: parent.width
-                text: config.menue.items[index].caption
+                text: menue.items[index].caption
                 onClicked:
                 {
-                    if (config.menue.items[index].specialMeaning == "back")
+                    if (menue.items[index].specialMeaning == "back")
                     {
                         stackView.pop()
                         return
                     }
-                    if (config.menue.items[index].specialMeaning == "home")
+                    if (menue.items[index].specialMeaning == "home")
                     {
                         stackView.pop(null)
                         return
                     }
-                    if (config.menue.items[index].specialMeaning == "clear")
+                    if (menue.items[index].specialMeaning == "clear")
                     {
                         stackView.pop(null)
                     }
 
                     stackView.push("SuperForm.qml", {
-                                       "config": yacApp.getConfig(config.menue.items[index].targetFile),
+                                       "config": yacApp.getConfig(menue.items[index].targetFile),
                                        "stackView": stackView
                                    }
                                    )
                 }
             }
         }
+    }
+    Component.onCompleted:
+    {
+        if (config == null)
+        {
+            return
+        }
+
+        menue = yacApp.getMenueConfig(config.menueFilename)
     }
 }
