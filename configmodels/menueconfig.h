@@ -10,6 +10,7 @@
 class MenueConfig : public QObject
 {
     Q_OBJECT
+    YACAPPPROPERTY(QString, filename, Filename, "");
     YACAPPPROPERTY(QString, type, Type, "")
     YACAPPPROPERTY(int, itemCount, ItemCount, 0);
     YACOBJECTLISTPROPERTY(MenueItem, item, Item, MenueConfig)

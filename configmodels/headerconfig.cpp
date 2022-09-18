@@ -10,6 +10,7 @@ HeaderConfig::HeaderConfig(QObject *parent)
 
 void HeaderConfig::setConfig(const QJsonValue &config)
 {
+    setColor(config["color"].toString());
     setTitle(config["title"].toString());
     setHeight(config["height"].toDouble(0));
 }
@@ -17,7 +18,8 @@ void HeaderConfig::setConfig(const QJsonValue &config)
 QJsonObject HeaderConfig::getConfig()
 {
     QJsonObject config;
-    toJSON(title);
+    colorToJSON(color);
+    stringToJSON(title);
     toJSON(height);
     return config;
 }

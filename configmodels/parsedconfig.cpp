@@ -22,6 +22,7 @@ bool ParsedConfig::init(const QString &jsonConfigFile,
     content()->setConfig(config["content"]);
     header()->setConfig(config["header"]);
     footer()->setConfig(config["footer"]);
+    splashscreen()->setConfig(config["splashscreen"]);
 }
 
 void ParsedConfig::save(const QString &jsonConfigFile, const QString &baseUrl)
@@ -32,6 +33,7 @@ void ParsedConfig::save(const QString &jsonConfigFile, const QString &baseUrl)
     config["footer"] = footer()->getConfig();
     config["content"] = content()->getConfig();
     config["menue"] = menue()->getConfig();
+    config["splashscreen"] = splashscreen()->getConfig();
 
     QFile jsonFile(jsonConfigFile);
     jsonFile.open(QIODevice::WriteOnly);

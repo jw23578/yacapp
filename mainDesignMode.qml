@@ -33,13 +33,15 @@ Window {
 
     Component.onCompleted:
     {
-        console.log("hello")
+        yacApp.loadNewProject("/home/jw78/wes23/")
+
+        console.log("hello2")
         console.log(yacApp.mainConfig)
         console.log(yacApp.mainConfig.background)
         console.log(yacApp.mainConfig.background.imageFilename)
         console.log(yacApp.mainConfig.background.color)
         console.log(yacApp.mainConfig.content.type)
         console.log(yacApp.mainConfig.content.items.length)
-        console.log(yacApp.mainConfig.content.items[1].height)
+
     }
 }

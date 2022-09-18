@@ -16,6 +16,7 @@ void MenueConfig::setConfig(const QJsonValue &config,
 {
     if (config["filename"].toString().length())
     {
+        setFilename(config["filename"].toString());
         QFile jsonFile(baseUrl + config["filename"].toString());
         jsonFile.open(QIODevice::ReadOnly);
         QByteArray fileData(jsonFile.readAll());
@@ -37,6 +38,7 @@ void MenueConfig::setConfig(const QJsonValue &config,
 QJsonObject MenueConfig::getConfig()
 {
     QJsonObject config;
-    toJSON(type);
+    stringToJSON(type);
+    stringToJSON(filename);
     return config;
 }

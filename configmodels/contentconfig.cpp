@@ -27,13 +27,16 @@ void ContentConfig::setConfig(const QJsonValue &config)
 QJsonObject ContentConfig::getConfig()
 {
     QJsonObject config;
-    toJSON(type);
-    toJSON(url);
-    QJsonArray itemArray;
-    for (int i(0); i < itemCount(); ++i)
+    stringToJSON(type);
+    stringToJSON(url);
+    if (itemCount())
     {
-        itemArray.append(item(i)->getConfig());
+        QJsonArray itemArray;
+        for (int i(0); i < itemCount(); ++i)
+        {
+            itemArray.append(item(i)->getConfig());
+        }
+        config["items"] = itemArray;
     }
-    config["items"] = itemArray;
     return config;
 }

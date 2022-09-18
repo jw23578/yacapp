@@ -7,6 +7,12 @@
 #define toJSON(name) \
     config[#name] = name()
 
+#define stringToJSON(name) \
+    if (name().size()) \
+    { \
+        config[#name] = name(); \
+    }
+
 #define colorToJSON(colorName) \
     config[#colorName] = colorName().name()
 

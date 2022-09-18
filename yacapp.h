@@ -22,6 +22,8 @@ public:
 
     Q_INVOKABLE void loadNewProject(QString const &folder);
 
+    Q_INVOKABLE void saveCurrentProject();
+
 signals:
 
 };

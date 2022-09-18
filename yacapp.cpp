@@ -15,6 +15,7 @@ void YACAPP::init()
     mainConfig()->init(baseUrl() + globalConfig()->mainFormFilename(),
                        baseUrl());
     m_knownFiles.clear();
+    fileName2ParsedConfig[baseUrl() + globalConfig()->mainFormFilename()] = mainConfig();
     addKnownFile(globalConfig()->mainFormFilename());
 }
 
@@ -52,5 +53,15 @@ void YACAPP::loadNewProject(const QString &folder)
     }
     setBaseUrl(rawFolder);
     init();
+}
+
+void YACAPP::saveCurrentProject()
+{
+    QMap<QString, ParsedConfig*>::iterator it(fileName2ParsedConfig.begin());
+    while (it != fileName2ParsedConfig.end())
+    {
+      it.value()->save(it.key() + "1", baseUrl());
+      ++it;
+    }
 }
 

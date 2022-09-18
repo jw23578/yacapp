@@ -9,6 +9,7 @@
 #include "contentconfig.h"
 #include "headerconfig.h"
 #include "footerconfig.h"
+#include "splashscreenconfig.h"
 
 class ParsedConfig : public QObject
 {
@@ -20,6 +21,7 @@ class ParsedConfig : public QObject
     YACAPPREADONLYPROPERTY(ContentConfig*, content, new ContentConfig());
     YACAPPREADONLYPROPERTY(HeaderConfig*, header, new HeaderConfig());
     YACAPPREADONLYPROPERTY(FooterConfig*, footer, new FooterConfig());
+    YACAPPREADONLYPROPERTY(SplashscreenConfig*, splashscreen, new SplashscreenConfig());
     public:
         explicit ParsedConfig(QObject *parent = nullptr);
     bool init(const QString &jsonConfigFile,

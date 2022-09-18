@@ -14,6 +14,7 @@ SOURCES += \
         configmodels/menueconfig.cpp \
         configmodels/menueitem.cpp \
         configmodels/parsedconfig.cpp \
+        configmodels/splashscreenconfig.cpp \
         main.cpp \
         yacapp.cpp
 
@@ -45,6 +46,7 @@ HEADERS += \
   configmodels/menueconfig.h \
   configmodels/menueitem.h \
   configmodels/parsedconfig.h \
+  configmodels/splashscreenconfig.h \
   yacapp.h \
   yacappmacros.h
 

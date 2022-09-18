@@ -15,8 +15,10 @@ Rectangle
         id: folderDialog
         onFolderChanged: yacApp.loadNewProject(folder + "/")
     }
+
     Column
     {
+        id: topColumn
         width: parent.width
         Row
         {
@@ -36,6 +38,7 @@ Rectangle
             {
                 width: parent.width / 2 - 1
                 text: "Save Project"
+                onClicked: yacApp.saveCurrentProject()
             }
         }
         YACProjectText
@@ -49,98 +52,124 @@ Rectangle
             onActivated: editorForm.loadConfig(text)
             model: yacApp.knownFiles
         }
-        EditorSection
+    }
+    Column
+    {
+        anchors.top: topColumn.bottom
+        anchors.bottom: parent.bottom
+        width: parent.width
+        Rectangle
         {
-            sectionCaption: "Header"
-            YACLineEditWithHeader
-            {
-                headerText: "Title"
-                text: config.header.title
-                onDisplayTextChanged: config.header.title = text
-            }
-            YACLineEditWithHeader
-            {
-                headerText: "Height"
-                doubleEdit: true
-                text: config.header.height
-                onDisplayTextChanged: config.header.height = text
-            }
-            YACColorDialogWithHeader
-            {
-                headerText: "Color"
-                color: config.header.color
-                onColorChanged: config.header.color = color
-            }
+            width: parent.width
+            height: 1
+            color: "black"
         }
-        EditorSection
+
+        Flickable
         {
-            sectionCaption: "Content"
-            YACComboBoxWithHeader
-            {
-                id: menueType
-                headerText: "Type"
-                currentIndex: find(config.content.type)
-                onCurrentTextChanged: config.content.type = currentText
-                model: config.content.typeOptions
-            }
-            YACLineEditWithHeader
-            {
-                visible: menueType.currentText == "webview"
-                headerText: "Url"
-                text: config.content.url
-                onDisplayTextChanged: config.content.url = text
-            }
+            clip: true
+            width: parent.width
+            height: parent.height
+            contentHeight: editorSections.height
             Column
             {
-                id: columnItems
-                visible: menueType.currentText == "column"
+                id: editorSections
                 width: parent.width
-                Repeater
+
+                EditorSection
                 {
-                    model: config.content.itemCount
-                    delegate: Column
+                    sectionCaption: "Header"
+                    YACLineEditWithHeader
                     {
-                        width: columnItems.width
-                        YACButton
+                        headerText: "Title"
+                        text: config.header.title
+                        onDisplayTextChanged: config.header.title = text
+                    }
+                    YACLineEditWithHeader
+                    {
+                        headerText: "Height"
+                        doubleEdit: true
+                        text: config.header.height
+                        onDisplayTextChanged: config.header.height = text
+                    }
+                    YACColorDialogWithHeader
+                    {
+                        headerText: "Color"
+                        color: config.header.color
+                        onColorChanged: config.header.color = color
+                    }
+                }
+                EditorSection
+                {
+                    sectionCaption: "Content"
+                    YACComboBoxWithHeader
+                    {
+                        id: menueType
+                        headerText: "Type"
+                        currentIndex: find(config.content.type)
+                        onCurrentTextChanged: config.content.type = currentText
+                        model: config.content.typeOptions
+                    }
+                    YACLineEditWithHeader
+                    {
+                        visible: menueType.currentText == "webview"
+                        headerText: "Url"
+                        text: config.content.url
+                        onDisplayTextChanged: config.content.url = text
+                    }
+                    Column
+                    {
+                        id: columnItems
+                        visible: menueType.currentText == "column"
+                        width: parent.width
+                        Repeater
                         {
-                            text: "Edit"
-                            onClicked: editorForm.loadConfig(config.content.items[index].filename)
+                            model: config.content.itemCount
+                            delegate: Column
+                            {
+                                width: columnItems.width
+                                YACButton
+                                {
+                                    text: "Edit"
+                                    onClicked: editorForm.loadConfig(config.content.items[index].filename)
+                                }
+                                YACLineEditWithHeader
+                                {
+                                    id: theFilename
+                                    headerText: "Filename"
+                                    text: config.content.items[index].filename
+                                    onDisplayTextChanged: config.content.items[index].filename = text
+                                }
+                                YACLineEditWithHeader
+                                {
+                                    headerText: "Height"
+                                    doubleEdit: true
+                                    text: config.content.items[index].height
+                                    onDisplayTextChanged: config.content.items[index].height = text
+                                }
+                            }
                         }
-                        YACLineEditWithHeader
-                        {
-                            id: theFilename
-                            headerText: "Filename"
-                            text: config.content.items[index].filename
-                            onDisplayTextChanged: config.content.items[index].filename = text
-                        }
-                        YACLineEditWithHeader
-                        {
-                            headerText: "Height"
-                            doubleEdit: true
-                            text: config.content.items[index].height
-                            onDisplayTextChanged: config.content.items[index].height = text
-                        }
+                    }
+                }
+                EditorSection
+                {
+                    sectionCaption: "Footer"
+                    YACLineEditWithHeader
+                    {
+                        headerText: "Height"
+                        doubleEdit: true
+                        text: config.footer.height
+                        onDisplayTextChanged: config.footer.height = text
+                    }
+                    YACColorDialogWithHeader
+                    {
+                        headerText: "Color"
+                        color: config.footer.color
+                        onColorChanged: config.footer.color = color
                     }
                 }
             }
         }
 
-        EditorSection
-        {
-            sectionCaption: "Footer"
-            YACLineEditWithHeader
-            {
-                headerText: "Height"
-                doubleEdit: true
-                text: config.footer.height
-                onDisplayTextChanged: config.footer.height = text
-            }
-            YACColorDialogWithHeader
-            {
-                headerText: "Color"
-                color: config.footer.color
-                onColorChanged: config.footer.color = color
-            }
-        }
     }
 }
