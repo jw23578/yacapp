@@ -35,6 +35,19 @@ void ParsedConfig::save(const QString &jsonConfigFile, const QString &baseUrl)
     config["menue"] = menue()->getConfig();
     config["splashscreen"] = splashscreen()->getConfig();
 
+    QJsonObject::Iterator it(config.begin());
+    while (it != config.end())
+    {
+        if (it.value() == QJsonObject())
+        {
+            it = config.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+
     QFile jsonFile(jsonConfigFile);
     jsonFile.open(QIODevice::WriteOnly);
     jsonFile.write(QJsonDocument(config).toJson());
