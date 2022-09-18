@@ -24,6 +24,7 @@ void MenueConfig::setConfig(const QJsonValue &config,
         return;
     }
     setType(config["type"].toString());
+    clearItems();
     setItemCount(0);
     QJsonArray array(config["items"].toArray());
     for (int i(0); i < array.size(); ++i)

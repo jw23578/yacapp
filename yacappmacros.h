@@ -91,6 +91,10 @@ type *singular(int index) const \
 } \
 void clear##uppercasesingular##s() \
 { \
+    for (int i(0); i < m_##singular##s.size(); ++i) \
+    { \
+        delete singular(i); \
+    } \
     m_##singular##s.clear(); \
 } \
 void replace##uppercasesingular(int index, type *singular) \
