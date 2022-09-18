@@ -3,8 +3,9 @@
 
 #include <QObject>
 #include "yacappmacros.h"
+#include "configinterface.h"
 
-class SplashscreenConfig : public QObject
+class SplashscreenConfig : public ConfigInterface
 {
     Q_OBJECT
     YACAPPPROPERTY(int, secondsDuration, SecondsDuration, 0)

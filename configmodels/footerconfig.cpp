@@ -3,7 +3,7 @@
 #include <QJsonObject>
 
 FooterConfig::FooterConfig(QObject *parent)
-    : QObject{parent}
+    : ConfigInterface{parent}
 {
 
 }
@@ -17,7 +17,10 @@ void FooterConfig::setConfig(const QJsonValue &config)
 QJsonObject FooterConfig::getConfig()
 {
     QJsonObject config;
-    toJSON(height);
-    colorToJSON(color);
+    if (changed(height()) || changed(color()))
+    {
+        toJSON(height);
+        colorToJSON(color);
+    }
     return config;
 }

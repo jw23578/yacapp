@@ -5,9 +5,10 @@
 #include "yacappmacros.h"
 #include "contentitem.h"
 #include <QQmlListProperty>
+#include "configinterface.h"
 
 
-class ContentConfig : public QObject
+class ContentConfig : public ConfigInterface
 {
     Q_OBJECT
     YACAPPPROPERTYWITHOPTIONS(QString, type, Type, "", "webview", "column");

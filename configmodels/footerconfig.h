@@ -4,8 +4,9 @@
 #include <QObject>
 #include "yacappmacros.h"
 #include <QColor>
+#include "configinterface.h"
 
-class FooterConfig : public QObject
+class FooterConfig : public ConfigInterface
 {
     Q_OBJECT
     YACAPPPROPERTY(double, height, Height, 0)

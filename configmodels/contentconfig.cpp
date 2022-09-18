@@ -4,7 +4,7 @@
 #include <QJsonObject>
 
 ContentConfig::ContentConfig(QObject *parent)
-    : QObject{parent}
+    : ConfigInterface{parent}
 {
 
 }

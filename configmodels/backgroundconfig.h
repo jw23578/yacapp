@@ -4,9 +4,10 @@
 #include <QObject>
 #include <QColor>
 #include "yacappmacros.h"
+#include "configinterface.h"
 
 
-class BackgroundConfig: public QObject
+class BackgroundConfig: public ConfigInterface
 {
     Q_OBJECT
     YACAPPPROPERTY(QColor, color, Color, "black")

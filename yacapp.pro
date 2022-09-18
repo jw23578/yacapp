@@ -6,6 +6,7 @@ QT += quick widgets
 
 SOURCES += \
         configmodels/backgroundconfig.cpp \
+        configmodels/configinterface.cpp \
         configmodels/contentconfig.cpp \
         configmodels/contentitem.cpp \
         configmodels/footerconfig.cpp \
@@ -38,6 +39,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
   configmodels/backgroundconfig.h \
+  configmodels/configinterface.h \
   configmodels/contentconfig.h \
   configmodels/contentitem.h \
   configmodels/footerconfig.h \

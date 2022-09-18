@@ -3,7 +3,7 @@
 #include <QJsonObject>
 
 SplashscreenConfig::SplashscreenConfig(QObject *parent)
-    : QObject{parent}
+    : ConfigInterface{parent}
 {
 
 }
@@ -17,7 +17,10 @@ void SplashscreenConfig::setConfig(const QJsonValue &config)
 QJsonObject SplashscreenConfig::getConfig()
 {
     QJsonObject config;
-    toJSON(imageFilename);
-    toJSON(secondsDuration);
+    if (changed(imageFilename()) || changed(secondsDuration()))
+    {
+        stringToJSON(imageFilename);
+        toJSON(secondsDuration);
+    }
     return config;
 }

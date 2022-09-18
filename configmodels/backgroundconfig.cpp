@@ -2,7 +2,8 @@
 #include <QJsonValue>
 #include <QJsonObject>
 
-BackgroundConfig::BackgroundConfig(QObject *parent)
+BackgroundConfig::BackgroundConfig(QObject *parent):
+    ConfigInterface(parent)
 {
 
 }
@@ -17,6 +18,6 @@ QJsonObject BackgroundConfig::getConfig()
 {
     QJsonObject config;
     colorToJSON(color);
-    toJSON(imageFilename);
+    stringToJSON(imageFilename);
     return config;
 }

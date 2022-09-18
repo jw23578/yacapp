@@ -4,8 +4,9 @@
 #include <QObject>
 #include "yacappmacros.h"
 #include <QColor>
+#include "configinterface.h"
 
-class HeaderConfig : public QObject
+class HeaderConfig : public ConfigInterface
 {
     Q_OBJECT
     YACAPPPROPERTY(QString, title, Title, "")

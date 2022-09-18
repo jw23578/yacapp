@@ -14,7 +14,10 @@
     }
 
 #define colorToJSON(colorName) \
-    config[#colorName] = colorName().name()
+    if (colorName().isValid() && colorName() != Qt::black) \
+    { \
+        config[#colorName] = colorName().name(); \
+    }
 
 #define YACAPPCONSTANTPROPERTY(type, name, uppercasename, defaultvalue) \
     private: \

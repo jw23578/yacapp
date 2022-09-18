@@ -60,7 +60,7 @@ void YACAPP::saveCurrentProject()
     QMap<QString, ParsedConfig*>::iterator it(fileName2ParsedConfig.begin());
     while (it != fileName2ParsedConfig.end())
     {
-      it.value()->save(it.key() + "1", baseUrl());
+      it.value()->save(it.key(), baseUrl());
       ++it;
     }
 }

@@ -3,7 +3,7 @@
 #include <QJsonObject>
 
 HeaderConfig::HeaderConfig(QObject *parent)
-    : QObject{parent}
+    : ConfigInterface{parent}
 {
 
 }
@@ -18,8 +18,11 @@ void HeaderConfig::setConfig(const QJsonValue &config)
 QJsonObject HeaderConfig::getConfig()
 {
     QJsonObject config;
-    colorToJSON(color);
-    stringToJSON(title);
-    toJSON(height);
+    if (changed(color()) || changed(title()) || changed(height()))
+    {
+        colorToJSON(color);
+        stringToJSON(title);
+        toJSON(height);
+    }
     return config;
 }
