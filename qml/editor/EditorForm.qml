@@ -10,7 +10,6 @@ Rectangle
     property ParsedConfig config: null
     property GlobalProjectConfig global: null
     signal loadConfig(string filename)
-    color: "silver"
     FolderDialog {
         id: folderDialog
         onFolderChanged: yacApp.loadNewProject(folder + "/")
@@ -57,7 +56,7 @@ Rectangle
     {
         anchors.top: topColumn.bottom
         anchors.bottom: parent.bottom
-        width: parent.width
+        width: parent.width        
         Rectangle
         {
             width: parent.width
@@ -75,6 +74,7 @@ Rectangle
             {
                 id: editorSections
                 width: parent.width
+                spacing: 10
 
                 EditorSection
                 {
@@ -99,6 +99,17 @@ Rectangle
                         onColorChanged: config.header.color = color
                     }
                 }
+                EditorSection
+                {
+                    sectionCaption: "Background"
+                    YACColorDialogWithHeader
+                    {
+                        headerText: "Color"
+                        color: config.background.color
+                        onColorChanged: config.background.color = color
+                    }
+                }
+
                 EditorSection
                 {
                     sectionCaption: "Content"

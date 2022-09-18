@@ -6,7 +6,7 @@ import "qml/editor"
 
 Window {
     width: 1280
-    height: 480
+    height: 1000
     visible: true
     title: qsTr("YAC-App Designer")
 
@@ -17,6 +17,7 @@ Window {
         height: 480
         config: yacApp.mainConfig
         onCurrentItemChanged: editorForm.config = config
+        clip: true
     }
     EditorForm
     {
@@ -25,6 +26,7 @@ Window {
         global: yacApp.globalConfig
         anchors.top: parent.top
         anchors.left: mainForm.right
+        anchors.leftMargin: 10
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         onLoadConfig: mainForm.openFilename(filename)

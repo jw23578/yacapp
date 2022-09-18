@@ -6,6 +6,11 @@ Column
     {
         id: doubleValidator
     }
+    Behavior on height {
+        NumberAnimation {
+            duration: 200
+        }
+    }
 
     property bool doubleEdit: false
     width: parent.width

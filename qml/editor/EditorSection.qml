@@ -5,7 +5,6 @@ Column
     width: parent.width
     id: sectionColumn
     property alias sectionCaption: theSectionCaption.text
-    property int fullHeight: 0
     clip: true
     Behavior on height {
         NumberAnimation {
@@ -13,29 +12,70 @@ Column
         }
     }
 
-    Text
+    property bool collapsed: false
+    function toggle()
     {
-        font.bold: true
-        id: theSectionCaption
-        MouseArea
+        if (collapsed)
         {
-            anchors.fill: parent
-            onClicked:
+            expand()
+        }
+        else
+        {
+            collapse()
+        }
+    }
+
+    function collapse()
+    {
+        for (var i = 1; i < children.length; ++i)
+        {
+            children[i].visible = false
+        }
+        collapsed = true
+    }
+    function expand()
+    {
+        for (var i = 1; i < children.length; ++i)
+        {
+            children[i].visible = true
+        }
+        collapsed = false
+    }
+
+    Item
+    {
+        height: theSectionCaption.height
+        width: parent.width
+        Text
+        {
+            font.bold: true
+            id: theSectionCaption
+            width: parent.width
+            MouseArea
             {
-                if (sectionColumn.fullHeight == 0)
+                anchors.fill: parent
+                onClicked:
                 {
-                    sectionColumn.fullHeight = sectionColumn.height
+                    sectionColumn.toggle()
                 }
-                if (sectionColumn.height == sectionColumn.fullHeight)
-                {
-                    sectionColumn.height = theSectionCaption.height
-                }
-                else
-                {
-                    sectionColumn.height = sectionColumn.fullHeight
+            }
+        }
+        Text
+        {
+            font.bold: true
+            anchors.right: parent.right
+            anchors.rightMargin: width / 2
+            text: ">"
+            rotation: sectionColumn.collapsed ? 90 : -90
+            Behavior on rotation {
+                NumberAnimation {
+                    duration: 200
                 }
             }
         }
     }
-
+    Component.onCompleted:
+    {
+        collapse()
+    }
 }
