@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<ContentConfig>("com.yacapp.contentconfig", 1, 0, "ContentConfig");
     qmlRegisterType<ContentItem>("com.yacapp.contentitem", 1, 0, "ContentItem");
     qmlRegisterType<GlobalProjectConfig>("com.yacapp.globalprojectconfig", 1, 0, "GlobalProjectConfig");
+    qmlRegisterType<HeaderConfig>("com.yacapp.headerconfig", 1, 0, "HeaderConfig");
 //    qmlRegisterType<ContentItem>("com.yacapp.headerc", 1, 0, "ContentItem");
     qRegisterMetaType<ParsedConfig*>("ParsedConfig");
     qRegisterMetaType<BackgroundConfig*>("BackgroundConfig");
@@ -29,6 +30,7 @@ int main(int argc, char *argv[])
     qRegisterMetaType<MenueItem*>("MenueItem");
     qRegisterMetaType<ContentConfig*>("ContentConfig");
     qRegisterMetaType<ContentItem*>("ContentItem");
+    qRegisterMetaType<HeaderConfig*>("HeaderConfig");
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
@@ -42,12 +44,11 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     YACAPP yacApp;
-    yacApp.setBaseUrl("/home/jw78/wes23/");
+    yacApp.setBaseUrl("/home/jw78/wes23/");  // hier wird aktuell die app festgelegt
     QUrl url(QStringLiteral("qrc:/main.qml"));
     if (app.arguments().contains("Configurator"))
     {
         url = QStringLiteral("qrc:/mainDesignMode.qml");
-        yacApp.setBaseUrl("");
     }
     yacApp.init();
     engine.rootContext()->setContextProperty("yacApp", &yacApp);

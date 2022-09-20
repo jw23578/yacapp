@@ -52,8 +52,6 @@ Window {
 
     Component.onCompleted:
     {
-        yacApp.loadNewProject("/home/jw78/wes23/")
-
         console.log("hello2")
         console.log(yacApp.mainConfig)
         console.log(yacApp.mainConfig.background)

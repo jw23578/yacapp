@@ -9,6 +9,7 @@
 class HeaderConfig : public ConfigInterface
 {
     Q_OBJECT
+
     YACAPPPROPERTY(QString, title, Title, "")
     YACAPPPROPERTY(double, height, Height, 0)
     YACAPPPROPERTY(QColor, color, Color, "white")

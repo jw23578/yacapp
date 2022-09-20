@@ -9,7 +9,7 @@ class YACAPP : public QObject
 {
     Q_OBJECT
     YACAPPPROPERTY(QString, baseUrl, BaseUrl, "");
-    YACAPPREADONLYPROPERTY(ParsedConfig*, mainConfig, new ParsedConfig);
+    YACAPPPROPERTY(ParsedConfig*, mainConfig, MainConfig, 0);
     YACAPPREADONLYPROPERTY(GlobalProjectConfig*, globalConfig, new GlobalProjectConfig);
     YACAPPPROPERTY(QStringList, knownFiles, KnownFiles, QStringList())
     QMap<QString, ParsedConfig*> fileName2ParsedConfig;

@@ -4,9 +4,10 @@ import QtQuick.Dialogs 1.3
 
 Column
 {
+    id: column
     width: parent.width
     property alias headerText: header.text
-    property alias color: input.color
+    property alias color: colorDialog.color
     function find(needle)
     {
         return input.find(needle)
@@ -14,7 +15,6 @@ Column
     ColorDialog
     {
         id: colorDialog
-        onAccepted: input.color = colorDialog.color
     }
 
     Text
@@ -25,6 +25,7 @@ Column
     Rectangle
     {
         id: input
+        color: colorDialog.color
         width: parent.width - x
         height: header.height
         MouseArea

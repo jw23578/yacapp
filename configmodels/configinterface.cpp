@@ -1,10 +1,11 @@
 #include "configinterface.h"
 #include <QColor>
+#include <QQmlEngine>
 
 ConfigInterface::ConfigInterface(QObject *parent)
     : QObject{parent}
 {
-
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
 bool ConfigInterface::isInit(const QString s)

@@ -2,6 +2,7 @@ import QtQuick 2.0
 import Qt.labs.platform 1.0
 import com.yacapp.parsedconfig 1.0
 import com.yacapp.globalprojectconfig 1.0
+import com.yacapp.headerconfig 1.0
 import "../items"
 
 Rectangle
@@ -95,7 +96,7 @@ Rectangle
                     }
                     YACColorDialogWithHeader
                     {
-                        headerText: "Color"
+                        headerText: "Color" + config.header.color
                         color: config.header.color
                         onColorChanged: config.header.color = color
                     }

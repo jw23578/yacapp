@@ -12,11 +12,15 @@ void YACAPP::init()
         return;
     }
     globalConfig()->init(baseUrl() + "global.json");
-    mainConfig()->init(baseUrl() + globalConfig()->mainFormFilename(),
-                       baseUrl());
-    m_knownFiles.clear();
-    fileName2ParsedConfig[baseUrl() + globalConfig()->mainFormFilename()] = mainConfig();
-    addKnownFile(globalConfig()->mainFormFilename());
+    for (int i(0); i < globalConfig()->formFiles.size(); ++i)
+    {
+        getConfig(globalConfig()->formFiles[i]);
+    }
+    for (int i(0); i < globalConfig()->menueFiles.size(); ++i)
+    {
+        getMenueConfig(globalConfig()->menueFiles[i]);
+    }
+    setMainConfig(getConfig(globalConfig()->mainFormFilename()));
 }
 
 void YACAPP::addKnownFile(QString const &filename)
