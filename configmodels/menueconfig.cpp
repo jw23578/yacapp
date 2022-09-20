@@ -6,24 +6,22 @@
 #include <QJsonObject>
 
 MenueConfig::MenueConfig(QObject *parent)
-    : QObject{parent}
+    : ConfigInterface{parent}
 {
 
 }
 
-bool MenueConfig::init(const QString &jsonConfigFile,
-                        const QString &baseUrl)
+bool MenueConfig::init(const QString &jsonConfigFile)
 {
     QFile jsonFile(jsonConfigFile);
     jsonFile.open(QIODevice::ReadOnly);
     QByteArray fileData(jsonFile.readAll());
     QJsonDocument config = QJsonDocument::fromJson(fileData);
 
-    setConfig(config["menue"], baseUrl);
+    setConfig(config["menue"]);
 }
 
-void MenueConfig::setConfig(const QJsonValue &config,
-                            const QString &baseUrl)
+void MenueConfig::setConfig(const QJsonValue &config)
 {
     setType(config["type"].toString());
     clearItems();
@@ -54,7 +52,7 @@ QJsonObject MenueConfig::getConfig()
     return config;
 }
 
-void MenueConfig::save(const QString &jsonConfigFile, const QString &baseUrl)
+void MenueConfig::save(const QString &jsonConfigFile)
 {
     QJsonObject config;
     config["menue"] = getConfig();

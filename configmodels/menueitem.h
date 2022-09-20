@@ -3,8 +3,9 @@
 
 #include <QObject>
 #include "yacappmacros.h"
+#include "configinterface.h"
 
-class MenueItem : public QObject
+class MenueItem : public ConfigInterface
 {
     Q_OBJECT
     YACAPPPROPERTY(QString, caption, Caption, "")

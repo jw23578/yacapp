@@ -1,11 +1,12 @@
 #include "contentitem.h"
 #include <QJsonValue>
 #include <QJsonObject>
+#include <QQmlEngine>
 
 ContentItem::ContentItem(QObject *parent)
     : QObject{parent}
 {
-
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
 void ContentItem::setConfig(const QJsonValue &config)

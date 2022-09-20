@@ -3,8 +3,9 @@
 
 #include <QObject>
 #include "yacappmacros.h"
+#include "configinterface.h"
 
-class GlobalProjectConfig : public QObject
+class GlobalProjectConfig : public ConfigInterface
 {
     Q_OBJECT
     YACAPPPROPERTY(QString, projectName, ProjectName, "")
@@ -15,8 +16,8 @@ class GlobalProjectConfig : public QObject
     QStringList formFiles;
     QStringList menueFiles;
 
-    void setConfig(QJsonValue const &config);
-    void getConfig(QJsonObject &config);
+    void setConfig(QJsonValue const &config) override;
+    QJsonObject getConfig() override;
 
     void init(const QString &jsonConfigFile);
     void save(const QString &jsonConfigFile);

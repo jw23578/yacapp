@@ -6,9 +6,8 @@
 #include <QJsonArray>
 
 GlobalProjectConfig::GlobalProjectConfig(QObject *parent)
-    : QObject{parent}
+    : ConfigInterface(parent)
 {
-
 }
 
 void GlobalProjectConfig::init(QString const &jsonConfigFile)
@@ -23,10 +22,8 @@ void GlobalProjectConfig::save(const QString &jsonConfigFile)
 {
     QFile jsonFile(jsonConfigFile);
     jsonFile.open(QIODevice::WriteOnly);
-    QJsonObject global;
-    getConfig(global);
     QJsonObject config;
-    config["global"] = global;
+    config["global"] = getConfig();
     jsonFile.write(QJsonDocument(config).toJson());
 }
 
@@ -46,8 +43,10 @@ void GlobalProjectConfig::setConfig(const QJsonValue &config)
     }
 }
 
-void GlobalProjectConfig::getConfig(QJsonObject &config)
+QJsonObject GlobalProjectConfig::getConfig()
 {
+    QJsonObject config;
     toJSON(projectName);
     toJSON(mainFormFilename);
+    return config;
 }

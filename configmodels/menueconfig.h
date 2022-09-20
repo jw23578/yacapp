@@ -6,8 +6,9 @@
 #include <QList>
 #include "menueitem.h"
 #include <QQmlListProperty>
+#include "configinterface.h"
 
-class MenueConfig : public QObject
+class MenueConfig : public ConfigInterface
 {
     Q_OBJECT
     YACAPPPROPERTYWITHOPTIONS(QString, type, Type, "", "default", "+ Button");
@@ -16,13 +17,12 @@ class MenueConfig : public QObject
 public:
     explicit MenueConfig(QObject *parent = nullptr);
 
-    void setConfig(QJsonValue const &config,
-                   const QString &baseUrl);
+    void setConfig(QJsonValue const &config);
 
     QJsonObject getConfig();
 
-    bool init(const QString &jsonConfigFile, const QString &baseUrl);
-    void save(const QString &jsonConfigFile, const QString &baseUrl);
+    bool init(const QString &jsonConfigFile);
+    void save(const QString &jsonConfigFile);
 signals:
 
 };

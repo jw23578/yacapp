@@ -69,7 +69,7 @@ MenueConfig *YACAPP::getMenueConfig(const QString &filename)
     {
         fileName2MenueConfig[fullFilename] = new MenueConfig;
         configIt = fileName2MenueConfig.find(fullFilename);
-        configIt.value()->init(fullFilename, baseUrl());
+        configIt.value()->init(fullFilename);
     }
     addKnownMenueFile(filename);
     return configIt.value();
@@ -101,7 +101,7 @@ void YACAPP::saveCurrentProject()
         QMap<QString, MenueConfig*>::iterator it(fileName2MenueConfig.begin());
         while (it != fileName2MenueConfig.end())
         {
-            it.value()->save(it.key(), baseUrl());
+            it.value()->save(it.key());
             ++it;
         }
     }

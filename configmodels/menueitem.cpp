@@ -3,7 +3,7 @@
 #include <QJsonObject>
 
 MenueItem::MenueItem(QObject *parent)
-    : QObject{parent}
+    : ConfigInterface{parent}
 {
 
 }
