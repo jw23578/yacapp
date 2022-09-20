@@ -10,8 +10,17 @@ Column
     property alias currentIndex: input.currentIndex
     function find(needle)
     {
-        return input.find(needle)
+        for (var i = 0; i < input.model.length; ++i)
+        {
+            console.log(input.model[i])
+            if (input.model[i] == needle)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
+
     signal activated(string text)
 
     Text
