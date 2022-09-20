@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import "qrc:/ModelFunctions.js" as ModelFunctions
 
 Column
 {
@@ -10,15 +11,7 @@ Column
     property alias currentIndex: input.currentIndex
     function find(needle)
     {
-        for (var i = 0; i < input.model.length; ++i)
-        {
-            console.log(input.model[i])
-            if (input.model[i] == needle)
-            {
-                return i;
-            }
-        }
-        return -1;
+        return ModelFunctions.find(input.model, needle)
     }
 
     signal activated(string text)
