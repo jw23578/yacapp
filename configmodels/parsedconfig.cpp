@@ -9,6 +9,16 @@ ParsedConfig::ParsedConfig(QObject *parent):
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
+ParsedConfig::~ParsedConfig()
+{
+    delete m_background;
+    delete m_menue;
+    delete m_content;
+    delete m_header;
+    delete m_footer;
+    delete m_splashscreen;
+}
+
 bool ParsedConfig::init(const QString &jsonConfigFile,
                         const QString &baseUrl)
 {

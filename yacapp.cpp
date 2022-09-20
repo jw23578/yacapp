@@ -43,6 +43,30 @@ void YACAPP::addKnownMenueFile(const QString &filename)
     emit knownMenueFilesChanged();
 }
 
+void YACAPP::reset()
+{
+    {
+        QMap<QString, ParsedConfig*>::iterator it(fileName2ParsedConfig.begin());
+        while (it != fileName2ParsedConfig.end())
+        {
+            delete it.value();
+            ++it;
+        }
+    }
+    {
+        QMap<QString, MenueConfig*>::iterator it(fileName2MenueConfig.begin());
+        while (it != fileName2MenueConfig.end())
+        {
+            delete it.value();
+            ++it;
+        }
+    }
+    fileName2ParsedConfig.clear();
+    fileName2MenueConfig.clear();
+    delete m_globalConfig;
+    m_globalConfig = new GlobalProjectConfig;
+}
+
 ParsedConfig *YACAPP::getConfig(const QString &filename)
 {
     QString fullFilename(baseUrl() + filename);
@@ -77,6 +101,7 @@ MenueConfig *YACAPP::getMenueConfig(const QString &filename)
 
 void YACAPP::loadNewProject(const QString &folder)
 {
+    reset();
     QString rawFolder(folder);
     rawFolder.replace("file://", "");
     if (rawFolder.right(1) != '/')

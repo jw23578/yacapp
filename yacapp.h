@@ -20,6 +20,9 @@ class YACAPP : public QObject
     void addKnownMenueFile(QString const &filename);
 
     MenueConfig emptyMenue;
+
+    void reset();
+
 public:
     explicit YACAPP(QObject *parent = nullptr);
     void init();

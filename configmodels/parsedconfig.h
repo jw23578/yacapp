@@ -23,8 +23,9 @@ class ParsedConfig : public QObject
     YACAPPREADONLYPROPERTY(FooterConfig*, footer, new FooterConfig());
     YACAPPREADONLYPROPERTY(SplashscreenConfig*, splashscreen, new SplashscreenConfig());
     YACAPPPROPERTY(QString, menueFilename, MenueFilename, "");
-    public:
-        explicit ParsedConfig(QObject *parent = nullptr);
+public:
+    explicit ParsedConfig(QObject *parent = nullptr);
+    ~ParsedConfig();
     bool init(const QString &jsonConfigFile,
               const QString &baseUrl);
 
