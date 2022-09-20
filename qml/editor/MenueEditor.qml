@@ -32,37 +32,37 @@ Rectangle
                     onCurrentTextChanged: config.type = currentText
                     model: config.typeOptions
                 }
-            }
-            Column
-            {
-                id: columnItems
-                width: parent.width
-                Repeater
+                Column
                 {
-                    model: config.itemCount
-                    delegate: Column
+                    id: columnItems
+                    width: parent.width
+                    Repeater
                     {
-                        width: columnItems.width
-                        YACLineEditWithHeader
+                        model: config.itemCount
+                        delegate: Column
                         {
-                            headerText: "Caption"
-                            doubleEdit: true
-                            text: config.items[index].caption
-                            onDisplayTextChanged: config.items[index].caption = text
-                        }
-                        YACLineEditWithHeader
-                        {
-                            id: targetFile
-                            headerText: "TargetFile"
-                            text: config.items[index].targetFile
-                            onDisplayTextChanged: config.items[index].targetFile = text
-                        }
-                        YACLineEditWithHeader
-                        {
-                            id: specialMeaning
-                            headerText: "SpecialMeaning"
-                            text: config.items[index].specialMeaning
-                            onDisplayTextChanged: config.items[index].specialMeaning = text
+                            width: columnItems.width
+                            YACLineEditWithHeader
+                            {
+                                headerText: "Caption"
+                                doubleEdit: true
+                                text: config.items[index].caption
+                                onDisplayTextChanged: config.items[index].caption = text
+                            }
+                            YACLineEditWithHeader
+                            {
+                                id: targetFile
+                                headerText: "TargetFile"
+                                text: config.items[index].targetFile
+                                onDisplayTextChanged: config.items[index].targetFile = text
+                            }
+                            YACLineEditWithHeader
+                            {
+                                id: specialMeaning
+                                headerText: "SpecialMeaning"
+                                text: config.items[index].specialMeaning
+                                onDisplayTextChanged: config.items[index].specialMeaning = text
+                            }
                         }
                     }
                 }

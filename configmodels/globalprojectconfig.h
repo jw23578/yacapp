@@ -9,8 +9,11 @@ class GlobalProjectConfig : public QObject
     Q_OBJECT
     YACAPPPROPERTY(QString, projectName, ProjectName, "")
     YACAPPPROPERTY(QString, mainFormFilename, MainFormFilename, "")
-public:
+    public:
     explicit GlobalProjectConfig(QObject *parent = nullptr);
+
+    QStringList formFiles;
+    QStringList menueFiles;
 
     void setConfig(QJsonValue const &config);
     void getConfig(QJsonObject &config);
