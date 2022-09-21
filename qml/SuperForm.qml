@@ -18,6 +18,7 @@ Rectangle
         visible: config.content.type == "webview"
         url: config.content.url
     }
+
     Flickable
     {
         id: theColumnFlickable
@@ -36,7 +37,7 @@ Rectangle
                     active: true;
                     asynchronous: true
                     width: theContentColumn.width
-                    height: theSuperForm.height * config.content.items[index].height
+                    height: theSuperForm.height * config.content.items[index].size
                     source: "SuperForm.qml"
                     visible: true
                     onLoaded: {
@@ -48,6 +49,35 @@ Rectangle
         }
     }
 
+    Flickable
+    {
+        id: theRowFlickable
+        anchors.fill: parent
+        contentWidth: theContentRow.width
+        visible: config.content.type == "row"
+        Row
+        {
+            id: theContentRow
+            height: parent.height
+            spacing: 1
+            Repeater
+            {
+                model: config.content.itemCount
+                delegate: Loader {
+                    active: true;
+                    asynchronous: true
+                    height: theContentRow.height
+                    width: theSuperForm.width * config.content.items[index].size
+                    source: "SuperForm.qml"
+                    visible: true
+                    onLoaded: {
+                            item.stackView = theSuperForm.stackView
+                            item.config = yacApp.getConfig(config.content.items[index].filename)
+                        }
+                }
+            }
+        }
+    }
 
     Column
     {

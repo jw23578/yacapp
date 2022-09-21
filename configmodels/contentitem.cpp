@@ -12,13 +12,13 @@ ContentItem::ContentItem(QObject *parent)
 void ContentItem::setConfig(const QJsonValue &config)
 {
     setFilename(config["filename"].toString());
-    setHeight(config["height"].toDouble(0));
+    setSize(config["size"].toDouble(0));
 }
 
 QJsonObject ContentItem::getConfig()
 {
     QJsonObject config;
     toJSON(filename);
-    toJSON(height);
+    toJSON(size);
     return config;
 }

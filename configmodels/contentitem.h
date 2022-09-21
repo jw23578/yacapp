@@ -8,7 +8,7 @@ class ContentItem : public QObject
 {
     Q_OBJECT
     YACAPPPROPERTY(QString, filename, Filename, "")
-    YACAPPPROPERTY(double, height, Height, 0)
+    YACAPPPROPERTY(double, size, Size, 0)
 public:
     explicit ContentItem(QObject *parent = nullptr);
 

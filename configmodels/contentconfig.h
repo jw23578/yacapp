@@ -11,7 +11,7 @@
 class ContentConfig : public ConfigInterface
 {
     Q_OBJECT
-    YACAPPPROPERTYWITHOPTIONS(QString, type, Type, "", "webview", "column");
+    YACAPPPROPERTYWITHOPTIONS(QString, type, Type, "", "webview", "column", "row");
     YACAPPPROPERTY(QString, url, Url, "");
     YACAPPPROPERTY(int, itemCount, ItemCount, 0)
     YACOBJECTLISTPROPERTY(ContentItem, item, Item, ContentConfig)

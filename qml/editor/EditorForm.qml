@@ -3,6 +3,7 @@ import Qt.labs.platform 1.0
 import com.yacapp.parsedconfig 1.0
 import com.yacapp.globalprojectconfig 1.0
 import com.yacapp.headerconfig 1.0
+import com.yacapp.contentconfig 1.0
 import "../items"
 
 Rectangle
@@ -125,7 +126,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
-                        visible: contentType.currentText == "webview"
+                        visible: config.content.type == "webview"
                         headerText: "Url"
                         text: config.content.url
                         onDisplayTextChanged: config.content.url = text
@@ -133,7 +134,7 @@ Rectangle
                     Column
                     {
                         id: columnItems
-                        visible: contentType.currentText == "column"
+                        visible: config.content.type == "column"
                         width: parent.width
                         Repeater
                         {
@@ -155,10 +156,10 @@ Rectangle
                                 }
                                 YACLineEditWithHeader
                                 {
-                                    headerText: "Height"
+                                    headerText: "Size"
                                     doubleEdit: true
-                                    text: config.content.items[index].height
-                                    onDisplayTextChanged: config.content.items[index].height = text
+                                    text: config.content.items[index].size
+                                    onDisplayTextChanged: config.content.items[index].size = text
                                 }
                             }
                         }
