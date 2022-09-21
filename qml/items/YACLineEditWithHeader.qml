@@ -12,6 +12,8 @@ Column
         }
     }
 
+    property bool showColumn: true
+
     property bool doubleEdit: false
     width: parent.width
     property alias headerText: header.text
@@ -21,6 +23,7 @@ Column
     {
         id: header
         width: parent.width
+        visible: parent.showColumn
     }
     TextInput
     {
@@ -28,5 +31,6 @@ Column
         x: height
         width: parent.width - x
         validator: parent.doubleEdit ? doubleValidator : null
+        visible: parent.showColumn
     }
 }

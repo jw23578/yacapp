@@ -126,7 +126,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
-                        visible: config.content.type == "webview"
+                        showColumn: config.content.type == "webview"
                         headerText: "Url"
                         text: config.content.url
                         onDisplayTextChanged: config.content.url = text
@@ -134,8 +134,8 @@ Rectangle
                     Column
                     {
                         id: columnItems
-                        visible: config.content.type == "column"
                         width: parent.width
+                        property bool showColumn: config.content.type == "column" || config.content.type == "row"
                         Repeater
                         {
                             model: config.content.itemCount
@@ -146,6 +146,7 @@ Rectangle
                                 {
                                     text: "Edit"
                                     onClicked: editorForm.loadConfig(config.content.items[index].filename)
+                                    visible: columnItems.showColumn
                                 }
                                 YACLineEditWithHeader
                                 {
@@ -153,6 +154,7 @@ Rectangle
                                     headerText: "Filename"
                                     text: config.content.items[index].filename
                                     onDisplayTextChanged: config.content.items[index].filename = text
+                                    visible: columnItems.showColumn
                                 }
                                 YACLineEditWithHeader
                                 {
@@ -160,6 +162,7 @@ Rectangle
                                     doubleEdit: true
                                     text: config.content.items[index].size
                                     onDisplayTextChanged: config.content.items[index].size = text
+                                    visible: columnItems.showColumn
                                 }
                             }
                         }
