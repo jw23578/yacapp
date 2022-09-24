@@ -3,17 +3,22 @@
 
 #include <QObject>
 #include "yacappmacros.h"
+#include "configinterface.h"
 
-class ContentItem : public QObject
+class ContentItem : public ConfigInterface
 {
     Q_OBJECT
+    YACAPPPROPERTYWITHOPTIONS(QString, type, Type, "", "file", "webview", "image");
     YACAPPPROPERTY(QString, filename, Filename, "")
-    YACAPPPROPERTY(double, size, Size, 0)
+    YACAPPPROPERTY(QString, url, Url, "")
+    YACAPPPROPERTY(QString, target, Target, "")
+    YACAPPPROPERTY(double, width, Width, 0)
+    YACAPPPROPERTY(double, height, Height, 0)
 public:
     explicit ContentItem(QObject *parent = nullptr);
 
-    void setConfig(QJsonValue const &config);
-    QJsonObject getConfig();
+    void setConfig(QJsonValue const &config) override;
+    QJsonObject getConfig() override;
 
 signals:
 

@@ -4,21 +4,29 @@
 #include <QQmlEngine>
 
 ContentItem::ContentItem(QObject *parent)
-    : QObject{parent}
+    : ConfigInterface{parent}
 {
-    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
 void ContentItem::setConfig(const QJsonValue &config)
 {
-    setFilename(config["filename"].toString());
-    setSize(config["size"].toDouble(0));
+    stringFromJSON(filename, Filename);
+    stringFromJSON(type, Type);
+    setType("file");
+    stringFromJSON(target, Target);
+    stringFromJSON(url, Url);
+    doubleFromJSON(width, Width);
+    doubleFromJSON(height, Height);
 }
 
 QJsonObject ContentItem::getConfig()
 {
     QJsonObject config;
-    toJSON(filename);
-    toJSON(size);
+    stringToJSON(filename);
+    toJSON(type);
+    stringToJSON(target);
+    stringToJSON(url);
+    toJSON(width);
+    toJSON(height);
     return config;
 }

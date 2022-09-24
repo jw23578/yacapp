@@ -4,6 +4,9 @@
 #define stringFromJSON(name, uppercasename) \
     set##uppercasename(config[#name].toString());
 
+#define doubleFromJSON(name, uppercasename) \
+    set##uppercasename(config[#name].toDouble());
+
 #define toJSON(name) \
     config[#name] = name()
 

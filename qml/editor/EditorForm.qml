@@ -59,7 +59,7 @@ Rectangle
     {
         anchors.top: topColumn.bottom
         anchors.bottom: parent.bottom
-        width: parent.width        
+        width: parent.width
         Rectangle
         {
             width: parent.width
@@ -135,33 +135,70 @@ Rectangle
                     {
                         id: columnItems
                         width: parent.width
-                        property bool showColumn: config.content.type == "column" || config.content.type == "row"
+                        property bool showRow: config.content.type == "row"
+                        property bool showColumn: config.content.type == "column"
                         Repeater
                         {
                             model: config.content.itemCount
                             delegate: Column
                             {
                                 width: columnItems.width
-                                YACButton
+                                YACComboBoxWithHeader
                                 {
-                                    text: "Edit"
-                                    onClicked: editorForm.loadConfig(config.content.items[index].filename)
-                                    visible: columnItems.showColumn
+                                    id: contentItemType
+                                    headerText: "Type"
+                                    currentIndex: find(config.content.items[index].type)
+                                    onCurrentTextChanged: config.content.items[index].type = currentText
+                                    model: config.content.items[index].typeOptions
                                 }
                                 YACLineEditWithHeader
                                 {
-                                    id: theFilename
-                                    headerText: "Filename"
-                                    text: config.content.items[index].filename
-                                    onDisplayTextChanged: config.content.items[index].filename = text
-                                    visible: columnItems.showColumn
+                                    id: theTarget
+                                    headerText: "Target"
+                                    text: config.content.items[index].target
+                                    onDisplayTextChanged: config.content.items[index].target = text
                                 }
                                 YACLineEditWithHeader
                                 {
-                                    headerText: "Size"
+                                    id: theUrl
+                                    headerText: "Url"
+                                    text: config.content.items[index].url
+                                    onDisplayTextChanged: config.content.items[index].url= text
+                                    visible: config.content.items[index].type == "webview"
+                                }
+                                Row
+                                {
+                                    visible: (columnItems.showColumn || columnItems.showRow) && config.content.items[index].type == "file"
+                                    width: parent.width
+                                    YACLineEditWithHeader
+                                    {
+                                        id: theFilename
+                                        headerText: "Filename"
+                                        text: config.content.items[index].filename
+                                        onDisplayTextChanged: config.content.items[index].filename = text
+                                        width: parent.width - editFileButton.width
+                                    }
+                                    YACButton
+                                    {
+                                        id: editFileButton
+                                        text: "Edit"
+                                        onClicked: editorForm.loadConfig(config.content.items[index].filename)
+                                    }
+                                }
+                                YACLineEditWithHeader
+                                {
+                                    headerText: "Width"
                                     doubleEdit: true
-                                    text: config.content.items[index].size
-                                    onDisplayTextChanged: config.content.items[index].size = text
+                                    text: config.content.items[index].width
+                                    onDisplayTextChanged: config.content.items[index].width = text
+                                    visible: columnItems.showRow
+                                }
+                                YACLineEditWithHeader
+                                {
+                                    headerText: "Height"
+                                    doubleEdit: true
+                                    text: config.content.items[index].height
+                                    onDisplayTextChanged: config.content.items[index].height = text
                                     visible: columnItems.showColumn
                                 }
                             }

@@ -37,7 +37,7 @@ Rectangle
                     active: true;
                     asynchronous: true
                     width: theContentColumn.width
-                    height: theSuperForm.height * config.content.items[index].size
+                    height: theSuperForm.height * (config.content.type == "column" ? config.content.items[index].height : config.content.items[index].width)
                     source: "SuperForm.qml"
                     visible: true
                     onLoaded: {
