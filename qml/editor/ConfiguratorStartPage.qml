@@ -6,6 +6,7 @@ Rectangle
 {
     id: startPage
     anchors.fill: parent
+    signal newProjectLoaded()
     FileDialog
     {
         id: fileDialog
@@ -18,6 +19,7 @@ Rectangle
             configurator.lastProjectFilename = fileUrl
             configurator.lastProjectName = yacApp.globalConfig.projectName
             configurator.save()
+            newProjectLoaded()
             startPage.visible = false
         }
     }
@@ -40,6 +42,7 @@ Rectangle
             onClicked:
             {
                 yacApp.loadNewProject(configurator.lastProjectFilename)
+                newProjectLoaded()
                 startPage.visible = false
             }
         }

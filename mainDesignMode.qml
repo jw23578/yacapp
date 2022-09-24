@@ -10,65 +10,81 @@ Window {
     visible: true
     title: qsTr("YAC-App Designer")
 
-    MainForm
+    Loader
     {
-        id: mainForm
+        id: mainFormLoader
         width: 640
         height: 480
-        config: yacApp.mainConfig
-        onCurrentItemChanged: editorForm.config = config
-        clip: true
     }
-    EditorForm
+
+    Component
     {
-        id: editorForm
-        config: yacApp.mainConfig
-        global: yacApp.globalConfig
+        id: mainFormComponent
+        MainForm
+        {
+            id: mainForm
+            width: 640
+            height: 480
+            config: yacApp.mainConfig
+            onCurrentItemChanged: editorFormLoader.item.config = config
+            clip: true
+        }
+    }
+    Loader
+    {
+        id: editorFormLoader
         anchors.top: parent.top
-        anchors.left: mainForm.right
+        anchors.left: mainFormLoader.right
         anchors.leftMargin: 10
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        onLoadConfig: mainForm.openFilename(filename)
-        onConfigChanged:
-        {
-            menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
-        }
-        onMenueFilenameChanged:
-        {
-            menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
-        }
 
-        Component.onCompleted:
+    }
+
+    Component
+    {
+        id: editorFormComponent
+        EditorForm
         {
-            menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
+            id: editorForm
+            config: yacApp.mainConfig
+            global: yacApp.globalConfig
+            anchors.fill: parent
+            onLoadConfig: mainFormLoader.item.openFilename(filename)
+            onConfigChanged:
+            {
+                menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
+            }
+            onMenueFilenameChanged:
+            {
+                menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
+            }
+
+            Component.onCompleted:
+            {
+                menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
+            }
         }
     }
     MenueEditor
     {
         id: menueEditor
-        anchors.left: mainForm.left
-        anchors.top: mainForm.bottom
+        anchors.left: mainFormLoader.left
+        anchors.top: mainFormLoader.bottom
         anchors.topMargin: 10
-        anchors.right: mainForm.right
+        anchors.right: mainFormLoader.right
         anchors.bottom: parent.bottom
     }
 
     ConfiguratorStartPage
     {
-
-    }
-
-
-    Component.onCompleted:
-    {
-        console.log("hello2")
-        console.log(yacApp.mainConfig)
-        console.log(yacApp.mainConfig.background)
-        console.log(yacApp.mainConfig.background.imageFilename)
-        console.log(yacApp.mainConfig.background.color)
-        console.log(yacApp.mainConfig.content.type)
-        console.log(yacApp.mainConfig.content.items.length)
-
+        onNewProjectLoaded:
+        {
+            menueEditor.config = yacApp.getMenueConfig(yacApp.mainConfig.menueFilename)
+            mainFormLoader.source = ""
+            editorFormLoader.source = ""
+            mainFormLoader.sourceComponent = mainFormComponent
+            editorFormLoader.sourceComponent = editorFormComponent
+        }
     }
 }
