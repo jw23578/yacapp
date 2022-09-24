@@ -2,6 +2,8 @@ import QtQuick 2.0
 import com.yacapp.parsedconfig 1.0
 import com.yacapp.menueconfig 1.0
 import QtWebView 1.15
+import "qrc:/MenueFunctions.js" as MenueFunctions
+
 
 import "items"
 
@@ -86,29 +88,7 @@ Rectangle
             {
                 width: parent.width
                 text: menue.items[index].caption
-                onClicked:
-                {
-                    if (menue.items[index].specialMeaning == "back")
-                    {
-                        stackView.pop()
-                        return
-                    }
-                    if (menue.items[index].specialMeaning == "home")
-                    {
-                        stackView.pop(null)
-                        return
-                    }
-                    if (menue.items[index].specialMeaning == "clear")
-                    {
-                        stackView.pop(null)
-                    }
-
-                    stackView.push("SuperForm.qml", {
-                                       "config": yacApp.getConfig(menue.items[index].targetFile),
-                                       "stackView": stackView
-                                   }
-                                   )
-                }
+                onClicked: MenueFunctions.openTarget(yacApp, stackView, menue.items[index].target)
             }
         }
     }

@@ -11,16 +11,14 @@ MenueItem::MenueItem(QObject *parent)
 void MenueItem::setConfig(const QJsonValue &config)
 {
     setCaption(config["caption"].toString());
-    setTargetFile(config["targetFile"].toString());
-    setSpecialMeaning(config["specialMeaning"].toString());
+    stringFromJSON(target, Target)
 }
 
 QJsonObject MenueItem::getConfig()
 {
     QJsonObject config;
     toJSON(caption);
-    toJSON(targetFile);
-    toJSON(specialMeaning);
+    stringToJSON(target);
     return config;
 }
 

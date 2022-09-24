@@ -51,17 +51,10 @@ Rectangle
                             }
                             YACLineEditWithHeader
                             {
-                                id: targetFile
-                                headerText: "TargetFile"
-                                text: config.items[index].targetFile
-                                onDisplayTextChanged: config.items[index].targetFile = text
-                            }
-                            YACLineEditWithHeader
-                            {
-                                id: specialMeaning
-                                headerText: "SpecialMeaning"
-                                text: config.items[index].specialMeaning
-                                onDisplayTextChanged: config.items[index].specialMeaning = text
+                                id: target
+                                headerText: "Target"
+                                text: config.items[index].target
+                                onDisplayTextChanged: config.items[index].target = text
                             }
                         }
                     }

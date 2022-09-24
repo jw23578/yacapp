@@ -9,8 +9,7 @@ class MenueItem : public ConfigInterface
 {
     Q_OBJECT
     YACAPPPROPERTY(QString, caption, Caption, "")
-    YACAPPPROPERTY(QString, targetFile, TargetFile, "")
-    YACAPPPROPERTY(QString, specialMeaning, SpecialMeaning, "")
+    YACAPPPROPERTY(QString, target, Target, "")
 
 public:
     explicit MenueItem(QObject *parent = nullptr);
