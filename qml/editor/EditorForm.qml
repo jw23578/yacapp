@@ -164,7 +164,7 @@ Rectangle
                                     headerText: "Url"
                                     text: config.content.items[index].url
                                     onDisplayTextChanged: config.content.items[index].url= text
-                                    visible: config.content.items[index].type == "webview"
+                                    visible: ["webview", "image"].includes(config.content.items[index].type)
                                 }
                                 Row
                                 {

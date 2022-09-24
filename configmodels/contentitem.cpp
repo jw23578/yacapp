@@ -12,7 +12,6 @@ void ContentItem::setConfig(const QJsonValue &config)
 {
     stringFromJSON(filename, Filename);
     stringFromJSON(type, Type);
-    setType("file");
     stringFromJSON(target, Target);
     stringFromJSON(url, Url);
     doubleFromJSON(width, Width);

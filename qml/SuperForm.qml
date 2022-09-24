@@ -33,17 +33,42 @@ Rectangle
             Repeater
             {
                 model: config.content.itemCount
-                delegate: Loader {
-                    active: true;
-                    asynchronous: true
+                delegate: Item
+                {
                     width: theContentColumn.width
                     height: theSuperForm.height * (config.content.type == "column" ? config.content.items[index].height : config.content.items[index].width)
-                    source: "SuperForm.qml"
-                    visible: true
-                    onLoaded: {
+                    Image
+                    {
+                        visible: config.content.items[index].type == "image"
+                        anchors.fill: parent
+                        source: config.content.items[index].url
+                    }
+                    WebView
+                    {
+                        visible: config.content.items[index].type == "webview"
+                        anchors.fill: parent
+                        url: config.content.items[index].url
+                    }
+
+                    Loader {
+                        active: config.content.items[index].type == "file"
+                        asynchronous: true
+                        anchors.fill: parent
+                        source: "SuperForm.qml"
+                        visible: active
+                        onLoaded: {
                             item.stackView = theSuperForm.stackView
                             item.config = yacApp.getConfig(config.content.items[index].filename)
                         }
+                    }
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            console.log("clicked")
+                        }
+                    }
                 }
             }
         }
@@ -71,9 +96,9 @@ Rectangle
                     source: "SuperForm.qml"
                     visible: true
                     onLoaded: {
-                            item.stackView = theSuperForm.stackView
-                            item.config = yacApp.getConfig(config.content.items[index].filename)
-                        }
+                        item.stackView = theSuperForm.stackView
+                        item.config = yacApp.getConfig(config.content.items[index].filename)
+                    }
                 }
             }
         }
