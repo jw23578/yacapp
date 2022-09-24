@@ -33,42 +33,12 @@ Rectangle
             Repeater
             {
                 model: config.content.itemCount
-                delegate: Item
+                delegate: ContentDelegate
                 {
-                    width: theContentColumn.width
-                    height: theSuperForm.height * (config.content.type == "column" ? config.content.items[index].height : config.content.items[index].width)
-                    Image
-                    {
-                        visible: config.content.items[index].type == "image"
-                        anchors.fill: parent
-                        source: config.content.items[index].url
-                    }
-                    WebView
-                    {
-                        visible: config.content.items[index].type == "webview"
-                        anchors.fill: parent
-                        url: config.content.items[index].url
-                    }
-
-                    Loader {
-                        active: config.content.items[index].type == "file"
-                        asynchronous: true
-                        anchors.fill: parent
-                        source: "SuperForm.qml"
-                        visible: active
-                        onLoaded: {
-                            item.stackView = theSuperForm.stackView
-                            item.config = yacApp.getConfig(config.content.items[index].filename)
-                        }
-                    }
-                    MouseArea
-                    {
-                        anchors.fill: parent
-                        onClicked:
-                        {
-                            console.log("clicked")
-                        }
-                    }
+                    contentType: config.content.type
+                    itemConfig: config.content.items[index]
+                    formHeight: theSuperForm.height
+                    formWidth: theSuperForm.width
                 }
             }
         }
@@ -88,17 +58,12 @@ Rectangle
             Repeater
             {
                 model: config.content.itemCount
-                delegate: Loader {
-                    active: true;
-                    asynchronous: true
-                    height: theContentRow.height
-                    width: theSuperForm.width * config.content.items[index].size
-                    source: "SuperForm.qml"
-                    visible: true
-                    onLoaded: {
-                        item.stackView = theSuperForm.stackView
-                        item.config = yacApp.getConfig(config.content.items[index].filename)
-                    }
+                delegate: ContentDelegate
+                {
+                    contentType: config.content.type
+                    itemConfig: config.content.items[index]
+                    formHeight: theSuperForm.height
+                    formWidth: theSuperForm.width
                 }
             }
         }

@@ -15,5 +15,6 @@
         <file>qml/items/YACColorDialogWithHeader.qml</file>
         <file>qml/editor/MenueEditor.qml</file>
         <file>ModelFunctions.js</file>
+        <file>qml/ContentDelegate.qml</file>
     </qresource>
 </RCC>
