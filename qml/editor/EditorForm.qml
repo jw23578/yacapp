@@ -78,6 +78,16 @@ Rectangle
                 id: editorSections
                 width: parent.width
                 spacing: 10
+                YACLineEditWithHeader
+                {
+                    headerText: "Menuefilename"
+                    text: config.menueFilename
+                    onDisplayTextChanged:
+                    {
+                        config.menueFilename = text
+                        menueFilenameChanged(text)
+                    }
+                }
 
                 EditorSection
                 {

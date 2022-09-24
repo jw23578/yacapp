@@ -21,7 +21,7 @@ Item
         visible: itemConfig.type == "image"
         anchors.fill: parent
         source: visible ? itemConfig.url : ""
-        fillMode: Image.PreserveAspectCrop
+        fillMode: Image.Stretch
         mipmap: true
     }
     WebView
@@ -44,6 +44,7 @@ Item
     }
     MouseArea
     {
+        enabled: itemConfig.target != ""
         anchors.fill: parent
         onClicked: MenueFunctions.openTarget(yacApp, stackView, itemConfig.target)
     }

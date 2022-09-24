@@ -11,7 +11,7 @@ Rectangle
 {
     id: theSuperForm
     property ParsedConfig config: null
-    property MenueConfig menue: yacApp.getMenueConfig("")
+    property MenueConfig menue: yacApp.getMenueConfig(config.menueFilename)
     property var stackView: null
     color: config.background.color
     WebView
@@ -28,6 +28,7 @@ Rectangle
         contentHeight: theContentGrid.height
         contentWidth: theContentGrid.width
         visible: config.content.type == "grid"
+        clip: true
         Grid
         {
             id: theContentGrid
@@ -51,6 +52,7 @@ Rectangle
 
     Flickable
     {
+        clip: true
         id: theColumnFlickable
         anchors.fill: parent
         contentHeight: theContentColumn.height
@@ -77,6 +79,7 @@ Rectangle
 
     Flickable
     {
+        clip: true
         id: theRowFlickable
         anchors.fill: parent
         contentWidth: theContentRow.width
@@ -119,14 +122,5 @@ Rectangle
                 onClicked: MenueFunctions.openTarget(yacApp, stackView, menue.items[index].target)
             }
         }
-    }
-    Component.onCompleted:
-    {
-        if (config == null)
-        {
-            return
-        }
-
-        menue = yacApp.getMenueConfig(config.menueFilename)
     }
 }
