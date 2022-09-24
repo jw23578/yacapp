@@ -54,6 +54,11 @@ Window {
         anchors.bottom: parent.bottom
     }
 
+    ConfiguratorStartPage
+    {
+
+    }
+
 
     Component.onCompleted:
     {

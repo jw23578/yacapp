@@ -1,17 +1,26 @@
 #include "yacapp.h"
+#include <QFileInfo>
 
 YACAPP::YACAPP(QObject *parent)
     : QObject{parent}
 {
 }
 
-void YACAPP::init()
+void YACAPP::init(QString projectFilename)
 {
+    projectFilename.replace("file://", "");
+    QString rawFolder(QFileInfo(projectFilename).path());
+    rawFolder.replace("file://", "");
+    if (rawFolder.right(1) != '/')
+    {
+        rawFolder += "/";
+    }
+    setBaseUrl(rawFolder);
     if (baseUrl() == "")
     {
         return;
     }
-    globalConfig()->init(baseUrl() + "global.json");
+    globalConfig()->init(projectFilename);
     for (int i(0); i < globalConfig()->formFiles.size(); ++i)
     {
         getConfig(globalConfig()->formFiles[i]);
@@ -99,17 +108,10 @@ MenueConfig *YACAPP::getMenueConfig(const QString &filename)
     return configIt.value();
 }
 
-void YACAPP::loadNewProject(const QString &folder)
+void YACAPP::loadNewProject(const QString &projectFilename)
 {
     reset();
-    QString rawFolder(folder);
-    rawFolder.replace("file://", "");
-    if (rawFolder.right(1) != '/')
-    {
-        rawFolder += "/";
-    }
-    setBaseUrl(rawFolder);
-    init();
+    init(projectFilename);
 }
 
 void YACAPP::saveCurrentProject()

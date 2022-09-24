@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import Qt.labs.platform 1.0
 import com.yacapp.parsedconfig 1.0
 import com.yacapp.globalprojectconfig 1.0
 import com.yacapp.headerconfig 1.0
@@ -13,11 +12,6 @@ Rectangle
     property GlobalProjectConfig global: null
     signal loadConfig(string filename)
     signal menueFilenameChanged(string filename)
-    FolderDialog {
-        id: folderDialog
-        onFolderChanged: yacApp.loadNewProject(folder + "/")
-    }
-
     Column
     {
         id: topColumn
@@ -25,17 +19,7 @@ Rectangle
         Row
         {
             width: parent.width
-            YACButton
-            {
-                width: parent.width / 2
-                text: "Load Project"
-                onClicked: folderDialog.open()
-            }
-            Item
-            {
-                width: 1
-                height: 1
-            }
+            spacing: 1
             YACButton
             {
                 width: parent.width / 2 - 1

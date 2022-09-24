@@ -6,6 +6,7 @@
 #include <QTranslator>
 #include "configmodels/parsedconfig.h"
 #include "yacapp.h"
+#include "configurator.h"
 #include "configmodels/globalprojectconfig.h"
 
 int main(int argc, char *argv[])
@@ -44,13 +45,18 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     YACAPP yacApp;
-    yacApp.setBaseUrl("/home/jw78/wes23/");  // hier wird aktuell die app festgelegt
     QUrl url(QStringLiteral("qrc:/main.qml"));
+    Configurator *configurator(0);
     if (app.arguments().contains("Configurator"))
     {
         url = QStringLiteral("qrc:/mainDesignMode.qml");
+        configurator = new Configurator;
+        engine.rootContext()->setContextProperty("configurator", configurator);
     }
-    yacApp.init();
+    else
+    {
+        yacApp.loadNewProject("/home/jw78/wes23/wes23.yacapp");  // hier wird aktuell die app festgelegt
+    }
     engine.rootContext()->setContextProperty("yacApp", &yacApp);
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

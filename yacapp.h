@@ -25,13 +25,13 @@ class YACAPP : public QObject
 
 public:
     explicit YACAPP(QObject *parent = nullptr);
-    void init();
+    void init(QString projectFilename);
 
     Q_INVOKABLE ParsedConfig *getConfig(QString const &filename);
 
     Q_INVOKABLE MenueConfig *getMenueConfig(QString const &filename);
 
-    Q_INVOKABLE void loadNewProject(QString const &folder);
+    Q_INVOKABLE void loadNewProject(QString const &projectFilename);
 
     Q_INVOKABLE void saveCurrentProject();
 

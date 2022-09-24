@@ -17,5 +17,6 @@
         <file>ModelFunctions.js</file>
         <file>qml/ContentDelegate.qml</file>
         <file>MenueFunctions.js</file>
+        <file>qml/editor/ConfiguratorStartPage.qml</file>
     </qresource>
 </RCC>
