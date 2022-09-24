@@ -35,4 +35,4 @@ On Sites which require a Login the App forces the User to login and remembers th
 4. Compile [yacApp] for Android/iOS
 5. Deploy your [yacApp] to PlayStore and AppStore
 
-[yacApp]: https://github.com/jw23578/yacapp#readme yacApp
+[yacApp]: https://github.com/jw23578/yacapp#readme "yacApp"
