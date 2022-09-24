@@ -126,6 +126,22 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
+                        showColumn: config.content.type == "grid"
+                        intEdit: true
+                        headerText: "Columns"
+                        text: config.content.columns
+                        onDisplayTextChanged: config.content.columns = text
+                    }
+                    YACLineEditWithHeader
+                    {
+                        showColumn: config.content.type == "grid"
+                        intEdit: true
+                        headerText: "Rows"
+                        text: config.content.rows
+                        onDisplayTextChanged: config.content.rows = text
+                    }
+                    YACLineEditWithHeader
+                    {
                         showColumn: config.content.type == "webview"
                         headerText: "Url"
                         text: config.content.url
@@ -135,8 +151,8 @@ Rectangle
                     {
                         id: columnItems
                         width: parent.width
-                        property bool showRow: config.content.type == "row"
-                        property bool showColumn: config.content.type == "column"
+                        property bool showRow: ["row", "grid"].includes(config.content.type)
+                        property bool showColumn: ["column", "grid"].includes(config.content.type)
                         Repeater
                         {
                             model: config.content.itemCount

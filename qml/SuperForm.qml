@@ -23,6 +23,34 @@ Rectangle
 
     Flickable
     {
+        id: theGridFlickable
+        anchors.fill: parent
+        contentHeight: theContentGrid.height
+        contentWidth: theContentGrid.width
+        visible: config.content.type == "grid"
+        Grid
+        {
+            id: theContentGrid
+            columns: config.content.columns
+            rows: config.content.rows
+            spacing: 1
+            Repeater
+            {
+                model: config.content.itemCount
+                delegate: ContentDelegate
+                {
+                    stackView: theSuperForm.stackView
+                    contentType: config.content.type
+                    itemConfig: config.content.items[index]
+                    formHeight: theSuperForm.height
+                    formWidth: theSuperForm.width
+                }
+            }
+        }
+    }
+
+    Flickable
+    {
         id: theColumnFlickable
         anchors.fill: parent
         contentHeight: theContentColumn.height

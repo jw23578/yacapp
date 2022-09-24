@@ -13,6 +13,8 @@ void ContentConfig::setConfig(const QJsonValue &config)
 {
     setType(config["type"].toString());
     setUrl(config["url"].toString());
+    intFromJSON(columns, Columns);
+    intFromJSON(rows, Rows);
     QJsonArray array(config["items"].toArray());
     setItemCount(0);
     for (int i(0); i < array.count(); ++i)
@@ -29,6 +31,8 @@ QJsonObject ContentConfig::getConfig()
     QJsonObject config;
     stringToJSON(type);
     stringToJSON(url);
+    intToJSON(columns);
+    intToJSON(rows);
     if (itemCount())
     {
         QJsonArray itemArray;

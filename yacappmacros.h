@@ -7,8 +7,18 @@
 #define doubleFromJSON(name, uppercasename) \
     set##uppercasename(config[#name].toDouble());
 
+#define intFromJSON(name, uppercasename) \
+    set##uppercasename(config[#name].toInt());
+
 #define toJSON(name) \
     config[#name] = name()
+
+#define intToJSON(name) \
+    if (name()) \
+    { \
+        toJSON(name); \
+    }
+
 
 #define stringToJSON(name) \
     if (name().size()) \

@@ -6,6 +6,11 @@ Column
     {
         id: doubleValidator
     }
+    IntValidator
+    {
+        id: intValidator
+    }
+
     Behavior on height {
         NumberAnimation {
             duration: 200
@@ -15,6 +20,7 @@ Column
     property bool showColumn: true
 
     property bool doubleEdit: false
+    property bool intEdit: false
     width: parent.width
     property alias headerText: header.text
     property alias text: input.text
@@ -30,7 +36,7 @@ Column
         id: input
         x: height
         width: parent.width - x
-        validator: parent.doubleEdit ? doubleValidator : null
+        validator: parent.doubleEdit ? doubleValidator : parent.intEdit ? intValidator : null
         visible: parent.showColumn
     }
 }

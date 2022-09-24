@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtWebView 1.15
 import com.yacapp.contentitem 1.0
 import "qrc:/MenueFunctions.js" as MenueFunctions
@@ -10,16 +10,19 @@ Item
     property int formHeight: 0
     property int formWidth: 0
     property string contentType: ""
+    property bool gridType: contentType == "grid"
     property bool columnType: contentType == "column"
     property bool rowType: contentType == "row"
     property ContentItem itemConfig: null
-    width: columnType ? parent.width : formWidth * itemConfig.width
-    height: rowType ? parent.height : formHeight * itemConfig.height
+    width: columnType && !gridType ? parent.width : formWidth * itemConfig.width
+    height: rowType && !gridType ? parent.height : formHeight * itemConfig.height
     Image
     {
         visible: itemConfig.type == "image"
         anchors.fill: parent
         source: visible ? itemConfig.url : ""
+        fillMode: Image.PreserveAspectCrop
+        mipmap: true
     }
     WebView
     {
