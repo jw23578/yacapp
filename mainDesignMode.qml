@@ -50,6 +50,7 @@ Window {
             config: yacApp.mainConfig
             global: yacApp.globalConfig
             anchors.fill: parent
+            onOpenOtherProject: startPage.visible = true
             onLoadConfig: mainFormLoader.item.openFilename(filename)
             onConfigChanged:
             {
@@ -78,6 +79,7 @@ Window {
 
     ConfiguratorStartPage
     {
+        id: startPage
         onNewProjectLoaded:
         {
             menueEditor.config = yacApp.getMenueConfig(yacApp.mainConfig.menueFilename)

@@ -12,6 +12,7 @@ Rectangle
     property GlobalProjectConfig global: null
     signal loadConfig(string filename)
     signal menueFilenameChanged(string filename)
+    signal openOtherProject()
     Column
     {
         id: topColumn
@@ -19,6 +20,12 @@ Rectangle
         Row
         {
             width: parent.width
+            YACButton
+            {
+                text: qsTr("Other Project")
+                onClicked: openOtherProject()
+            }
+
             spacing: 1
             YACButton
             {
@@ -213,6 +220,11 @@ Rectangle
                                 }
                             }
                         }
+                    }
+                    YACButton
+                    {
+                        text: "Add Item"
+                        onClicked: config.content.addItem(-1)
                     }
                 }
                 EditorSection

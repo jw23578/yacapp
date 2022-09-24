@@ -44,3 +44,13 @@ QJsonObject ContentConfig::getConfig()
     }
     return config;
 }
+
+void ContentConfig::addItem(int index)
+{
+    if (index < 0)
+    {
+        appendItem(new ContentItem);
+        setItemCount(m_items.length());
+        return;
+    }
+}

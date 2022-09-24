@@ -23,6 +23,8 @@ public:
     void setConfig(QJsonValue const &config);
     QJsonObject getConfig();
 
+    Q_INVOKABLE void addItem(int index);
+
 signals:
 
 };
