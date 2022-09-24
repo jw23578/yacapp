@@ -16,23 +16,23 @@ On Sites which require a Login the App forces the User to login and remembers th
 
 ## Deploying the App
 
-### Self-hosted with Default-yacApp
+### Self-hosted with Default-[yacApp]
 
-### yacApp-hostet with Default-yacApp
+### yacApp-hostet with Default-[yacApp]
 
 ### Self-hosted and self-compiled
 
 1. Upload the App-Directory to your Server and make the files available via Webserver
-2. Set the URL to <your-server>/global.json in the yacApp - Code
-3. Customize other Parts in the yacApp-Code
-4. Compile yacApp for Android/iOS
-5. Deploy your yacApp to PlayStore and AppStore
+2. Set the URL to <your-server>/global.json in the [yacApp] - Code
+3. Customize other Parts in the [yacApp]-Code
+4. Compile [yacApp] for Android/iOS
+5. Deploy your [yacApp] to PlayStore and AppStore
 
 ### yacApp-hosted and self-compiled
 
-2. Set the URL to <yacApp-server>/global.json in the yacApp - Code
-3. Customize other Parts in the yacApp-Code
-4. Compile yacApp for Android/iOS
-5. Deploy your yacApp to PlayStore and AppStore
+2. Set the URL to <yacApp-server>/global.json in the [yacApp] - Code
+3. Customize other Parts in the [yacApp]-Code
+4. Compile [yacApp] for Android/iOS
+5. Deploy your [yacApp] to PlayStore and AppStore
 
-[yacApp]: yacApp
+[yacApp]: https://github.com/jw23578/yacapp#readme yacApp
