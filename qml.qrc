@@ -16,5 +16,6 @@
         <file>qml/editor/MenueEditor.qml</file>
         <file>ModelFunctions.js</file>
         <file>qml/ContentDelegate.qml</file>
+        <file>MenueFunctions.js</file>
     </qresource>
 </RCC>

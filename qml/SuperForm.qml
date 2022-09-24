@@ -35,6 +35,7 @@ Rectangle
                 model: config.content.itemCount
                 delegate: ContentDelegate
                 {
+                    stackView: theSuperForm.stackView
                     contentType: config.content.type
                     itemConfig: config.content.items[index]
                     formHeight: theSuperForm.height
@@ -60,6 +61,7 @@ Rectangle
                 model: config.content.itemCount
                 delegate: ContentDelegate
                 {
+                    stackView: theSuperForm.stackView
                     contentType: config.content.type
                     itemConfig: config.content.items[index]
                     formHeight: theSuperForm.height

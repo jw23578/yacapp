@@ -1,9 +1,12 @@
 import QtQuick 2.0
 import QtWebView 1.15
 import com.yacapp.contentitem 1.0
+import "qrc:/MenueFunctions.js" as MenueFunctions
+
 
 Item
 {
+    property var stackView: null
     property int formHeight: 0
     property int formWidth: 0
     property string contentType: ""
@@ -39,9 +42,6 @@ Item
     MouseArea
     {
         anchors.fill: parent
-        onClicked:
-        {
-            console.log("clicked")
-        }
+        onClicked: MenueFunctions.openTarget(yacApp, stackView, itemConfig.target)
     }
 }
