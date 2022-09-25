@@ -69,6 +69,7 @@ Rectangle
                 id: editorSections
                 width: parent.width
                 spacing: 10
+
                 YACLineEditWithHeader
                 {
                     headerText: "Menuefilename"
@@ -117,6 +118,12 @@ Rectangle
                 EditorSection
                 {
                     sectionCaption: "Content"
+                    YACSwitch
+                    {
+                        text: qsTr("Login needed")
+                        checked: config.content.loginNeeded
+                        onCheckedChanged: config.content.loginNeeded = checked
+                    }
                     YACComboBoxWithHeader
                     {
                         id: contentType

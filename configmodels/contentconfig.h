@@ -17,6 +17,7 @@ class ContentConfig : public ConfigInterface
     YACAPPPROPERTY(int, rows, Rows, 0)
     YACAPPPROPERTY(int, itemCount, ItemCount, 0)
     YACOBJECTLISTPROPERTY(ContentItem, item, Item, ContentConfig)
+    YACAPPPROPERTY(bool, loginNeeded, LoginNeeded, false)
 public:
     explicit ContentConfig(QObject *parent = nullptr);
 

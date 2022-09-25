@@ -17,8 +17,9 @@ Rectangle
     WebView
     {
         anchors.fill: parent
-        visible: config.content.type == "webview"
-        url: config.content.url
+        visible: !loading && config.content.type == "webview"
+        url: config.content.url + (config.content.loginNeeded ? yacApp.loginToken : "")
+        Component.onCompleted: console.log("url: " + url)
     }
 
     Flickable
@@ -29,6 +30,7 @@ Rectangle
         contentWidth: theContentGrid.width
         visible: config.content.type == "grid"
         clip: true
+        boundsBehavior: Flickable.StopAtBounds
         Grid
         {
             id: theContentGrid
@@ -57,6 +59,7 @@ Rectangle
         anchors.fill: parent
         contentHeight: theContentColumn.height
         visible: config.content.type == "column"
+        boundsBehavior: Flickable.StopAtBounds
         Column
         {
             id: theContentColumn
@@ -84,6 +87,7 @@ Rectangle
         anchors.fill: parent
         contentWidth: theContentRow.width
         visible: config.content.type == "row"
+        boundsBehavior: Flickable.StopAtBounds
         Row
         {
             id: theContentRow
@@ -123,4 +127,21 @@ Rectangle
             }
         }
     }
+    Loader
+    {
+        id: loginPageLoader
+        anchors.fill: parent
+        active: config.content.loginNeeded && yacApp.loginToken == ""
+        sourceComponent: loginPageComponent
+    }
+
+    Component
+    {
+        id: loginPageComponent
+        LoginPage
+        {
+            visible: config.content.loginNeeded && yacApp.loginToken == ""
+        }
+    }
+
 }

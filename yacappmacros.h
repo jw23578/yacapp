@@ -10,6 +10,9 @@
 #define intFromJSON(name, uppercasename) \
     set##uppercasename(config[#name].toInt());
 
+#define boolFromJSON(name, uppercasename) \
+    set##uppercasename(config[#name].toBool());
+
 #define toJSON(name) \
     config[#name] = name()
 
@@ -19,6 +22,11 @@
         toJSON(name); \
     }
 
+#define boolToJSON(name) \
+    if (name()) \
+    { \
+        toJSON(name); \
+    }
 
 #define stringToJSON(name) \
     if (name().size()) \

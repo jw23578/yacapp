@@ -24,7 +24,7 @@ Column
     ComboBox
     {
         id: input
-        x: height
+        x: header.height
         width: parent.width - x
         onActivated: parent.activated(textAt(index))
     }

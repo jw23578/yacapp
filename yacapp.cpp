@@ -1,9 +1,30 @@
 #include "yacapp.h"
 #include <QFileInfo>
+#include <QStandardPaths>
+#include <QJsonObject>
 
 YACAPP::YACAPP(QObject *parent)
     : QObject{parent}
 {
+#ifdef Q_OS_WIN
+    setIsDesktop(true);
+#endif
+
+#ifdef Q_OS_LINUX
+    setIsDesktop(true);
+#endif
+
+    QStringList paths(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
+    if (paths.size() == 0)
+    {
+        return;
+    }
+    stateFilename = paths[0] + "yacAppState.json";
+    QFile jsonFile(stateFilename);
+    jsonFile.open(QIODevice::ReadOnly);
+    QByteArray fileData(jsonFile.readAll());
+    QJsonDocument config(QJsonDocument::fromJson(fileData));
+    stringFromJSON(loginToken, LoginToken)
 }
 
 void YACAPP::init(QString projectFilename)
@@ -30,6 +51,16 @@ void YACAPP::init(QString projectFilename)
         getMenueConfig(globalConfig()->menueFiles[i]);
     }
     setMainConfig(getConfig(globalConfig()->mainFormFilename()));
+}
+
+void YACAPP::saveState()
+{
+    QJsonObject config;
+    stringToJSON(loginToken);
+    QFile jsonFile(stateFilename);
+    jsonFile.open(QIODevice::WriteOnly);
+    jsonFile.write(QJsonDocument(config).toJson());
+
 }
 
 void YACAPP::addKnownFile(QString const &filename)

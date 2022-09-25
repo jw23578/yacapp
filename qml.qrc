@@ -18,5 +18,10 @@
         <file>qml/ContentDelegate.qml</file>
         <file>MenueFunctions.js</file>
         <file>qml/editor/ConfiguratorStartPage.qml</file>
+        <file>qml/LoginPage.qml</file>
+        <file>qml/items/YACText.qml</file>
+        <file>qml/items/YACTextInput.qml</file>
+        <file>qml/items/YACSwitch.qml</file>
+        <file>LoginFunctions.js</file>
     </qresource>
 </RCC>

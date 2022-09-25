@@ -8,7 +8,10 @@
 class YACAPP : public QObject
 {
     Q_OBJECT
+    QString stateFilename;
+    YACAPPPROPERTY(bool, isDesktop, IsDesktop, false);
     YACAPPPROPERTY(QString, baseUrl, BaseUrl, "");
+    YACAPPPROPERTY(QString, loginToken, LoginToken, "");
     YACAPPPROPERTY(ParsedConfig*, mainConfig, MainConfig, 0);
     YACAPPREADONLYPROPERTY(GlobalProjectConfig*, globalConfig, new GlobalProjectConfig);
     YACAPPPROPERTY(QStringList, knownFiles, KnownFiles, QStringList())
@@ -26,6 +29,8 @@ class YACAPP : public QObject
 public:
     explicit YACAPP(QObject *parent = nullptr);
     void init(QString projectFilename);
+
+    Q_INVOKABLE void saveState();
 
     Q_INVOKABLE ParsedConfig *getConfig(QString const &filename);
 

@@ -2,6 +2,7 @@ import QtQuick 2.0
 
 Column
 {
+    id: lineEditWithHeader
     DoubleValidator
     {
         id: doubleValidator
@@ -25,18 +26,27 @@ Column
     property alias headerText: header.text
     property alias text: input.text
     property alias displayText: input.displayText
-    Text
+    YACText
     {
         id: header
         width: parent.width
         visible: parent.showColumn
     }
-    TextInput
+    Rectangle
     {
-        id: input
-        x: height
+        x: header.height
         width: parent.width - x
-        validator: parent.doubleEdit ? doubleValidator : parent.intEdit ? intValidator : null
-        visible: parent.showColumn
+        height: input.height + 4
+        border.color: "black"
+        border.width: 1
+        visible: lineEditWithHeader.showColumn
+        YACTextInput
+        {
+            width: parent.width - 4
+            x: 2
+            y: 2
+            id: input
+            validator: lineEditWithHeader.doubleEdit ? doubleValidator : lineEditWithHeader.intEdit ? intValidator : null
+        }
     }
 }
