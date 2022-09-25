@@ -14,6 +14,15 @@ If you already have a Website, probably with a Login/Member-Area with this App y
 Typically you can use your Website in this App in Webviews and connect the Webview-Forms by a custom Menu.
 On Sites which require a Login the App forces the User to login and remembers the Login. Therefore a Loginadapter needs to be provided.
 
+## Member/Login-Area
+A content page can be configured to need a login.
+If yacApp.loginToken is not set then the LoginPage is automatically displayed
+
+Login for now only works with the aidoo (https://www.aidoo.de) online memberarea-login which can be called via directLogin.
+
+If loggedin correctly yacApp.loginToken is set an appended to all webview urls where a login is needed
+
+
 ## Deploying the App
 
 ### Self-hosted with Default-[yacApp]
