@@ -3,12 +3,14 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import com.yacapp.globalprojectconfig 1.0
 import com.yacapp.parsedconfig 1.0
+import com.yacapp.menueconfig 1.0
 import "items"
 
 
 Column
 {
     id: mainForm
+    property MenueConfig menue: yacApp.getMenueConfig(config.menueFilename)
     property ParsedConfig config: null
     signal currentItemChanged(ParsedConfig config)
     function openFilename(filename)
@@ -46,6 +48,12 @@ Column
     {
         id: footer
     }
+    YACDefaultMenue
+    {
+        visible: menue.type === "" || menue.type === "default"
+        stackView: theStackView
+    }
+
     YACImage
     {
         anchors.top: parent.top

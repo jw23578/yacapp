@@ -47,6 +47,7 @@ Column
             y: 2
             id: input
             validator: lineEditWithHeader.doubleEdit ? doubleValidator : lineEditWithHeader.intEdit ? intValidator : null
+            clip: true
         }
     }
 }
