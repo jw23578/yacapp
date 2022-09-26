@@ -12,7 +12,7 @@ Configurator::Configurator(QObject *parent)
     {
         return;
     }
-    configFilename = paths[0] + "yacAppConfig.json";
+    configFilename = paths[0] + "/yacAppConfig.json";
     QFile jsonFile(configFilename);
     jsonFile.open(QIODevice::ReadOnly);
     QByteArray fileData(jsonFile.readAll());

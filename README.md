@@ -44,4 +44,8 @@ If loggedin correctly yacApp.loginToken is set an appended to all webview urls w
 4. Compile [yacApp] for Android/iOS
 5. Deploy your [yacApp] to PlayStore and AppStore
 
+### First Impressions
+
+Configurator: https://www.jw78.de/yacAppConfigurator.mp4
+
 [yacApp]: https://github.com/jw23578/yacapp#readme "yacApp"

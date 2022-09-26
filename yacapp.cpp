@@ -19,7 +19,8 @@ YACAPP::YACAPP(QObject *parent)
     {
         return;
     }
-    stateFilename = paths[0] + "yacAppState.json";
+    stateFilename = paths[0] + "/yacAppState.json";
+    qDebug() << stateFilename;
     QFile jsonFile(stateFilename);
     jsonFile.open(QIODevice::ReadOnly);
     QByteArray fileData(jsonFile.readAll());
