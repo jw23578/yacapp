@@ -20,6 +20,7 @@ void GlobalProjectConfig::init(QString const &jsonConfigFile)
 
 void GlobalProjectConfig::save(const QString &jsonConfigFile)
 {
+    setVersion(version() + 1);
     QFile jsonFile(jsonConfigFile);
     jsonFile.open(QIODevice::WriteOnly);
     QJsonObject config;
@@ -29,6 +30,10 @@ void GlobalProjectConfig::save(const QString &jsonConfigFile)
 
 void GlobalProjectConfig::setConfig(const QJsonValue &config)
 {
+    intFromJSON(version, Version);
+    stringFromJSON(logoUrl, LogoUrl);
+    doubleFromJSON(logoWidth, LogoWidth);
+    doubleFromJSON(logoHeight, LogoHeight);
     stringFromJSON(projectName, ProjectName);
     stringFromJSON(mainFormFilename, MainFormFilename);
     QJsonArray array(config["formFiles"].toArray());
@@ -46,6 +51,12 @@ void GlobalProjectConfig::setConfig(const QJsonValue &config)
 QJsonObject GlobalProjectConfig::getConfig()
 {
     QJsonObject config;
+    intToJSON(version);
+    stringToJSON(logoUrl);
+    doubleToJSON(logoWidth);
+    doubleToJSON(logoHeight);
+    stringlistToJSON(formFiles);
+    stringlistToJSON(menueFiles);
     toJSON(projectName);
     toJSON(mainFormFilename);
     return config;

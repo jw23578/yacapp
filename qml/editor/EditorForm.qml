@@ -80,6 +80,30 @@ Rectangle
                         menueFilenameChanged(text)
                     }
                 }
+                EditorSection
+                {
+                    sectionCaption: "Logo"
+                    YACLineEditWithHeader
+                    {
+                        headerText: "LogoUrl"
+                        text: global.logoUrl
+                        onDisplayTextChanged: global.logoUrl = text
+                    }
+                    YACLineEditWithHeader
+                    {
+                        headerText: "Logo-Width"
+                        doubleEdit: true
+                        text: global.logoWidth
+                        onDisplayTextChanged: global.logoWidth = text
+                    }
+                    YACLineEditWithHeader
+                    {
+                        headerText: "Logo-Height"
+                        doubleEdit: true
+                        text: global.logoHeight
+                        onDisplayTextChanged: global.logoHeight = text
+                    }
+                }
 
                 EditorSection
                 {
@@ -163,10 +187,16 @@ Rectangle
                         property bool showColumn: ["column", "grid"].includes(config.content.type)
                         Repeater
                         {
-                            model: config.content.itemCount
+                            model: parent.showColumn || parent.showRow ? config.content.itemCount : 0
                             delegate: Column
                             {
                                 width: columnItems.width
+                                Item
+                                {
+                                    height: contentItemType.height / 2
+                                    width: 1
+                                }
+
                                 YACComboBoxWithHeader
                                 {
                                     id: contentItemType
@@ -227,11 +257,12 @@ Rectangle
                                 }
                             }
                         }
-                    }
-                    YACButton
-                    {
-                        text: "Add Item"
-                        onClicked: config.content.addItem(-1)
+                        YACButton
+                        {
+                            visible: parent.showColumn || parent.showRow
+                            text: "Add Item"
+                            onClicked: config.content.addItem(-1)
+                        }
                     }
                 }
                 EditorSection

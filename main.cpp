@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<GlobalProjectConfig>("com.yacapp.globalprojectconfig", 1, 0, "GlobalProjectConfig");
     qmlRegisterType<HeaderConfig>("com.yacapp.headerconfig", 1, 0, "HeaderConfig");
 //    qmlRegisterType<ContentItem>("com.yacapp.headerc", 1, 0, "ContentItem");
+    qRegisterMetaType<GlobalProjectConfig*>("GlobalProjectConfig");
     qRegisterMetaType<ParsedConfig*>("ParsedConfig");
     qRegisterMetaType<BackgroundConfig*>("BackgroundConfig");
     qRegisterMetaType<MenueConfig*>("MenueConfig");

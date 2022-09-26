@@ -23,5 +23,6 @@
         <file>qml/items/YACTextInput.qml</file>
         <file>qml/items/YACSwitch.qml</file>
         <file>LoginFunctions.js</file>
+        <file>qml/items/YACImage.qml</file>
     </qresource>
 </RCC>

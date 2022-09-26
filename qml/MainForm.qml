@@ -1,13 +1,15 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
+import com.yacapp.globalprojectconfig 1.0
 import com.yacapp.parsedconfig 1.0
+import "items"
 
 
 Column
 {
     id: mainForm
-    property var config: null
+    property ParsedConfig config: null
     signal currentItemChanged(ParsedConfig config)
     function openFilename(filename)
     {
@@ -30,9 +32,10 @@ Column
             config: mainForm.config
             stackView: theStackView
         }
-        height: parent.height - footer.height - header.height
+        anchors.top: header.bottom
         anchors.left: parent.left
         anchors.right: parent.right
+        anchors.bottom: footer.top
         onCurrentItemChanged: {
             header.headerConfig = currentItem.config.header
             footer.footerConfig = currentItem.config.footer
@@ -42,5 +45,14 @@ Column
     YACFooter
     {
         id: footer
+    }
+    YACImage
+    {
+        anchors.top: parent.top
+        anchors.left: parent.left
+        visible: source != ""
+        source: yacApp.globalConfig.logoUrl
+        width: parent.width * yacApp.globalConfig.logoWidth
+        height: parent.height * yacApp.globalConfig.logoHeight
     }
 }

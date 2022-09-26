@@ -8,8 +8,12 @@
 class GlobalProjectConfig : public ConfigInterface
 {
     Q_OBJECT
+    YACAPPPROPERTY(int, version, Version, 0)
     YACAPPPROPERTY(QString, projectName, ProjectName, "")
     YACAPPPROPERTY(QString, mainFormFilename, MainFormFilename, "")
+    YACAPPPROPERTY(QString, logoUrl, LogoUrl, "")
+    YACAPPPROPERTY(double, logoWidth, LogoWidth, 0)
+    YACAPPPROPERTY(double, logoHeight, LogoHeight, 0)
     public:
     explicit GlobalProjectConfig(QObject *parent = nullptr);
 

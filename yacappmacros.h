@@ -1,6 +1,8 @@
 #ifndef YACAPPMACROS_H
 #define YACAPPMACROS_H
 
+#include <math.h>
+
 #define stringFromJSON(name, uppercasename) \
     set##uppercasename(config[#name].toString());
 
@@ -22,6 +24,12 @@
         toJSON(name); \
     }
 
+#define doubleToJSON(name) \
+    if (std::fabs(name()) > 0.0001) \
+    { \
+        toJSON(name); \
+    }
+
 #define boolToJSON(name) \
     if (name()) \
     { \
@@ -38,6 +46,17 @@
     if (colorName().isValid() && colorName() != Qt::black) \
     { \
         config[#colorName] = colorName().name(); \
+    }
+
+#define stringlistToJSON(stringlistName) \
+    if (stringlistName.size()) \
+    { \
+        QJsonArray array; \
+        for (int i(0); i < stringlistName.size(); ++i) \
+        { \
+            array.append(stringlistName[i]); \
+        } \
+        config[#stringlistName] = array; \
     }
 
 #define YACAPPCONSTANTPROPERTY(type, name, uppercasename, defaultvalue) \

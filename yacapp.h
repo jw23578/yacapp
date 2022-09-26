@@ -9,6 +9,7 @@ class YACAPP : public QObject
 {
     Q_OBJECT
     QString stateFilename;
+    QString projectFilename;
     YACAPPPROPERTY(bool, isDesktop, IsDesktop, false);
     YACAPPPROPERTY(QString, baseUrl, BaseUrl, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
