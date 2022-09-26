@@ -46,6 +46,8 @@ If loggedin correctly yacApp.loginToken is set an appended to all webview urls w
 
 ### First Impressions
 
-Configurator: https://www.jw78.de/yacAppConfigurator.mp4
+Configurator: [Video](https://www.jw78.de/yacAppConfigurator.mp4)
+
+App (Running on Linux Desktop): [Video](https://www.jw78.de/yacApp-Desktop.mp4)
 
 [yacApp]: https://github.com/jw23578/yacapp#readme "yacApp"
