@@ -25,5 +25,6 @@
         <file>LoginFunctions.js</file>
         <file>qml/items/YACImage.qml</file>
         <file>qml/YACDefaultMenue.qml</file>
+        <file>qml/DeployPage.qml</file>
     </qresource>
 </RCC>

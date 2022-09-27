@@ -8,11 +8,13 @@ import "../items"
 Rectangle
 {
     id: editorForm
+
     property ParsedConfig config: null
     property GlobalProjectConfig global: null
     signal loadConfig(string filename)
     signal menueFilenameChanged(string filename)
     signal openOtherProject()
+    signal deployProjectClicked()
     Column
     {
         id: topColumn
@@ -32,6 +34,11 @@ Rectangle
                 width: parent.width / 2 - 1
                 text: "Save Project"
                 onClicked: yacApp.saveCurrentProject()
+            }
+            YACButton
+            {
+                text: qsTr("Deploy Project")
+                onClicked: deployProjectClicked()
             }
         }
         YACProjectText

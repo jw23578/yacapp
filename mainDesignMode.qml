@@ -52,6 +52,7 @@ Window {
             anchors.fill: parent
             onOpenOtherProject: startPage.visible = true
             onLoadConfig: mainFormLoader.item.openFilename(filename)
+            onDeployProjectClicked: deployPage.visible = true
             onConfigChanged:
             {
                 menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
@@ -75,6 +76,11 @@ Window {
         anchors.topMargin: 10
         anchors.right: mainFormLoader.right
         anchors.bottom: parent.bottom
+    }
+    DeployPage
+    {
+        id: deployPage
+        visible: false
     }
 
     ConfiguratorStartPage

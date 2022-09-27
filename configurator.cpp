@@ -3,6 +3,8 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include "jw78curlwrapper.h"
+
 
 Configurator::Configurator(QObject *parent)
     : QObject{parent}
@@ -30,4 +32,20 @@ void Configurator::save()
     jsonFile.open(QIODevice::WriteOnly);
     jsonFile.write(QJsonDocument(config).toJson());
 
+}
+
+void Configurator::deploy(QString host, QString user, QString password, QString www_basedirectory)
+{
+    std::string remoteUrl("sftp://");
+    remoteUrl += user.toStdString();
+    remoteUrl += ":";
+    remoteUrl += password.toStdString();
+    remoteUrl += "@";
+    remoteUrl += host.toStdString();
+    remoteUrl += ":";
+    remoteUrl += www_basedirectory.toStdString();
+
+    jw78::CurlWrapper cw;
+    std::string message;
+    cw.sftpUpload(remoteUrl, "/home/jw78/wes23/wes23.yacapp", message);
 }

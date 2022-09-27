@@ -16,6 +16,8 @@ public:
 
     Q_INVOKABLE void save();
 
+    Q_INVOKABLE void deploy(QString host, QString user, QString password, QString www_basedirectory);
+
 signals:
 
 };
