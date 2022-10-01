@@ -27,5 +27,6 @@
         <file>qml/YACDefaultMenue.qml</file>
         <file>qml/DeployPage.qml</file>
         <file>qml/items/YACRectangle.qml</file>
+        <file>qml/ProgressPage.qml</file>
     </qresource>
 </RCC>

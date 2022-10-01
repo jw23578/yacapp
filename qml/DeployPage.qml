@@ -40,6 +40,8 @@ Rectangle
             width: parent.width
             onClicked:
             {
+                pp.show()
+                return
                 configurator.deploy(host.displayText, user.displayText, password.displayText, basedirectory.displayText)
             }
         }
@@ -49,5 +51,9 @@ Rectangle
             onClicked: deployPage.visible = false
             width: parent.width
         }
+    }
+    ProgressPage
+    {
+        id: pp
     }
 }

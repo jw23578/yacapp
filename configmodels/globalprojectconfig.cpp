@@ -35,6 +35,11 @@ void GlobalProjectConfig::setConfig(const QJsonValue &config)
     doubleFromJSON(logoWidth, LogoWidth);
     doubleFromJSON(logoHeight, LogoHeight);
     stringFromJSON(projectName, ProjectName);
+    stringFromJSON(projectID, ProjectID);
+    if (projectID() == "")
+    {
+        setProjectID(QUuid::createUuid().toString(QUuid::WithoutBraces));
+    }
     stringFromJSON(mainFormFilename, MainFormFilename);
     QJsonArray array(config["formFiles"].toArray());
     for (int i(0); i < array.size(); ++i)
@@ -58,6 +63,7 @@ QJsonObject GlobalProjectConfig::getConfig()
     stringlistToJSON(formFiles);
     stringlistToJSON(menueFiles);
     toJSON(projectName);
+    stringToJSON(projectID);
     toJSON(mainFormFilename);
     return config;
 }

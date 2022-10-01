@@ -21,6 +21,7 @@ SOURCES += \
         configmodels/splashscreenconfig.cpp \
         configurator.cpp \
         main.cpp \
+        projectdata.cpp \
         yacapp.cpp
 
 RESOURCES += qml.qrc
@@ -54,6 +55,7 @@ HEADERS += \
   configmodels/parsedconfig.h \
   configmodels/splashscreenconfig.h \
   configurator.h \
+  projectdata.h \
   yacapp.h \
   yacappmacros.h
 

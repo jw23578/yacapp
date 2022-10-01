@@ -10,6 +10,7 @@ class GlobalProjectConfig : public ConfigInterface
     Q_OBJECT
     YACAPPPROPERTY(int, version, Version, 0)
     YACAPPPROPERTY(QString, projectName, ProjectName, "")
+    YACAPPPROPERTY(QString, projectID, ProjectID, "");
     YACAPPPROPERTY(QString, mainFormFilename, MainFormFilename, "")
     YACAPPPROPERTY(QString, logoUrl, LogoUrl, "")
     YACAPPPROPERTY(double, logoWidth, LogoWidth, 0)
