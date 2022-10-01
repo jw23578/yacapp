@@ -27,6 +27,7 @@ Rectangle
             headerText: qsTr("Password")
             width: parent.width
             id: password
+            echoMode: TextInput.Password
         }
         YACLineEditWithHeader
         {
@@ -40,9 +41,7 @@ Rectangle
             width: parent.width
             onClicked:
             {
-                pp.show()
-                return
-                configurator.deploy(host.displayText, user.displayText, password.displayText, basedirectory.displayText)
+                configurator.deploy(yacApp.globalConfig.projectID, host.displayText, user.displayText, password.displayText, basedirectory.displayText)
             }
         }
         YACButton

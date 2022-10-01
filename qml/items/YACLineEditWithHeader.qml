@@ -19,6 +19,7 @@ Column
     }
 
     property bool showColumn: true
+    property alias echoMode: input.echoMode
 
     property bool doubleEdit: false
     property bool intEdit: false
