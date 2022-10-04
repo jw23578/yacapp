@@ -13,6 +13,7 @@ Item
     {
         id: theRectangle
         anchors.fill: parent
+        border.width: 0
     }
 
     Rectangle

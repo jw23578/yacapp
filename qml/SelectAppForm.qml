@@ -8,8 +8,25 @@ YACRectangle
     visible: yacApp.globalConfig.projectID == ""
     anchors.fill: parent
 
+
+    PauseAnimation
+    {
+        id: reloadAni
+        duration: 60 * 1000
+        onStopped:
+        {
+            fetchKnownApps()
+            if (!visible)
+            {
+                return
+            }
+            reloadAni.start()
+        }
+    }
+
     function allAppsLoaded(yacApp, data)
     {
+        console.log("fetched")
         var jsontext = data.responseText
         if (jsontext.length < 3)
         {
@@ -17,6 +34,7 @@ YACRectangle
         }
         let obj = JSON.parse(jsontext)
         let allApps = obj["allApps"]
+        appModel.clear()
         for (let i = 0; i < allApps.length; ++i)
         {
            let app = allApps[i]
@@ -47,6 +65,7 @@ YACRectangle
     ListView
     {
         id: appView
+        visible: appModel.count > 0
         clip: true
         width: parent.width * 2 / 4
         height: parent.height * 3 / 4
@@ -94,8 +113,12 @@ YACRectangle
     {
         if (visible)
         {
-            console.log("Fetching on Visible Changed")
             fetchKnownApps()
+            reloadAni.start()
+        }
+        else
+        {
+            reloadAni.stop()
         }
     }
 
@@ -103,8 +126,21 @@ YACRectangle
     {
         if (visible)
         {
-            console.log("Fetching on Component completed")
             fetchKnownApps()
+            reloadAni.start()
+        }
+    }
+    YACRectangle
+    {
+        anchors.centerIn: parent
+        width: parent.width * 3 / 4
+        height: width
+        visible: appModel.count == 0
+        YACText
+        {
+            anchors.centerIn: parent
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("No known Apps yet")
         }
     }
 }
