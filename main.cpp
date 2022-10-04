@@ -56,7 +56,25 @@ int main(int argc, char *argv[])
     }
     else
     {
-        yacApp.loadNewProject("/home/jw78/wes23/wes23.yacapp");  // hier wird aktuell die app festgelegt
+        QString appFilesArgument("AppFiles=");
+        if (app.arguments().contains(appFilesArgument))
+        {
+            // for development configure the app through local files
+            QStringList args(app.arguments());
+            for (int i(0); i < args.size(); ++i)
+            {
+                if (args[i].startsWith(appFilesArgument))
+                {
+                    QString appFiles(args[i]);
+                    appFiles.remove(appFilesArgument.size());
+                    yacApp.loadNewProject(appFiles);
+                }
+            }
+        }
+        else
+        {
+            // default yacApp
+        }
     }
     engine.rootContext()->setContextProperty("yacApp", &yacApp);
 
