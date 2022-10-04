@@ -8,33 +8,40 @@ YACRectangle
     visible: yacApp.globalConfig.projectID == ""
     anchors.fill: parent
 
+    function allAppsLoaded(yacApp, data)
+    {
+        var jsontext = data.responseText
+        if (jsontext.length < 3)
+        {
+            return;
+        }
+        let obj = JSON.parse(jsontext)
+        let allApps = obj["allApps"]
+        for (let i = 0; i < allApps.length; ++i)
+        {
+           let app = allApps[i]
+           appModel.append(app)
+        }
+    }
+
+    function errorCallback(yacApp, data)
+    {
+
+    }
+
+    function abortCallback(yacApp, data)
+    {
+
+    }
+
+    function fetchKnownApps()
+    {
+        Http.request(yacApp, yacApp.allAppsUrl, allAppsLoaded, errorCallback, abortCallback)
+    }
+
     ListModel
     {
         id: appModel
-        ListElement
-        {
-            projectID: "123"
-            projectName: "Test Test"
-            projectLogo: "https://www.hc-salzland-06.de/pages/wp-content/uploads/sites/3/2017/12/crest-soccer.png"
-        }
-        ListElement
-        {
-            projectID: "123"
-            projectName: "Test Test"
-            projectLogo: "https://www.hc-salzland-06.de/pages/wp-content/uploads/sites/3/2017/12/crest-soccer.png"
-        }
-        ListElement
-        {
-            projectID: "123"
-            projectName: "Test Test"
-            projectLogo: "https://www.hc-salzland-06.de/pages/wp-content/uploads/sites/3/2017/12/crest-soccer.png"
-        }
-        ListElement
-        {
-            projectID: "123"
-            projectName: "Test Test"
-            projectLogo: "https://www.hc-salzland-06.de/pages/wp-content/uploads/sites/3/2017/12/crest-soccer.png"
-        }
     }
 
     ListView
@@ -49,12 +56,15 @@ YACRectangle
         property double radiusSpacing: width / 12
         delegate: YACRectangle
         {
-            color: "green"
+            color: projectColor
+            border.width: 1
+            border.color: "black"
             width: appView.width
             height: width
-            radiusTopLeft: index == 0 ? appView.radiusSpacing : 0
+            radius: appView.radiusSpacing
+            radiusTopLeft: index == 0
             radiusTopRight: radiusTopLeft
-            radiusBottomLeft: index == appModel.count - 1 ? appView.radiusSpacing : 0
+            radiusBottomLeft: index == appModel.count - 1
             radiusBottomRight: radiusBottomLeft
             YACText
             {
@@ -73,6 +83,28 @@ YACRectangle
                 width: height
                 source: projectLogo
             }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: console.log("App selected")
+            }
+        }
+    }
+    onVisibleChanged:
+    {
+        if (visible)
+        {
+            console.log("Fetching on Visible Changed")
+            fetchKnownApps()
+        }
+    }
+
+    Component.onCompleted:
+    {
+        if (visible)
+        {
+            console.log("Fetching on Component completed")
+            fetchKnownApps()
         }
     }
 }

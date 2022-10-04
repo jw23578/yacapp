@@ -10,6 +10,7 @@ class YACAPP : public QObject
     Q_OBJECT
     QString stateFilename;
     QString projectFilename;
+    YACAPPPROPERTY(QString, allAppsUrl, AllAppsUrl, "https://www.jw78.de/yacapp/allApps.json")
     YACAPPPROPERTY(bool, isDesktop, IsDesktop, false);
     YACAPPPROPERTY(QString, baseUrl, BaseUrl, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
