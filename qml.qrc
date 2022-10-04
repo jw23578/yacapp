@@ -28,5 +28,7 @@
         <file>qml/DeployPage.qml</file>
         <file>qml/items/YACRectangle.qml</file>
         <file>qml/ProgressPage.qml</file>
+        <file>qml/SelectAppForm.qml</file>
+        <file>HttpFunctions.js</file>
     </qresource>
 </RCC>

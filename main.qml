@@ -17,6 +17,11 @@ Window {
         config: yacApp.mainConfig
     }
 
+    SelectAppForm
+    {
+        id: selectApp
+    }
+
     SequentialAnimation
     {
         id: startUpAni
@@ -53,6 +58,7 @@ Window {
     {
         startUpAni.start()
         console.log("hello")
+        console.log("ProjectID: " + yacApp.globalConfig.projectID)
         console.log(yacApp.mainConfig)
         console.log(yacApp.mainConfig.background)
         console.log(yacApp.mainConfig.background.imageFilename)
