@@ -42,6 +42,8 @@ public:
 
     Q_INVOKABLE void saveCurrentProject();
 
+    Q_INVOKABLE void downloadAppFiles(QString baseUrl, QString projectID, QString projectFolder, QString projectFilename);
+
 signals:
 
 };

@@ -105,7 +105,11 @@ YACRectangle
             MouseArea
             {
                 anchors.fill: parent
-                onClicked: console.log("App selected")
+                onClicked:
+                {
+                    console.log("App selected")
+                    yacApp.downloadAppFiles(yacApp.allAppsUrl, projectID, projectFolder, projectFilename)
+                }
             }
         }
     }

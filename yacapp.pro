@@ -1,4 +1,4 @@
-QT += quick widgets
+QT += quick widgets network
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -22,7 +22,8 @@ SOURCES += \
         configurator.cpp \
         main.cpp \
         projectdata.cpp \
-        yacapp.cpp
+        yacapp.cpp \
+        yacnetwork.cpp
 
 RESOURCES += qml.qrc
 
@@ -57,7 +58,8 @@ HEADERS += \
   configurator.h \
   projectdata.h \
   yacapp.h \
-  yacappmacros.h
+  yacappmacros.h \
+  yacnetwork.h
 
 DISTFILES += \
   README.md

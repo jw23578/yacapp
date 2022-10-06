@@ -168,3 +168,8 @@ void YACAPP::saveCurrentProject()
     }
 }
 
+void YACAPP::downloadAppFiles(QString baseUrl, QString projectID, QString projectFolder, QString projectFilename)
+{
+
+}
+
