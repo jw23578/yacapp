@@ -50,6 +50,7 @@ public:
 signals:
 
     void appDownloadError(const QString &errorMessage);
+    void badMessage(const QString &message);
 };
 
 #endif // YACAPP_H

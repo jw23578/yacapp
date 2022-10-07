@@ -30,5 +30,6 @@
         <file>qml/ProgressPage.qml</file>
         <file>qml/SelectAppForm.qml</file>
         <file>HttpFunctions.js</file>
+        <file>qml/YACBadMessageForm.qml</file>
     </qresource>
 </RCC>

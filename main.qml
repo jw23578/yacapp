@@ -54,6 +54,20 @@ Window {
         }
     }
 
+    YACBadMessageForm
+    {
+        id: badMessage
+    }
+
+    Connections
+    {
+        target: yacApp
+        function onBadMessage(message)
+        {
+            badMessage.show(message)
+        }
+    }
+
     Component.onCompleted:
     {
         startUpAni.start()

@@ -153,6 +153,7 @@ YACRectangle
         function onAppDownloadError(errorMessage)
         {
             console.log("Console: " + errorMessage)
+            yacApp.badMessage(errorMessage)
         }
     }
 }
