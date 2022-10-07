@@ -168,8 +168,14 @@ void YACAPP::saveCurrentProject()
     }
 }
 
-void YACAPP::downloadAppFiles(QString baseUrl, QString projectID, QString projectFolder, QString projectFilename)
+void YACAPP::downloadApp(QString projectFilename, QString projectPackage)
 {
-
+    network.downloadApp(projectFilename, projectPackage
+                        , [](){}
+    , [this](const QString &errorMessage)
+    {
+        qDebug() << errorMessage;
+        appDownloadError(errorMessage);
+    });
 }
 

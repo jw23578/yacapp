@@ -54,7 +54,7 @@ YACRectangle
 
     function fetchKnownApps()
     {
-        Http.request(yacApp, yacApp.allAppsUrl, allAppsLoaded, errorCallback, abortCallback)
+        Http.request(yacApp, yacApp.allAppsBaseUrl + "allApps.json", allAppsLoaded, errorCallback, abortCallback)
     }
 
     ListModel
@@ -108,7 +108,7 @@ YACRectangle
                 onClicked:
                 {
                     console.log("App selected")
-                    yacApp.downloadAppFiles(yacApp.allAppsUrl, projectID, projectFolder, projectFilename)
+                    yacApp.downloadApp(yacApp.allAppsBaseUrl + projectFilename, yacApp.allAppsBaseUrl + projectPackage)
                 }
             }
         }
@@ -145,6 +145,14 @@ YACRectangle
             anchors.centerIn: parent
             horizontalAlignment: Text.AlignHCenter
             text: qsTr("No known Apps yet")
+        }
+    }
+    Connections
+    {
+        target: yacApp
+        function onAppDownloadError(errorMessage)
+        {
+            console.log("Console: " + errorMessage)
         }
     }
 }

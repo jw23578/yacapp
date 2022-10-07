@@ -4,13 +4,14 @@
 #include <QObject>
 #include "configmodels/parsedconfig.h"
 #include "configmodels/globalprojectconfig.h"
+#include "yacnetwork.h"
 
 class YACAPP : public QObject
 {
     Q_OBJECT
     QString stateFilename;
     QString projectFilename;
-    YACAPPPROPERTY(QString, allAppsUrl, AllAppsUrl, "https://www.jw78.de/yacapp/allApps.json")
+    YACAPPPROPERTY(QString, allAppsBaseUrl, AllAppsBaseUrl, "https://www.jw78.de/yacapp/")
     YACAPPPROPERTY(bool, isDesktop, IsDesktop, false);
     YACAPPPROPERTY(QString, baseUrl, BaseUrl, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
@@ -25,6 +26,8 @@ class YACAPP : public QObject
     void addKnownMenueFile(QString const &filename);
 
     MenueConfig emptyMenue;
+
+    YACNetwork network;
 
     void reset();
 
@@ -42,10 +45,11 @@ public:
 
     Q_INVOKABLE void saveCurrentProject();
 
-    Q_INVOKABLE void downloadAppFiles(QString baseUrl, QString projectID, QString projectFolder, QString projectFilename);
+    Q_INVOKABLE void downloadApp(QString projectFilename, QString projectPackage);
 
 signals:
 
+    void appDownloadError(const QString &errorMessage);
 };
 
 #endif // YACAPP_H
