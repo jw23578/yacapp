@@ -10,12 +10,12 @@ class YACAPP : public QObject
 {
     Q_OBJECT
     QString stateFilename;
-    QString projectFilename;
     YACAPPPROPERTY(QString, allAppsBaseUrl, AllAppsBaseUrl, "https://www.jw78.de/yacapp/")
     YACAPPPROPERTY(bool, isDesktop, IsDesktop, false);
     YACAPPPROPERTY(QString, baseUrl, BaseUrl, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
     YACAPPPROPERTY(ParsedConfig*, mainConfig, MainConfig, 0);
+    YACAPPPROPERTY(QString, globalProjectConfigFilename, GlobalProjectConfigFilename, "");
     YACAPPREADONLYPROPERTY(GlobalProjectConfig*, globalConfig, new GlobalProjectConfig);
     YACAPPPROPERTY(QStringList, knownFiles, KnownFiles, QStringList())
     QMap<QString, ParsedConfig*> fileName2ParsedConfig;

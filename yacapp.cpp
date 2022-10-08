@@ -31,7 +31,7 @@ YACAPP::YACAPP(QObject *parent)
 void YACAPP::init(QString projectFilename)
 {
     projectFilename.replace("file://", "");
-    this->projectFilename = projectFilename;
+    setGlobalProjectConfigFilename(projectFilename);
     QString rawFolder(QFileInfo(projectFilename).path());
     rawFolder.replace("file://", "");
     if (rawFolder.right(1) != '/')
@@ -149,7 +149,7 @@ void YACAPP::loadNewProject(const QString &projectFilename)
 
 void YACAPP::saveCurrentProject()
 {
-    globalConfig()->save(projectFilename);
+    globalConfig()->save(globalProjectConfigFilename());
     {
         QMap<QString, ParsedConfig*>::iterator it(fileName2ParsedConfig.begin());
         while (it != fileName2ParsedConfig.end())

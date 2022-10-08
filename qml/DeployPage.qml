@@ -41,7 +41,8 @@ Rectangle
             width: parent.width
             onClicked:
             {
-                configurator.deploy(yacApp.globalConfig.projectID, host.displayText, user.displayText, password.displayText, basedirectory.displayText)
+                configurator.defaultDeploy(yacApp.globalProjectConfigFilename, host.displayText, user.displayText, password.text);
+//                configurator.deploy(yacApp.globalConfig.projectID, host.displayText, user.displayText, password.text, basedirectory.displayText)
             }
         }
         YACButton
@@ -54,5 +55,15 @@ Rectangle
     ProgressPage
     {
         id: pp
+    }
+    onVisibleChanged:
+    {
+        if (visible)
+        {
+            host.text = configurator.getProjectData(yacApp.globalConfig.projectID).deployUrl
+            user.text = configurator.getProjectData(yacApp.globalConfig.projectID).deployUser
+            password.text = configurator.getProjectData(yacApp.globalConfig.projectID).deployPassword
+            basedirectory.text = configurator.getProjectData(yacApp.globalConfig.projectID).deployBaseDirectory
+        }
     }
 }

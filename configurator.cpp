@@ -1,10 +1,13 @@
 #include "configurator.h"
 #include <QStandardPaths>
 #include <QFile>
+#include <QFileInfo>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include "jw78curlwrapper.h"
 #include <QJsonArray>
+#include "configmodels/globalprojectconfig.h"
+#include "zlib.h"
 
 
 Configurator::Configurator(QObject *parent)
@@ -90,4 +93,72 @@ void Configurator::deploy(QString projectID, QString host, QString user, QString
     jw78::CurlWrapper cw;
     std::string message;
     cw.sftpUpload(remoteUrl, "/home/jw78/wes23/wes23.yacapp", message);
+
+}
+
+void Configurator::sftpUpload(QString host, QString user, QString password, QString targetFilename, QString sourceFilename)
+{
+    std::string remoteUrl("sftp://");
+    remoteUrl += user.toStdString();
+    remoteUrl += ":";
+    remoteUrl += password.toStdString();
+    remoteUrl += "@";
+    remoteUrl += host.toStdString();
+    remoteUrl += ":";
+    remoteUrl += targetFilename.toStdString();
+
+    jw78::CurlWrapper cw;
+    std::string message;
+    cw.sftpUpload(remoteUrl, sourceFilename.toStdString(), message);
+}
+
+
+void Configurator::defaultDeploy(const QString &globalProjectConfigFilename, QString host, QString user, QString password)
+{
+    GlobalProjectConfig gpc;
+    gpc.init(globalProjectConfigFilename);
+
+    QFileInfo fileinfo(globalProjectConfigFilename);
+
+    QString path(fileinfo.path() + "/");
+    QString baseName(fileinfo.baseName());
+    baseName.remove(" ");
+
+    sftpUpload(host, user, password, QString("/var/www/html/yacapp/") + QFileInfo(globalProjectConfigFilename).fileName(),
+               globalProjectConfigFilename);
+
+    QByteArray appPackage;
+    for (int i(0); i < gpc.formFiles.size(); ++i)
+    {
+        appPackage += gpc.formFiles[i].toUtf8();
+        appPackage += '\0';
+        QFile file(path + gpc.formFiles[i]);
+        file.open(QIODevice::ReadOnly);
+        appPackage += file.readAll();
+        appPackage += '\0';
+    }
+    appPackage += "MenueFiles";
+    appPackage += '\0';
+    for (int i(0); i < gpc.menueFiles.size(); ++i)
+    {
+        appPackage += gpc.menueFiles[i].toUtf8() + '\0';
+        QFile file(path + gpc.menueFiles[i]);
+        file.open(QIODevice::ReadOnly);
+        appPackage += file.readAll();
+        appPackage += '\0';
+    }
+    appPackage = qCompress(appPackage);
+
+    QString appPackageFilename(path + baseName + ".yacpck");
+    QFile appPackageFile(appPackageFilename);
+    appPackageFile.open(QIODevice::WriteOnly);
+    appPackageFile.write(appPackage);
+    appPackageFile.close();
+
+    sftpUpload(host, user, password, QString("/var/www/html/yacapp/") + QFileInfo(appPackageFilename).fileName(), appPackageFilename);
+}
+
+ProjectData *Configurator::getProjectData(const QString &projectID)
+{
+    return deployConfigs[projectID];
 }

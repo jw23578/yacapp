@@ -16,12 +16,18 @@ class Configurator : public QObject
 
     QMap<QString, ProjectData*> deployConfigs;
 
+    void sftpUpload(QString host, QString user, QString password, QString targetFilename, QString sourceFilename);
+
 public:
     explicit Configurator(QObject *parent = nullptr);
 
     Q_INVOKABLE void save();
 
     Q_INVOKABLE void deploy(QString projectID, QString host, QString user, QString password, QString www_basedirectory);
+
+    Q_INVOKABLE void defaultDeploy(const QString &globalProjectConfigFilename, QString host, QString user, QString password);
+
+    Q_INVOKABLE ProjectData *getProjectData(const QString &projectID);
 
 signals:
 

@@ -8,6 +8,7 @@
 #include "yacapp.h"
 #include "configurator.h"
 #include "configmodels/globalprojectconfig.h"
+#include "projectdata.h"
 
 int main(int argc, char *argv[])
 {
@@ -24,6 +25,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<ContentItem>("com.yacapp.contentitem", 1, 0, "ContentItem");
     qmlRegisterType<GlobalProjectConfig>("com.yacapp.globalprojectconfig", 1, 0, "GlobalProjectConfig");
     qmlRegisterType<HeaderConfig>("com.yacapp.headerconfig", 1, 0, "HeaderConfig");
+    qmlRegisterType<ProjectData>("com.yacapp.projectdata", 1, 0, "ProjectData");
 //    qmlRegisterType<ContentItem>("com.yacapp.headerc", 1, 0, "ContentItem");
     qRegisterMetaType<GlobalProjectConfig*>("GlobalProjectConfig");
     qRegisterMetaType<ParsedConfig*>("ParsedConfig");
@@ -33,6 +35,7 @@ int main(int argc, char *argv[])
     qRegisterMetaType<ContentConfig*>("ContentConfig");
     qRegisterMetaType<ContentItem*>("ContentItem");
     qRegisterMetaType<HeaderConfig*>("HeaderConfig");
+    qRegisterMetaType<ProjectData*>("ProjectData");
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
