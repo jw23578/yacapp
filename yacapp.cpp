@@ -3,8 +3,10 @@
 #include <QStandardPaths>
 #include <QJsonObject>
 
-YACAPP::YACAPP(QObject *parent)
-    : QObject{parent}
+YACAPP::YACAPP(const Constants &constants, QObject *parent)
+    : QObject{parent},
+      constants(constants),
+      network(constants)
 {
 #ifdef Q_OS_WIN
     setIsDesktop(true);
@@ -19,11 +21,8 @@ YACAPP::YACAPP(QObject *parent)
     {
         return;
     }
-    writeablePath = paths[0] + "/";
-    network.setWriteAblePath(writeablePath);
-    stateFilename = writeablePath + "yacAppState.json";
-    qDebug() << stateFilename;
-    QFile jsonFile(stateFilename);
+    qDebug() << constants.getStateFilename();
+    QFile jsonFile(constants.getStateFilename());
     jsonFile.open(QIODevice::ReadOnly);
     QByteArray fileData(jsonFile.readAll());
     QJsonDocument config(QJsonDocument::fromJson(fileData));
@@ -63,7 +62,7 @@ void YACAPP::saveState()
     QJsonObject config;
     stringToJSON(loginToken);
     stringToJSON(globalProjectConfigFilename);
-    QFile jsonFile(stateFilename);
+    QFile jsonFile(constants.getStateFilename());
     jsonFile.open(QIODevice::WriteOnly);
     jsonFile.write(QJsonDocument(config).toJson());
 
@@ -111,6 +110,7 @@ void YACAPP::reset()
     fileName2MenueConfig.clear();
     delete m_globalConfig;
     m_globalConfig = new GlobalProjectConfig;
+    m_knownMenueFiles.clear();
 }
 
 ParsedConfig *YACAPP::getConfig(const QString &filename)
@@ -187,7 +187,7 @@ void YACAPP::downloadApp(QString url, QString projectID)
                         , url + projectID + ".yacpck"
                         , [this, projectID]()
     {
-        loadNewProject(writeablePath + "yacAppConfig/" + projectID + ".yacapp");
+        loadNewProject(constants.getYacAppConfigPath() + projectID + ".yacapp");
         saveState();
         appDownloadSuccess();
     }

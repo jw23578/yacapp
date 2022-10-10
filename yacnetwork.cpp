@@ -12,7 +12,7 @@ void YACNetwork::projectFilenameFinished(QNetworkReply *finishedReply, SRunningR
     }
     // Success? Then save Project File
 
-    QFile file(yacAppConfigPath + QFileInfo(rr.projectFilename).fileName());
+    QFile file(constants.getYacAppConfigPath() + QFileInfo(rr.projectFilename).fileName());
     file.open(QIODevice::WriteOnly);
     file.write(finishedReply->readAll());
     file.close();
@@ -46,7 +46,7 @@ void YACNetwork::projectPackageFinished(QNetworkReply *finishedReply, SRunningRe
         }
         QByteArray data(uncompressedData.mid(pos, nextPos - pos));
 
-        QFile file(yacAppConfigPath + filename);
+        QFile file(constants.getYacAppConfigPath() + filename);
         file.open(QIODevice::WriteOnly);
         file.write(data);
         file.close();
@@ -55,17 +55,11 @@ void YACNetwork::projectPackageFinished(QNetworkReply *finishedReply, SRunningRe
     rr.successCallback();
 }
 
-YACNetwork::YACNetwork():QObject(0)
+YACNetwork::YACNetwork(const Constants &constants):QObject(0),
+    constants(constants)
 {
     connect(&manager, &QNetworkAccessManager::finished,
             this, &YACNetwork::replyFinished);
-}
-
-void YACNetwork::setWriteAblePath(const QString &writeablePath)
-{
-    this->writeablePath = writeablePath;
-    yacAppConfigPath = writeablePath + "yacAppConfig/";
-    QDir().mkdir(yacAppConfigPath);
 }
 
 void YACNetwork::downloadApp(QString projectFilename,

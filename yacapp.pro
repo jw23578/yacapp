@@ -20,6 +20,7 @@ SOURCES += \
         configmodels/parsedconfig.cpp \
         configmodels/splashscreenconfig.cpp \
         configurator.cpp \
+        constants.cpp \
         main.cpp \
         projectdata.cpp \
         yacapp.cpp \
@@ -56,6 +57,7 @@ HEADERS += \
   configmodels/parsedconfig.h \
   configmodels/splashscreenconfig.h \
   configurator.h \
+  constants.h \
   projectdata.h \
   yacapp.h \
   yacappmacros.h \

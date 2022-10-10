@@ -9,6 +9,7 @@
 #include "configurator.h"
 #include "configmodels/globalprojectconfig.h"
 #include "projectdata.h"
+#include "constants.h"
 
 int main(int argc, char *argv[])
 {
@@ -48,7 +49,8 @@ int main(int argc, char *argv[])
     }
 
     QQmlApplicationEngine engine;
-    YACAPP yacApp;
+    Constants constants;
+    YACAPP yacApp(constants);
     QUrl url(QStringLiteral("qrc:/main.qml"));
     Configurator *configurator(0);
     if (app.arguments().contains("Configurator"))

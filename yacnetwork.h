@@ -2,10 +2,12 @@
 #define YACNETWORK_H
 
 #include <QNetworkAccessManager>
+#include "constants.h"
 
 class YACNetwork: public QObject
 {
     Q_OBJECT
+    const Constants &constants;
     QNetworkAccessManager manager;
     struct SRunningRequest;
     typedef std::function<void(QNetworkReply*, SRunningRequest &)> HandlerFunction;
@@ -22,11 +24,8 @@ class YACNetwork: public QObject
 
     void projectFilenameFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
     void projectPackageFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
-    QString writeablePath;
-    QString yacAppConfigPath;
 public:
-    YACNetwork();
-    void setWriteAblePath(const QString &writeablePath);
+    YACNetwork(const Constants &constants);
     void downloadApp(QString projectFilename,
                      QString projectPackage,
                      std::function<void()> appDownloadedCallback,
