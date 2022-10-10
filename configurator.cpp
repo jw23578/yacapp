@@ -118,6 +118,19 @@ void Configurator::defaultDeploy(const QString &globalProjectConfigFilename, QSt
     GlobalProjectConfig gpc;
     gpc.init(globalProjectConfigFilename);
 
+    if (!deployConfigs[gpc.projectID()])
+    {
+        deployConfigs[gpc.projectID()] = new ProjectData;
+    }
+    ProjectData &pd(*deployConfigs[gpc.projectID()]);
+    pd.setProjectID(gpc.projectID());
+    pd.setDeployPassword(password);
+    pd.setDeployUrl(host);
+    pd.setDeployBaseDirectory("");
+    pd.setDeployUser(user);
+
+    save();
+
     QFileInfo fileinfo(globalProjectConfigFilename);
 
     QString path(fileinfo.path() + "/");
@@ -137,8 +150,6 @@ void Configurator::defaultDeploy(const QString &globalProjectConfigFilename, QSt
         appPackage += file.readAll();
         appPackage += '\0';
     }
-    appPackage += "MenueFiles";
-    appPackage += '\0';
     for (int i(0); i < gpc.menueFiles.size(); ++i)
     {
         appPackage += gpc.menueFiles[i].toUtf8() + '\0';

@@ -23,6 +23,7 @@ class YACNetwork: public QObject
     void projectFilenameFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
     void projectPackageFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
     QString writeablePath;
+    QString yacAppConfigPath;
 public:
     YACNetwork();
     void setWriteAblePath(const QString &writeablePath);

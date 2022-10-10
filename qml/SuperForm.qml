@@ -9,13 +9,32 @@ Rectangle
     property ParsedConfig config: null
     property var stackView: null
     color: config.background.color
-    WebView
+    Item
     {
+        id: webviewItem
+        visible: config.content.type == "webview"
         anchors.fill: parent
-        visible: !loading && config.content.type == "webview"
-        url: config.content.url + (config.content.loginNeeded ? yacApp.loginToken : "")
-        Component.onCompleted: console.log("url: " + url)
+        WebView
+        {
+            id: theWebview
+            anchors.fill: parent
+            visible: !loading
+            url: config.content.url + (config.content.loginNeeded ? yacApp.loginToken : "")
+            Component.onCompleted: console.log("url: " + url)
+        }
+        Rectangle
+        {
+            anchors.fill: parent
+            id: webviewLoadingRectangle
+            visible: theWebview.loading
+            YACText
+            {
+                anchors.centerIn: parent
+                text: qsTr("One Moment please")
+            }
+        }
     }
+
 
     Flickable
     {

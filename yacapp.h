@@ -51,6 +51,7 @@ public:
 
 signals:
 
+    void appDownloadSuccess();
     void appDownloadError(const QString &errorMessage);
     void badMessage(const QString &message);
 };

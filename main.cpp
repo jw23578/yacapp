@@ -77,6 +77,7 @@ int main(int argc, char *argv[])
         else
         {
             // default yacApp
+            yacApp.loadNewProject(yacApp.globalProjectConfigFilename());
         }
     }
     engine.rootContext()->setContextProperty("yacApp", &yacApp);

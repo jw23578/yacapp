@@ -27,7 +27,8 @@ YACAPP::YACAPP(QObject *parent)
     jsonFile.open(QIODevice::ReadOnly);
     QByteArray fileData(jsonFile.readAll());
     QJsonDocument config(QJsonDocument::fromJson(fileData));
-    stringFromJSON(loginToken, LoginToken)
+    stringFromJSON(loginToken, LoginToken);
+    stringFromJSON(globalProjectConfigFilename, GlobalProjectConfigFilename);
 }
 
 void YACAPP::init(QString projectFilename)
@@ -61,6 +62,7 @@ void YACAPP::saveState()
 {
     QJsonObject config;
     stringToJSON(loginToken);
+    stringToJSON(globalProjectConfigFilename);
     QFile jsonFile(stateFilename);
     jsonFile.open(QIODevice::WriteOnly);
     jsonFile.write(QJsonDocument(config).toJson());
@@ -145,6 +147,10 @@ MenueConfig *YACAPP::getMenueConfig(const QString &filename)
 
 void YACAPP::loadNewProject(const QString &projectFilename)
 {
+    if (projectFilename.size() == 0)
+    {
+        return;
+    }
     reset();
     init(projectFilename);
 }
@@ -179,7 +185,12 @@ void YACAPP::downloadApp(QString url, QString projectID)
 
     network.downloadApp(url + projectID + ".yacapp"
                         , url + projectID + ".yacpck"
-                        , [](){}
+                        , [this, projectID]()
+    {
+        loadNewProject(writeablePath + "yacAppConfig/" + projectID + ".yacapp");
+        saveState();
+        appDownloadSuccess();
+    }
     , [this](const QString &errorMessage)
     {
         qDebug() << errorMessage;

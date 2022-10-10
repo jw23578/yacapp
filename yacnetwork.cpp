@@ -1,6 +1,7 @@
 #include "yacnetwork.h"
 #include <QNetworkReply>
 #include <QFileInfo>
+#include <QDir>
 
 void YACNetwork::projectFilenameFinished(QNetworkReply *finishedReply, SRunningRequest &rr)
 {
@@ -11,7 +12,7 @@ void YACNetwork::projectFilenameFinished(QNetworkReply *finishedReply, SRunningR
     }
     // Success? Then save Project File
 
-    QFile file(writeablePath + QFileInfo(rr.projectFilename).fileName());
+    QFile file(yacAppConfigPath + QFileInfo(rr.projectFilename).fileName());
     file.open(QIODevice::WriteOnly);
     file.write(finishedReply->readAll());
     file.close();
@@ -30,7 +31,28 @@ void YACNetwork::projectPackageFinished(QNetworkReply *finishedReply, SRunningRe
         rr.errorCallback(tr("Error on downloading Projectfile: ") + finishedReply->errorString());
         return;
     }
-    // Success? Then decompress the package
+    QByteArray uncompressedData(qUncompress(finishedReply->readAll()));
+
+    int pos(0);
+    while (pos < uncompressedData.size())
+    {
+        int nextPos(uncompressedData.indexOf('\0', pos));
+        QString filename(uncompressedData.mid(pos, nextPos - pos));
+        pos = nextPos + 1;
+        nextPos = uncompressedData.indexOf('\0', pos);
+        if (nextPos == -1)
+        {
+            nextPos = uncompressedData.size();
+        }
+        QByteArray data(uncompressedData.mid(pos, nextPos - pos));
+
+        QFile file(yacAppConfigPath + filename);
+        file.open(QIODevice::WriteOnly);
+        file.write(data);
+        file.close();
+        pos = nextPos + 1;
+    }
+    rr.successCallback();
 }
 
 YACNetwork::YACNetwork():QObject(0)
@@ -42,6 +64,8 @@ YACNetwork::YACNetwork():QObject(0)
 void YACNetwork::setWriteAblePath(const QString &writeablePath)
 {
     this->writeablePath = writeablePath;
+    yacAppConfigPath = writeablePath + "yacAppConfig/";
+    QDir().mkdir(yacAppConfigPath);
 }
 
 void YACNetwork::downloadApp(QString projectFilename,

@@ -155,5 +155,10 @@ YACRectangle
             console.log("Console: " + errorMessage)
             yacApp.badMessage(errorMessage)
         }
+        function onAppDownloadSuccess()
+        {
+            console.log("App Downloaded")
+            visible = false
+        }
     }
 }
