@@ -1,5 +1,6 @@
 #include "yacnetwork.h"
 #include <QNetworkReply>
+#include <QFileInfo>
 
 void YACNetwork::projectFilenameFinished(QNetworkReply *finishedReply, SRunningRequest &rr)
 {
@@ -10,6 +11,11 @@ void YACNetwork::projectFilenameFinished(QNetworkReply *finishedReply, SRunningR
     }
     // Success? Then save Project File
 
+    QFile file(writeablePath + QFileInfo(rr.projectFilename).fileName());
+    file.open(QIODevice::WriteOnly);
+    file.write(finishedReply->readAll());
+    file.close();
+
     QNetworkRequest request;
     request.setUrl(QUrl(rr.projectPackage));
     QNetworkReply *reply(manager.get(request));
@@ -19,13 +25,23 @@ void YACNetwork::projectFilenameFinished(QNetworkReply *finishedReply, SRunningR
 
 void YACNetwork::projectPackageFinished(QNetworkReply *finishedReply, SRunningRequest &rr)
 {
-
+    if (finishedReply->error() != QNetworkReply::NoError)
+    {
+        rr.errorCallback(tr("Error on downloading Projectfile: ") + finishedReply->errorString());
+        return;
+    }
+    // Success? Then decompress the package
 }
 
 YACNetwork::YACNetwork():QObject(0)
 {
     connect(&manager, &QNetworkAccessManager::finished,
             this, &YACNetwork::replyFinished);
+}
+
+void YACNetwork::setWriteAblePath(const QString &writeablePath)
+{
+    this->writeablePath = writeablePath;
 }
 
 void YACNetwork::downloadApp(QString projectFilename,

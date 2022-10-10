@@ -9,6 +9,7 @@
 class YACAPP : public QObject
 {
     Q_OBJECT
+    QString writeablePath;
     QString stateFilename;
     YACAPPPROPERTY(QString, allAppsBaseUrl, AllAppsBaseUrl, "https://www.jw78.de/yacapp/")
     YACAPPPROPERTY(bool, isDesktop, IsDesktop, false);
@@ -45,7 +46,8 @@ public:
 
     Q_INVOKABLE void saveCurrentProject();
 
-    Q_INVOKABLE void downloadApp(QString projectFilename, QString projectPackage);
+    Q_INVOKABLE void downloadApp(QString url,
+                                 QString projectID);
 
 signals:
 

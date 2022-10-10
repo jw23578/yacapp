@@ -108,7 +108,7 @@ YACRectangle
                 onClicked:
                 {
                     console.log("App selected")
-                    yacApp.downloadApp(yacApp.allAppsBaseUrl + projectFilename, yacApp.allAppsBaseUrl + projectPackage)
+                    yacApp.downloadApp(yacApp.allAppsBaseUrl, projectID)
                 }
             }
         }

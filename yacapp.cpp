@@ -14,12 +14,14 @@ YACAPP::YACAPP(QObject *parent)
     setIsDesktop(true);
 #endif
 
-    QStringList paths(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
+    QStringList paths(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
     if (paths.size() == 0)
     {
         return;
     }
-    stateFilename = paths[0] + "/yacAppState.json";
+    writeablePath = paths[0] + "/";
+    network.setWriteAblePath(writeablePath);
+    stateFilename = writeablePath + "yacAppState.json";
     qDebug() << stateFilename;
     QFile jsonFile(stateFilename);
     jsonFile.open(QIODevice::ReadOnly);
@@ -168,9 +170,15 @@ void YACAPP::saveCurrentProject()
     }
 }
 
-void YACAPP::downloadApp(QString projectFilename, QString projectPackage)
+void YACAPP::downloadApp(QString url, QString projectID)
 {
-    network.downloadApp(projectFilename, projectPackage
+    if (url.right(1) != '/')
+    {
+        url += '/';
+    }
+
+    network.downloadApp(url + projectID + ".yacapp"
+                        , url + projectID + ".yacpck"
                         , [](){}
     , [this](const QString &errorMessage)
     {

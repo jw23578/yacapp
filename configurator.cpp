@@ -124,7 +124,7 @@ void Configurator::defaultDeploy(const QString &globalProjectConfigFilename, QSt
     QString baseName(fileinfo.baseName());
     baseName.remove(" ");
 
-    sftpUpload(host, user, password, QString("/var/www/html/yacapp/") + QFileInfo(globalProjectConfigFilename).fileName(),
+    sftpUpload(host, user, password, QString("/var/www/html/yacapp/") + gpc.projectID() + ".yacapp",
                globalProjectConfigFilename);
 
     QByteArray appPackage;
@@ -149,13 +149,13 @@ void Configurator::defaultDeploy(const QString &globalProjectConfigFilename, QSt
     }
     appPackage = qCompress(appPackage);
 
-    QString appPackageFilename(path + baseName + ".yacpck");
+    QString appPackageFilename(path + gpc.projectID() + ".yacpck");
     QFile appPackageFile(appPackageFilename);
     appPackageFile.open(QIODevice::WriteOnly);
     appPackageFile.write(appPackage);
     appPackageFile.close();
 
-    sftpUpload(host, user, password, QString("/var/www/html/yacapp/") + QFileInfo(appPackageFilename).fileName(), appPackageFilename);
+    sftpUpload(host, user, password, QString("/var/www/html/yacapp/") + gpc.projectID() + ".yacpck", appPackageFilename);
 }
 
 ProjectData *Configurator::getProjectData(const QString &projectID)

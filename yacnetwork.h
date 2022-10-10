@@ -22,8 +22,10 @@ class YACNetwork: public QObject
 
     void projectFilenameFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
     void projectPackageFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
+    QString writeablePath;
 public:
     YACNetwork();
+    void setWriteAblePath(const QString &writeablePath);
     void downloadApp(QString projectFilename,
                      QString projectPackage,
                      std::function<void()> appDownloadedCallback,
