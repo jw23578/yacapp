@@ -13,8 +13,8 @@ Window {
     Loader
     {
         id: mainFormLoader
-        width: 640
-        height: 480
+        width: 480
+        height: 640
     }
 
     Component
@@ -23,8 +23,8 @@ Window {
         MainForm
         {
             id: mainForm
-            width: 640
-            height: 480
+            width: 480
+            height: 640
             config: yacApp.mainConfig
             onCurrentItemChanged: editorFormLoader.item.config = config
             clip: true

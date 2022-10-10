@@ -34,6 +34,8 @@ void GlobalProjectConfig::setConfig(const QJsonValue &config)
     stringFromJSON(logoUrl, LogoUrl);
     doubleFromJSON(logoWidth, LogoWidth);
     doubleFromJSON(logoHeight, LogoHeight);
+    doubleFromJSON(logoOffsetX, LogoOffsetX);
+    doubleFromJSON(logoOffsetY, LogoOffsetY);
     stringFromJSON(projectName, ProjectName);
     stringFromJSON(projectID, ProjectID);
     if (projectID() == "")
@@ -60,6 +62,8 @@ QJsonObject GlobalProjectConfig::getConfig()
     stringToJSON(logoUrl);
     doubleToJSON(logoWidth);
     doubleToJSON(logoHeight);
+    doubleToJSON(logoOffsetX);
+    doubleToJSON(logoOffsetY);
     stringlistToJSON(formFiles);
     stringlistToJSON(menueFiles);
     toJSON(projectName);

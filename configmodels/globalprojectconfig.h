@@ -15,6 +15,8 @@ class GlobalProjectConfig : public ConfigInterface
     YACAPPPROPERTY(QString, logoUrl, LogoUrl, "")
     YACAPPPROPERTY(double, logoWidth, LogoWidth, 0)
     YACAPPPROPERTY(double, logoHeight, LogoHeight, 0)
+    YACAPPPROPERTY(double, logoOffsetX, LogoOffsetX, 0)
+    YACAPPPROPERTY(double, logoOffsetY, LogoOffsetY, 0)
     public:
     explicit GlobalProjectConfig(QObject *parent = nullptr);
 

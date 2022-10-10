@@ -57,7 +57,9 @@ Column
     YACImage
     {
         anchors.top: parent.top
+        anchors.topMargin: parent.height * yacApp.globalConfig.logoOffsetY
         anchors.left: parent.left
+        anchors.leftMargin: parent.width * yacApp.globalConfig.logoOffsetX
         visible: source != ""
         source: yacApp.globalConfig.logoUrl
         width: parent.width * yacApp.globalConfig.logoWidth

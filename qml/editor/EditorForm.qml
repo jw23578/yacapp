@@ -105,10 +105,24 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
+                        headerText: qsTr("Logo-Offset-X")
+                        doubleEdit: true
+                        text: global.logoOffsetX
+                        onDisplayTextChanged: global.logoOffsetX = text
+                    }
+                    YACLineEditWithHeader
+                    {
                         headerText: "Logo-Height"
                         doubleEdit: true
                         text: global.logoHeight
                         onDisplayTextChanged: global.logoHeight = text
+                    }
+                    YACLineEditWithHeader
+                    {
+                        headerText: qsTr("Logo-Offset-Y")
+                        doubleEdit: true
+                        text: global.logoOffsetY
+                        onDisplayTextChanged: global.logoOffsetY = text
                     }
                 }
 
