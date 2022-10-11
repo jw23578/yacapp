@@ -32,7 +32,7 @@ Rectangle
             YACButton
             {
                 width: parent.width / 2 - 1
-                text: "Save Project"
+                text: qsTr("Save Project")
                 onClicked: yacApp.saveCurrentProject()
             }
             YACButton
@@ -44,11 +44,11 @@ Rectangle
         YACProjectText
         {
             width: parent.width
-            text: "Project: " + global.projectName
+            text: qsTr("Project: ") + global.projectName
         }
         YACComboBoxWithHeader
         {
-            headerText: "Files"
+            headerText: qsTr("Files")
             onActivated: editorForm.loadConfig(text)
             model: yacApp.knownFiles
         }
@@ -79,7 +79,7 @@ Rectangle
 
                 YACLineEditWithHeader
                 {
-                    headerText: "Menuefilename"
+                    headerText: qsTr("Menuefilename")
                     text: config.menueFilename
                     onDisplayTextChanged:
                     {
@@ -89,16 +89,16 @@ Rectangle
                 }
                 EditorSection
                 {
-                    sectionCaption: "Logo"
+                    sectionCaption: qsTr("Logo")
                     YACLineEditWithHeader
                     {
-                        headerText: "LogoUrl"
+                        headerText: qsTr("LogoUrl")
                         text: global.logoUrl
                         onDisplayTextChanged: global.logoUrl = text
                     }
                     YACLineEditWithHeader
                     {
-                        headerText: "Logo-Width"
+                        headerText: qsTr("Logo-Width")
                         doubleEdit: true
                         text: global.logoWidth
                         onDisplayTextChanged: global.logoWidth = text
@@ -112,7 +112,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
-                        headerText: "Logo-Height"
+                        headerText: qsTr("Logo-Height")
                         doubleEdit: true
                         text: global.logoHeight
                         onDisplayTextChanged: global.logoHeight = text
@@ -128,33 +128,33 @@ Rectangle
 
                 EditorSection
                 {
-                    sectionCaption: "Header"
+                    sectionCaption: qsTr("Header")
                     YACLineEditWithHeader
                     {
-                        headerText: "Title"
+                        headerText: qsTr("Title")
                         text: config.header.title
                         onDisplayTextChanged: config.header.title = text
                     }
                     YACLineEditWithHeader
                     {
-                        headerText: "Height"
+                        headerText: qsTr("Height")
                         doubleEdit: true
                         text: config.header.height
                         onDisplayTextChanged: config.header.height = text
                     }
                     YACColorDialogWithHeader
                     {
-                        headerText: "Color" + config.header.color
+                        headerText: qsTr("Color")
                         color: config.header.color
                         onColorChanged: config.header.color = color
                     }
                 }
                 EditorSection
                 {
-                    sectionCaption: "Background"
+                    sectionCaption: qsTr("Background")
                     YACColorDialogWithHeader
                     {
-                        headerText: "Color"
+                        headerText: qsTr("Color")
                         color: config.background.color
                         onColorChanged: config.background.color = color
                     }
@@ -162,7 +162,7 @@ Rectangle
 
                 EditorSection
                 {
-                    sectionCaption: "Content"
+                    sectionCaption: qsTr("Content")
                     YACSwitch
                     {
                         text: qsTr("Login needed")
@@ -172,7 +172,7 @@ Rectangle
                     YACComboBoxWithHeader
                     {
                         id: contentType
-                        headerText: "Type"
+                        headerText: qsTr("Type")
                         currentIndex: find(config.content.type)
                         onCurrentTextChanged: config.content.type = currentText
                         model: config.content.typeOptions
@@ -181,7 +181,7 @@ Rectangle
                     {
                         showColumn: config.content.type == "grid"
                         intEdit: true
-                        headerText: "Columns"
+                        headerText: qsTr("Columns")
                         text: config.content.columns
                         onDisplayTextChanged: config.content.columns = text
                     }
@@ -189,14 +189,14 @@ Rectangle
                     {
                         showColumn: config.content.type == "grid"
                         intEdit: true
-                        headerText: "Rows"
+                        headerText: qsTr("Rows")
                         text: config.content.rows
                         onDisplayTextChanged: config.content.rows = text
                     }
                     YACLineEditWithHeader
                     {
                         showColumn: config.content.type == "webview"
-                        headerText: "Url"
+                        headerText: qsTr("Url")
                         text: config.content.url
                         onDisplayTextChanged: config.content.url = text
                     }
@@ -221,7 +221,7 @@ Rectangle
                                 YACComboBoxWithHeader
                                 {
                                     id: contentItemType
-                                    headerText: "Type"
+                                    headerText: qsTr("Type")
                                     currentIndex: find(config.content.items[index].type)
                                     onCurrentTextChanged: config.content.items[index].type = currentText
                                     model: config.content.items[index].typeOptions
@@ -229,14 +229,14 @@ Rectangle
                                 YACLineEditWithHeader
                                 {
                                     id: theTarget
-                                    headerText: "Target"
+                                    headerText: qsTr("Target")
                                     text: config.content.items[index].target
                                     onDisplayTextChanged: config.content.items[index].target = text
                                 }
                                 YACLineEditWithHeader
                                 {
                                     id: theUrl
-                                    headerText: "Url"
+                                    headerText: qsTr("Url")
                                     text: config.content.items[index].url
                                     onDisplayTextChanged: config.content.items[index].url= text
                                     visible: ["webview", "image"].includes(config.content.items[index].type)
@@ -248,7 +248,7 @@ Rectangle
                                     YACLineEditWithHeader
                                     {
                                         id: theFilename
-                                        headerText: "Filename"
+                                        headerText: qsTr("Filename")
                                         text: config.content.items[index].filename
                                         onDisplayTextChanged: config.content.items[index].filename = text
                                         width: parent.width - editFileButton.width
@@ -256,13 +256,13 @@ Rectangle
                                     YACButton
                                     {
                                         id: editFileButton
-                                        text: "Edit"
+                                        text: qsTr("Edit")
                                         onClicked: editorForm.loadConfig(config.content.items[index].filename)
                                     }
                                 }
                                 YACLineEditWithHeader
                                 {
-                                    headerText: "Width"
+                                    headerText: qsTr("Width")
                                     doubleEdit: true
                                     text: config.content.items[index].width
                                     onDisplayTextChanged: config.content.items[index].width = text
@@ -270,7 +270,7 @@ Rectangle
                                 }
                                 YACLineEditWithHeader
                                 {
-                                    headerText: "Height"
+                                    headerText: qsTr("Height")
                                     doubleEdit: true
                                     text: config.content.items[index].height
                                     onDisplayTextChanged: config.content.items[index].height = text
@@ -281,24 +281,24 @@ Rectangle
                         YACButton
                         {
                             visible: parent.showColumn || parent.showRow
-                            text: "Add Item"
+                            text: qsTr("Add Item")
                             onClicked: config.content.addItem(-1)
                         }
                     }
                 }
                 EditorSection
                 {
-                    sectionCaption: "Footer"
+                    sectionCaption: qsTr("Footer")
                     YACLineEditWithHeader
                     {
-                        headerText: "Height"
+                        headerText: qsTr("Height")
                         doubleEdit: true
                         text: config.footer.height
                         onDisplayTextChanged: config.footer.height = text
                     }
                     YACColorDialogWithHeader
                     {
-                        headerText: "Color"
+                        headerText: qsTr("Color")
                         color: config.footer.color
                         onColorChanged: config.footer.color = color
                     }
