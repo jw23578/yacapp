@@ -3,6 +3,7 @@ import com.yacapp.parsedconfig 1.0
 import com.yacapp.globalprojectconfig 1.0
 import com.yacapp.headerconfig 1.0
 import com.yacapp.contentconfig 1.0
+import QtQuick.Dialogs 1.3
 import "../items"
 
 Rectangle
@@ -46,11 +47,46 @@ Rectangle
             width: parent.width
             text: qsTr("Project: ") + global.projectName
         }
-        YACComboBoxWithHeader
+        Row
         {
-            headerText: qsTr("Files")
-            onActivated: editorForm.loadConfig(text)
-            model: yacApp.knownFiles
+            width: parent.width
+            spacing: 1
+            YACComboBoxWithHeader
+            {
+                id: fileCombobox
+                headerText: qsTr("Files")
+                onActivated: editorForm.loadConfig(text)
+                model: yacApp.knownFiles
+                width: parent.width - addFileButton.width - 1 - deleteCurrentFileButton.width - 1
+            }
+            YACButton
+            {
+                y: fileCombobox.comboBox.y
+                id: addFileButton
+                text: qsTr("Add File")
+                FileDialog
+                {
+                    id: fileDialog
+                    selectExisting: false
+                    selectMultiple: false
+                    nameFilters: [ "json-Files (*.json)" ]
+                    onAccepted:
+                    {
+                        console.log("You chose: " + fileDialog.fileUrl)
+                        yacApp.addFile(fileDialog.fileUrl)
+                    }
+                }
+                onClicked: {
+                    fileDialog.open()
+                }
+            }
+            YACButton
+            {
+                y: fileCombobox.comboBox.y
+                id: deleteCurrentFileButton
+                text: qsTr("Delete File")
+                onClicked: yacApp.badMessage(qsTr("Not yet implemented"))
+            }
         }
     }
     Column

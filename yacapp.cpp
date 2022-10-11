@@ -198,3 +198,9 @@ void YACAPP::downloadApp(QString url, QString projectID)
     });
 }
 
+void YACAPP::addFile(QString fileUrl)
+{
+    fileUrl.replace("file://", "");
+    addKnownFile(fileUrl);
+}
+

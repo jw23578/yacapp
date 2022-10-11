@@ -49,6 +49,8 @@ public:
     Q_INVOKABLE void downloadApp(QString url,
                                  QString projectID);
 
+    Q_INVOKABLE void addFile(QString fileUrl);
+
 signals:
 
     void appDownloadSuccess();

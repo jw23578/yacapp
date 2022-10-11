@@ -9,6 +9,7 @@ Column
     property alias model: input.model
     property alias currentText: input.currentText
     property alias currentIndex: input.currentIndex
+    property alias comboBox: input
     function find(needle)
     {
         return ModelFunctions.find(input.model, needle)
