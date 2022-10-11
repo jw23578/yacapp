@@ -21,6 +21,7 @@ Rectangle
         anchors.centerIn: parent
         width: parent.width * 3 / 4
         wrapMode: Text.WordWrap
+        horizontalAlignment: Text.AlignHCenter
     }
 
     YACButton

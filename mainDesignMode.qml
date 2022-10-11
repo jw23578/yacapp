@@ -95,4 +95,19 @@ Window {
             editorFormLoader.sourceComponent = editorFormComponent
         }
     }
+
+    YACBadMessageForm
+    {
+        id: badMessage
+    }
+
+    Connections
+    {
+        target: yacApp
+        function onBadMessage(message)
+        {
+            badMessage.show(message)
+        }
+    }
+
 }
