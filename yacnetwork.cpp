@@ -2,6 +2,9 @@
 #include <QNetworkReply>
 #include <QFileInfo>
 #include <QDir>
+#include <QUrlQuery>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 void YACNetwork::projectFilenameFinished(QNetworkReply *finishedReply, SRunningRequest &rr)
 {
@@ -52,7 +55,13 @@ void YACNetwork::projectPackageFinished(QNetworkReply *finishedReply, SRunningRe
         file.close();
         pos = nextPos + 1;
     }
-    rr.successCallback();
+    rr.successCallback("");
+}
+
+void YACNetwork::registerUserFinished(QNetworkReply *finishedReply,
+                                      SRunningRequest &rr)
+{
+    qDebug() << finishedReply->readAll();
 }
 
 YACNetwork::YACNetwork(const Constants &constants):QObject(0),
@@ -64,7 +73,7 @@ YACNetwork::YACNetwork(const Constants &constants):QObject(0),
 
 void YACNetwork::downloadApp(QString projectFilename,
                              QString projectPackage,
-                             std::function<void()> appDownloadedCallback,
+                             std::function<void(const QString &)> appDownloadedCallback,
                              std::function<void(const QString &errorMessage)> errorCallback)
 {
     QNetworkRequest request;
@@ -76,6 +85,27 @@ void YACNetwork::downloadApp(QString projectFilename,
     rr.projectPackage = projectPackage;
     rr.errorCallback = errorCallback;
     rr.successCallback = appDownloadedCallback;
+}
+
+void YACNetwork::yacappServerRegisterUser(QString loginEMail,
+                                          QString password,
+                                          std::function<void (const QString &)> registerCallback,
+                                          std::function<void (const QString &)> errorCallback)
+{
+    QNetworkRequest request;
+    request.setUrl(QUrl(yacappServerUrl + "/registerUser"));
+
+    QJsonObject obj;
+    obj["loginEMail"] = loginEMail;
+    obj["password"] = password;
+    QJsonDocument doc(obj);
+    QByteArray postData = doc.toJson();
+
+    QNetworkReply *reply(manager.post(request, postData));
+    SRunningRequest &rr(runningRequests[reply]);
+    rr.handlerFunction = std::bind(&YACNetwork::registerUserFinished, this, std::placeholders::_1, std::placeholders::_2);
+    rr.errorCallback = errorCallback;
+    rr.successCallback = registerCallback;
 }
 
 void YACNetwork::replyFinished(QNetworkReply *reply)

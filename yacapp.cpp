@@ -8,6 +8,9 @@ YACAPP::YACAPP(const Constants &constants, QObject *parent)
       constants(constants),
       network(constants)
 {
+    network.yacappServerRegisterUser("jens@wienoebst.com", "password",
+                                     [](const QString &message) {},
+    [](const QString &errorMessage){});
 #ifdef Q_OS_WIN
     setIsDesktop(true);
 #endif
@@ -185,7 +188,7 @@ void YACAPP::downloadApp(QString url, QString projectID)
 
     network.downloadApp(url + projectID + ".yacapp"
                         , url + projectID + ".yacpck"
-                        , [this, projectID]()
+                        , [this, projectID](const QString &message)
     {
         loadNewProject(constants.getYacAppConfigPath() + projectID + ".yacapp");
         saveState();
