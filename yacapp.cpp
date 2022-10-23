@@ -11,6 +11,14 @@ YACAPP::YACAPP(const Constants &constants, QObject *parent)
     network.yacappServerRegisterUser("jens@wienoebst.com", "password",
                                      [](const QString &message) {},
     [](const QString &errorMessage){});
+
+    network.yacappServerVerifyUser("jens@wienoebst.com", "password",
+                                     [](const QString &message) {},
+    [](const QString &errorMessage){});
+
+    network.yacappServerLoginUser("jens@wienoebst.com", "password",
+                                     [](const QString &message) {},
+    [](const QString &errorMessage){});
 #ifdef Q_OS_WIN
     setIsDesktop(true);
 #endif

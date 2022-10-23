@@ -64,6 +64,16 @@ void YACNetwork::registerUserFinished(QNetworkReply *finishedReply,
     qDebug() << finishedReply->readAll();
 }
 
+void YACNetwork::verifyUserFinished(QNetworkReply *finishedReply, SRunningRequest &rr)
+{
+    qDebug() << finishedReply->readAll();
+}
+
+void YACNetwork::loginUserFinished(QNetworkReply *finishedReply, SRunningRequest &rr)
+{
+    qDebug() << finishedReply->readAll();
+}
+
 YACNetwork::YACNetwork(const Constants &constants):QObject(0),
     constants(constants)
 {
@@ -87,25 +97,62 @@ void YACNetwork::downloadApp(QString projectFilename,
     rr.successCallback = appDownloadedCallback;
 }
 
-void YACNetwork::yacappServerRegisterUser(QString loginEMail,
-                                          QString password,
-                                          std::function<void (const QString &)> registerCallback,
-                                          std::function<void (const QString &)> errorCallback)
+void YACNetwork::yacappServerPost(const QString &method,
+                                  const QJsonObject &object,
+                                  HandlerFunction handlerFunction,
+                                  CallbackFunction registerCallback,
+                                  CallbackFunction errorCallback)
 {
     QNetworkRequest request;
-    request.setUrl(QUrl(yacappServerUrl + "/registerUser"));
+    request.setUrl(QUrl(yacappServerUrl + method));
+    QJsonDocument doc(object);
+    QByteArray postData(doc.toJson());
+    request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
+    QNetworkReply *reply(manager.post(request, postData));
 
+    SRunningRequest &rr(runningRequests[reply]);
+    rr.handlerFunction = handlerFunction;
+    rr.errorCallback = errorCallback;
+    rr.successCallback = registerCallback;
+}
+
+void YACNetwork::yacappServerRegisterUser(QString loginEMail,
+                                          QString password,
+                                          CallbackFunction registerCallback,
+                                          CallbackFunction errorCallback)
+{
     QJsonObject obj;
     obj["loginEMail"] = loginEMail;
     obj["password"] = password;
-    QJsonDocument doc(obj);
-    QByteArray postData = doc.toJson();
+    yacappServerPost("/registerUser",
+                     obj,
+                     std::bind(&YACNetwork::registerUserFinished, this, std::placeholders::_1, std::placeholders::_2),
+                     registerCallback,
+                     errorCallback);
+}
 
-    QNetworkReply *reply(manager.post(request, postData));
-    SRunningRequest &rr(runningRequests[reply]);
-    rr.handlerFunction = std::bind(&YACNetwork::registerUserFinished, this, std::placeholders::_1, std::placeholders::_2);
-    rr.errorCallback = errorCallback;
-    rr.successCallback = registerCallback;
+void YACNetwork::yacappServerVerifyUser(QString loginEMail, QString verifyToken, CallbackFunction registerCallback, CallbackFunction errorCallback)
+{
+    QJsonObject obj;
+    obj["loginEMail"] = loginEMail;
+    obj["verifyToken"] = verifyToken;
+    yacappServerPost("/verifyUser",
+                     obj,
+                     std::bind(&YACNetwork::verifyUserFinished, this, std::placeholders::_1, std::placeholders::_2),
+                     registerCallback,
+                     errorCallback);
+}
+
+void YACNetwork::yacappServerLoginUser(QString loginEMail, QString password, CallbackFunction registerCallback, CallbackFunction errorCallback)
+{
+    QJsonObject obj;
+    obj["loginEMail"] = loginEMail;
+    obj["password"] = password;
+    yacappServerPost("/loginUser",
+                     obj,
+                     std::bind(&YACNetwork::loginUserFinished, this, std::placeholders::_1, std::placeholders::_2),
+                     registerCallback,
+                     errorCallback);
 }
 
 void YACNetwork::replyFinished(QNetworkReply *reply)

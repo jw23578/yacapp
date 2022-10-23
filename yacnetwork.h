@@ -12,13 +12,14 @@ class YACNetwork: public QObject
     QNetworkAccessManager manager;
     struct SRunningRequest;
     typedef std::function<void(QNetworkReply*, SRunningRequest &)> HandlerFunction;
+    typedef std::function<void(const QString &)> CallbackFunction;
     struct SRunningRequest
     {
         QString projectFilename;
         QString projectPackage;
         HandlerFunction handlerFunction;
-        std::function<void(const QString &message)> successCallback;
-        std::function<void(const QString &erroMessage)> errorCallback;
+        CallbackFunction successCallback;
+        CallbackFunction errorCallback;
     };
 
     QMap<QNetworkReply*, SRunningRequest> runningRequests;
@@ -27,6 +28,14 @@ class YACNetwork: public QObject
     void projectPackageFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
 
     void registerUserFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
+    void verifyUserFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
+    void loginUserFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
+
+    void yacappServerPost(const QString &method,
+                          const QJsonObject &object,
+                          HandlerFunction handlerFunction,
+                          CallbackFunction registerCallback,
+                          CallbackFunction errorCallback);
 public:
     YACNetwork(const Constants &constants);
     void downloadApp(QString projectFilename,
@@ -35,15 +44,19 @@ public:
                      std::function<void (const QString &)>  errorCallback);
     void yacappServerRegisterUser(QString loginEMail,
                                   QString password,
-                                  std::function<void (const QString &)> registerCallback,
-                                  std::function<void (const QString &)>  errorCallback);
+                                  CallbackFunction registerCallback,
+                                  CallbackFunction  errorCallback);
     void yacappServerVerifyUser(QString loginEMail,
-                                QString verifyToken);
+                                QString verifyToken,
+                                CallbackFunction registerCallback,
+                                CallbackFunction  errorCallback);
     void yacappServerLoginUser(QString loginEMail,
-                               QString password);
+                               QString password,
+                               CallbackFunction registerCallback,
+                               CallbackFunction  errorCallback);
 
     public slots:
-        void replyFinished(QNetworkReply *reply);
+    void replyFinished(QNetworkReply *reply);
 };
 
 #endif // YACNETWORK_H
