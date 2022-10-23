@@ -77,7 +77,7 @@ Window {
         anchors.right: mainFormLoader.right
         anchors.bottom: parent.bottom
     }
-    DeployPage
+    ConfiguratorDeployPage
     {
         id: deployPage
         visible: false

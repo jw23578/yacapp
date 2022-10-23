@@ -25,7 +25,7 @@
         <file>LoginFunctions.js</file>
         <file>qml/items/YACImage.qml</file>
         <file>qml/YACDefaultMenue.qml</file>
-        <file>qml/DeployPage.qml</file>
+        <file>qml/editor/ConfiguratorDeployPage.qml</file>
         <file>qml/items/YACRectangle.qml</file>
         <file>qml/ProgressPage.qml</file>
         <file>qml/SelectAppForm.qml</file>
