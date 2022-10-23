@@ -30,13 +30,19 @@ class YACNetwork: public QObject
     void registerUserFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
     void verifyUserFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
     void loginUserFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
+    void userLoggedInFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
 
     void yacappServerPost(const QString &method,
                           const QJsonObject &object,
                           HandlerFunction handlerFunction,
                           CallbackFunction registerCallback,
                           CallbackFunction errorCallback);
-public:
+
+    void yacappServerGet(const QString &method,
+                         const QUrlQuery &query,
+                         HandlerFunction handlerFunction,
+                         CallbackFunction registerCallback,
+                         CallbackFunction errorCallback);public:
     YACNetwork(const Constants &constants);
     void downloadApp(QString projectFilename,
                      QString projectPackage,
@@ -44,18 +50,22 @@ public:
                      std::function<void (const QString &)>  errorCallback);
     void yacappServerRegisterUser(QString loginEMail,
                                   QString password,
-                                  CallbackFunction registerCallback,
+                                  CallbackFunction successCallback,
                                   CallbackFunction  errorCallback);
     void yacappServerVerifyUser(QString loginEMail,
                                 QString verifyToken,
-                                CallbackFunction registerCallback,
+                                CallbackFunction successCallback,
                                 CallbackFunction  errorCallback);
     void yacappServerLoginUser(QString loginEMail,
                                QString password,
-                               CallbackFunction registerCallback,
+                               CallbackFunction successCallback,
                                CallbackFunction  errorCallback);
+    void yacappServerUserLoggedIn(QString loginEMail,
+                                  QString verifyToken,
+                                  CallbackFunction successCallback,
+                                  CallbackFunction  errorCallback);
 
-    public slots:
+public slots:
     void replyFinished(QNetworkReply *reply);
 };
 
