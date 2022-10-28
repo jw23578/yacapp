@@ -35,6 +35,13 @@ class YACNetwork: public QObject
     void yacappServerPost(const QString &method,
                           const QJsonObject &object,
                           HandlerFunction handlerFunction,
+                          const QMap<QByteArray, QByteArray> &rawHeader,
+                          CallbackFunction registerCallback,
+                          CallbackFunction errorCallback);
+
+    void yacappServerPost(const QString &method,
+                          const QJsonObject &object,
+                          HandlerFunction handlerFunction,
                           CallbackFunction registerCallback,
                           CallbackFunction errorCallback);
 
@@ -64,6 +71,14 @@ class YACNetwork: public QObject
                                   QString verifyToken,
                                   CallbackFunction successCallback,
                                   CallbackFunction  errorCallback);
+
+    void yacappServerUploadApp(const QString &loginEMail,
+                               const QString &loginToken,
+                               const QString &appId,
+                               const QString &json_yacapp,
+                               const QString &yacpck_base64,
+                               CallbackFunction successCallback,
+                               CallbackFunction  errorCallback);
 
 public slots:
     void replyFinished(QNetworkReply *reply);

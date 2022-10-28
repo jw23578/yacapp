@@ -25,6 +25,7 @@ class GlobalProjectConfig : public ConfigInterface
 
     void setConfig(QJsonValue const &config) override;
     QJsonObject getConfig() override;
+    QByteArray getConfigAsString();
 
     void init(const QString &jsonConfigFile);
     void save(const QString &jsonConfigFile);

@@ -28,12 +28,14 @@ class YACAPP : public QObject
 
     MenueConfig emptyMenue;
 
-    YACNetwork network;
+    YACNetwork &network;
 
     void reset();
 
 public:
-    explicit YACAPP(const Constants &constants, QObject *parent = nullptr);
+    explicit YACAPP(const Constants &constants,
+                    YACNetwork &network,
+                    QObject *parent = nullptr);
     void init(QString projectFilename);
 
     Q_INVOKABLE void saveState();
@@ -56,6 +58,7 @@ signals:
     void appDownloadSuccess();
     void appDownloadError(const QString &errorMessage);
     void badMessage(const QString &message);
+    void goodMessage(const QString &message);
 };
 
 #endif // YACAPP_H

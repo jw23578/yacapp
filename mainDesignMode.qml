@@ -100,6 +100,10 @@ Window {
     {
         id: badMessage
     }
+    YACGoodMessageForm
+    {
+        id: goodMessage
+    }
 
     Connections
     {
@@ -108,6 +112,11 @@ Window {
         {
             badMessage.show(message)
         }
+        function onGoodMessage(message)
+        {
+            goodMessage.show(message)
+        }
     }
+
 
 }

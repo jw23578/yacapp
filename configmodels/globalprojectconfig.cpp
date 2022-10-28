@@ -23,9 +23,7 @@ void GlobalProjectConfig::save(const QString &jsonConfigFile)
     setVersion(version() + 1);
     QFile jsonFile(jsonConfigFile);
     jsonFile.open(QIODevice::WriteOnly);
-    QJsonObject config;
-    config["global"] = getConfig();
-    jsonFile.write(QJsonDocument(config).toJson());
+    jsonFile.write(getConfigAsString());
 }
 
 void GlobalProjectConfig::setConfig(const QJsonValue &config)
@@ -70,4 +68,11 @@ QJsonObject GlobalProjectConfig::getConfig()
     stringToJSON(projectID);
     toJSON(mainFormFilename);
     return config;
+}
+
+QByteArray GlobalProjectConfig::getConfigAsString()
+{
+    QJsonObject config;
+    config["global"] = getConfig();
+    return QJsonDocument(config).toJson();
 }

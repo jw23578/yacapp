@@ -31,5 +31,7 @@
         <file>qml/SelectAppForm.qml</file>
         <file>HttpFunctions.js</file>
         <file>qml/YACBadMessageForm.qml</file>
+        <file>qml/editor/ConfiguratorRegisterVerifyPage.qml</file>
+        <file>qml/YACGoodMessageForm.qml</file>
     </qresource>
 </RCC>

@@ -5,21 +5,26 @@
 #include "yacappmacros.h"
 #include "projectdata.h"
 #include <QMap>
+#include "yacnetwork.h"
 
 class Configurator : public QObject
 {
     Q_OBJECT
     QString configFilename;
 
+    YACNetwork &network;
+
     YACAPPPROPERTY(QString, lastProjectName, LastProjectName, "");
     YACAPPPROPERTY(QString, lastProjectFilename, LastProjectFilename, "");
 
     QMap<QString, ProjectData*> deployConfigs;
 
+    YACAPPPROPERTY(ProjectData*, activeProjectData, ActiveProjectData, new ProjectData);
+
     void sftpUpload(QString host, QString user, QString password, QString targetFilename, QString sourceFilename);
 
 public:
-    explicit Configurator(QObject *parent = nullptr);
+    explicit Configurator(YACNetwork &network, QObject *parent = nullptr);
 
     Q_INVOKABLE void save();
 
@@ -27,10 +32,26 @@ public:
 
     Q_INVOKABLE void defaultDeploy(const QString &globalProjectConfigFilename, QString host, QString user, QString password);
 
-    Q_INVOKABLE ProjectData *getProjectData(const QString &projectID);
+    Q_INVOKABLE void deployToYACAPPServer(const QString &globalProjectConfigFilename);
+
+    Q_INVOKABLE void setProjectData(const QString &projectID);
+
+    Q_INVOKABLE void yacserverLogin(const QString &loginEMail, const QString &password, const QString &projectID);
+    Q_INVOKABLE void yacserverUserLoggedIn(const QString &loginEMail, const QString &loginToken, const QString &projectID);
+    Q_INVOKABLE void yacserverRegister(const QString &loginEMail, const QString &password);
+    Q_INVOKABLE void yacserverVerify(const QString &loginEMail, const QString &verifyToken);
 
 signals:
-
+    void loginSuccessful();
+    void loginNotSuccessful(const QString &messge);
+    void userLoggedInSuccessful();
+    void userLoggedInNotSuccessful();
+    void registerSuccessful();
+    void registerNotSuccessful(const QString &messge);
+    void verifySuccessful();
+    void verifyNotSuccessful(const QString &messge);
+    void deployToYACAPPServerSuccessful();
+    void deployToYACAPPServerNotSuccessful(const QString message);
 };
 
 #endif // CONFIGURATOR_H

@@ -50,13 +50,32 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     Constants constants;
-    YACAPP yacApp(constants);
+    YACNetwork network(constants);
+
+//    network.yacappServerRegisterUser("jens@wienoebst.com", "password",
+//                                     [](const QString &message) {},
+//    [](const QString &errorMessage){});
+
+//    network.yacappServerVerifyUser("jens@wienoebst.com", "password",
+//                                     [](const QString &message) {},
+//    [](const QString &errorMessage){});
+
+//    network.yacappServerLoginUser("jens@wienoebst.com", "password",
+//                                     [](const QString &message) {},
+//    [](const QString &errorMessage){});
+
+//    network.yacappServerUserLoggedIn("jens@wienoebst.com", "password",
+//                                     [](const QString &message) {},
+//    [](const QString &errorMessage){});
+
+
+    YACAPP yacApp(constants, network);
     QUrl url(QStringLiteral("qrc:/main.qml"));
     Configurator *configurator(0);
     if (app.arguments().contains("Configurator"))
     {
         url = QStringLiteral("qrc:/mainDesignMode.qml");
-        configurator = new Configurator;
+        configurator = new Configurator(network);
         engine.rootContext()->setContextProperty("configurator", configurator);
     }
     else

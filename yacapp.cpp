@@ -3,27 +3,11 @@
 #include <QStandardPaths>
 #include <QJsonObject>
 
-YACAPP::YACAPP(const Constants &constants, QObject *parent)
+YACAPP::YACAPP(const Constants &constants, YACNetwork &network, QObject *parent)
     : QObject{parent},
       constants(constants),
-      network(constants)
+      network(network)
 {
-    network.yacappServerRegisterUser("jens@wienoebst.com", "password",
-                                     [](const QString &message) {},
-    [](const QString &errorMessage){});
-
-    network.yacappServerVerifyUser("jens@wienoebst.com", "password",
-                                     [](const QString &message) {},
-    [](const QString &errorMessage){});
-
-    network.yacappServerLoginUser("jens@wienoebst.com", "password",
-                                     [](const QString &message) {},
-    [](const QString &errorMessage){});
-
-    network.yacappServerUserLoggedIn("jens@wienoebst.com", "password",
-                                     [](const QString &message) {},
-    [](const QString &errorMessage){});
-
 #ifdef Q_OS_WIN
     setIsDesktop(true);
 #endif

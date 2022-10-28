@@ -12,6 +12,8 @@ class ProjectData : public QObject
     YACAPPPROPERTY(QString, deployUser, DeployUser, "");
     YACAPPPROPERTY(QString, deployPassword, DeployPassword, "");
     YACAPPPROPERTY(QString, deployBaseDirectory, DeployBaseDirectory, "");
+
+    YACAPPPROPERTY(QString, yacappServerLoginToken, YacappServerLoginToken, "");
 public:
     explicit ProjectData(QObject *parent = nullptr);
 

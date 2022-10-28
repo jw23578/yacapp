@@ -10,8 +10,9 @@
 #include "zlib.h"
 
 
-Configurator::Configurator(QObject *parent)
-    : QObject{parent}
+Configurator::Configurator(YACNetwork &network, QObject *parent)
+    : QObject{parent},
+      network(network)
 {
     QStringList paths(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
     if (paths.size() == 0)
@@ -38,6 +39,7 @@ Configurator::Configurator(QObject *parent)
         pd.setDeployUrl(config["deployUrl"].toString());
         pd.setDeployBaseDirectory(config["deployBaseDirectory"].toString());
         pd.setDeployUser(config["deployUser"].toString());
+        pd.setYacappServerLoginToken(config["yacappServerLoginToken"].toString());
     }
 }
 
@@ -56,6 +58,7 @@ void Configurator::save()
         pd["deployUrl"] = (*it)->deployUrl();
         pd["deployBaseDirectory"] = (*it)->deployBaseDirectory();
         pd["deployUser"] = (*it)->deployUser();
+        pd["yacappServerLoginToken"] = (*it)->yacappServerLoginToken();
         ++it;
         dc.append(pd);
     }
@@ -169,7 +172,123 @@ void Configurator::defaultDeploy(const QString &globalProjectConfigFilename, QSt
     sftpUpload(host, user, password, QString("/var/www/html/yacapp/") + gpc.projectID() + ".yacpck", appPackageFilename);
 }
 
-ProjectData *Configurator::getProjectData(const QString &projectID)
+void Configurator::deployToYACAPPServer(const QString &globalProjectConfigFilename)
 {
-    return deployConfigs[projectID];
+    GlobalProjectConfig gpc;
+    gpc.init(globalProjectConfigFilename);
+
+    if (!deployConfigs[gpc.projectID()])
+    {
+        deployConfigs[gpc.projectID()] = new ProjectData;
+    }
+    ProjectData &pd(*deployConfigs[gpc.projectID()]);
+    pd.setProjectID(gpc.projectID());
+    pd.setDeployBaseDirectory("");
+
+    save();
+
+    QFileInfo fileinfo(globalProjectConfigFilename);
+
+    QString path(fileinfo.path() + "/");
+    QString baseName(fileinfo.baseName());
+    baseName.remove(" ");
+
+    QByteArray appPackage;
+    for (int i(0); i < gpc.formFiles.size(); ++i)
+    {
+        appPackage += gpc.formFiles[i].toUtf8();
+        appPackage += '\0';
+        QFile file(path + gpc.formFiles[i]);
+        file.open(QIODevice::ReadOnly);
+        appPackage += file.readAll();
+        appPackage += '\0';
+    }
+    for (int i(0); i < gpc.menueFiles.size(); ++i)
+    {
+        appPackage += gpc.menueFiles[i].toUtf8() + '\0';
+        QFile file(path + gpc.menueFiles[i]);
+        file.open(QIODevice::ReadOnly);
+        appPackage += file.readAll();
+        appPackage += '\0';
+    }
+    appPackage = qCompress(appPackage);
+
+    QByteArray json_yacapp; // FIXME must be filled
+
+    network.yacappServerUploadApp(pd.deployUser(),
+                                  pd.yacappServerLoginToken(),
+                                  gpc.projectID(),
+                                  gpc.getConfigAsString(),
+                                  appPackage.toBase64(),
+                                  [this](const QString &message)
+    {
+        deployToYACAPPServerSuccessful();
+    },
+    [this](const QString &message)
+    {
+        deployToYACAPPServerNotSuccessful(message);
+    });
+
+}
+
+void Configurator::setProjectData(const QString &projectID)
+{
+    setActiveProjectData(deployConfigs[projectID]);
+}
+
+void Configurator::yacserverLogin(const QString &loginEMail, const QString &password, const QString &projectID)
+{
+    network.yacappServerLoginUser(loginEMail, password,
+                                  [this, loginEMail, password, projectID](const QString &loginToken)
+    {
+        ProjectData &pd(*deployConfigs[projectID]);
+        pd.setYacappServerLoginToken(loginToken);
+        pd.setDeployUser(loginEMail);
+        pd.setDeployPassword(password);
+        save();
+        loginSuccessful();
+    },
+    [this](const QString &message){
+        loginNotSuccessful(message);
+    }
+    );
+}
+
+void Configurator::yacserverUserLoggedIn(const QString &loginEMail, const QString &loginToken, const QString &projectID)
+{
+    network.yacappServerUserLoggedIn(loginEMail, loginToken,
+                                     [this, projectID](const QString &loginToken){
+        deployConfigs[projectID]->setYacappServerLoginToken(loginToken);
+        userLoggedInSuccessful();
+    },
+    [this, projectID](const QString &message){
+        deployConfigs[projectID]->setYacappServerLoginToken("");
+        userLoggedInNotSuccessful();
+    }
+    );
+}
+
+void Configurator::yacserverRegister(const QString &loginEMail, const QString &password)
+{
+    network.yacappServerRegisterUser(loginEMail, password,
+                                     [this](const QString &message){
+        registerSuccessful();
+    },
+    [this](const QString &message){
+        registerNotSuccessful(message);
+    }
+    );
+}
+
+void Configurator::yacserverVerify(const QString &loginEMail, const QString &verifyToken)
+{
+    network.yacappServerVerifyUser(loginEMail, verifyToken,
+                                   [this](const QString &message){
+        verifySuccessful();
+    },
+    [this](const QString &message){
+        verifyNotSuccessful(message);
+    }
+    );
+
 }
