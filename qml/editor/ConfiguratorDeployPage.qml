@@ -74,7 +74,16 @@ Rectangle
                     yacApp.badMessage(qsTr("Please login first"))
                     return
                 }
-                configurator.deployToYACAPPServer(yacApp.globalProjectConfigFilename)
+                configurator.deployToYACAPPServer(yacApp.globalProjectConfigFilename,
+                                                  function()
+                                                  {
+                                                      yacApp.goodMessage(qsTr("Deployment successful"))
+                                                  },
+                                                  function(message)
+                                                  {
+                                                      yacApp.badMessage(message)
+                                                  }
+                                                  )
                 return;
                 configurator.defaultDeploy(yacApp.globalProjectConfigFilename, host.displayText, loginEMail.displayText, password.text);
 //                configurator.deploy(yacApp.globalConfig.projectID, host.displayText, user.displayText, password.text, basedirectory.displayText)
@@ -116,14 +125,6 @@ Rectangle
             yacApp.goodMessage(configurator.activeProjectData.yacappServerLoginToken)
         }
         function onLoginNotSuccessful(message)
-        {
-            yacApp.badMessage(message)
-        }
-        function onDeployToYACAPPServerSuccessful()
-        {
-            yacApp.goodMessage(qsTr("Deployment successful"))
-        }
-        function onDeployToYACAPPServerNotSuccessful(message)
         {
             yacApp.badMessage(message)
         }

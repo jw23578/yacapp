@@ -6,6 +6,7 @@
 #include "projectdata.h"
 #include <QMap>
 #include "yacnetwork.h"
+#include <QJSValue>
 
 class Configurator : public QObject
 {
@@ -32,7 +33,9 @@ public:
 
     Q_INVOKABLE void defaultDeploy(const QString &globalProjectConfigFilename, QString host, QString user, QString password);
 
-    Q_INVOKABLE void deployToYACAPPServer(const QString &globalProjectConfigFilename);
+    Q_INVOKABLE void deployToYACAPPServer(const QString &globalProjectConfigFilename,
+                                          QJSValue goodCallback,
+                                          QJSValue badCallback);
 
     Q_INVOKABLE void setProjectData(const QString &projectID);
 
@@ -50,8 +53,6 @@ signals:
     void registerNotSuccessful(const QString &messge);
     void verifySuccessful();
     void verifyNotSuccessful(const QString &messge);
-    void deployToYACAPPServerSuccessful();
-    void deployToYACAPPServerNotSuccessful(const QString message);
 };
 
 #endif // CONFIGURATOR_H

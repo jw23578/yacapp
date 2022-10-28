@@ -27,11 +27,6 @@ class YACNetwork: public QObject
     void projectFilenameFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
     void projectPackageFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
 
-    void registerUserFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
-    void verifyUserFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
-    void loginUserFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
-    void userLoggedInFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
-
     void yacappServerPost(const QString &method,
                           const QJsonObject &object,
                           HandlerFunction handlerFunction,

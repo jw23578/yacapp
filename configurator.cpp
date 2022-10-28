@@ -172,7 +172,9 @@ void Configurator::defaultDeploy(const QString &globalProjectConfigFilename, QSt
     sftpUpload(host, user, password, QString("/var/www/html/yacapp/") + gpc.projectID() + ".yacpck", appPackageFilename);
 }
 
-void Configurator::deployToYACAPPServer(const QString &globalProjectConfigFilename)
+void Configurator::deployToYACAPPServer(const QString &globalProjectConfigFilename,
+                                        QJSValue goodCallback,
+                                        QJSValue badCallback)
 {
     GlobalProjectConfig gpc;
     gpc.init(globalProjectConfigFilename);
@@ -220,13 +222,13 @@ void Configurator::deployToYACAPPServer(const QString &globalProjectConfigFilena
                                   gpc.projectID(),
                                   gpc.getConfigAsString(),
                                   appPackage.toBase64(),
-                                  [this](const QString &message)
+                                  [goodCallback](const QString &message) mutable
     {
-        deployToYACAPPServerSuccessful();
+        goodCallback.call();
     },
-    [this](const QString &message)
+    [badCallback](const QString &message) mutable
     {
-        deployToYACAPPServerNotSuccessful(message);
+        badCallback.call(QJSValueList() << message);
     });
 
 }
