@@ -293,6 +293,65 @@ void YACNetwork::yacappServerGetAllAPPs(CallbackFunction successCallback,
                     errorCallback);
 }
 
+void YACNetwork::yacappServerGetAPP(const QString &app_id,
+                                    CallbackFunction successCallback,
+                                    CallbackFunction errorCallback)
+{
+    auto replyHandler([this](QNetworkReply *finishedReply, SRunningRequest &rr)
+    {
+        QByteArray all(finishedReply->readAll());
+        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
+        QJsonObject object(replyDoc.object());
+        QString message(object["message"].toString());
+        QString json_yacapp(object["json_yacapp"].toString());
+        QString app_id(object["app_id"].isString());
+
+        QByteArray yacpck_base64(object["yacpck_base64"].toString().toLatin1());
+        QByteArray yacpck(QByteArray::fromBase64(yacpck_base64));
+        if (message == "app found")
+        {
+            QFile file(constants.getYacAppConfigPath() + app_id + ".yacapp");
+            file.open(QIODevice::WriteOnly);
+            file.write(json_yacapp.toLatin1());
+            file.close();
+
+            QByteArray uncompressedData(qUncompress(yacpck));
+            int pos(0);
+            while (pos < uncompressedData.size())
+            {
+                int nextPos(uncompressedData.indexOf('\0', pos));
+                QString filename(uncompressedData.mid(pos, nextPos - pos));
+                pos = nextPos + 1;
+                nextPos = uncompressedData.indexOf('\0', pos);
+                if (nextPos == -1)
+                {
+                    nextPos = uncompressedData.size();
+                }
+                QByteArray data(uncompressedData.mid(pos, nextPos - pos));
+
+                QFile file(constants.getYacAppConfigPath() + filename);
+                file.open(QIODevice::WriteOnly);
+                file.write(data);
+                file.close();
+                pos = nextPos + 1;
+            }
+
+            rr.successCallback(message);
+        }
+        else
+        {
+            rr.errorCallback(message);
+        }
+    });
+    QUrlQuery query;
+    query.addQueryItem("app_id", app_id);
+    yacappServerGet("/getAPP",
+                    query,
+                    replyHandler,
+                    successCallback,
+                    errorCallback);
+}
+
 void YACNetwork::replyFinished(QNetworkReply *reply)
 {
     QMap<QNetworkReply*, SRunningRequest>::Iterator it(runningRequests.find(reply));

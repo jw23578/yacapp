@@ -6,6 +6,7 @@ YACRectangle
     color: "orange"
     visible: yacApp.globalConfig.projectID == ""
     anchors.fill: parent
+    id: theSelectAppForm
 
 
     PauseAnimation
@@ -102,6 +103,18 @@ YACRectangle
                 onClicked:
                 {
                     console.log("App selected")
+                    yacApp.yacappServerGetAPP(app_id,
+                                              function(message)
+                                              {
+                                                  yacApp.goodMessage(message, null)
+                                                  theSelectAppForm.visible = false
+                                              },
+                                              function(message)
+                                              {
+                                                  yacApp.badMessage(message, null)
+                                              }
+                                              )
+                    return
                     yacApp.downloadApp(yacApp.allAppsBaseUrl, app_id)
                 }
             }

@@ -5,14 +5,19 @@ Rectangle
 {
     anchors.fill: parent
     visible: false
-    function show(message)
+    function show(message, itemToFocus)
     {
         messageText.text = message
+        theBadMessageForm.itemToFocus = itemToFocus
         visible = true
     }
     function hide()
     {
         visible = false
+        if (itemToFocus != null)
+        {
+            itemToFocus.forceActiveFocus()
+        }
     }
 
     YACRectangle

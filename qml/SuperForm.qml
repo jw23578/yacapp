@@ -124,19 +124,12 @@ Rectangle
 
     Loader
     {
+        active: false
         id: loginPageLoader
         anchors.fill: parent
-        active: config.content.loginNeeded && yacApp.loginToken == ""
-        sourceComponent: loginPageComponent
+        focus: true
+        source: config.content.loginNeeded && yacApp.loginToken == "" ? "LoginPage.qml" : ""
+        onStatusChanged: console.log("status: ", status)
     }
-
-    Component
-    {
-        id: loginPageComponent
-        LoginPage
-        {
-            visible: config.content.loginNeeded && yacApp.loginToken == ""
-        }
-    }
-
+    Component.onCompleted: loginPageLoader.active = true
 }

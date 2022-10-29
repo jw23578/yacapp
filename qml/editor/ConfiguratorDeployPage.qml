@@ -49,7 +49,7 @@ Rectangle
             {
                 if (configurator.activeProjectData.yacappServerLoginToken.length)
                 {
-                    yacApp.goodMessage(qsTr("You are already logged in."))
+                    yacApp.goodMessage(qsTr("You are already logged in."), null)
                     return
                 }
 
@@ -71,17 +71,17 @@ Rectangle
             {
                 if (configurator.activeProjectData.yacappServerLoginToken == "")
                 {
-                    yacApp.badMessage(qsTr("Please login first"))
+                    yacApp.badMessage(qsTr("Please login first"), null)
                     return
                 }
                 configurator.deployToYACAPPServer(yacApp.globalProjectConfigFilename,
                                                   function()
                                                   {
-                                                      yacApp.goodMessage(qsTr("Deployment successful"))
+                                                      yacApp.goodMessage(qsTr("Deployment successful"), null)
                                                   },
                                                   function(message)
                                                   {
-                                                      yacApp.badMessage(message)
+                                                      yacApp.badMessage(message, null)
                                                   }
                                                   )
                 return;
@@ -122,7 +122,7 @@ Rectangle
         target: configurator
         function onLoginSuccessful()
         {
-            yacApp.goodMessage(configurator.activeProjectData.yacappServerLoginToken)
+            yacApp.goodMessage(configurator.activeProjectData.yacappServerLoginToken, null)
         }
         function onLoginNotSuccessful(message)
         {

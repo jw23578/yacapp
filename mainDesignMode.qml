@@ -108,13 +108,13 @@ Window {
     Connections
     {
         target: yacApp
-        function onBadMessage(message)
+        function onBadMessage(message, itemToFocus)
         {
-            badMessage.show(message)
+            badMessage.show(message, itemToFocus)
         }
-        function onGoodMessage(message)
+        function onGoodMessage(message, itemToFocus)
         {
-            goodMessage.show(message)
+            goodMessage.show(message, itemToFocus)
         }
     }
 

@@ -66,16 +66,16 @@ Rectangle
         }
         function onRegisterNotSuccessful(message)
         {
-            yacApp.badMessage(message)
+            yacApp.badMessage(message, null)
         }
         function onVerifySuccessful()
         {
-            yacApp.goodMessage(qsTr("Verifyíing Successful, you are now logged in an can deploy your App."))
+            yacApp.goodMessage(qsTr("Verifyíing Successful, you are now logged in an can deploy your App."), null)
             registerVerifyPage.visible = false
         }
         function onVerifyNotSuccessful(message)
         {
-            yacApp.badMessage(message)
+            yacApp.badMessage(message, null)
         }
     }
 }

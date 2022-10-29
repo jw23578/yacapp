@@ -11,10 +11,26 @@ Window {
     visible: true
     title: qsTr("Hello World")
 
+    onActiveFocusItemChanged:
+    {
+        var count = 0
+        var elem = activeFocusItem
+        while (elem)
+        {
+            print("activeFocusItem " + count + " " + elem)
+            elem = elem.parent
+            count += 1
+        }
+    }
+
     MainForm
     {
-        anchors.fill: parent
+        x: 0
+        y: 0
+        width: parent.width
+        height: parent.height
         config: yacApp.mainConfig
+        focus: true
     }
 
     SelectAppForm
@@ -66,13 +82,13 @@ Window {
     Connections
     {
         target: yacApp
-        function onBadMessage(message)
+        function onBadMessage(message, itemToFocus)
         {
-            badMessage.show(message)
+            badMessage.show(message, itemToFocus)
         }
-        function onGoodMessage(message)
+        function onGoodMessage(message, itemToFocus)
         {
-            goodMessage.show(message)
+            goodMessage.show(message, itemToFocus)
         }
     }
 

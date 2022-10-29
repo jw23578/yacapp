@@ -82,6 +82,10 @@ public:
     void yacappServerGetAllAPPs(CallbackFunction successCallback,
                                 CallbackFunction  errorCallback);
 
+    void yacappServerGetAPP(const QString &app_id,
+                            CallbackFunction successCallback,
+                            CallbackFunction  errorCallback);
+
 public slots:
     void replyFinished(QNetworkReply *reply);
 };

@@ -211,6 +211,22 @@ void YACAPP::yacappServerGetAllAPPs(QJSValue successCallback,
     });
 }
 
+void YACAPP::yacappServerGetAPP(const QString &app_id,
+                                QJSValue successCallback,
+                                QJSValue errorCallback)
+{
+    network.yacappServerGetAPP(app_id, [this, app_id, successCallback](const QString &message) mutable
+    {
+        loadNewProject(constants.getYacAppConfigPath() + app_id + ".yacapp");
+        saveState();
+        successCallback.call(QJSValueList() << message);
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    });
+}
+
 void YACAPP::addFile(QString fileUrl)
 {
     fileUrl.replace("file://", "");

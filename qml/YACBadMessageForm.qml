@@ -3,16 +3,23 @@ import "items"
 
 Rectangle
 {
+    id: theBadMessageForm
     anchors.fill: parent
     visible: false
-    function show(message)
+    property var itemToFocus: null
+    function show(message, itemToFocus)
     {
         messageText.text = message
+        theBadMessageForm.itemToFocus = itemToFocus
         visible = true
     }
     function hide()
     {
         visible = false
+        if (itemToFocus != null)
+        {
+            itemToFocus.forceActiveFocus()
+        }
     }
 
     YACRectangle

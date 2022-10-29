@@ -7,9 +7,9 @@ import com.yacapp.menueconfig 1.0
 import "items"
 
 
-Column
+Item
 {
-    id: mainForm
+    id: theItem
     property MenueConfig menue: yacApp.getMenueConfig(config.menueFilename)
     property ParsedConfig config: null
     signal currentItemChanged(ParsedConfig config)
@@ -17,36 +17,40 @@ Column
     {
         theStackView.push("SuperForm.qml", {
                               "config": yacApp.getConfig(filename),
-                              "stackView": theStackView
-                          }
-                          )
+                              "stackView": theStackView,
+                          })
     }
-
-    YACHeader
+    Column
     {
-        id: header
-    }
-    StackView {
-        id: theStackView
-        initialItem:
-            SuperForm
+        width: parent.width
+        id: mainForm
+        YACHeader
         {
-            config: mainForm.config
-            stackView: theStackView
+            id: header
+            width: parent.width
         }
-        anchors.top: header.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: footer.top
-        onCurrentItemChanged: {
-            header.headerConfig = currentItem.config.header
-            footer.footerConfig = currentItem.config.footer
-            mainForm.currentItemChanged(currentItem.config)
+        StackView
+        {
+            id: theStackView
+            initialItem:
+                SuperForm
+            {
+                config: theItem.config
+                stackView: theStackView
+            }
+            height: theItem.height - header.height - footer.height
+            width: parent.width
+            onCurrentItemChanged: {
+                header.headerConfig = currentItem.config.header
+                footer.footerConfig = currentItem.config.footer
+                theItem.currentItemChanged(currentItem.config)
+            }
         }
-    }
-    YACFooter
-    {
-        id: footer
+
+        YACFooter
+        {
+            id: footer
+        }
     }
     YACDefaultMenue
     {

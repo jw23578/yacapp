@@ -55,14 +55,18 @@ public:
     Q_INVOKABLE void yacappServerGetAllAPPs(QJSValue successCallback,
                                             QJSValue  errorCallback);
 
+    Q_INVOKABLE void yacappServerGetAPP(const QString &app_id,
+                                        QJSValue successCallback,
+                                        QJSValue errorCallback);
+
     Q_INVOKABLE void addFile(QString fileUrl);
 
 signals:
 
     void appDownloadSuccess();
     void appDownloadError(const QString &errorMessage);
-    void badMessage(const QString &message);
-    void goodMessage(const QString &message);
+    void badMessage(const QString &message, QJSValue itemToFocus);
+    void goodMessage(const QString &message, QJSValue itemToFocus);
 };
 
 #endif // YACAPP_H
