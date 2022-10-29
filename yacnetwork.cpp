@@ -234,13 +234,16 @@ void YACNetwork::yacappServerUserLoggedIn(QString loginEMail, QString verifyToke
 
 void YACNetwork::yacappServerUploadApp(const QString &loginEMail,
                                        const QString &loginToken,
-                                       const QString &appId,
+                                       const QString &app_id,
+                                       const QString &app_name,
+                                       const QString &app_logo_url,
+                                       const QString &app_color_name,
                                        const QString &json_yacapp,
                                        const QString &yacpck_base64,
                                        CallbackFunction successCallback,
                                        CallbackFunction errorCallback)
 {
-    auto replyHandler = [](QNetworkReply *finishedReply, SRunningRequest &rr)
+    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
     {
         QByteArray all(finishedReply->readAll());
         QJsonDocument replyDoc(QJsonDocument::fromJson(all));
@@ -254,10 +257,13 @@ void YACNetwork::yacappServerUploadApp(const QString &loginEMail,
         {
             rr.errorCallback(message);
         }
-    };
+    });
 
     QJsonObject obj;
-    obj["appId"] = appId;
+    obj["app_id"] = app_id;
+    obj["app_name"] = app_name;
+    obj["app_logo_url"] = app_logo_url;
+    obj["app_color_name"] = app_color_name;
     obj["json_yacapp"] = json_yacapp;
     obj["yacpck_base64"] = yacpck_base64;
     QMap<QByteArray, QByteArray> rawHeader;
@@ -269,6 +275,22 @@ void YACNetwork::yacappServerUploadApp(const QString &loginEMail,
                      rawHeader,
                      successCallback,
                      errorCallback);
+}
+
+void YACNetwork::yacappServerGetAllAPPs(CallbackFunction successCallback,
+                                        CallbackFunction errorCallback)
+{
+    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
+    {
+        QByteArray all(finishedReply->readAll());
+        rr.successCallback(all);
+    });
+    const QUrlQuery query;
+    yacappServerGet("/getAllAPPs",
+                    query,
+                    replyHandler,
+                    successCallback,
+                    errorCallback);
 }
 
 void YACNetwork::replyFinished(QNetworkReply *reply)

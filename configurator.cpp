@@ -220,6 +220,9 @@ void Configurator::deployToYACAPPServer(const QString &globalProjectConfigFilena
     network.yacappServerUploadApp(pd.deployUser(),
                                   pd.yacappServerLoginToken(),
                                   gpc.projectID(),
+                                  gpc.projectName(),
+                                  gpc.logoUrl(),
+                                  gpc.projectColorName(),
                                   gpc.getConfigAsString(),
                                   appPackage.toBase64(),
                                   [goodCallback](const QString &message) mutable

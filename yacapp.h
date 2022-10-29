@@ -6,6 +6,7 @@
 #include "configmodels/globalprojectconfig.h"
 #include "yacnetwork.h"
 #include "constants.h"
+#include <QJSValue>
 
 class YACAPP : public QObject
 {
@@ -50,6 +51,9 @@ public:
 
     Q_INVOKABLE void downloadApp(QString url,
                                  QString projectID);
+
+    Q_INVOKABLE void yacappServerGetAllAPPs(QJSValue successCallback,
+                                            QJSValue  errorCallback);
 
     Q_INVOKABLE void addFile(QString fileUrl);
 

@@ -198,6 +198,19 @@ void YACAPP::downloadApp(QString url, QString projectID)
     });
 }
 
+void YACAPP::yacappServerGetAllAPPs(QJSValue successCallback,
+                                    QJSValue errorCallback)
+{
+    network.yacappServerGetAllAPPs([successCallback](const QString &message) mutable
+    {
+        successCallback.call(QJSValueList() << message);
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    });
+}
+
 void YACAPP::addFile(QString fileUrl)
 {
     fileUrl.replace("file://", "");

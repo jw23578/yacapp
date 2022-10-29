@@ -1,6 +1,5 @@
 import QtQuick 2.15
 import "items"
-import "../HttpFunctions.js" as Http
 
 YACRectangle
 {
@@ -24,10 +23,9 @@ YACRectangle
         }
     }
 
-    function allAppsLoaded(yacApp, data)
+    function allAppsLoaded(jsontext)
     {
         console.log("fetched")
-        var jsontext = data.responseText
         if (jsontext.length < 3)
         {
             return;
@@ -42,19 +40,15 @@ YACRectangle
         }
     }
 
-    function errorCallback(yacApp, data)
+    function errorCallback(data)
     {
 
     }
 
-    function abortCallback(yacApp, data)
-    {
-
-    }
 
     function fetchKnownApps()
     {
-        Http.request(yacApp, yacApp.allAppsBaseUrl + "allApps.json", allAppsLoaded, errorCallback, abortCallback)
+        yacApp.yacappServerGetAllAPPs(allAppsLoaded, errorCallback)
     }
 
     ListModel
@@ -75,7 +69,7 @@ YACRectangle
         property double radiusSpacing: width / 12
         delegate: YACRectangle
         {
-            color: projectColor
+            color: app_color_name
             border.width: 1
             border.color: "black"
             width: appView.width
@@ -88,7 +82,7 @@ YACRectangle
             YACText
             {
                 id: nameText
-                text: projectName
+                text: app_name
                 anchors.top: parent.top
                 anchors.topMargin: appView.spacing
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -100,7 +94,7 @@ YACRectangle
                 anchors.top: nameText.bottom
                 anchors.bottom: parent.bottom
                 width: height
-                source: projectLogo
+                source: app_logo_url
             }
             MouseArea
             {
@@ -108,7 +102,7 @@ YACRectangle
                 onClicked:
                 {
                     console.log("App selected")
-                    yacApp.downloadApp(yacApp.allAppsBaseUrl, projectID)
+                    yacApp.downloadApp(yacApp.allAppsBaseUrl, app_id)
                 }
             }
         }

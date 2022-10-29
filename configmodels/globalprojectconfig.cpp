@@ -36,9 +36,14 @@ void GlobalProjectConfig::setConfig(const QJsonValue &config)
     doubleFromJSON(logoOffsetY, LogoOffsetY);
     stringFromJSON(projectName, ProjectName);
     stringFromJSON(projectID, ProjectID);
+    stringFromJSON(projectColorName, ProjectColorName);
     if (projectID() == "")
     {
         setProjectID(QUuid::createUuid().toString(QUuid::WithoutBraces));
+    }
+    if (projectColorName() == "")
+    {
+        setProjectColorName("white");
     }
     stringFromJSON(mainFormFilename, MainFormFilename);
     QJsonArray array(config["formFiles"].toArray());
@@ -67,6 +72,7 @@ QJsonObject GlobalProjectConfig::getConfig()
     toJSON(projectName);
     stringToJSON(projectID);
     toJSON(mainFormFilename);
+    toJSON(projectColorName);
     return config;
 }
 

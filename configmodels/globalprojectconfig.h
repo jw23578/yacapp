@@ -13,6 +13,7 @@ class GlobalProjectConfig : public ConfigInterface
     YACAPPPROPERTY(QString, projectID, ProjectID, "");
     YACAPPPROPERTY(QString, mainFormFilename, MainFormFilename, "")
     YACAPPPROPERTY(QString, logoUrl, LogoUrl, "")
+    YACAPPPROPERTY(QString, projectColorName, ProjectColorName, "white");
     YACAPPPROPERTY(double, logoWidth, LogoWidth, 0)
     YACAPPPROPERTY(double, logoHeight, LogoHeight, 0)
     YACAPPPROPERTY(double, logoOffsetX, LogoOffsetX, 0)

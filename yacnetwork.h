@@ -44,7 +44,8 @@ class YACNetwork: public QObject
                          const QUrlQuery &query,
                          HandlerFunction handlerFunction,
                          CallbackFunction registerCallback,
-                         CallbackFunction errorCallback);public:
+                         CallbackFunction errorCallback);
+public:
     YACNetwork(const Constants &constants);
     void downloadApp(QString projectFilename,
                      QString projectPackage,
@@ -69,11 +70,17 @@ class YACNetwork: public QObject
 
     void yacappServerUploadApp(const QString &loginEMail,
                                const QString &loginToken,
-                               const QString &appId,
+                               const QString &app_id,
+                               const QString &app_name,
+                               const QString &app_logo_url,
+                               const QString &app_color_name,
                                const QString &json_yacapp,
                                const QString &yacpck_base64,
                                CallbackFunction successCallback,
                                CallbackFunction  errorCallback);
+
+    void yacappServerGetAllAPPs(CallbackFunction successCallback,
+                                CallbackFunction  errorCallback);
 
 public slots:
     void replyFinished(QNetworkReply *reply);
