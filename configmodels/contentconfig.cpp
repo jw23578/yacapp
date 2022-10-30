@@ -11,6 +11,10 @@ ContentConfig::ContentConfig(QObject *parent)
 
 void ContentConfig::setConfig(const QJsonValue &config)
 {
+    if (config.isUndefined())
+    {
+        return;
+    }
     setType(config["type"].toString());
     setUrl(config["url"].toString());
     intFromJSON(columns, Columns);

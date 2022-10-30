@@ -32,6 +32,8 @@ YACAPP::YACAPP(const Constants &constants, YACNetwork &network, QObject *parent)
 
 void YACAPP::init(QString projectFilename)
 {
+    m_knownFiles.clear();
+    m_knownMenueFiles.clear();
     projectFilename.replace("file://", "");
     setGlobalProjectConfigFilename(projectFilename);
     QString rawFolder(QFileInfo(projectFilename).path());
@@ -55,6 +57,7 @@ void YACAPP::init(QString projectFilename)
         getMenueConfig(globalConfig()->menueFiles[i]);
     }
     setMainConfig(getConfig(globalConfig()->mainFormFilename()));
+    cleanUpKnownFile();
 }
 
 void YACAPP::saveState()
@@ -88,29 +91,40 @@ void YACAPP::addKnownMenueFile(const QString &filename)
     emit knownMenueFilesChanged();
 }
 
-void YACAPP::reset()
+void YACAPP::cleanUpKnownFile()
 {
     {
         QMap<QString, ParsedConfig*>::iterator it(fileName2ParsedConfig.begin());
         while (it != fileName2ParsedConfig.end())
         {
-            delete it.value();
-            ++it;
+            QFileInfo fi(it.key());
+            if (!m_knownFiles.contains(fi.fileName()))
+            {
+                delete it.value();
+                it = fileName2ParsedConfig.erase(it);
+            }
+            else
+            {
+                ++it;
+            }
         }
     }
     {
         QMap<QString, MenueConfig*>::iterator it(fileName2MenueConfig.begin());
         while (it != fileName2MenueConfig.end())
         {
-            delete it.value();
-            ++it;
+            QFileInfo fi(it.key());
+            if (!m_knownMenueFiles.contains(fi.fileName()))
+            {
+                delete it.value();
+                it = fileName2MenueConfig.erase(it);
+            }
+            else
+            {
+                ++it;
+            }
         }
     }
-    fileName2ParsedConfig.clear();
-    fileName2MenueConfig.clear();
-    delete m_globalConfig;
-    m_globalConfig = new GlobalProjectConfig;
-    m_knownMenueFiles.clear();
 }
 
 ParsedConfig *YACAPP::getConfig(const QString &filename)
@@ -121,9 +135,12 @@ ParsedConfig *YACAPP::getConfig(const QString &filename)
     {
         fileName2ParsedConfig[fullFilename] = new ParsedConfig;
         configIt = fileName2ParsedConfig.find(fullFilename);
-        configIt.value()->init(fullFilename, baseUrl());
     }
-    addKnownFile(filename);
+    if (!m_knownFiles.contains(filename))
+    {
+        configIt.value()->init(fullFilename, baseUrl());
+        addKnownFile(filename);
+    }
     return configIt.value();
 }
 
@@ -139,9 +156,12 @@ MenueConfig *YACAPP::getMenueConfig(const QString &filename)
     {
         fileName2MenueConfig[fullFilename] = new MenueConfig;
         configIt = fileName2MenueConfig.find(fullFilename);
-        configIt.value()->init(fullFilename);
     }
-    addKnownMenueFile(filename);
+    if (!m_knownMenueFiles.contains(filename))
+    {
+        configIt.value()->init(fullFilename);
+        addKnownMenueFile(filename);
+    }
     return configIt.value();
 }
 
@@ -151,7 +171,6 @@ void YACAPP::loadNewProject(const QString &projectFilename)
     {
         return;
     }
-    reset();
     init(projectFilename);
 }
 
@@ -212,11 +231,19 @@ void YACAPP::yacappServerGetAllAPPs(QJSValue successCallback,
 }
 
 void YACAPP::yacappServerGetAPP(const QString &app_id,
+                                const int current_installed_version,
                                 QJSValue successCallback,
                                 QJSValue errorCallback)
 {
-    network.yacappServerGetAPP(app_id, [this, app_id, successCallback](const QString &message) mutable
+    network.yacappServerGetAPP(app_id,
+                               current_installed_version,
+                               [this, app_id, successCallback](const QString &message) mutable
     {
+        if (message == "app version is up to date")
+        {
+            successCallback.call(QJSValueList() << message);
+            return;
+        }
         loadNewProject(constants.getYacAppConfigPath() + app_id + ".yacapp");
         saveState();
         successCallback.call(QJSValueList() << message);

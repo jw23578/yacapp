@@ -10,6 +10,10 @@ SplashscreenConfig::SplashscreenConfig(QObject *parent)
 
 void SplashscreenConfig::setConfig(const QJsonValue &config)
 {
+    if (config.isUndefined())
+    {
+        return;
+    }
     setImageFilename(config["imageFilename"].toString());
     setSecondsDuration(config["secondsDuration"].toInt());
 }

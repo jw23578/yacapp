@@ -11,17 +11,17 @@ Window {
     visible: true
     title: qsTr("Hello World")
 
-    onActiveFocusItemChanged:
-    {
-        var count = 0
-        var elem = activeFocusItem
-        while (elem)
-        {
-            print("activeFocusItem " + count + " " + elem)
-            elem = elem.parent
-            count += 1
-        }
-    }
+    //    onActiveFocusItemChanged:
+    //    {
+    //        var count = 0
+    //        var elem = activeFocusItem
+    //        while (elem)
+    //        {
+    //            print("activeFocusItem " + count + " " + elem)
+    //            elem = elem.parent
+    //            count += 1
+    //        }
+    //    }
 
     MainForm
     {
@@ -79,6 +79,42 @@ Window {
         id: goodMessage
     }
 
+    function checkForAppUpdate()
+    {
+        if (!yacApp.globalConfig.projectID.length)
+        {
+            console.log("no current app active -> no update check")
+            return;
+        }
+
+        console.log("checking for updates");
+        yacApp.yacappServerGetAPP(yacApp.globalConfig.projectID,
+                                  yacApp.globalConfig.version,
+                                  function(message)
+                                  {
+                                      if (message == "app version is up to date")
+                                      {
+                                          console.log(message)
+                                          return;
+                                      }
+
+                                      console.log("got an update")
+                                  },
+                                  function(message)
+                                  {
+                                      console.log("error on updating")
+                                  }
+                                  )
+    }
+
+    Timer
+    {
+        interval: 1000 * 60 // * 5
+        repeat: true
+        running: true
+        onTriggered: checkForAppUpdate()
+    }
+
     Connections
     {
         target: yacApp
@@ -104,5 +140,6 @@ Window {
         console.log(yacApp.mainConfig.content.type)
         console.log(yacApp.mainConfig.content.items.length)
         console.log(yacApp.mainConfig.content.items[1].height)
+        checkForAppUpdate()
     }
 }

@@ -104,6 +104,7 @@ YACRectangle
                 {
                     console.log("App selected")
                     yacApp.yacappServerGetAPP(app_id,
+                                              0,
                                               function(message)
                                               {
                                                   yacApp.goodMessage(message, null)

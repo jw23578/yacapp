@@ -248,7 +248,7 @@ void YACNetwork::yacappServerUploadApp(const QString &loginEMail,
                                        const QString &loginToken,
                                        const QString &app_id,
                                        const QString &app_name,
-                                       const QString &app_version,
+                                       const int app_version,
                                        const QString &app_logo_url,
                                        const QString &app_color_name,
                                        const QString &json_yacapp,
@@ -308,6 +308,7 @@ void YACNetwork::yacappServerGetAllAPPs(CallbackFunction successCallback,
 }
 
 void YACNetwork::yacappServerGetAPP(const QString &app_id,
+                                    const int current_installed_version,
                                     CallbackFunction successCallback,
                                     CallbackFunction errorCallback)
 {
@@ -317,13 +318,18 @@ void YACNetwork::yacappServerGetAPP(const QString &app_id,
         QJsonDocument replyDoc(QJsonDocument::fromJson(all));
         QJsonObject object(replyDoc.object());
         QString message(object["message"].toString());
-        QString json_yacapp(object["json_yacapp"].toString());
-        QString app_id(object["app_id"].isString());
-
-        QByteArray yacpck_base64(object["yacpck_base64"].toString().toLatin1());
-        QByteArray yacpck(QByteArray::fromBase64(yacpck_base64));
+        if (message == "app version is up to date")
+        {
+            rr.successCallback(message);
+            return;
+        }
         if (message == "app found")
         {
+            QString json_yacapp(object["json_yacapp"].toString());
+            QString app_id(object["app_id"].toString());
+
+            QByteArray yacpck_base64(object["yacpck_base64"].toString().toLatin1());
+            QByteArray yacpck(QByteArray::fromBase64(yacpck_base64));
             QFile file(constants.getYacAppConfigPath() + app_id + ".yacapp");
             file.open(QIODevice::WriteOnly);
             file.write(json_yacapp.toLatin1());
@@ -359,6 +365,7 @@ void YACNetwork::yacappServerGetAPP(const QString &app_id,
     });
     QUrlQuery query;
     query.addQueryItem("app_id", app_id);
+    query.addQueryItem("current_installed_version", QString::number(current_installed_version));
     yacappServerGet("/getAPP",
                     query,
                     replyHandler,

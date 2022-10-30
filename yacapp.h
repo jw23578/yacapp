@@ -31,7 +31,7 @@ class YACAPP : public QObject
 
     YACNetwork &network;
 
-    void reset();
+    void cleanUpKnownFile();
 
 public:
     explicit YACAPP(const Constants &constants,
@@ -56,6 +56,7 @@ public:
                                             QJSValue  errorCallback);
 
     Q_INVOKABLE void yacappServerGetAPP(const QString &app_id,
+                                        const int current_installed_version,
                                         QJSValue successCallback,
                                         QJSValue errorCallback);
 

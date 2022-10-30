@@ -20,7 +20,6 @@ Rectangle
             anchors.fill: parent
             visible: !loading
             url: config.content.url + (config.content.loginNeeded ? yacApp.loginToken : "")
-            Component.onCompleted: console.log("url: " + url)
         }
         Rectangle
         {
@@ -53,7 +52,7 @@ Rectangle
             spacing: 1
             Repeater
             {
-                model: config.content.itemCount
+                model: theGridFlickable.visible ? config.content.itemCount : 0
                 delegate: ContentDelegate
                 {
                     stackView: theSuperForm.stackView
@@ -81,7 +80,7 @@ Rectangle
             spacing: 1
             Repeater
             {
-                model: config.content.itemCount
+                model: theColumnFlickable.visible ? config.content.itemCount : 0
                 delegate: ContentDelegate
                 {
                     stackView: theSuperForm.stackView
@@ -109,7 +108,7 @@ Rectangle
             spacing: 1
             Repeater
             {
-                model: config.content.itemCount
+                model: theRowFlickable.visible ? config.content.itemCount : 0
                 delegate: ContentDelegate
                 {
                     stackView: theSuperForm.stackView

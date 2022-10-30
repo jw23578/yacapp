@@ -10,6 +10,10 @@ FooterConfig::FooterConfig(QObject *parent)
 
 void FooterConfig::setConfig(const QJsonValue &config)
 {
+    if (config.isUndefined())
+    {
+        return;
+    }
     setHeight(config["height"].toDouble(0));
     setColor(config["color"].toString());
 }

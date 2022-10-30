@@ -10,6 +10,10 @@ HeaderConfig::HeaderConfig(QObject *parent)
 
 void HeaderConfig::setConfig(const QJsonValue &config)
 {
+    if (config.isUndefined())
+    {
+        return;
+    }
     setColor(config["color"].toString());
     setTitle(config["title"].toString());
     setHeight(config["height"].toDouble(0));

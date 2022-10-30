@@ -24,8 +24,13 @@ bool ParsedConfig::init(const QString &jsonConfigFile,
 {
     QFile jsonFile(jsonConfigFile);
     jsonFile.open(QIODevice::ReadOnly);
+    if (!jsonFile.isOpen())
+    {
+        qDebug() << "fatal error could not open: " << jsonConfigFile;
+        return false;
+    }
     QByteArray fileData(jsonFile.readAll());
-    config = QJsonDocument::fromJson(fileData);
+    QJsonDocument config = QJsonDocument::fromJson(fileData);
 
     setMenueFilename(config["menueFilename"].toString());
 
@@ -34,6 +39,7 @@ bool ParsedConfig::init(const QString &jsonConfigFile,
     header()->setConfig(config["header"]);
     footer()->setConfig(config["footer"]);
     splashscreen()->setConfig(config["splashscreen"]);
+    return true;
 }
 
 void ParsedConfig::save(const QString &jsonConfigFile, const QString &baseUrl)

@@ -14,8 +14,6 @@
 class ParsedConfig : public QObject
 {
     Q_OBJECT
-    QJsonDocument config;
-
     YACAPPREADONLYPROPERTY(BackgroundConfig*, background, new BackgroundConfig())
     YACAPPREADONLYPROPERTY(MenueConfig*, menue, new MenueConfig());
     YACAPPREADONLYPROPERTY(ContentConfig*, content, new ContentConfig());
@@ -23,6 +21,7 @@ class ParsedConfig : public QObject
     YACAPPREADONLYPROPERTY(FooterConfig*, footer, new FooterConfig());
     YACAPPREADONLYPROPERTY(SplashscreenConfig*, splashscreen, new SplashscreenConfig());
     YACAPPPROPERTY(QString, menueFilename, MenueFilename, "");
+
 public:
     explicit ParsedConfig(QObject *parent = nullptr);
     ~ParsedConfig();

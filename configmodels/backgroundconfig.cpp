@@ -10,6 +10,10 @@ BackgroundConfig::BackgroundConfig(QObject *parent):
 
 void BackgroundConfig::setConfig(const QJsonValue &config)
 {
+    if (config.isUndefined())
+    {
+        return;
+    }
     setColor(config["color"].toString());
     setImageFilename(config["imageFilename"].toString());
 }

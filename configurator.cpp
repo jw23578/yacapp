@@ -216,7 +216,7 @@ void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCall
                                   pd.yacappServerLoginToken(),
                                   gpc.projectID(),
                                   gpc.projectName(),
-                                  QString::number(gpc.version()),
+                                  gpc.version(),
                                   gpc.logoUrl(),
                                   gpc.projectColorName(),
                                   gpc.getConfigAsString(),
@@ -225,8 +225,12 @@ void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCall
     {
         goodCallback.call();
     },
-    [badCallback](const QString &message) mutable
+    [this, badCallback](const QString &message) mutable
     {
+        if (message == "not logged in")
+        {
+            activeProjectData()->setYacappServerLoginToken("");
+        }
         badCallback.call(QJSValueList() << message);
     });
 }
