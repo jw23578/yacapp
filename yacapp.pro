@@ -1,4 +1,4 @@
-QT += quick widgets network
+QT += quick widgets network webview
 
 android: include(/home/jw78/Android/Sdk/android_openssl/openssl.pri)
 
@@ -66,4 +66,14 @@ HEADERS += \
   yacnetwork.h
 
 DISTFILES += \
-  README.md
+  README.md \
+  android/AndroidManifest.xml \
+  android/build.gradle \
+  android/gradle.properties \
+  android/gradle/wrapper/gradle-wrapper.jar \
+  android/gradle/wrapper/gradle-wrapper.properties \
+  android/gradlew \
+  android/gradlew.bat \
+  android/res/values/libs.xml
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

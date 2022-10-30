@@ -10,6 +10,7 @@
 #include "configmodels/globalprojectconfig.h"
 #include "projectdata.h"
 #include "constants.h"
+#include <QtWebView>
 
 int main(int argc, char *argv[])
 {
@@ -47,7 +48,7 @@ int main(int argc, char *argv[])
             break;
         }
     }
-
+    QtWebView::initialize();
     QQmlApplicationEngine engine;
     Constants constants;
     YACNetwork network(constants);

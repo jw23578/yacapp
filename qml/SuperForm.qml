@@ -8,11 +8,12 @@ Rectangle
     id: theSuperForm
     property ParsedConfig config: null
     property var stackView: null
+    property var theMenue: null
     color: config.background.color
     Item
     {
         id: webviewItem
-        visible: config.content.type == "webview"
+        visible: !theMenue.menueOpen && config.content.type == "webview" && (!config.content.loginNeeded || yacApp.loginToken != "")
         anchors.fill: parent
         WebView
         {
@@ -56,6 +57,7 @@ Rectangle
                 delegate: ContentDelegate
                 {
                     stackView: theSuperForm.stackView
+                    theMenue: theSuperForm.theMenue
                     contentType: config.content.type
                     itemConfig: config.content.items[index]
                     formHeight: theSuperForm.height
@@ -84,6 +86,7 @@ Rectangle
                 delegate: ContentDelegate
                 {
                     stackView: theSuperForm.stackView
+                    theMenue: theSuperForm.theMenue
                     contentType: config.content.type
                     itemConfig: config.content.items[index]
                     formHeight: theSuperForm.height
@@ -112,6 +115,7 @@ Rectangle
                 delegate: ContentDelegate
                 {
                     stackView: theSuperForm.stackView
+                    theMenue: theSuperForm.theMenue
                     contentType: config.content.type
                     itemConfig: config.content.items[index]
                     formHeight: theSuperForm.height

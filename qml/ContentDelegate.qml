@@ -7,6 +7,7 @@ import "qrc:/MenueFunctions.js" as MenueFunctions
 Item
 {
     property var stackView: null
+    property var theMenue: null
     property int formHeight: 0
     property int formWidth: 0
     property string contentType: ""
@@ -46,6 +47,6 @@ Item
     {
         enabled: itemConfig.target != ""
         anchors.fill: parent
-        onClicked: MenueFunctions.openTarget(yacApp, stackView, itemConfig.target)
+        onClicked: MenueFunctions.openTarget(yacApp, stackView, itemConfig.target, theMenue)
     }
 }

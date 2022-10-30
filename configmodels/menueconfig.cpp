@@ -17,8 +17,8 @@ bool MenueConfig::init(const QString &jsonConfigFile)
     jsonFile.open(QIODevice::ReadOnly);
     QByteArray fileData(jsonFile.readAll());
     QJsonDocument config = QJsonDocument::fromJson(fileData);
-
     setConfig(config["menue"]);
+    return true;
 }
 
 void MenueConfig::setConfig(const QJsonValue &config)

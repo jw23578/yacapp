@@ -9,6 +9,8 @@ Item
     property var stackView: null
     property bool once: true
     property bool isClosed: true
+    property bool menueOpen: !isClosed
+    property alias openCloseButtonHeight: openCloseButton.height
     function open()
     {
         isClosed = false
@@ -133,7 +135,7 @@ Item
                 onClicked:
                 {
                     defaultMenue.close()
-                    MenueFunctions.openTarget(yacApp, stackView, menue.items[index].target)
+                    MenueFunctions.openTarget(yacApp, stackView, menue.items[index].target, defaultMenue)
                 }
             }
         }

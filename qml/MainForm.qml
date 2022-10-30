@@ -10,17 +10,17 @@ import "items"
 Item
 {
     id: theItem
-    config: yacApp.mainConfig
     anchors.fill: parent
     focus: true
     property MenueConfig menue: yacApp.getMenueConfig(config.menueFilename)
-    property ParsedConfig config: null
+    property ParsedConfig config: yacApp.mainConfig
     signal currentItemChanged(ParsedConfig config)
     function openFilename(filename)
     {
         theStackView.push("SuperForm.qml", {
                               "config": yacApp.getConfig(filename),
                               "stackView": theStackView,
+                              "theMenue": theMenue
                           })
     }
     Column
@@ -40,6 +40,7 @@ Item
             {
                 config: theItem.config
                 stackView: theStackView
+                theMenue: theRealMenue
             }
             height: theItem.height - header.height - footer.height
             width: parent.width
@@ -53,10 +54,12 @@ Item
         YACFooter
         {
             id: footer
+            minimumHeight: theRealMenue.openCloseButtonHeight
         }
     }
     YACDefaultMenue
     {
+        id: theRealMenue
         visible: menue.type === "" || menue.type === "default"
         stackView: theStackView
     }

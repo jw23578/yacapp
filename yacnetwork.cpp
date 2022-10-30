@@ -355,7 +355,6 @@ void YACNetwork::yacappServerGetAPP(const QString &app_id,
                 file.close();
                 pos = nextPos + 1;
             }
-
             rr.successCallback(message);
         }
         else

@@ -1,6 +1,6 @@
 .pragma library
 
-function openTarget(yacApp, stackView, target)
+function openTarget(yacApp, stackView, target, theMenue)
 {
     if (target == "back")
     {
@@ -19,7 +19,8 @@ function openTarget(yacApp, stackView, target)
 
     stackView.push("qrc:/qml/SuperForm.qml", {
                        "config": yacApp.getConfig(target),
-                       "stackView": stackView
+                       "stackView": stackView,
+                       "theMenue": theMenue
                    }
                    )
 }
