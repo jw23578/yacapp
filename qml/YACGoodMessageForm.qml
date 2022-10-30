@@ -5,10 +5,12 @@ Rectangle
 {
     anchors.fill: parent
     visible: false
+    id: theGoodMessageForm
+    property var itemToFocus: null
     function show(message, itemToFocus)
     {
         messageText.text = message
-        theBadMessageForm.itemToFocus = itemToFocus
+        theGoodMessageForm.itemToFocus = itemToFocus
         visible = true
     }
     function hide()

@@ -147,7 +147,19 @@ void YACNetwork::yacappServerRegisterUser(QString loginEMail,
     auto replyHandler([](QNetworkReply *finishedReply,
                       SRunningRequest &rr)
     {
-        qDebug() << finishedReply->readAll();
+        QByteArray all(finishedReply->readAll());
+        qDebug() << all;
+        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
+        QJsonObject object(replyDoc.object());
+        QString message(object["message"].toString());
+        if (message == "user registered, please verify")
+        {
+            rr.successCallback(message);
+        }
+        else
+        {
+            rr.errorCallback(message);
+        }
     });
 
     QJsonObject obj;
@@ -236,6 +248,7 @@ void YACNetwork::yacappServerUploadApp(const QString &loginEMail,
                                        const QString &loginToken,
                                        const QString &app_id,
                                        const QString &app_name,
+                                       const QString &app_version,
                                        const QString &app_logo_url,
                                        const QString &app_color_name,
                                        const QString &json_yacapp,
@@ -262,6 +275,7 @@ void YACNetwork::yacappServerUploadApp(const QString &loginEMail,
     QJsonObject obj;
     obj["app_id"] = app_id;
     obj["app_name"] = app_name;
+    obj["app_version"] = app_version;
     obj["app_logo_url"] = app_logo_url;
     obj["app_color_name"] = app_color_name;
     obj["json_yacapp"] = json_yacapp;

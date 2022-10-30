@@ -221,6 +221,7 @@ void Configurator::deployToYACAPPServer(const QString &globalProjectConfigFilena
                                   pd.yacappServerLoginToken(),
                                   gpc.projectID(),
                                   gpc.projectName(),
+                                  QString::number(gpc.version()),
                                   gpc.logoUrl(),
                                   gpc.projectColorName(),
                                   gpc.getConfigAsString(),
@@ -273,14 +274,19 @@ void Configurator::yacserverUserLoggedIn(const QString &loginEMail, const QStrin
     );
 }
 
-void Configurator::yacserverRegister(const QString &loginEMail, const QString &password)
+void Configurator::yacserverRegister(const QString &loginEMail,
+                                     const QString &password,
+                                     QJSValue goodCallback,
+                                     QJSValue badCallback)
 {
     network.yacappServerRegisterUser(loginEMail, password,
-                                     [this](const QString &message){
-        registerSuccessful();
+                                     [goodCallback](const QString &message) mutable
+    {
+        goodCallback.call(QJSValueList() << message);
     },
-    [this](const QString &message){
-        registerNotSuccessful(message);
+    [badCallback](const QString &message) mutable
+    {
+        badCallback.call(QJSValueList() << message);
     }
     );
 }

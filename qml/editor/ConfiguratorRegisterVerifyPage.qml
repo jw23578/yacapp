@@ -35,7 +35,16 @@ Rectangle
         {
             text: qsTr("Register")
             width: parent.width
-            onClicked: configurator.yacserverRegister(loginEMail.displayText, password.text)
+            onClicked: configurator.yacserverRegister(loginEMail.displayText, password.text,
+                                                      function(message)
+                                                      {
+                                                          yacApp.goodMessage(message, null)
+                                                      },
+                                                      function(message)
+                                                      {
+                                                          yacApp.badMessage(message, null)
+                                                      }
+                                                      )
         }
 
         YACLineEditWithHeader
@@ -60,14 +69,6 @@ Rectangle
     Connections
     {
         target: configurator
-        function onRegisterSuccessful()
-        {
-            console.log("good good")
-        }
-        function onRegisterNotSuccessful(message)
-        {
-            yacApp.badMessage(message, null)
-        }
         function onVerifySuccessful()
         {
             yacApp.goodMessage(qsTr("Verifyíing Successful, you are now logged in an can deploy your App."), null)
