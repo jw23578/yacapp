@@ -116,6 +116,7 @@ Rectangle
                 YACLineEditWithHeader
                 {
                     headerText: qsTr("Menuefilename")
+                    width: parent.width
                     text: config.menueFilename
                     onDisplayTextChanged:
                     {

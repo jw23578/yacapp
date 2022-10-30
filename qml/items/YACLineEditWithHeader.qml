@@ -12,6 +12,7 @@ FocusScope
     property alias text: input.text
     property alias displayText: input.displayText
     height: lineEditWithHeader.height
+    width: parent.width
     Column
     {
         id: lineEditWithHeader
