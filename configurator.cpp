@@ -172,13 +172,10 @@ void Configurator::defaultDeploy(const QString &globalProjectConfigFilename, QSt
     sftpUpload(host, user, password, QString("/var/www/html/yacapp/") + gpc.projectID() + ".yacpck", appPackageFilename);
 }
 
-void Configurator::deployToYACAPPServer(const QString &globalProjectConfigFilename,
-                                        QJSValue goodCallback,
-                                        QJSValue badCallback)
+void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCallback, QJSValue badCallback)
 {
     GlobalProjectConfig gpc;
     gpc.init(globalProjectConfigFilename);
-
     if (!deployConfigs[gpc.projectID()])
     {
         deployConfigs[gpc.projectID()] = new ProjectData;
@@ -215,8 +212,6 @@ void Configurator::deployToYACAPPServer(const QString &globalProjectConfigFilena
     }
     appPackage = qCompress(appPackage);
 
-    QByteArray json_yacapp; // FIXME must be filled
-
     network.yacappServerUploadApp(pd.deployUser(),
                                   pd.yacappServerLoginToken(),
                                   gpc.projectID(),
@@ -234,7 +229,13 @@ void Configurator::deployToYACAPPServer(const QString &globalProjectConfigFilena
     {
         badCallback.call(QJSValueList() << message);
     });
+}
 
+void Configurator::deployToYACAPPServer(QString globalProjectConfigFilename,
+                                        QJSValue goodCallback,
+                                        QJSValue badCallback)
+{
+    qDebug() << globalProjectConfigFilename;
 }
 
 void Configurator::setProjectData(const QString &projectID)

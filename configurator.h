@@ -33,7 +33,11 @@ public:
 
     Q_INVOKABLE void defaultDeploy(const QString &globalProjectConfigFilename, QString host, QString user, QString password);
 
-    Q_INVOKABLE void deployToYACAPPServer(const QString &globalProjectConfigFilename,
+    Q_INVOKABLE void deploy(QString globalProjectConfigFilename,
+                                          QJSValue goodCallback,
+                                          QJSValue badCallback);
+
+    Q_INVOKABLE void deployToYACAPPServer(QString globalProjectConfigFilename,
                                           QJSValue goodCallback,
                                           QJSValue badCallback);
 
