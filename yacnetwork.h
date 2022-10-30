@@ -7,7 +7,7 @@
 class YACNetwork: public QObject
 {
     Q_OBJECT
-    const QString yacappServerUrl = {"http://127.0.0.1:23578"}; // {"http://www.jw78.de:23579"};
+    const QString yacappServerUrl = {"http://www.jw78.de:23579"}; // {"http://127.0.0.1:23578"}; //
     const Constants &constants;
     QNetworkAccessManager manager;
     struct SRunningRequest;

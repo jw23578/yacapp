@@ -5,10 +5,11 @@ import QtQuick.Controls 2.15
 import "qml"
 import "qml/items"
 
-Window {
+ApplicationWindow
+{
+    visible: true
     width: 480
     height: 640
-    visible: true
     title: qsTr("Hello World")
 
     //    onActiveFocusItemChanged:
@@ -23,14 +24,13 @@ Window {
     //        }
     //    }
 
-    MainForm
+    Loader
     {
-        x: 0
-        y: 0
-        width: parent.width
-        height: parent.height
-        config: yacApp.mainConfig
         focus: true
+        anchors.fill: parent
+        id: mainformLoader
+        active: yacApp.mainConfig != null
+        source: "qml/MainForm.qml"
     }
 
     SelectAppForm
@@ -131,15 +131,15 @@ Window {
     Component.onCompleted:
     {
         startUpAni.start()
-        console.log("hello")
-        console.log("ProjectID: " + yacApp.globalConfig.projectID)
-        console.log(yacApp.mainConfig)
-        console.log(yacApp.mainConfig.background)
-        console.log(yacApp.mainConfig.background.imageFilename)
-        console.log(yacApp.mainConfig.background.color)
-        console.log(yacApp.mainConfig.content.type)
-        console.log(yacApp.mainConfig.content.items.length)
-        console.log(yacApp.mainConfig.content.items[1].height)
+//        console.log("hello")
+//        console.log("ProjectID: " + yacApp.globalConfig.projectID)
+//        console.log(yacApp.mainConfig)
+//        console.log(yacApp.mainConfig.background)
+//        console.log(yacApp.mainConfig.background.imageFilename)
+//        console.log(yacApp.mainConfig.background.color)
+//        console.log(yacApp.mainConfig.content.type)
+//        console.log(yacApp.mainConfig.content.items.length)
+//        console.log(yacApp.mainConfig.content.items[1].height)
         checkForAppUpdate()
     }
 }

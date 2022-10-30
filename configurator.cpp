@@ -4,10 +4,14 @@
 #include <QFileInfo>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include "jw78curlwrapper.h"
 #include <QJsonArray>
 #include "configmodels/globalprojectconfig.h"
-#include "zlib.h"
+
+#ifndef Q_OS_ANDROID
+#include "jw78curlwrapper.h"
+#endif
+
+// #include "zlib.h"
 
 
 Configurator::Configurator(YACNetwork &network, QObject *parent)
@@ -71,6 +75,8 @@ void Configurator::save()
 
 void Configurator::deploy(QString projectID, QString host, QString user, QString password, QString www_basedirectory)
 {
+
+#ifndef Q_OS_ANDROID
     if (!deployConfigs[projectID])
     {
         deployConfigs[projectID] = new ProjectData;
@@ -97,10 +103,13 @@ void Configurator::deploy(QString projectID, QString host, QString user, QString
     std::string message;
     cw.sftpUpload(remoteUrl, "/home/jw78/wes23/wes23.yacapp", message);
 
+#endif
+
 }
 
 void Configurator::sftpUpload(QString host, QString user, QString password, QString targetFilename, QString sourceFilename)
 {
+#ifndef Q_OS_ANDROID
     std::string remoteUrl("sftp://");
     remoteUrl += user.toStdString();
     remoteUrl += ":";
@@ -113,6 +122,7 @@ void Configurator::sftpUpload(QString host, QString user, QString password, QStr
     jw78::CurlWrapper cw;
     std::string message;
     cw.sftpUpload(remoteUrl, sourceFilename.toStdString(), message);
+#endif
 }
 
 

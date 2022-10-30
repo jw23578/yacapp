@@ -10,6 +10,9 @@ import "items"
 Item
 {
     id: theItem
+    config: yacApp.mainConfig
+    anchors.fill: parent
+    focus: true
     property MenueConfig menue: yacApp.getMenueConfig(config.menueFilename)
     property ParsedConfig config: null
     signal currentItemChanged(ParsedConfig config)
