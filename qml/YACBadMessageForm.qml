@@ -7,10 +7,12 @@ Rectangle
     anchors.fill: parent
     visible: false
     property var itemToFocus: null
-    function show(message, itemToFocus)
+    property var okCallback: null
+    function show(message, itemToFocus, okCallback)
     {
         messageText.text = message
         theBadMessageForm.itemToFocus = itemToFocus
+        theBadMessageForm.okCallback = okCallback
         visible = true
     }
     function hide()
@@ -19,6 +21,10 @@ Rectangle
         if (itemToFocus != null)
         {
             itemToFocus.forceActiveFocus()
+        }
+        if (okCallback)
+        {
+            okCallback()
         }
     }
 

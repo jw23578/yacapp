@@ -106,11 +106,11 @@ YACRectangle
                                               0,
                                               function(message)
                                               {
-                                                  yacApp.goodMessage(qsTr("App installed, have fun."), null)
+                                                  yacApp.goodMessage(qsTr("App installed, have fun."), null, null)
                                               },
                                               function(message)
                                               {
-                                                  yacApp.badMessage(message, null)
+                                                  yacApp.badMessage(message, null, null)
                                               }
                                               )
                     return
@@ -159,7 +159,7 @@ YACRectangle
         function onAppDownloadError(errorMessage)
         {
             console.log("Console: " + errorMessage)
-            yacApp.badMessage(errorMessage)
+            yacApp.badMessage(errorMessage, null, null)
         }
         function onAppDownloadSuccess()
         {

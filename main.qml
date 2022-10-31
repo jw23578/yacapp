@@ -124,13 +124,13 @@ ApplicationWindow
     Connections
     {
         target: yacApp
-        function onBadMessage(message, itemToFocus)
+        function onBadMessage(message, itemToFocus, okCallback)
         {
             badMessage.show(message, itemToFocus)
         }
-        function onGoodMessage(message, itemToFocus)
+        function onGoodMessage(message, itemToFocus, okCallback)
         {
-            goodMessage.show(message, itemToFocus)
+            goodMessage.show(message, itemToFocus, okCallback)
         }
         function onYesNoQuestion(question, itemToFocus, yesCallback, noCallback)
         {

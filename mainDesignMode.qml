@@ -104,17 +104,25 @@ Window {
     {
         id: goodMessage
     }
+    YACYesNoQuestionForm
+    {
+        id: yesNoQuestion
+    }
 
     Connections
     {
         target: yacApp
-        function onBadMessage(message, itemToFocus)
+        function onBadMessage(message, itemToFocus, okCallback)
         {
-            badMessage.show(message, itemToFocus)
+            badMessage.show(message, itemToFocus, okCallback)
         }
-        function onGoodMessage(message, itemToFocus)
+        function onGoodMessage(message, itemToFocus, okCallback)
         {
-            goodMessage.show(message, itemToFocus)
+            goodMessage.show(message, itemToFocus, okCallback)
+        }
+        function onYesNoQuestion(question, itemToFocus, yesCallback, noCallback)
+        {
+            yesNoQuestion.show(question, itemToFocus, yesCallback, noCallback)
         }
     }
 

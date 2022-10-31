@@ -2,6 +2,7 @@
 #include <QStandardPaths>
 #include <QFile>
 #include <QFileInfo>
+#include <QDir>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -317,4 +318,9 @@ void Configurator::yacserverVerify(const QString &loginEMail, const QString &ver
     }
     );
 
+}
+
+bool Configurator::isFolderEmpty(const QString &folder)
+{
+    return QDir(QUrl(folder).path()).isEmpty();
 }

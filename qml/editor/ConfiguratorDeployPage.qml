@@ -49,7 +49,7 @@ Rectangle
             {
                 if (configurator.activeProjectData.yacappServerLoginToken.length)
                 {
-                    yacApp.goodMessage(qsTr("You are already logged in."), null)
+                    yacApp.goodMessage(qsTr("You are already logged in."), null, null)
                     return
                 }
 
@@ -71,27 +71,27 @@ Rectangle
             {
                 if (configurator.activeProjectData.yacappServerLoginToken == "")
                 {
-                    yacApp.badMessage(qsTr("Please login first"), null)
+                    yacApp.badMessage(qsTr("Please login first"), null, null)
                     return
                 }
                 configurator.deploy(yacApp.globalProjectConfigFilename,
                                     function()
                                     {
-                                        yacApp.goodMessage(qsTr("Deployment successful"), null)
+                                        yacApp.goodMessage(qsTr("Deployment successful"), null, null)
                                     },
                                     function(message)
                                     {
-                                        yacApp.badMessage(message, null)
+                                        yacApp.badMessage(message, null, null)
                                     })
                 return;
                 configurator.deployToYACAPPServer(yacApp.globalProjectConfigFilename,
                                                   function()
                                                   {
-                                                      yacApp.goodMessage(qsTr("Deployment successful"), null)
+                                                      yacApp.goodMessage(qsTr("Deployment successful"), null, null)
                                                   },
                                                   function(message)
                                                   {
-                                                      yacApp.badMessage(message, null)
+                                                      yacApp.badMessage(message, null, null)
                                                   }
                                                   )
                 return;
@@ -136,7 +136,7 @@ Rectangle
         }
         function onLoginNotSuccessful(message)
         {
-            yacApp.badMessage(message, null)
+            yacApp.badMessage(message, null, null)
         }
     }
 }

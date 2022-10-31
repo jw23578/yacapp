@@ -68,8 +68,8 @@ signals:
 
     void appDownloadSuccess();
     void appDownloadError(const QString &errorMessage);
-    void badMessage(const QString &message, QJSValue itemToFocus);
-    void goodMessage(const QString &message, QJSValue itemToFocus);
+    void badMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
+    void goodMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
     void yesNoQuestion(const QString &question, QJSValue itemToFocus, QJSValue yesCallback, QJSValue noCallback);
 };
 

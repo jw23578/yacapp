@@ -85,7 +85,7 @@ Rectangle
                 y: fileCombobox.comboBox.y
                 id: deleteCurrentFileButton
                 text: qsTr("Delete File")
-                onClicked: yacApp.badMessage(qsTr("Not yet implemented"), null)
+                onClicked: yacApp.badMessage(qsTr("Not yet implemented"), null, null)
             }
         }
     }

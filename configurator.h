@@ -50,6 +50,8 @@ public:
                                        QJSValue badCallback);
     Q_INVOKABLE void yacserverVerify(const QString &loginEMail, const QString &verifyToken);
 
+    Q_INVOKABLE bool isFolderEmpty(const QString &folder);
+
 signals:
     void loginSuccessful();
     void loginNotSuccessful(const QString &messge);

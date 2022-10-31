@@ -38,11 +38,11 @@ Rectangle
             onClicked: configurator.yacserverRegister(loginEMail.displayText, password.text,
                                                       function(message)
                                                       {
-                                                          yacApp.goodMessage(message, null)
+                                                          yacApp.goodMessage(message, null, null)
                                                       },
                                                       function(message)
                                                       {
-                                                          yacApp.badMessage(message, null)
+                                                          yacApp.badMessage(message, null, null)
                                                       }
                                                       )
         }
@@ -71,12 +71,12 @@ Rectangle
         target: configurator
         function onVerifySuccessful()
         {
-            yacApp.goodMessage(qsTr("Verifyíing Successful, you are now logged in an can deploy your App."), null)
+            yacApp.goodMessage(qsTr("Verifyíing Successful, you are now logged in an can deploy your App."), null, null)
             registerVerifyPage.visible = false
         }
         function onVerifyNotSuccessful(message)
         {
-            yacApp.badMessage(message, null)
+            yacApp.badMessage(message, null, null)
         }
     }
 }
