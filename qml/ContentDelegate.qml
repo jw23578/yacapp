@@ -17,20 +17,35 @@ Item
     property ContentItem itemConfig: null
     width: columnType && !gridType ? parent.width : formWidth * itemConfig.width
     height: rowType && !gridType ? parent.height : formHeight * itemConfig.height
-    Image
+
+    Component
     {
-        visible: itemConfig.type == "image"
-        anchors.fill: parent
-        source: visible ? itemConfig.url : ""
-        fillMode: Image.Stretch
-        cache: true
+        id: imageComponent
+        Image
+        {
+            anchors.fill: parent
+            source: itemConfig.url
+            fillMode: Image.Stretch
+            cache: true
+        }
     }
-    WebView
+    Component
     {
-        visible: itemConfig.type == "webview"
-        anchors.fill: parent
-        url: visible ? itemConfig.url : ""
+        id: webviewComponent
+        WebView
+        {
+            anchors.fill: parent
+            url: itemConfig.url
+        }
     }
+
+    Loader
+    {
+        id: contentLoader
+        anchors.fill: parent
+        sourceComponent: itemConfig.type == "image" ? imageComponent : itemConfig.type == "webview" ? webviewComponent : null
+    }
+
 
     Loader {
         active: itemConfig.type == "file"
@@ -44,10 +59,20 @@ Item
             item.theMenue = theSuperForm.theMenue
         }
     }
-    MouseArea
+    Loader
     {
-        enabled: itemConfig.target != ""
+        id: mouseAreaLoader
         anchors.fill: parent
-        onClicked: MenueFunctions.openTarget(yacApp, stackView, itemConfig.target, theMenue)
+        sourceComponent: itemConfig.target != "" ? mouseAreaComponent : null
     }
+    Component
+    {
+        id: mouseAreaComponent
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked: MenueFunctions.openTarget(yacApp, stackView, itemConfig.target, theMenue)
+        }
+    }
+
 }

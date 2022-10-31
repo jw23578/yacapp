@@ -14,6 +14,7 @@ Rectangle
     {
         id: webviewItem
         visible: !theMenue.menueOpen && config.content.type == "webview" && (!config.content.loginNeeded || yacApp.loginToken != "")
+        enabled: visible
         anchors.fill: parent
         WebView
         {
@@ -42,6 +43,7 @@ Rectangle
         anchors.fill: parent
         contentHeight: theContentGrid.height
         contentWidth: theContentGrid.width
+        enabled: visible
         visible: config.content.type == "grid"
         clip: true
         boundsBehavior: Flickable.StopAtBounds
@@ -74,6 +76,7 @@ Rectangle
         anchors.fill: parent
         contentHeight: theContentColumn.height
         visible: config.content.type == "column"
+        enabled: visible
         boundsBehavior: Flickable.StopAtBounds
         Column
         {
@@ -103,6 +106,7 @@ Rectangle
         anchors.fill: parent
         contentWidth: theContentRow.width
         visible: config.content.type == "row"
+        enabled: visible
         boundsBehavior: Flickable.StopAtBounds
         Row
         {
@@ -132,7 +136,6 @@ Rectangle
         anchors.fill: parent
         focus: true
         source: config.content.loginNeeded && yacApp.loginToken == "" ? "LoginPage.qml" : ""
-        onStatusChanged: console.log("status: ", status)
     }
     Component.onCompleted: loginPageLoader.active = true
 }
