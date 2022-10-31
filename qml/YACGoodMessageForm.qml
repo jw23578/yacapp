@@ -22,7 +22,7 @@ Rectangle
         {
             itemToFocus.forceActiveFocus()
         }
-        if (okCallback)
+        if (okCallback != null)
         {
             okCallback()
         }
