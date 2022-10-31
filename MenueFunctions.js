@@ -12,9 +12,21 @@ function openTarget(yacApp, stackView, target, theMenue)
         stackView.pop(null)
         return
     }
+    if (target == "logout")
+    {
+        yacApp.yesNoQuestion(qsTr("really logout?"), null,
+                             function()
+                             {
+                                 yacApp.logout()
+                             },
+                             function() {});
+        return
+    }
+
     if (target == "clear")
     {
         stackView.pop(null)
+        return
     }
 
     stackView.push("qrc:/qml/SuperForm.qml", {

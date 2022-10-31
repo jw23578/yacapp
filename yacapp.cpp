@@ -60,6 +60,12 @@ void YACAPP::init(QString projectFilename)
     cleanUpKnownFile();
 }
 
+void YACAPP::logout()
+{
+    setLoginToken("");
+    saveState();
+}
+
 void YACAPP::saveState()
 {
     QJsonObject config;

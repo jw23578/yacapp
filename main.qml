@@ -78,6 +78,10 @@ ApplicationWindow
     {
         id: goodMessage
     }
+    YACYesNoQuestionForm
+    {
+        id: yesNoQuestion
+    }
 
     function checkForAppUpdate()
     {
@@ -125,6 +129,10 @@ ApplicationWindow
         function onGoodMessage(message, itemToFocus)
         {
             goodMessage.show(message, itemToFocus)
+        }
+        function onYesNoQuestion(question, itemToFocus, yesCallback, noCallback)
+        {
+            yesNoQuestion.show(question, itemToFocus, yesCallback, noCallback)
         }
     }
 

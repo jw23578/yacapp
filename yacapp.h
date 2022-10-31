@@ -39,6 +39,7 @@ public:
                     QObject *parent = nullptr);
     void init(QString projectFilename);
 
+    Q_INVOKABLE void logout();
     Q_INVOKABLE void saveState();
 
     Q_INVOKABLE ParsedConfig *getConfig(QString const &filename);
@@ -68,6 +69,7 @@ signals:
     void appDownloadError(const QString &errorMessage);
     void badMessage(const QString &message, QJSValue itemToFocus);
     void goodMessage(const QString &message, QJSValue itemToFocus);
+    void yesNoQuestion(const QString &question, QJSValue itemToFocus, QJSValue yesCallback, QJSValue noCallback);
 };
 
 #endif // YACAPP_H
