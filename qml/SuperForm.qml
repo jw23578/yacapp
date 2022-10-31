@@ -10,120 +10,143 @@ Rectangle
     property var stackView: null
     property var theMenue: null
     color: config.background.color
-    Item
+
+    Loader
     {
-        id: webviewItem
-        visible: !theMenue.menueOpen && config.content.type == "webview" && (!config.content.loginNeeded || yacApp.loginToken != "")
-        enabled: visible
         anchors.fill: parent
-        WebView
-        {
-            id: theWebview
-            anchors.fill: parent
-            visible: !loading
-            url: config.content.url + (config.content.loginNeeded ? yacApp.loginToken : "")
-        }
-        Rectangle
-        {
-            anchors.fill: parent
-            id: webviewLoadingRectangle
-            visible: theWebview.loading
-            YACText
-            {
-                anchors.centerIn: parent
-                text: qsTr("One Moment please")
-            }
-        }
+        sourceComponent: config.content.type == "webview" ? webviewComponent :
+                                                            config.content.type == "grid" ? gridComponent :
+                                                                                            config.content.type == "column" ? columnComponent :
+                                                                                                                              config.content.type == "row" ? rowComponent : null
     }
 
-
-    Flickable
+    Component
     {
-        id: theGridFlickable
-        anchors.fill: parent
-        contentHeight: theContentGrid.height
-        contentWidth: theContentGrid.width
-        enabled: visible
-        visible: config.content.type == "grid"
-        clip: true
-        boundsBehavior: Flickable.StopAtBounds
-        Grid
+        id: webviewComponent
+        Item
         {
-            id: theContentGrid
-            columns: config.content.columns
-            rows: config.content.rows
-            spacing: 1
-            Repeater
+            id: webviewItem
+            visible: !theMenue.menueOpen &&  (!config.content.loginNeeded || yacApp.loginToken != "")
+            enabled: visible
+            anchors.fill: parent
+            WebView
             {
-                model: theGridFlickable.visible ? config.content.itemCount : 0
-                delegate: ContentDelegate
+                id: theWebview
+                anchors.fill: parent
+                visible: !loading
+                url: config.content.url + (config.content.loginNeeded ? yacApp.loginToken : "")
+            }
+            Rectangle
+            {
+                anchors.fill: parent
+                id: webviewLoadingRectangle
+                visible: theWebview.loading
+                YACText
                 {
-                    stackView: theSuperForm.stackView
-                    theMenue: theSuperForm.theMenue
-                    contentType: config.content.type
-                    itemConfig: config.content.items[index]
-                    formHeight: theSuperForm.height
-                    formWidth: theSuperForm.width
+                    anchors.centerIn: parent
+                    text: qsTr("One Moment please")
                 }
             }
         }
     }
 
-    Flickable
+
+    Component
     {
-        clip: true
-        id: theColumnFlickable
-        anchors.fill: parent
-        contentHeight: theContentColumn.height
-        visible: config.content.type == "column"
-        enabled: visible
-        boundsBehavior: Flickable.StopAtBounds
-        Column
+        id: gridComponent
+
+        Flickable
         {
-            id: theContentColumn
-            width: parent.width
-            spacing: 1
-            Repeater
+            id: theGridFlickable
+            anchors.fill: parent
+            contentHeight: theContentGrid.height
+            contentWidth: theContentGrid.width
+            clip: true
+            boundsBehavior: Flickable.StopAtBounds
+            Grid
             {
-                model: theColumnFlickable.visible ? config.content.itemCount : 0
-                delegate: ContentDelegate
+                id: theContentGrid
+                columns: config.content.columns
+                rows: config.content.rows
+                spacing: 1
+                Repeater
                 {
-                    stackView: theSuperForm.stackView
-                    theMenue: theSuperForm.theMenue
-                    contentType: config.content.type
-                    itemConfig: config.content.items[index]
-                    formHeight: theSuperForm.height
-                    formWidth: theSuperForm.width
+                    model: theGridFlickable.visible ? config.content.itemCount : 0
+                    delegate: ContentDelegate
+                    {
+                        stackView: theSuperForm.stackView
+                        theMenue: theSuperForm.theMenue
+                        contentType: config.content.type
+                        itemConfig: config.content.items[index]
+                        formHeight: theSuperForm.height
+                        formWidth: theSuperForm.width
+                    }
                 }
             }
         }
     }
 
-    Flickable
+    Component
     {
-        clip: true
-        id: theRowFlickable
-        anchors.fill: parent
-        contentWidth: theContentRow.width
-        visible: config.content.type == "row"
-        enabled: visible
-        boundsBehavior: Flickable.StopAtBounds
-        Row
+        id: columnComponent
+
+        Flickable
         {
-            id: theContentRow
-            height: parent.height
-            spacing: 1
-            Repeater
+            clip: true
+            id: theColumnFlickable
+            anchors.fill: parent
+            contentHeight: theContentColumn.height
+            boundsBehavior: Flickable.StopAtBounds
+            Column
             {
-                model: theRowFlickable.visible ? config.content.itemCount : 0
-                delegate: ContentDelegate
+                id: theContentColumn
+                width: parent.width
+                spacing: 1
+                Repeater
                 {
-                    stackView: theSuperForm.stackView
-                    theMenue: theSuperForm.theMenue
-                    contentType: config.content.type
-                    itemConfig: config.content.items[index]
-                    formHeight: theSuperForm.height
-                    formWidth: theSuperForm.width
+                    model: theColumnFlickable.visible ? config.content.itemCount : 0
+                    delegate: ContentDelegate
+                    {
+                        stackView: theSuperForm.stackView
+                        theMenue: theSuperForm.theMenue
+                        contentType: config.content.type
+                        itemConfig: config.content.items[index]
+                        formHeight: theSuperForm.height
+                        formWidth: theSuperForm.width
+                    }
+                }
+            }
+        }
+    }
+
+    Component
+    {
+        id: rowComponent
+
+        Flickable
+        {
+            clip: true
+            id: theRowFlickable
+            anchors.fill: parent
+            contentWidth: theContentRow.width
+            boundsBehavior: Flickable.StopAtBounds
+            Row
+            {
+                id: theContentRow
+                height: parent.height
+                spacing: 1
+                Repeater
+                {
+                    model: theRowFlickable.visible ? config.content.itemCount : 0
+                    delegate: ContentDelegate
+                    {
+                        stackView: theSuperForm.stackView
+                        theMenue: theSuperForm.theMenue
+                        contentType: config.content.type
+                        itemConfig: config.content.items[index]
+                        formHeight: theSuperForm.height
+                        formWidth: theSuperForm.width
+                    }
                 }
             }
         }
