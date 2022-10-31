@@ -66,6 +66,14 @@ void YACAPP::logout()
     saveState();
 }
 
+void YACAPP::leaveApp()
+{
+    setLoginToken("");
+    setGlobalProjectConfigFilename("");
+    globalConfig()->setProjectID("");
+    saveState();
+}
+
 void YACAPP::saveState()
 {
     QJsonObject config;

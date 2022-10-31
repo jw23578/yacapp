@@ -51,7 +51,7 @@ Rectangle
         radiusTopLeft: true
         radiusBottomRight: radiusTopLeft
         width: parent.width * 3 / 4
-        height: parent.height * 3 / 4
+        height: parent.height * 3 / 5
         YACText
         {
             id: questionText

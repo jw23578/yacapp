@@ -4,7 +4,6 @@ import "items"
 YACRectangle
 {
     color: "orange"
-    visible: yacApp.globalConfig.projectID == ""
     anchors.fill: parent
     id: theSelectAppForm
 
@@ -107,8 +106,7 @@ YACRectangle
                                               0,
                                               function(message)
                                               {
-                                                  yacApp.goodMessage(message, null)
-                                                  theSelectAppForm.visible = false
+                                                  yacApp.goodMessage(qsTr("App installed, have fun."), null)
                                               },
                                               function(message)
                                               {
@@ -166,7 +164,7 @@ YACRectangle
         function onAppDownloadSuccess()
         {
             console.log("App Downloaded")
-            visible = false
+//            visible = false
         }
     }
 }

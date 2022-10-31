@@ -40,6 +40,7 @@ public:
     void init(QString projectFilename);
 
     Q_INVOKABLE void logout();
+    Q_INVOKABLE void leaveApp();
     Q_INVOKABLE void saveState();
 
     Q_INVOKABLE ParsedConfig *getConfig(QString const &filename);

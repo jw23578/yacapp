@@ -29,13 +29,15 @@ ApplicationWindow
         focus: true
         anchors.fill: parent
         id: mainformLoader
-        active: yacApp.mainConfig != null
-        source: "qml/MainForm.qml"
+        active: yacApp.mainConfig != null && yacApp.globalConfig.projectID != ""
+        source: "qml/MainForm.qml"        
     }
 
     SelectAppForm
     {
         id: selectApp
+        visible: yacApp.globalConfig.projectID == ""
+
     }
 
     SequentialAnimation

@@ -22,6 +22,16 @@ function openTarget(yacApp, stackView, target, theMenue)
                              function() {});
         return
     }
+    if (target == "leave app")
+    {
+        yacApp.yesNoQuestion(qsTr("really leave app?"), null,
+                             function()
+                             {
+                                 yacApp.leaveApp()
+                             },
+                             function() {});
+        return
+    }
 
     if (target == "clear")
     {
