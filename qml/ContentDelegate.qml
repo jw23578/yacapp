@@ -23,7 +23,7 @@ Item
         anchors.fill: parent
         source: visible ? itemConfig.url : ""
         fillMode: Image.Stretch
-        mipmap: true
+        cache: true
     }
     WebView
     {
@@ -41,6 +41,7 @@ Item
         onLoaded: {
             item.stackView = theSuperForm.stackView
             item.config = yacApp.getConfig(itemConfig.filename)
+            item.theMenue = theSuperForm.theMenue
         }
     }
     MouseArea
