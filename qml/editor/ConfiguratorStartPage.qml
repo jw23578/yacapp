@@ -9,7 +9,7 @@ Rectangle
     signal newProjectLoaded()
     FileDialog
     {
-        id: createProjectDialog
+        id: loadProjectDialog
         selectExisting: false
         selectMultiple: false
         nameFilters: [ "yacApp-Project-Files (*.yacapp)" ]

@@ -36,5 +36,6 @@
         <file>qml/YACYesNoQuestionForm.qml</file>
         <file>qml/editor/ConfiguratorNewProject.qml</file>
         <file>qml/items/YACTwoButtonRow.qml</file>
+        <file>qml/items/YACButtonWithHeader.qml</file>
     </qresource>
 </RCC>

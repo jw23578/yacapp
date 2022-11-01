@@ -23,14 +23,31 @@ Rectangle
         }
     }
 
+    Column
+    {
+        anchors.centerIn: parent
+        width: parent.width * 4 / 5
+        YACLineEditWithHeader
+        {
+            id: projectName
+            headerText: qsTr("Projectname")
+        }
+        YACButtonWithHeader
+        {
+            id: projectFolder
+            headerText: qsTr("Projectfolger")
+            text: qsTr("Please select")
+            onClicked: newProjectDialog.open()
+        }
+    }
+
     FileDialog
     {
-        id: loadProjectDialog
+        id: newProjectDialog
         title: qsTr("Select Projectfolder")
         selectExisting: true
         selectMultiple: false
         selectFolder: true
-        onFolderChanged: console.log(folder)
         onAccepted:
         {
             if (!configurator.isFolderEmpty(folder))
@@ -43,23 +60,27 @@ Rectangle
                                   )
                 return
             }
+            projectFolder.text = folder
         }
-
-//        nameFilters: [ "yacApp-Project-Files (*.yacapp)" ]
-//        onFileUrlChanged:
-//        {
-//            yacApp.loadNewProject(fileUrl)
-//            configurator.lastProjectFilename = fileUrl
-//            configurator.lastProjectName = yacApp.globalConfig.projectName
-//            configurator.save()
-//            newProjectLoaded()
-//            startPage.visible = false
-//        }
     }
     YACTwoButtonRow
     {
         leftText: qsTr("OK")
         rightText: qsTr("Abort")
         onRightClicked: newProjectPage.visible = false
+        onLeftClicked:
+        {
+            if (projectName.displayText == "")
+            {
+                yacApp.badMessage(qsTr("Please enter the Projectname"), projectName, null)
+                return
+            }
+            if (!configurator.isFolderEmpty(newProjectDialog.folder))
+            {
+                yacApp.badMessage(qsTr("Please select an empty folder for your new project."), null, null)
+                return
+            }
+            newProjectPage.visible = false
+        }
     }
 }
