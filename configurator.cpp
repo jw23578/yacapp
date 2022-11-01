@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include "configmodels/globalprojectconfig.h"
+#include "configmodels/parsedconfig.h"
 
 #ifndef Q_OS_ANDROID
 #include "jw78curlwrapper.h"
@@ -323,4 +324,23 @@ void Configurator::yacserverVerify(const QString &loginEMail, const QString &ver
 bool Configurator::isFolderEmpty(const QString &folder)
 {
     return QDir(QUrl(folder).path()).isEmpty();
+}
+
+void Configurator::createNewProject(const QString &projectName,
+                                    const QString &projectFolder)
+{
+    GlobalProjectConfig gpc;
+    gpc.setProjectName(projectName);
+    gpc.setMainFormFilename("mainform.json");
+    QString projectFileName(QUrl(projectFolder).path() + "/projectFile.yacapp");
+    gpc.formFiles.append("mainform.json");
+    gpc.save(projectFileName);
+
+    QString mainformFileName(QUrl(projectFolder).path() + "/mainform.json");
+
+    ParsedConfig pc;
+    pc.save(mainformFileName);
+
+    setLastProjectName(projectName);
+    setLastProjectFilename(projectFileName);
 }

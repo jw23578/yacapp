@@ -10,10 +10,10 @@ Rectangle
     FileDialog
     {
         id: loadProjectDialog
-        selectExisting: false
+        selectExisting: true
         selectMultiple: false
         nameFilters: [ "yacApp-Project-Files (*.yacapp)" ]
-        onFileUrlChanged:
+        onAccepted:
         {
             yacApp.loadNewProject(fileUrl)
             configurator.lastProjectFilename = fileUrl
@@ -52,5 +52,10 @@ Rectangle
     {
         id: newProjectPage
         visible: false
+        onCreated:
+        {
+            newProjectLoaded()
+            startPage.visible = false
+        }
     }
 }

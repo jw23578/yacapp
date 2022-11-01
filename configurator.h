@@ -52,6 +52,9 @@ public:
 
     Q_INVOKABLE bool isFolderEmpty(const QString &folder);
 
+    Q_INVOKABLE void createNewProject(const QString &projectName,
+                                      const QString &projectFolder);
+
 signals:
     void loginSuccessful();
     void loginNotSuccessful(const QString &messge);

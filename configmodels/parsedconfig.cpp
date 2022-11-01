@@ -19,8 +19,7 @@ ParsedConfig::~ParsedConfig()
     delete m_splashscreen;
 }
 
-bool ParsedConfig::init(const QString &jsonConfigFile,
-                        const QString &baseUrl)
+bool ParsedConfig::init(const QString &jsonConfigFile)
 {
     QFile jsonFile(jsonConfigFile);
     jsonFile.open(QIODevice::ReadOnly);
@@ -42,7 +41,7 @@ bool ParsedConfig::init(const QString &jsonConfigFile,
     return true;
 }
 
-void ParsedConfig::save(const QString &jsonConfigFile, const QString &baseUrl)
+void ParsedConfig::save(const QString &jsonConfigFile)
 {
     QJsonObject config;
     stringToJSON(menueFilename);

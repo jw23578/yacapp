@@ -152,7 +152,7 @@ ParsedConfig *YACAPP::getConfig(const QString &filename)
     }
     if (!m_knownFiles.contains(filename))
     {
-        configIt.value()->init(fullFilename, baseUrl());
+        configIt.value()->init(fullFilename);
         addKnownFile(filename);
     }
     return configIt.value();
@@ -195,7 +195,7 @@ void YACAPP::saveCurrentProject()
         QMap<QString, ParsedConfig*>::iterator it(fileName2ParsedConfig.begin());
         while (it != fileName2ParsedConfig.end())
         {
-            it.value()->save(it.key(), baseUrl());
+            it.value()->save(it.key());
             ++it;
         }
     }

@@ -8,6 +8,7 @@
 GlobalProjectConfig::GlobalProjectConfig(QObject *parent)
     : ConfigInterface(parent)
 {
+    setProjectID(QUuid::createUuid().toString(QUuid::WithoutBraces));
 }
 
 void GlobalProjectConfig::init(QString const &jsonConfigFile)

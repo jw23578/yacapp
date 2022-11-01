@@ -25,11 +25,9 @@ class ParsedConfig : public QObject
 public:
     explicit ParsedConfig(QObject *parent = nullptr);
     ~ParsedConfig();
-    bool init(const QString &jsonConfigFile,
-              const QString &baseUrl);
+    bool init(const QString &jsonConfigFile);
 
-    void save(const QString &jsonConfigFile,
-              const QString &baseUrl);
+    void save(const QString &jsonConfigFile);
 
 signals:
 

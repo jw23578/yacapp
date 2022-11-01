@@ -9,6 +9,7 @@ Rectangle
     height: parent.height * 4 / 5
     color: "white"
     anchors.centerIn: parent
+    signal created()
     Rectangle
     {
         z: -1
@@ -35,7 +36,7 @@ Rectangle
         YACButtonWithHeader
         {
             id: projectFolder
-            headerText: qsTr("Projectfolger")
+            headerText: qsTr("Projectfolder")
             text: qsTr("Please select")
             onClicked: newProjectDialog.open()
         }
@@ -80,7 +81,11 @@ Rectangle
                 yacApp.badMessage(qsTr("Please select an empty folder for your new project."), null, null)
                 return
             }
+            configurator.createNewProject(projectName.displayText,
+                                          projectFolder.text)
+            yacApp.loadNewProject(configurator.lastProjectFilename)
             newProjectPage.visible = false
+            created()
         }
     }
 }
