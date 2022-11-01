@@ -34,5 +34,7 @@
         <file>qml/editor/ConfiguratorRegisterVerifyPage.qml</file>
         <file>qml/YACGoodMessageForm.qml</file>
         <file>qml/YACYesNoQuestionForm.qml</file>
+        <file>qml/editor/ConfiguratorNewProject.qml</file>
+        <file>qml/items/YACTwoButtonRow.qml</file>
     </qresource>
 </RCC>
