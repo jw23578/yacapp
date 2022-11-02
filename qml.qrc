@@ -37,5 +37,6 @@
         <file>qml/editor/ConfiguratorNewProject.qml</file>
         <file>qml/items/YACTwoButtonRow.qml</file>
         <file>qml/items/YACButtonWithHeader.qml</file>
+        <file>qml/dialogs/DialogBase.qml</file>
     </qresource>
 </RCC>

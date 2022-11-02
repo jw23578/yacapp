@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Dialogs 1.3
-import "../items"
+import "qrc:/qml/items"
+import "qrc:/qml/dialogs"
 
 Rectangle
 {
@@ -29,7 +30,7 @@ Rectangle
         YACButton
         {
             text: qsTr("New Project")
-            onClicked: newProjectPage.visible = true
+            onClicked: newProjectPage.open()
         }
         YACButton
         {
@@ -51,7 +52,6 @@ Rectangle
     ConfiguratorNewProject
     {
         id: newProjectPage
-        visible: false
         onCreated:
         {
             newProjectLoaded()

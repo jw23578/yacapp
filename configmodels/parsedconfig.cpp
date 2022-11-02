@@ -31,8 +31,7 @@ bool ParsedConfig::init(const QString &jsonConfigFile)
     QByteArray fileData(jsonFile.readAll());
     QJsonDocument config = QJsonDocument::fromJson(fileData);
 
-    setMenueFilename(config["menueFilename"].toString());
-
+    stringFromJSON(menueFilename, MenueFilename);
     background()->setConfig(config["background"]);
     content()->setConfig(config["content"]);
     header()->setConfig(config["header"]);

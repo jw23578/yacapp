@@ -125,6 +125,4 @@ Window {
             yesNoQuestion.show(question, itemToFocus, yesCallback, noCallback)
         }
     }
-
-
 }

@@ -1,27 +1,30 @@
 import QtQuick 2.0
 import QtQuick.Dialogs 1.3
 import "qrc:/qml/items"
+import "qrc:/qml/dialogs"
 
-Rectangle
+DialogBase
 {
     id: newProjectPage
-    width: parent.width * 4 / 5
-    height: parent.height * 4 / 5
-    color: "white"
-    anchors.centerIn: parent
     signal created()
-    Rectangle
+    onAbortClicked: close()
+    onOkClicked:
     {
-        z: -1
-        anchors.centerIn: parent
-        width: parent.parent.width
-        height: parent.parent.height
-        color: "black"
-        opacity: 0.5
-        MouseArea
+        if (projectName.displayText == "")
         {
-            anchors.fill: parent
+            yacApp.badMessage(qsTr("Please enter the Projectname"), projectName, null)
+            return
         }
+        if (!configurator.isFolderEmpty(newProjectDialog.folder))
+        {
+            yacApp.badMessage(qsTr("Please select an empty folder for your new project."), null, null)
+            return
+        }
+        configurator.createNewProject(projectName.displayText,
+                                      projectFolder.text)
+        yacApp.loadNewProject(configurator.lastProjectFilename)
+        close()
+        created()
     }
 
     Column
@@ -62,30 +65,6 @@ Rectangle
                 return
             }
             projectFolder.text = folder
-        }
-    }
-    YACTwoButtonRow
-    {
-        leftText: qsTr("OK")
-        rightText: qsTr("Abort")
-        onRightClicked: newProjectPage.visible = false
-        onLeftClicked:
-        {
-            if (projectName.displayText == "")
-            {
-                yacApp.badMessage(qsTr("Please enter the Projectname"), projectName, null)
-                return
-            }
-            if (!configurator.isFolderEmpty(newProjectDialog.folder))
-            {
-                yacApp.badMessage(qsTr("Please select an empty folder for your new project."), null, null)
-                return
-            }
-            configurator.createNewProject(projectName.displayText,
-                                          projectFolder.text)
-            yacApp.loadNewProject(configurator.lastProjectFilename)
-            newProjectPage.visible = false
-            created()
         }
     }
 }
