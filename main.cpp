@@ -18,6 +18,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QGuiApplication app(argc, argv);
+    app.setOrganizationName("yacApp-Systems");
+    app.setOrganizationDomain("jw78.de");
     qRegisterMetaType<QObjectList*>("QObjectList*");
     qmlRegisterType<ParsedConfig>("com.yacapp.parsedconfig", 1, 0, "ParsedConfig");
     qmlRegisterType<BackgroundConfig>("com.yacapp.backgroundconfig", 1, 0, "BackgroundConfig");

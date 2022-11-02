@@ -256,6 +256,10 @@ void Configurator::deployToYACAPPServer(QString globalProjectConfigFilename,
 
 void Configurator::setProjectData(const QString &projectID)
 {
+    if (deployConfigs.find(projectID) == deployConfigs.end())
+    {
+        deployConfigs[projectID] = new ProjectData;
+    }
     setActiveProjectData(deployConfigs[projectID]);
 }
 
