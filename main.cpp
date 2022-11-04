@@ -60,23 +60,6 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("Constants", &constants);
     YACNetwork network(constants);
 
-//    network.yacappServerRegisterUser("jens@wienoebst.com", "password",
-//                                     [](const QString &message) {},
-//    [](const QString &errorMessage){});
-
-//    network.yacappServerVerifyUser("jens@wienoebst.com", "password",
-//                                     [](const QString &message) {},
-//    [](const QString &errorMessage){});
-
-//    network.yacappServerLoginUser("jens@wienoebst.com", "password",
-//                                     [](const QString &message) {},
-//    [](const QString &errorMessage){});
-
-//    network.yacappServerUserLoggedIn("jens@wienoebst.com", "password",
-//                                     [](const QString &message) {},
-//    [](const QString &errorMessage){});
-
-
     YACAPP yacApp(constants, network);
     QUrl url(QStringLiteral("qrc:/main.qml"));
     Configurator *configurator(0);

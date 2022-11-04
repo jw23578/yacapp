@@ -19,7 +19,7 @@ Constants::Constants()
         return;
     }
     writeablePath = paths[0] + "/";
-    QDir().mkdir(getYacAppConfigPath());
+    QDir().mkpath(getYacAppConfigPath());
 }
 
 const QString &Constants::getWriteablePath() const
