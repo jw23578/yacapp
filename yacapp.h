@@ -12,7 +12,6 @@ class YACAPP : public QObject
 {
     Q_OBJECT
     const Constants &constants;
-    YACAPPPROPERTY(bool, isDesktop, IsDesktop, false);
     YACAPPPROPERTY(QString, baseUrl, BaseUrl, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
     YACAPPPROPERTY(ParsedConfig*, mainConfig, MainConfig, 0);

@@ -10,6 +10,7 @@ class Constants : public QObject
     Q_OBJECT
     QString writeablePath;
     YACAPPPROPERTY(QString, allAppsBaseUrl, AllAppsBaseUrl, "https://www.jw78.de/yacapp/")
+    YACAPPPROPERTY(bool, isDesktop, IsDesktop, false);
 public:
     Constants();
 

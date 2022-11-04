@@ -5,6 +5,14 @@
 
 Constants::Constants()
 {
+#ifdef Q_OS_WIN
+    setIsDesktop(true);
+#endif
+
+#ifdef Q_OS_LINUX
+    setIsDesktop(true);
+#endif
+
     QStringList paths(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
     if (paths.size() == 0)
     {
