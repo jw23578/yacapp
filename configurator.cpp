@@ -251,7 +251,7 @@ void Configurator::deployToYACAPPServer(QString globalProjectConfigFilename,
                                         QJSValue goodCallback,
                                         QJSValue badCallback)
 {
-    qDebug() << globalProjectConfigFilename;
+    qDebug() << __FILE__ << ": " << __LINE__ << globalProjectConfigFilename;
 }
 
 void Configurator::setProjectData(const QString &projectID)

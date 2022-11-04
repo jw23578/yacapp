@@ -25,7 +25,7 @@ bool ParsedConfig::init(const QString &jsonConfigFile)
     jsonFile.open(QIODevice::ReadOnly);
     if (!jsonFile.isOpen())
     {
-        qDebug() << "fatal error could not open: " << jsonConfigFile;
+        qDebug() << __FILE__ << ": " << __LINE__ << "fatal error could not open: " << jsonConfigFile;
         return false;
     }
     QByteArray fileData(jsonFile.readAll());

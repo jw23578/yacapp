@@ -8,12 +8,7 @@ YACAPP::YACAPP(const Constants &constants, YACNetwork &network, QObject *parent)
       constants(constants),
       network(network)
 {
-    QStringList paths(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
-    if (paths.size() == 0)
-    {
-        return;
-    }
-    qDebug() << constants.getStateFilename();
+    qDebug() << __FILE__ << ": " << __LINE__ << constants.getStateFilename();
     QFile jsonFile(constants.getStateFilename());
     jsonFile.open(QIODevice::ReadOnly);
     QByteArray fileData(jsonFile.readAll());
@@ -218,7 +213,7 @@ void YACAPP::downloadApp(QString url, QString projectID)
     }
     , [this](const QString &errorMessage)
     {
-        qDebug() << errorMessage;
+        qDebug() << __FILE__ << ": " << __LINE__ << errorMessage;
         appDownloadError(errorMessage);
     });
 }

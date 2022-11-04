@@ -148,7 +148,7 @@ void YACNetwork::yacappServerRegisterUser(QString loginEMail,
                       SRunningRequest &rr)
     {
         QByteArray all(finishedReply->readAll());
-        qDebug() << all;
+        qDebug() << __FILE__ << ": " << __LINE__ << all;
         QJsonDocument replyDoc(QJsonDocument::fromJson(all));
         QJsonObject object(replyDoc.object());
         QString message(object["message"].toString());
@@ -177,7 +177,7 @@ void YACNetwork::yacappServerVerifyUser(QString loginEMail, QString verifyToken,
     auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
     {
         QByteArray all(finishedReply->readAll());
-        qDebug() << all;
+        qDebug() << __FILE__ << ": " << __LINE__ << all;
         QJsonDocument loginReplyDoc(QJsonDocument::fromJson(all));
         QJsonObject object(loginReplyDoc.object());
         if (object["loginToken"].toString().size())
@@ -232,7 +232,7 @@ void YACNetwork::yacappServerUserLoggedIn(QString loginEMail, QString verifyToke
 {
     auto replyHander = [](QNetworkReply *finishedReply, SRunningRequest &rr)
     {
-        qDebug() << finishedReply->readAll();
+        qDebug() << __FILE__ << ": " << __LINE__ << finishedReply->readAll();
     };
 
     QUrlQuery query;
