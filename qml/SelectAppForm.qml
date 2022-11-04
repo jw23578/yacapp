@@ -114,7 +114,7 @@ YACRectangle
                                               }
                                               )
                     return
-                    yacApp.downloadApp(yacApp.allAppsBaseUrl, app_id)
+                    yacApp.downloadApp(Constants.allAppsBaseUrl, app_id)
                 }
             }
         }

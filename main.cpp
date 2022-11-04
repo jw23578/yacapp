@@ -41,6 +41,10 @@ int main(int argc, char *argv[])
     qRegisterMetaType<HeaderConfig*>("HeaderConfig");
     qRegisterMetaType<ProjectData*>("ProjectData");
 
+
+    qmlRegisterType<Constants>("com.yacapp.constants", 1, 0, "Constants");
+    qRegisterMetaType<Constants*>("Constants");
+
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
     for (const QString &locale : uiLanguages) {
@@ -53,6 +57,7 @@ int main(int argc, char *argv[])
     QtWebView::initialize();
     QQmlApplicationEngine engine;
     Constants constants;
+    engine.rootContext()->setContextProperty("Constants", &constants);
     YACNetwork network(constants);
 
 //    network.yacappServerRegisterUser("jens@wienoebst.com", "password",

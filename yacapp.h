@@ -12,7 +12,6 @@ class YACAPP : public QObject
 {
     Q_OBJECT
     const Constants &constants;
-    YACAPPPROPERTY(QString, allAppsBaseUrl, AllAppsBaseUrl, "https://www.jw78.de/yacapp/")
     YACAPPPROPERTY(bool, isDesktop, IsDesktop, false);
     YACAPPPROPERTY(QString, baseUrl, BaseUrl, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
