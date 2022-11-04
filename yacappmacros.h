@@ -3,6 +3,9 @@
 
 #include <math.h>
 
+#define colorFromJSON(name, uppercasename) \
+    set##uppercasename(config[#name].toString());
+
 #define stringFromJSON(name, uppercasename) \
     set##uppercasename(config[#name].toString());
 

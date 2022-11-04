@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtWebView 1.15
 import com.yacapp.contentitem 1.0
 import "qrc:/MenueFunctions.js" as MenueFunctions
+import "qrc:/qml/items"
 
 
 Item
@@ -17,6 +18,21 @@ Item
     property ContentItem itemConfig: null
     width: columnType && !gridType ? parent.width : formWidth * itemConfig.width
     height: rowType && !gridType ? parent.height : formHeight * itemConfig.height
+
+    Component
+    {
+        id: tileComponent
+        YACRectangle
+        {
+            anchors.fill: parent
+            color: itemConfig.color
+            YACText
+            {
+                anchors.centerIn: parent
+                text: itemConfig.text
+            }
+        }
+    }
 
     Component
     {
@@ -43,17 +59,21 @@ Item
     {
         id: contentLoader
         anchors.fill: parent
-        sourceComponent: itemConfig.type == "image" ? imageComponent : itemConfig.type == "webview" ? webviewComponent : null
+        sourceComponent: itemConfig.type == "image" ? imageComponent
+                                                    : itemConfig.type == "webview" ? webviewComponent
+                                                                                   : itemConfig.type == "tile" ? tileComponent : null
     }
 
 
-    Loader {
+    Loader
+    {
         active: itemConfig.type == "file"
         asynchronous: true
         anchors.fill: parent
         source: "SuperForm.qml"
         visible: active
-        onLoaded: {
+        onLoaded:
+        {
             item.stackView = theSuperForm.stackView
             item.config = yacApp.getConfig(itemConfig.filename)
             item.theMenue = theSuperForm.theMenue

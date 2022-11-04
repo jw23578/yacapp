@@ -8,6 +8,7 @@ Column
     width: parent.width
     property alias headerText: header.text
     property alias color: colorDialog.color
+    signal accepted(color color)
     function find(needle)
     {
         return input.find(needle)
@@ -15,6 +16,7 @@ Column
     ColorDialog
     {
         id: colorDialog
+        onAccepted: column.accepted(color)
     }
 
     Text

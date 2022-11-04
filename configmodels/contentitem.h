@@ -4,16 +4,19 @@
 #include <QObject>
 #include "yacappmacros.h"
 #include "configinterface.h"
+#include <QColor>
 
 class ContentItem : public ConfigInterface
 {
     Q_OBJECT
-    YACAPPPROPERTYWITHOPTIONS(QString, type, Type, "", "file", "webview", "image");
+    YACAPPPROPERTYWITHOPTIONS(QString, type, Type, "", "file", "webview", "image", "tile");
     YACAPPPROPERTY(QString, filename, Filename, "")
     YACAPPPROPERTY(QString, url, Url, "")
     YACAPPPROPERTY(QString, target, Target, "")
     YACAPPPROPERTY(double, width, Width, 0)
     YACAPPPROPERTY(double, height, Height, 0)
+    YACAPPPROPERTY(QString, text, Text, "")
+    YACAPPPROPERTY(QColor, color, Color, "white")
 public:
     explicit ContentItem(QObject *parent = nullptr);
 

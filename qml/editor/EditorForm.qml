@@ -255,6 +255,7 @@ Rectangle
                             model: parent.showColumn || parent.showRow ? config.content.itemCount : 0
                             delegate: Column
                             {
+                                property var currentItem: config.content.items[index]
                                 width: columnItems.width
                                 Item
                                 {
@@ -277,6 +278,22 @@ Rectangle
                                     text: config.content.items[index].target
                                     onDisplayTextChanged: config.content.items[index].target = text
                                 }
+                                YACLineEditWithHeader
+                                {
+                                    id: theText
+                                    headerText: qsTr("Text")
+                                    text: currentItem.text
+                                    onDisplayTextChanged: currentItem.text = text
+                                    visible: ["tile"].includes(currentItem.type)
+                                }
+                                YACColorDialogWithHeader
+                                {
+                                    headerText: qsTr("Color")
+                                    color: currentItem.color
+                                    onAccepted: currentItem.color = color
+                                    visible: ["tile"].includes(currentItem.type)
+                                }
+
                                 YACLineEditWithHeader
                                 {
                                     id: theUrl
