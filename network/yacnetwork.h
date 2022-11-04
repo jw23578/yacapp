@@ -1,31 +1,11 @@
 #ifndef YACNETWORK_H
 #define YACNETWORK_H
 
-#include "networkinterface.h"
+#include "yacserverbasenetwork.h"
 
-class YACNetwork: public NetworkInterface
+class YACNetwork: public YACServerBaseNetwork
 {
     Q_OBJECT
-    const QString yacappServerUrl = {"http://www.jw78.de:23579"}; // {"http://127.0.0.1:23578"}; //
-
-    void yacappServerPost(const QString &method,
-                          const QJsonObject &object,
-                          HandlerFunction handlerFunction,
-                          const QMap<QByteArray, QByteArray> &rawHeader,
-                          CallbackFunction registerCallback,
-                          CallbackFunction errorCallback);
-
-    void yacappServerPost(const QString &method,
-                          const QJsonObject &object,
-                          HandlerFunction handlerFunction,
-                          CallbackFunction registerCallback,
-                          CallbackFunction errorCallback);
-
-    void yacappServerGet(const QString &method,
-                         const QUrlQuery &query,
-                         HandlerFunction handlerFunction,
-                         CallbackFunction registerCallback,
-                         CallbackFunction errorCallback);
 public:
     YACNetwork(QNetworkAccessManager &manager
                , const Constants &constants);
