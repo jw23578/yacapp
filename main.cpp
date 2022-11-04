@@ -11,6 +11,7 @@
 #include "projectdata.h"
 #include "constants.h"
 #include <QtWebView>
+#include "helper.h"
 
 int main(int argc, char *argv[])
 {
@@ -56,6 +57,8 @@ int main(int argc, char *argv[])
     }
     QtWebView::initialize();
     QQmlApplicationEngine engine;
+    Helper helper;
+    engine.rootContext()->setContextProperty("Helper", &helper);
     Constants constants;
     engine.rootContext()->setContextProperty("Constants", &constants);
     QNetworkAccessManager manager;

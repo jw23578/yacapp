@@ -4,13 +4,14 @@ FocusScope
 {
     id: theScope
     property bool showColumn: true
-    property alias echoMode: input.echoMode
+    property alias echoMode: inputItem.echoMode
 
     property bool doubleEdit: false
     property bool intEdit: false
     property alias headerText: header.text
-    property alias text: input.text
-    property alias displayText: input.displayText
+    property alias text: inputItem.text
+    property alias input: inputItem
+    property alias displayText: inputItem.displayText
     height: lineEditWithHeader.height
     width: parent.width
     Column
@@ -42,7 +43,7 @@ FocusScope
         {
             x: header.height
             width: parent.width - x
-            height: input.height + 4
+            height: inputItem.height + 4
             border.color: "black"
             border.width: 1
             visible: theScope.showColumn
@@ -51,7 +52,7 @@ FocusScope
                 width: parent.width - 4
                 x: 2
                 y: 2
-                id: input
+                id: inputItem
                 validator: theScope.doubleEdit ? doubleValidator : theScope.intEdit ? intValidator : null
                 clip: true
                 focus: true

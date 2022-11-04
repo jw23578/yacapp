@@ -23,6 +23,7 @@ SOURCES += \
         configmodels/splashscreenconfig.cpp \
         configurator.cpp \
         constants.cpp \
+        helper.cpp \
         main.cpp \
         network/customservernetwork.cpp \
         network/networkinterface.cpp \
@@ -64,6 +65,7 @@ HEADERS += \
   configmodels/splashscreenconfig.h \
   configurator.h \
   constants.h \
+  helper.h \
   network/customservernetwork.h \
   network/networkinterface.h \
   network/yacextservernetwork.h \

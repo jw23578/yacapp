@@ -23,6 +23,14 @@ Rectangle
             headerText: qsTr("LoginEMail")
             width: parent.width
             id: loginEMail
+            input.color: emailInValid.visible ? "red" : "black"
+        }
+        YACText
+        {
+            id: emailInValid
+            text: qsTr("E-Mail is invalid")
+            visible: !Helper.emailIsValid(loginEMail.displayText)
+            color: "red"
         }
         YACLineEditWithHeader
         {
@@ -35,16 +43,30 @@ Rectangle
         {
             text: qsTr("Register")
             width: parent.width
-            onClicked: configurator.yacserverRegister(loginEMail.displayText, password.text,
-                                                      function(message)
-                                                      {
-                                                          yacApp.goodMessage(message, null, null)
-                                                      },
-                                                      function(message)
-                                                      {
-                                                          yacApp.badMessage(message, null, null)
-                                                      }
-                                                      )
+            onClicked:
+            {
+                if (!Helper.emailIsValid(loginEMail.displayText))
+                {
+                    yacApp.badMessage(qsTr("Please enter a valid email"), loginEMail, null)
+                    return
+                }
+                if (password.text == "")
+                {
+                    yacApp.badMessage(qsTr("Please enter a valid password"), password, null)
+                    return;
+                }
+
+                configurator.yacserverRegister(loginEMail.displayText, password.text,
+                                               function(message)
+                                               {
+                                                   yacApp.goodMessage(message, null, null)
+                                               },
+                                               function(message)
+                                               {
+                                                   yacApp.badMessage(message, null, null)
+                                               }
+                                               )
+            }
         }
 
         YACLineEditWithHeader
@@ -57,7 +79,21 @@ Rectangle
         {
             text: qsTr("Verify")
             width: parent.width
-            onClicked: configurator.yacserverVerify(loginEMail.displayText, verifyToken.displayText)
+            onClicked:
+            {
+                if (!Helper.emailIsValid(loginEMail.displayText))
+                {
+                    yacApp.badMessage(qsTr("Please enter a valid email"), loginEMail, null)
+                    return
+                }
+                if (verifyToken.displayText == "")
+                {
+                    yacApp.badMessage(qsTr("Please enter a valid Verify-Code"), verifyToken, null)
+                    return;
+                }
+
+                configurator.yacserverVerify(loginEMail.displayText, verifyToken.displayText)
+            }
         }
         YACButton
         {

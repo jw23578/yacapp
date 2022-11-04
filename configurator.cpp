@@ -8,6 +8,7 @@
 #include <QJsonArray>
 #include "configmodels/globalprojectconfig.h"
 #include "configmodels/parsedconfig.h"
+#include "helper.h"
 
 #ifndef Q_OS_ANDROID
 #include "jw78curlwrapper.h"
