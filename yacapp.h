@@ -62,7 +62,7 @@ public:
                                         QJSValue successCallback,
                                         QJSValue errorCallback);
 
-    Q_INVOKABLE void addFile(QString fileUrl);
+    Q_INVOKABLE void addFormFile(QString fileUrl);
 
 signals:
 

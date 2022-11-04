@@ -42,13 +42,23 @@ Rectangle
         openAnimation.start()
     }
 
-    NumberAnimation
+    ParallelAnimation
     {
         id: closeAnimation
-        target: dialog
-        duration: 400
-        property: "opacity"
-        to: 0
+        NumberAnimation
+        {
+            target: dialog
+            duration: dialog.animationDuration
+            property: "opacity"
+            to: 0
+        }
+        NumberAnimation
+        {
+            target: dialog
+            duration: dialog.animationDuration
+            property: "anchors.horizontalCenterOffset"
+            to: -width
+        }
     }
 
     function close()

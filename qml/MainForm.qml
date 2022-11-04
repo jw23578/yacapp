@@ -20,7 +20,7 @@ Item
         theStackView.push("SuperForm.qml", {
                               "config": yacApp.getConfig(filename),
                               "stackView": theStackView,
-                              "theMenue": theMenue
+                              "theMenue": theRealMenue
                           })
     }
     Column

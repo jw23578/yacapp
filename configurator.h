@@ -62,6 +62,8 @@ signals:
     void userLoggedInNotSuccessful();
     void verifySuccessful();
     void verifyNotSuccessful(const QString &messge);
+
+    void addFile(const QJSValue okCallback);
 };
 
 #endif // CONFIGURATOR_H

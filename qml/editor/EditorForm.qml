@@ -1,10 +1,11 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import com.yacapp.parsedconfig 1.0
 import com.yacapp.globalprojectconfig 1.0
 import com.yacapp.headerconfig 1.0
 import com.yacapp.contentconfig 1.0
 import QtQuick.Dialogs 1.3
-import "../items"
+import "qrc:/qml/items"
+import "qrc:/qml/dialogs"
 
 Rectangle
 {
@@ -69,6 +70,7 @@ Rectangle
                     id: fileDialog
                     selectExisting: false
                     selectMultiple: false
+                    folder: shortcuts.home
                     nameFilters: [ "json-Files (*.json)" ]
                     onAccepted:
                     {
@@ -76,8 +78,13 @@ Rectangle
                         yacApp.addFile(fileDialog.fileUrl)
                     }
                 }
-                onClicked: {
-                    fileDialog.open()
+                onClicked:
+                {
+                    configurator.addFile(function(fileName)
+                    {
+                        yacApp.addFormFile(fileName)
+                    })
+//                    fileDialog.open()
                 }
             }
             YACButton
@@ -342,6 +349,5 @@ Rectangle
                 }
             }
         }
-
     }
 }

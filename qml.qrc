@@ -38,5 +38,6 @@
         <file>qml/items/YACTwoButtonRow.qml</file>
         <file>qml/items/YACButtonWithHeader.qml</file>
         <file>qml/dialogs/DialogBase.qml</file>
+        <file>qml/dialogs/DialogAddFile.qml</file>
     </qresource>
 </RCC>

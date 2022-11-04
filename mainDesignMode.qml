@@ -3,6 +3,7 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import "qml"
 import "qml/editor"
+import "qml/dialogs"
 
 Window {
     width: 1280
@@ -95,6 +96,10 @@ Window {
             editorFormLoader.sourceComponent = editorFormComponent
         }
     }
+    DialogAddFile
+    {
+        id: dialogAddFile
+    }
 
     YACBadMessageForm
     {
@@ -123,6 +128,15 @@ Window {
         function onYesNoQuestion(question, itemToFocus, yesCallback, noCallback)
         {
             yesNoQuestion.show(question, itemToFocus, yesCallback, noCallback)
+        }
+    }
+    Connections
+    {
+        target: configurator
+        function onAddFile(okCallback)
+        {
+            dialogAddFile.okCallback = okCallback
+            dialogAddFile.open()
         }
     }
 }
