@@ -1,15 +1,12 @@
 #ifndef YACNETWORK_H
 #define YACNETWORK_H
 
-#include <QNetworkAccessManager>
-#include "constants.h"
+#include "networkinterface.h"
 
-class YACNetwork: public QObject
+class YACNetwork: public NetworkInterface
 {
     Q_OBJECT
     const QString yacappServerUrl = {"http://www.jw78.de:23579"}; // {"http://127.0.0.1:23578"}; //
-    const Constants &constants;
-    QNetworkAccessManager manager;
     struct SRunningRequest;
     typedef std::function<void(QNetworkReply*, SRunningRequest &)> HandlerFunction;
     typedef std::function<void(const QString &)> CallbackFunction;
@@ -46,7 +43,8 @@ class YACNetwork: public QObject
                          CallbackFunction registerCallback,
                          CallbackFunction errorCallback);
 public:
-    YACNetwork(const Constants &constants);
+    YACNetwork(QNetworkAccessManager &manager
+               , const Constants &constants);
     void downloadApp(QString projectFilename,
                      QString projectPackage,
                      std::function<void(const QString &)> appDownloadedCallback,

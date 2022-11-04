@@ -24,9 +24,10 @@ SOURCES += \
         configurator.cpp \
         constants.cpp \
         main.cpp \
+        network/networkinterface.cpp \
+        network/yacnetwork.cpp \
         projectdata.cpp \
-        yacapp.cpp \
-        yacnetwork.cpp
+        yacapp.cpp
 
 RESOURCES += qml.qrc
 
@@ -60,10 +61,11 @@ HEADERS += \
   configmodels/splashscreenconfig.h \
   configurator.h \
   constants.h \
+  network/networkinterface.h \
+  network/yacnetwork.h \
   projectdata.h \
   yacapp.h \
-  yacappmacros.h \
-  yacnetwork.h
+  yacappmacros.h
 
 DISTFILES += \
   README.md \

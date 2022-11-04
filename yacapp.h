@@ -4,7 +4,7 @@
 #include <QObject>
 #include "configmodels/parsedconfig.h"
 #include "configmodels/globalprojectconfig.h"
-#include "yacnetwork.h"
+#include "network/yacnetwork.h"
 #include "constants.h"
 #include <QJSValue>
 

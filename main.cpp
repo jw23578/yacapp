@@ -58,7 +58,9 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     Constants constants;
     engine.rootContext()->setContextProperty("Constants", &constants);
-    YACNetwork network(constants);
+    QNetworkAccessManager manager;
+    YACNetwork network(manager
+                       , constants);
 
     YACAPP yacApp(constants, network);
     QUrl url(QStringLiteral("qrc:/main.qml"));

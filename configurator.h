@@ -5,7 +5,7 @@
 #include "yacappmacros.h"
 #include "projectdata.h"
 #include <QMap>
-#include "yacnetwork.h"
+#include "network/yacnetwork.h"
 #include <QJSValue>
 
 class Configurator : public QObject
