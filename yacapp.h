@@ -4,7 +4,7 @@
 #include <QObject>
 #include "configmodels/parsedconfig.h"
 #include "configmodels/globalprojectconfig.h"
-#include "network/yacnetwork.h"
+#include "network/yacservernetwork.h"
 #include "network/customservernetwork.h"
 #include "constants.h"
 #include <QJSValue>
@@ -28,14 +28,14 @@ class YACAPP : public QObject
 
     MenueConfig emptyMenue;
 
-    YACNetwork &network;
+    YACServerNetwork &network;
     CustomServerNetwork &customServerNetwork;
 
     void cleanUpKnownFile();
 
 public:
     explicit YACAPP(const Constants &constants
-                    , YACNetwork &network
+                    , YACServerNetwork &network
                     , CustomServerNetwork &customServerNetwork
                     , QObject *parent = nullptr);
     void init(QString projectFilename);

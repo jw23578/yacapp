@@ -59,8 +59,8 @@ int main(int argc, char *argv[])
     Constants constants;
     engine.rootContext()->setContextProperty("Constants", &constants);
     QNetworkAccessManager manager;
-    YACNetwork network(manager
-                       , constants);
+    YACExtServerNetwork network(manager
+                                , constants);
     CustomServerNetwork customServerNetwork(manager
                                             , constants);
 

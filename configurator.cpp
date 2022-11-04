@@ -16,7 +16,7 @@
 // #include "zlib.h"
 
 
-Configurator::Configurator(YACNetwork &network, QObject *parent)
+Configurator::Configurator(YACExtServerNetwork &network, QObject *parent)
     : QObject{parent},
       network(network)
 {

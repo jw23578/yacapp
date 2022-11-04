@@ -5,7 +5,7 @@
 #include "yacappmacros.h"
 #include "projectdata.h"
 #include <QMap>
-#include "network/yacnetwork.h"
+#include "network/yacextservernetwork.h"
 #include <QJSValue>
 
 class Configurator : public QObject
@@ -13,7 +13,7 @@ class Configurator : public QObject
     Q_OBJECT
     QString configFilename;
 
-    YACNetwork &network;
+    YACExtServerNetwork &network;
 
     YACAPPPROPERTY(QString, lastProjectName, LastProjectName, "");
     YACAPPPROPERTY(QString, lastProjectFilename, LastProjectFilename, "");
@@ -25,7 +25,7 @@ class Configurator : public QObject
     void sftpUpload(QString host, QString user, QString password, QString targetFilename, QString sourceFilename);
 
 public:
-    explicit Configurator(YACNetwork &network, QObject *parent = nullptr);
+    explicit Configurator(YACExtServerNetwork &network, QObject *parent = nullptr);
 
     Q_INVOKABLE void save();
 

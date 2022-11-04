@@ -4,7 +4,7 @@
 #include <QJsonObject>
 
 YACAPP::YACAPP(const Constants &constants
-               , YACNetwork &network
+               , YACServerNetwork &network
                , CustomServerNetwork &customServerNetwork
                , QObject *parent)
     : QObject{parent},

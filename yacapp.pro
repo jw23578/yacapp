@@ -26,8 +26,9 @@ SOURCES += \
         main.cpp \
         network/customservernetwork.cpp \
         network/networkinterface.cpp \
-        network/yacnetwork.cpp \
+        network/yacextservernetwork.cpp \
         network/yacserverbasenetwork.cpp \
+        network/yacservernetwork.cpp \
         projectdata.cpp \
         yacapp.cpp
 
@@ -65,8 +66,9 @@ HEADERS += \
   constants.h \
   network/customservernetwork.h \
   network/networkinterface.h \
-  network/yacnetwork.h \
+  network/yacextservernetwork.h \
   network/yacserverbasenetwork.h \
+  network/yacservernetwork.h \
   projectdata.h \
   yacapp.h \
   yacappmacros.h
