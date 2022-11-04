@@ -71,6 +71,7 @@ int main(int argc, char *argv[])
     Configurator *configurator(0);
     if (app.arguments().contains("Configurator"))
     {
+        constants.setIsConfigurator(true);
         url = QStringLiteral("qrc:/mainDesignMode.qml");
         configurator = new Configurator(network);
         engine.rootContext()->setContextProperty("configurator", configurator);
