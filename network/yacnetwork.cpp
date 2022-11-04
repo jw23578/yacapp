@@ -1,5 +1,4 @@
 #include "yacnetwork.h"
-#include <QNetworkReply>
 #include <QFileInfo>
 #include <QDir>
 #include <QUrlQuery>
@@ -11,8 +10,6 @@ YACNetwork::YACNetwork(QNetworkAccessManager &manager
                        , const Constants &constants):
     NetworkInterface(manager, constants)
 {
-    connect(&manager, &QNetworkAccessManager::finished,
-            this, &YACNetwork::replyFinished);
 }
 
 
@@ -305,20 +302,6 @@ void YACNetwork::yacappServerGetAPP(const QString &app_id,
                     successCallback,
                     errorCallback);
 }
-
-void YACNetwork::replyFinished(QNetworkReply *reply)
-{
-    QMap<QNetworkReply*, SRunningRequest>::Iterator it(runningRequests.find(reply));
-    if (it == runningRequests.end())
-    {
-        // error
-        return;
-    }
-    SRunningRequest rr(it.value());
-    runningRequests.erase(it);
-    rr.handlerFunction(reply, rr);
-}
-
 
 void YACNetwork::downloadApp(QString projectFilename,
                              QString projectPackage,

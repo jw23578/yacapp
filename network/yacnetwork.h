@@ -7,19 +7,6 @@ class YACNetwork: public NetworkInterface
 {
     Q_OBJECT
     const QString yacappServerUrl = {"http://www.jw78.de:23579"}; // {"http://127.0.0.1:23578"}; //
-    struct SRunningRequest;
-    typedef std::function<void(QNetworkReply*, SRunningRequest &)> HandlerFunction;
-    typedef std::function<void(const QString &)> CallbackFunction;
-    struct SRunningRequest
-    {
-        QString projectFilename;
-        QString projectPackage;
-        HandlerFunction handlerFunction;
-        CallbackFunction successCallback;
-        CallbackFunction errorCallback;
-    };
-
-    QMap<QNetworkReply*, SRunningRequest> runningRequests;
 
     void projectFilenameFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
     void projectPackageFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
@@ -85,9 +72,6 @@ public:
                             const int current_installed_version,
                             CallbackFunction successCallback,
                             CallbackFunction  errorCallback);
-
-public slots:
-    void replyFinished(QNetworkReply *reply);
 };
 
 #endif // YACNETWORK_H
