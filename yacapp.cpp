@@ -34,8 +34,8 @@ void YACAPP::init(QString projectFilename)
     {
         rawFolder += "/";
     }
-    setBaseUrl(rawFolder);
-    if (baseUrl() == "")
+    setAppFolder(rawFolder);
+    if (appFolder() == "")
     {
         return;
     }
@@ -135,7 +135,7 @@ void YACAPP::cleanUpKnownFile()
 
 ParsedConfig *YACAPP::getConfig(const QString &filename)
 {
-    QString fullFilename(baseUrl() + filename);
+    QString fullFilename(appFolder() + filename);
     QMap<QString, ParsedConfig*>::Iterator configIt(fileName2ParsedConfig.find(fullFilename));
     if (configIt == fileName2ParsedConfig.end())
     {
@@ -156,7 +156,7 @@ MenueConfig *YACAPP::getMenueConfig(const QString &filename)
     {
         return &emptyMenue;
     }
-    QString fullFilename(baseUrl() + filename);
+    QString fullFilename(appFolder() + filename);
     QMap<QString, MenueConfig*>::Iterator configIt(fileName2MenueConfig.find(fullFilename));
     if (configIt == fileName2MenueConfig.end())
     {
@@ -262,9 +262,9 @@ void YACAPP::yacappServerGetAPP(const QString &app_id,
 
 void YACAPP::addFormFile(QString fileName)
 {
-    if (!QFile(baseUrl() + fileName).exists())
+    if (!QFile(appFolder() + fileName).exists())
     {
-        QFile jsonFile(baseUrl() + fileName);
+        QFile jsonFile(appFolder() + fileName);
         jsonFile.open(QIODevice::WriteOnly);
     }
     getConfig(fileName);

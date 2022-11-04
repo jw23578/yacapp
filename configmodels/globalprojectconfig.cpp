@@ -5,9 +5,14 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-GlobalProjectConfig::GlobalProjectConfig(QObject *parent)
+GlobalProjectConfig::GlobalProjectConfig(bool noProjectId,
+                                         QObject *parent)
     : ConfigInterface(parent)
 {
+    if (noProjectId)
+    {
+        return;
+    }
     setProjectID(QUuid::createUuid().toString(QUuid::WithoutBraces));
 }
 

@@ -12,11 +12,11 @@ class YACAPP : public QObject
 {
     Q_OBJECT
     const Constants &constants;
-    YACAPPPROPERTY(QString, baseUrl, BaseUrl, "");
+    YACAPPPROPERTY(QString, appFolder, AppFolder, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
     YACAPPPROPERTY(ParsedConfig*, mainConfig, MainConfig, 0);
     YACAPPPROPERTY(QString, globalProjectConfigFilename, GlobalProjectConfigFilename, "");
-    YACAPPREADONLYPROPERTY(GlobalProjectConfig*, globalConfig, new GlobalProjectConfig);
+    YACAPPREADONLYPROPERTY(GlobalProjectConfig*, globalConfig, new GlobalProjectConfig(true));
     YACAPPPROPERTY(QStringList, knownFiles, KnownFiles, QStringList())
     QMap<QString, ParsedConfig*> fileName2ParsedConfig;
     void addKnownFile(QString const &filename);

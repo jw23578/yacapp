@@ -130,7 +130,7 @@ void Configurator::sftpUpload(QString host, QString user, QString password, QStr
 
 void Configurator::defaultDeploy(const QString &globalProjectConfigFilename, QString host, QString user, QString password)
 {
-    GlobalProjectConfig gpc;
+    GlobalProjectConfig gpc(true);
     gpc.init(globalProjectConfigFilename);
 
     if (!deployConfigs[gpc.projectID()])
@@ -186,7 +186,7 @@ void Configurator::defaultDeploy(const QString &globalProjectConfigFilename, QSt
 
 void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCallback, QJSValue badCallback)
 {
-    GlobalProjectConfig gpc;
+    GlobalProjectConfig gpc(true);
     gpc.init(globalProjectConfigFilename);
     if (!deployConfigs[gpc.projectID()])
     {
@@ -333,7 +333,7 @@ bool Configurator::isFolderEmpty(const QString &folder)
 void Configurator::createNewProject(const QString &projectName,
                                     const QString &projectFolder)
 {
-    GlobalProjectConfig gpc;
+    GlobalProjectConfig gpc(false);
     gpc.setProjectName(projectName);
     gpc.setMainFormFilename("mainform.json");
     QString projectFileName(QUrl(projectFolder).path() + "/projectFile.yacapp");

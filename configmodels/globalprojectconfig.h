@@ -19,7 +19,8 @@ class GlobalProjectConfig : public ConfigInterface
     YACAPPPROPERTY(double, logoOffsetX, LogoOffsetX, 0)
     YACAPPPROPERTY(double, logoOffsetY, LogoOffsetY, 0)
     public:
-    explicit GlobalProjectConfig(QObject *parent = nullptr);
+    explicit GlobalProjectConfig(bool noProjectId = true,
+                                 QObject *parent = nullptr);
 
     QStringList formFiles;
     QStringList menueFiles;
