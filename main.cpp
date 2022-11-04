@@ -61,8 +61,12 @@ int main(int argc, char *argv[])
     QNetworkAccessManager manager;
     YACNetwork network(manager
                        , constants);
+    CustomServerNetwork customServerNetwork(manager
+                                            , constants);
 
-    YACAPP yacApp(constants, network);
+    YACAPP yacApp(constants
+                  , network
+                  , customServerNetwork);
     QUrl url(QStringLiteral("qrc:/main.qml"));
     Configurator *configurator(0);
     if (app.arguments().contains("Configurator"))

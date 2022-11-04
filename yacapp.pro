@@ -24,6 +24,7 @@ SOURCES += \
         configurator.cpp \
         constants.cpp \
         main.cpp \
+        network/customservernetwork.cpp \
         network/networkinterface.cpp \
         network/yacnetwork.cpp \
         projectdata.cpp \
@@ -61,6 +62,7 @@ HEADERS += \
   configmodels/splashscreenconfig.h \
   configurator.h \
   constants.h \
+  network/customservernetwork.h \
   network/networkinterface.h \
   network/yacnetwork.h \
   projectdata.h \

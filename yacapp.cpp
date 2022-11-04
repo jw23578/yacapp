@@ -3,10 +3,14 @@
 #include <QStandardPaths>
 #include <QJsonObject>
 
-YACAPP::YACAPP(const Constants &constants, YACNetwork &network, QObject *parent)
+YACAPP::YACAPP(const Constants &constants
+               , YACNetwork &network
+               , CustomServerNetwork &customServerNetwork
+               , QObject *parent)
     : QObject{parent},
       constants(constants),
-      network(network)
+      network(network),
+      customServerNetwork(customServerNetwork)
 {
     qDebug() << __FILE__ << ": " << __LINE__ << constants.getStateFilename();
     QFile jsonFile(constants.getStateFilename());
@@ -203,9 +207,9 @@ void YACAPP::downloadApp(QString url, QString projectID)
         url += '/';
     }
 
-    network.downloadApp(url + projectID + ".yacapp"
-                        , url + projectID + ".yacpck"
-                        , [this, projectID](const QString &message)
+    customServerNetwork.downloadApp(url + projectID + ".yacapp"
+                                    , url + projectID + ".yacpck"
+                                    , [this, projectID](const QString &message)
     {
         loadNewProject(constants.getYacAppConfigPath() + projectID + ".yacapp");
         saveState();

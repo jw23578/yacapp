@@ -8,9 +8,6 @@ class YACNetwork: public NetworkInterface
     Q_OBJECT
     const QString yacappServerUrl = {"http://www.jw78.de:23579"}; // {"http://127.0.0.1:23578"}; //
 
-    void projectFilenameFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
-    void projectPackageFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
-
     void yacappServerPost(const QString &method,
                           const QJsonObject &object,
                           HandlerFunction handlerFunction,
@@ -32,10 +29,6 @@ class YACNetwork: public NetworkInterface
 public:
     YACNetwork(QNetworkAccessManager &manager
                , const Constants &constants);
-    void downloadApp(QString projectFilename,
-                     QString projectPackage,
-                     std::function<void(const QString &)> appDownloadedCallback,
-                     std::function<void (const QString &)>  errorCallback);
     void yacappServerRegisterUser(QString loginEMail,
                                   QString password,
                                   CallbackFunction successCallback,
