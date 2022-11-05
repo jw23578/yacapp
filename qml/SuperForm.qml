@@ -9,6 +9,7 @@ Rectangle
     property ParsedConfig config: null
     property var stackView: null
     property var theMenue: null
+    property bool currentSuperForm: stackView.currentItem == theSuperForm
     color: config.background.color
 
     Loader
@@ -33,7 +34,7 @@ Rectangle
             {
                 id: theWebview
                 anchors.fill: parent
-                visible: !loading
+                visible: !loading && theSuperForm.currentSuperForm
                 url: config.content.url + (config.content.loginNeeded ? yacApp.loginToken : "")
             }
             Rectangle
