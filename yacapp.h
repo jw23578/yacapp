@@ -20,7 +20,7 @@ class YACAPP : public QObject
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
     YACAPPPROPERTY(ParsedConfig*, mainConfig, MainConfig, 0);
     YACAPPPROPERTY(QString, globalProjectConfigFilename, GlobalProjectConfigFilename, "");
-    YACAPPREADONLYPROPERTY(GlobalProjectConfig*, globalConfig, new GlobalProjectConfig(true));
+    YACAPPPROPERTY(GlobalProjectConfig*, globalConfig, GlobalConfig, new GlobalProjectConfig(true));
     YACAPPPROPERTY(QStringList, knownFiles, KnownFiles, QStringList())
     QMap<QString, ParsedConfig*> fileName2ParsedConfig;
     void addKnownFile(QString const &filename);

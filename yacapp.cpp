@@ -62,6 +62,26 @@ void YACAPP::leaveApp()
     setLoginToken("");
     setGlobalProjectConfigFilename("");
     globalConfig()->setProjectID("");
+    {
+        QMap<QString, ParsedConfig*>::iterator it(fileName2ParsedConfig.begin());
+        while (it != fileName2ParsedConfig.end())
+        {
+            delete it.value();
+            ++it;
+        }
+        fileName2ParsedConfig.clear();
+    }
+    {
+        QMap<QString, MenueConfig*>::iterator it(fileName2MenueConfig.begin());
+        while (it != fileName2MenueConfig.end())
+        {
+            delete it.value();
+            ++it;
+        }
+        fileName2MenueConfig.clear();
+    }
+    m_knownFiles.clear();
+    setGlobalConfig(new GlobalProjectConfig(true));
     saveState();
 }
 
@@ -73,7 +93,6 @@ void YACAPP::saveState()
     QFile jsonFile(constants.getStateFilename());
     jsonFile.open(QIODevice::WriteOnly);
     jsonFile.write(QJsonDocument(config).toJson());
-
 }
 
 void YACAPP::addKnownFile(QString const &filename)
