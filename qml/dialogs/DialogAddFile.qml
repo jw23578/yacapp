@@ -26,6 +26,7 @@ DialogBase
         YACLineEditWithHeader
         {
             id: fileName
+            focus: true
             headerText: qsTr("Filename")
         }
     }

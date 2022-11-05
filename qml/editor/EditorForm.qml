@@ -65,26 +65,12 @@ Rectangle
                 y: fileCombobox.comboBox.y
                 id: addFileButton
                 text: qsTr("Add File")
-                FileDialog
-                {
-                    id: fileDialog
-                    selectExisting: false
-                    selectMultiple: false
-                    folder: shortcuts.home
-                    nameFilters: [ "json-Files (*.json)" ]
-                    onAccepted:
-                    {
-                        console.log("You chose: " + fileDialog.fileUrl)
-                        yacApp.addFile(fileDialog.fileUrl)
-                    }
-                }
                 onClicked:
                 {
-                    configurator.addFile(function(fileName)
+                    configurator.addFileSignal(function(fileName)
                     {
-                        yacApp.addFormFile(fileName)
+                        configurator.addFormFile(fileName)
                     })
-//                    fileDialog.open()
                 }
             }
             YACButton

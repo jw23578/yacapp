@@ -9,8 +9,11 @@
 #include "constants.h"
 #include <QJSValue>
 
+class Configurator;
+
 class YACAPP : public QObject
 {
+    friend Configurator;
     Q_OBJECT
     const Constants &constants;
     YACAPPPROPERTY(QString, appFolder, AppFolder, "");
@@ -64,8 +67,6 @@ public:
                                         const int current_installed_version,
                                         QJSValue successCallback,
                                         QJSValue errorCallback);
-
-    Q_INVOKABLE void addFormFile(QString fileUrl);
 
 signals:
 

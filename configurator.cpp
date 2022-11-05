@@ -17,9 +17,12 @@
 // #include "zlib.h"
 
 
-Configurator::Configurator(YACExtServerNetwork &network, QObject *parent)
-    : QObject{parent},
-      network(network)
+Configurator::Configurator(YACAPP &yacApp
+                           , YACExtServerNetwork &network
+                           , QObject *parent)
+    : QObject{parent}
+    , yacApp(yacApp)
+    , network(network)
 {
     QStringList paths(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
     if (paths.size() == 0)
@@ -357,3 +360,15 @@ void Configurator::createNewProject(const QString &projectName,
     setLastProjectName(projectName);
     setLastProjectFilename(projectFileName);
 }
+
+void Configurator::addFormFile(QString fileName)
+{
+    if (!QFile(yacApp.appFolder() + fileName).exists())
+    {
+        QFile jsonFile(yacApp.appFolder() + fileName);
+        jsonFile.open(QIODevice::WriteOnly);
+    }
+    yacApp.getConfig(fileName);
+    yacApp.globalConfig()->formFiles.append(fileName);
+}
+

@@ -76,7 +76,8 @@ int main(int argc, char *argv[])
     {
         constants.setIsConfigurator(true);
         url = QStringLiteral("qrc:/mainDesignMode.qml");
-        configurator = new Configurator(network);
+        configurator = new Configurator(yacApp
+                                        , network);
         engine.rootContext()->setContextProperty("configurator", configurator);
     }
     else

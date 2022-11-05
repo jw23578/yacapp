@@ -133,7 +133,7 @@ Window {
     Connections
     {
         target: configurator
-        function onAddFile(okCallback)
+        function onAddFileSignal(okCallback)
         {
             dialogAddFile.okCallback = okCallback
             dialogAddFile.open()

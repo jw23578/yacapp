@@ -261,15 +261,3 @@ void YACAPP::yacappServerGetAPP(const QString &app_id,
         errorCallback.call(QJSValueList() << message);
     });
 }
-
-void YACAPP::addFormFile(QString fileName)
-{
-    if (!QFile(appFolder() + fileName).exists())
-    {
-        QFile jsonFile(appFolder() + fileName);
-        jsonFile.open(QIODevice::WriteOnly);
-    }
-    getConfig(fileName);
-    globalConfig()->formFiles.append(fileName);
-}
-

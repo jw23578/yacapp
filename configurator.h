@@ -7,12 +7,14 @@
 #include <QMap>
 #include "network/yacextservernetwork.h"
 #include <QJSValue>
+#include "yacapp.h"
 
 class Configurator : public QObject
 {
     Q_OBJECT
     QString configFilename;
 
+    YACAPP &yacApp;
     YACExtServerNetwork &network;
 
     YACAPPPROPERTY(QString, lastProjectName, LastProjectName, "");
@@ -25,7 +27,9 @@ class Configurator : public QObject
     void sftpUpload(QString host, QString user, QString password, QString targetFilename, QString sourceFilename);
 
 public:
-    explicit Configurator(YACExtServerNetwork &network, QObject *parent = nullptr);
+    explicit Configurator(YACAPP &yacApp
+                          , YACExtServerNetwork &network
+                          , QObject *parent = nullptr);
 
     Q_INVOKABLE void save();
 
@@ -65,9 +69,11 @@ public:
     Q_INVOKABLE void createNewProject(const QString &projectName,
                                       const QString &projectFolder);
 
+    Q_INVOKABLE void addFormFile(QString fileUrl);
+
 signals:
 
-    void addFile(const QJSValue okCallback);
+    void addFileSignal(const QJSValue okCallback);
 };
 
 #endif // CONFIGURATOR_H
