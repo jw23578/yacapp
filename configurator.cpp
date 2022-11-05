@@ -316,14 +316,19 @@ void Configurator::yacserverRegister(const QString &loginEMail,
     );
 }
 
-void Configurator::yacserverVerify(const QString &loginEMail, const QString &verifyToken)
+void Configurator::yacserverVerify(const QString &loginEMail
+                                   , const QString &verifyToken
+                                   , QJSValue goodCallback
+                                   , QJSValue badCallback)
 {
     network.yacappServerVerifyUser(loginEMail, verifyToken,
-                                   [this](const QString &message){
-        verifySuccessful();
+                                   [goodCallback](const QString &message) mutable
+    {
+        goodCallback.call(QJSValueList());
     },
-    [this](const QString &message){
-        verifyNotSuccessful(message);
+    [badCallback](const QString &message) mutable
+    {
+        badCallback.call(QJSValueList() << message);
     }
     );
 

@@ -92,7 +92,18 @@ Rectangle
                     return;
                 }
 
-                configurator.yacserverVerify(loginEMail.displayText, verifyToken.displayText)
+                configurator.yacserverVerify(loginEMail.displayText
+                                             , verifyToken.displayText
+                                             , function()
+                                             {
+                                                 yacApp.goodMessage(qsTr("Verifyíing Successful, you are now logged in an can deploy your App."), null, null)
+                                                 registerVerifyPage.visible = false
+                                             }
+                                             , function(message)
+                                             {
+                                                 yacApp.badMessage(message, null, null)
+                                             }
+)
             }
         }
         YACButton
@@ -100,19 +111,6 @@ Rectangle
             text: qsTr("Abbrechen")
             onClicked: registerVerifyPage.visible = false
             width: parent.width
-        }
-    }
-    Connections
-    {
-        target: configurator
-        function onVerifySuccessful()
-        {
-            yacApp.goodMessage(qsTr("Verifyíing Successful, you are now logged in an can deploy your App."), null, null)
-            registerVerifyPage.visible = false
-        }
-        function onVerifyNotSuccessful(message)
-        {
-            yacApp.badMessage(message, null, null)
         }
     }
 }

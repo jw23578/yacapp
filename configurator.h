@@ -50,11 +50,15 @@ public:
                                     QJSValue badCallback);
 
     Q_INVOKABLE void yacserverUserLoggedIn(const QString &loginEMail, const QString &loginToken, const QString &projectID);
-    Q_INVOKABLE void yacserverRegister(const QString &loginEMail,
-                                       const QString &password,
-                                       QJSValue goodCallback,
-                                       QJSValue badCallback);
-    Q_INVOKABLE void yacserverVerify(const QString &loginEMail, const QString &verifyToken);
+    Q_INVOKABLE void yacserverRegister(const QString &loginEMail
+                                       , const QString &password
+                                       , QJSValue goodCallback
+                                       , QJSValue badCallback);
+
+    Q_INVOKABLE void yacserverVerify(const QString &loginEMail
+                                     , const QString &verifyToken
+                                     , QJSValue goodCallback
+                                     , QJSValue badCallback);
 
     Q_INVOKABLE bool isFolderEmpty(const QString &folder);
 
@@ -62,8 +66,6 @@ public:
                                       const QString &projectFolder);
 
 signals:
-    void verifySuccessful();
-    void verifyNotSuccessful(const QString &messge);
 
     void addFile(const QJSValue okCallback);
 };
