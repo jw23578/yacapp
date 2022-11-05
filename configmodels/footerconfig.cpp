@@ -14,16 +14,16 @@ void FooterConfig::setConfig(const QJsonValue &config)
     {
         return;
     }
-    setHeight(config["height"].toDouble(0));
+    setHeightPerThousand(config["heightPerThousand"].toDouble(0));
     setColor(config["color"].toString());
 }
 
 QJsonObject FooterConfig::getConfig()
 {
     QJsonObject config;
-    if (changed(height()) || changed(color()))
+    if (changed(heightPerThousand()) || changed(color()))
     {
-        toJSON(height);
+        toJSON(heightPerThousand);
         colorToJSON(color);
     }
     return config;

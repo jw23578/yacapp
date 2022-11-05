@@ -9,7 +9,7 @@
 class FooterConfig : public ConfigInterface
 {
     Q_OBJECT
-    YACAPPPROPERTY(double, height, Height, 0)
+    YACAPPPROPERTY(double, heightPerThousand, HeightPerThousand, 0)
     YACAPPPROPERTY(QColor, color, Color, "white")
 public:
     explicit FooterConfig(QObject *parent = nullptr);

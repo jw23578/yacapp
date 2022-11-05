@@ -338,10 +338,10 @@ Rectangle
                     sectionCaption: qsTr("Footer")
                     YACLineEditWithHeader
                     {
-                        headerText: qsTr("Height")
+                        headerText: qsTr("Height per thousand")
                         doubleEdit: true
-                        text: config.footer.height
-                        onDisplayTextChanged: config.footer.height = text
+                        text: config.footer.heightPerThousand
+                        onDisplayTextChanged: config.footer.heightPerThousand = text
                     }
                     YACColorDialogWithHeader
                     {
