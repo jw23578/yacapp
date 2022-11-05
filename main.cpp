@@ -56,11 +56,8 @@ int main(int argc, char *argv[])
         }
     }
     QtWebView::initialize();
-    QQmlApplicationEngine engine;
     Helper helper;
-    engine.rootContext()->setContextProperty("Helper", &helper);
     Constants constants;
-    engine.rootContext()->setContextProperty("Constants", &constants);
     QNetworkAccessManager manager;
     YACExtServerNetwork network(manager
                                 , constants);
@@ -72,6 +69,11 @@ int main(int argc, char *argv[])
                   , customServerNetwork);
     QUrl url(QStringLiteral("qrc:/main.qml"));
     Configurator *configurator(0);
+
+    QQmlApplicationEngine engine;
+    engine.rootContext()->setContextProperty("Helper", &helper);
+    engine.rootContext()->setContextProperty("Constants", &constants);
+
     if (app.arguments().contains("Configurator"))
     {
         constants.setIsConfigurator(true);

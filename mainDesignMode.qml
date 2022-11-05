@@ -27,7 +27,13 @@ Window {
             width: 480
             height: 640
             config: yacApp.mainConfig
-            onCurrentItemChanged: editorFormLoader.item.config = config
+            onCurrentItemChanged:
+            {
+                if (config != null && editorFormLoader.item != null)
+                {
+                    editorFormLoader.item.config = config
+                }
+            }
             clip: true
         }
     }

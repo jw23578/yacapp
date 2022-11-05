@@ -13,8 +13,8 @@ class ContentItem : public ConfigInterface
     YACAPPPROPERTY(QString, filename, Filename, "")
     YACAPPPROPERTY(QString, url, Url, "")
     YACAPPPROPERTY(QString, target, Target, "")
-    YACAPPPROPERTY(double, width, Width, 0)
-    YACAPPPROPERTY(double, height, Height, 0)
+    YACAPPPROPERTY(double, widthPerThousand, WidthPerThousand, 0)
+    YACAPPPROPERTY(double, heightPerThousand, HeightPerThousand, 0)
     YACAPPPROPERTY(QString, text, Text, "")
     YACAPPPROPERTY(QColor, color, Color, "white")
 public:

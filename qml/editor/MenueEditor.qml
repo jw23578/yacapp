@@ -28,9 +28,9 @@ Rectangle
                 {
                     id: menueType
                     headerText: "Type"
-                    currentIndex: find(config.type)
+                    currentIndex: config ? find(config.type) : 0
                     onCurrentTextChanged: config.type = currentText
-                    model: config.typeOptions
+                    model: config ? config.typeOptions : null
                 }
                 Column
                 {
@@ -38,7 +38,7 @@ Rectangle
                     width: parent.width
                     Repeater
                     {
-                        model: config.itemCount
+                        model: config ? config.itemCount : null
                         delegate: Column
                         {
                             width: columnItems.width

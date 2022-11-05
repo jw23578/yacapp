@@ -16,8 +16,8 @@ Item
     property bool columnType: contentType == "column"
     property bool rowType: contentType == "row"
     property ContentItem itemConfig: null
-    width: columnType && !gridType ? parent.width : formWidth * itemConfig.width
-    height: rowType && !gridType ? parent.height : formHeight * itemConfig.height
+    width: columnType && !gridType ? parent.width : formWidth * itemConfig.widthPerThousand / 1000.0
+    height: rowType && !gridType ? parent.height : formHeight * itemConfig.heightPerThousand / 1000.0
 
     Component
     {

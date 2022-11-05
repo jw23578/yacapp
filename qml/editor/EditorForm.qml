@@ -309,18 +309,18 @@ Rectangle
                                 }
                                 YACLineEditWithHeader
                                 {
-                                    headerText: qsTr("Width")
+                                    headerText: qsTr("Width per thousand")
                                     doubleEdit: true
-                                    text: config.content.items[index].width
-                                    onDisplayTextChanged: config.content.items[index].width = text
+                                    text: config.content.items[index].widthPerThousand
+                                    onDisplayTextChanged: config.content.items[index].widthPerThousand = text
                                     visible: columnItems.showRow
                                 }
                                 YACLineEditWithHeader
                                 {
-                                    headerText: qsTr("Height")
+                                    headerText: qsTr("Height per thousand")
                                     doubleEdit: true
-                                    text: config.content.items[index].height
-                                    onDisplayTextChanged: config.content.items[index].height = text
+                                    text: config.content.items[index].heightPerThousand
+                                    onDisplayTextChanged: config.content.items[index].heightPerThousand = text
                                     visible: columnItems.showColumn
                                 }
                             }
