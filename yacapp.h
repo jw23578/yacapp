@@ -53,7 +53,9 @@ public:
     Q_INVOKABLE void saveCurrentProject();
 
     Q_INVOKABLE void downloadApp(QString url,
-                                 QString projectID);
+                                 QString projectID,
+                                 QJSValue successCallback,
+                                 QJSValue errorCallback);
 
     Q_INVOKABLE void yacappServerGetAllAPPs(QJSValue successCallback,
                                             QJSValue  errorCallback);
@@ -67,8 +69,6 @@ public:
 
 signals:
 
-    void appDownloadSuccess();
-    void appDownloadError(const QString &errorMessage);
     void badMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
     void goodMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
     void yesNoQuestion(const QString &question, QJSValue itemToFocus, QJSValue yesCallback, QJSValue noCallback);

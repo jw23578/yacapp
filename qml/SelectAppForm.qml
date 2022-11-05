@@ -35,8 +35,8 @@ YACRectangle
         appModel.clear()
         for (let i = 0; i < allApps.length; ++i)
         {
-           let app = allApps[i]
-           appModel.append(app)
+            let app = allApps[i]
+            appModel.append(app)
         }
     }
 
@@ -114,7 +114,17 @@ YACRectangle
                                               }
                                               )
                     return
-                    yacApp.downloadApp(Constants.allAppsBaseUrl, app_id)
+                    yacApp.downloadApp(Constants.allAppsBaseUrl, app_id,
+                                       function()
+                                       {
+                                       },
+                                       function (errorMessage)
+                                       {
+                                           console.log("Console: " + errorMessage)
+                                           yacApp.badMessage(errorMessage, null, null)
+                                       }
+                                       )
+
                 }
             }
         }
@@ -151,20 +161,6 @@ YACRectangle
             anchors.centerIn: parent
             horizontalAlignment: Text.AlignHCenter
             text: qsTr("No known Apps yet")
-        }
-    }
-    Connections
-    {
-        target: yacApp
-        function onAppDownloadError(errorMessage)
-        {
-            console.log("Console: " + errorMessage)
-            yacApp.badMessage(errorMessage, null, null)
-        }
-        function onAppDownloadSuccess()
-        {
-            console.log("App Downloaded")
-//            visible = false
         }
     }
 }

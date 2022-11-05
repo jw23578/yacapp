@@ -200,7 +200,10 @@ void YACAPP::saveCurrentProject()
     }
 }
 
-void YACAPP::downloadApp(QString url, QString projectID)
+void YACAPP::downloadApp(QString url
+                         , QString projectID
+                         , QJSValue successCallback
+                         , QJSValue errorCallback)
 {
     if (url.right(1) != '/')
     {
@@ -209,16 +212,16 @@ void YACAPP::downloadApp(QString url, QString projectID)
 
     customServerNetwork.downloadApp(url + projectID + ".yacapp"
                                     , url + projectID + ".yacpck"
-                                    , [this, projectID](const QString &message)
+                                    , [this, projectID, successCallback](const QString &message) mutable
     {
         loadNewProject(constants.getYacAppConfigPath() + projectID + ".yacapp");
         saveState();
-        appDownloadSuccess();
+        successCallback.call(QJSValueList());
     }
-    , [this](const QString &errorMessage)
+    , [errorCallback](const QString &errorMessage) mutable
     {
         qDebug() << __FILE__ << ": " << __LINE__ << errorMessage;
-        appDownloadError(errorMessage);
+        errorCallback.call(QJSValueList() << errorMessage);
     });
 }
 
