@@ -74,6 +74,11 @@ Rectangle
             text: qsTr("Yes")
             onClicked: yes()
         }
+        Item
+        {
+            height: 1
+            width: yesButton.width / 2
+        }
         YACButton
         {
             text: qsTr("No")

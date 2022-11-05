@@ -12,6 +12,7 @@ class Constants : public QObject
     YACAPPPROPERTY(QString, allAppsBaseUrl, AllAppsBaseUrl, "https://www.jw78.de/yacapp/")
     YACAPPPROPERTY(bool, isDesktop, IsDesktop, false);
     YACAPPPROPERTY(bool, isConfigurator, IsConfigurator, false);
+    YACAPPPROPERTY(bool, shadowActive, ShadowActive, true);
 public:
     Constants();
 

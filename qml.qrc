@@ -39,5 +39,6 @@
         <file>qml/items/YACButtonWithHeader.qml</file>
         <file>qml/dialogs/DialogBase.qml</file>
         <file>qml/dialogs/DialogAddFile.qml</file>
+        <file>qml/items/YACDropShadow.qml</file>
     </qresource>
 </RCC>
