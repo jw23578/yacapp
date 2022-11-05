@@ -53,7 +53,18 @@ Rectangle
                     return
                 }
 
-                configurator.yacserverLogin(loginEMail.displayText, password.text, yacApp.globalConfig.projectID)
+                configurator.yacserverLogin(loginEMail.displayText,
+                                            password.text,
+                                            yacApp.globalConfig.projectID,
+                                            function ()
+                                            {
+                                                yacApp.goodMessage(configurator.activeProjectData.yacappServerLoginToken, null)
+                                            },
+                                            function (message)
+                                            {
+                                                yacApp.badMessage(message, null, null)
+                                            }
+                                            )
             }
         }
         YACButton
@@ -125,18 +136,6 @@ Rectangle
 //            loginEMail.text = configurator.getProjectData(yacApp.globalConfig.projectID).deployUser
 //            password.text = configurator.getProjectData(yacApp.globalConfig.projectID).deployPassword
             //basedirectory.text = configurator.getProjectData(yacApp.globalConfig.projectID).deployBaseDirectory
-        }
-    }
-    Connections
-    {
-        target: configurator
-        function onLoginSuccessful()
-        {
-            yacApp.goodMessage(configurator.activeProjectData.yacappServerLoginToken, null)
-        }
-        function onLoginNotSuccessful(message)
-        {
-            yacApp.badMessage(message, null, null)
         }
     }
 }

@@ -264,20 +264,25 @@ void Configurator::setProjectData(const QString &projectID)
     setActiveProjectData(deployConfigs[projectID]);
 }
 
-void Configurator::yacserverLogin(const QString &loginEMail, const QString &password, const QString &projectID)
+void Configurator::yacserverLogin(const QString &loginEMail
+                                  , const QString &password
+                                  , const QString &projectID
+                                  , QJSValue goodCallback
+                                  , QJSValue badCallback)
 {
     network.yacappServerLoginUser(loginEMail, password,
-                                  [this, loginEMail, password, projectID](const QString &loginToken)
+                                  [this, loginEMail, password, projectID, goodCallback](const QString &loginToken) mutable
     {
         ProjectData &pd(*deployConfigs[projectID]);
         pd.setYacappServerLoginToken(loginToken);
         pd.setDeployUser(loginEMail);
         pd.setDeployPassword(password);
         save();
-        loginSuccessful();
+        goodCallback.call(QJSValueList());
     },
-    [this](const QString &message){
-        loginNotSuccessful(message);
+    [badCallback](const QString &message) mutable
+    {
+        badCallback.call(QJSValueList() << message);
     }
     );
 }

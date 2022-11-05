@@ -43,9 +43,15 @@ public:
 
     Q_INVOKABLE void setProjectData(const QString &projectID);
 
-    Q_INVOKABLE void yacserverLogin(const QString &loginEMail, const QString &password, const QString &projectID);
+    Q_INVOKABLE void yacserverLogin(const QString &loginEMail,
+                                    const QString &password,
+                                    const QString &projectID,
+                                    QJSValue goodCallback,
+                                    QJSValue badCallback);
+
     Q_INVOKABLE void yacserverUserLoggedIn(const QString &loginEMail, const QString &loginToken, const QString &projectID);
-    Q_INVOKABLE void yacserverRegister(const QString &loginEMail, const QString &password,
+    Q_INVOKABLE void yacserverRegister(const QString &loginEMail,
+                                       const QString &password,
                                        QJSValue goodCallback,
                                        QJSValue badCallback);
     Q_INVOKABLE void yacserverVerify(const QString &loginEMail, const QString &verifyToken);
@@ -56,8 +62,6 @@ public:
                                       const QString &projectFolder);
 
 signals:
-    void loginSuccessful();
-    void loginNotSuccessful(const QString &messge);
     void userLoggedInSuccessful();
     void userLoggedInNotSuccessful();
     void verifySuccessful();
