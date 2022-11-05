@@ -1,81 +1,104 @@
-import QtQuick 2.0
+import QtQuick 2.15
+import "qrc:/qml/items"
 
-Column
+Item
 {
+//    color: "transparent"
+//    border.width: 1
+//    border.color: "black"
+    id: editorSectionItem
     width: parent.width
-    id: sectionColumn
     property alias sectionCaption: theSectionCaption.text
     clip: true
-    Behavior on height {
+    height: theBackground.height + Constants.shadowVerticalOffset
+    property alias column: sectionColumn
+    Behavior on height
+    {
         NumberAnimation {
             duration: 200
         }
     }
-
-    property bool collapsed: false
-    function toggle()
+    YACRectangle
     {
-        if (collapsed)
+        id: theBackground
+        width: sectionColumn.width + sectionColumn.x * 2
+        height: sectionColumn.height + sectionColumn.y * 2
+        color: "lightgrey"
+        radius: Constants.radius
+        radiusTopLeft: true
+        radiusBottomRight: true
+    }
+    Column
+    {
+        id: sectionColumn
+        y: Constants.radius
+        x: Constants.radius
+        width: parent.width - x * 2 - Constants.shadowHorizontalOffset
+        property bool collapsed: false
+        function toggle()
         {
-            expand()
+            if (collapsed)
+            {
+                expand()
+            }
+            else
+            {
+                collapse()
+            }
         }
-        else
+
+        function collapse()
+        {
+            for (var i = 1; i < children.length; ++i)
+            {
+                children[i].visible = false
+            }
+            collapsed = true
+        }
+        function expand()
+        {
+            for (var i = 1; i < children.length; ++i)
+            {
+                children[i].visible = true
+            }
+            collapsed = false
+        }
+
+        Item
+        {
+            height: theSectionCaption.height
+            width: parent.width
+            Text
+            {
+                font.bold: true
+                id: theSectionCaption
+                width: parent.width
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked:
+                    {
+                        sectionColumn.toggle()
+                    }
+                }
+            }
+            Text
+            {
+                font.bold: true
+                anchors.right: parent.right
+                anchors.rightMargin: width / 2
+                text: ">"
+                rotation: sectionColumn.collapsed ? 90 : -90
+                Behavior on rotation {
+                    NumberAnimation {
+                        duration: 200
+                    }
+                }
+            }
+        }
+        Component.onCompleted:
         {
             collapse()
         }
-    }
-
-    function collapse()
-    {
-        for (var i = 1; i < children.length; ++i)
-        {
-            children[i].visible = false
-        }
-        collapsed = true
-    }
-    function expand()
-    {
-        for (var i = 1; i < children.length; ++i)
-        {
-            children[i].visible = true
-        }
-        collapsed = false
-    }
-
-    Item
-    {
-        height: theSectionCaption.height
-        width: parent.width
-        Text
-        {
-            font.bold: true
-            id: theSectionCaption
-            width: parent.width
-            MouseArea
-            {
-                anchors.fill: parent
-                onClicked:
-                {
-                    sectionColumn.toggle()
-                }
-            }
-        }
-        Text
-        {
-            font.bold: true
-            anchors.right: parent.right
-            anchors.rightMargin: width / 2
-            text: ">"
-            rotation: sectionColumn.collapsed ? 90 : -90
-            Behavior on rotation {
-                NumberAnimation {
-                    duration: 200
-                }
-            }
-        }
-    }
-    Component.onCompleted:
-    {
-        collapse()
     }
 }

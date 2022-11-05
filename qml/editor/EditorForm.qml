@@ -104,7 +104,7 @@ Rectangle
             {
                 id: editorSections
                 width: parent.width
-                spacing: 10
+                spacing: 1
 
                 YACLineEditWithHeader
                 {
@@ -122,12 +122,14 @@ Rectangle
                     sectionCaption: qsTr("Logo")
                     YACLineEditWithHeader
                     {
+                        parent: parent.column
                         headerText: qsTr("LogoUrl")
                         text: global.logoUrl
                         onDisplayTextChanged: global.logoUrl = text
                     }
                     YACLineEditWithHeader
                     {
+                        parent: parent.column
                         headerText: qsTr("Logo-Width per thousand")
                         intEdit: true
                         text: global.logoWidthPerThousand
@@ -135,6 +137,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
+                        parent: parent.column
                         headerText: qsTr("Logo-Offset-X per thousand")
                         intEdit: true
                         text: global.logoOffsetXPerThousand
@@ -142,6 +145,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
+                        parent: parent.column
                         headerText: qsTr("Logo-Height per thousand")
                         intEdit: true
                         text: global.logoHeightPerThousand
@@ -149,6 +153,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
+                        parent: parent.column
                         headerText: qsTr("Logo-Offset-Y per thousand")
                         intEdit: true
                         text: global.logoOffsetYPerThousand
@@ -161,12 +166,14 @@ Rectangle
                     sectionCaption: qsTr("Header")
                     YACLineEditWithHeader
                     {
+                        parent: parent.column
                         headerText: qsTr("Title")
                         text: config.header.title
                         onDisplayTextChanged: config.header.title = text
                     }
                     YACLineEditWithHeader
                     {
+                        parent: parent.column
                         headerText: qsTr("Height per thousand")
                         doubleEdit: true
                         text: config.header.heightPerThousand
@@ -174,6 +181,7 @@ Rectangle
                     }
                     YACColorDialogWithHeader
                     {
+                        parent: parent.column
                         headerText: qsTr("Color")
                         color: config.header.color
                         onColorChanged: config.header.color = color
@@ -184,6 +192,7 @@ Rectangle
                     sectionCaption: qsTr("Background")
                     YACColorDialogWithHeader
                     {
+                        parent: parent.column
                         headerText: qsTr("Color")
                         color: config.background.color
                         onColorChanged: config.background.color = color
@@ -195,12 +204,14 @@ Rectangle
                     sectionCaption: qsTr("Content")
                     YACSwitch
                     {
+                        parent: parent.column
                         text: qsTr("Login needed")
                         checked: config.content.loginNeeded
                         onCheckedChanged: config.content.loginNeeded = checked
                     }
                     YACComboBoxWithHeader
                     {
+                        parent: parent.column
                         id: contentType
                         headerText: qsTr("Type")
                         currentIndex: find(config.content.type)
@@ -209,6 +220,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
+                        parent: parent.column
                         showColumn: config.content.type == "grid"
                         intEdit: true
                         headerText: qsTr("Columns")
@@ -217,6 +229,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
+                        parent: parent.column
                         showColumn: config.content.type == "grid"
                         intEdit: true
                         headerText: qsTr("Rows")
@@ -225,6 +238,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
+                        parent: parent.column
                         showColumn: config.content.type == "webview"
                         headerText: qsTr("Url")
                         text: config.content.url
@@ -232,6 +246,7 @@ Rectangle
                     }
                     Column
                     {
+                        parent: parent.column
                         id: columnItems
                         width: parent.width
                         property bool showRow: ["row", "grid"].includes(config.content.type)
@@ -338,6 +353,7 @@ Rectangle
                     sectionCaption: qsTr("Footer")
                     YACLineEditWithHeader
                     {
+                        parent: parent.column
                         headerText: qsTr("Height per thousand")
                         doubleEdit: true
                         text: config.footer.heightPerThousand
@@ -345,6 +361,7 @@ Rectangle
                     }
                     YACColorDialogWithHeader
                     {
+                        parent: parent.column
                         headerText: qsTr("Color")
                         color: config.footer.color
                         onColorChanged: config.footer.color = color

@@ -12,8 +12,8 @@ Item
         DropShadow
         {
             anchors.fill: parent
-            horizontalOffset: 5
-            verticalOffset: 5
+            horizontalOffset: Constants.shadowHorizontalOffset
+            verticalOffset: Constants.shadowVerticalOffset
             radius: 8.0
             samples: 9
             color: "#80000000"
