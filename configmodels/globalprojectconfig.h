@@ -14,10 +14,10 @@ class GlobalProjectConfig : public ConfigInterface
     YACAPPPROPERTY(QString, mainFormFilename, MainFormFilename, "")
     YACAPPPROPERTY(QString, logoUrl, LogoUrl, "")
     YACAPPPROPERTY(QString, projectColorName, ProjectColorName, "white");
-    YACAPPPROPERTY(double, logoWidth, LogoWidth, 0)
-    YACAPPPROPERTY(double, logoHeight, LogoHeight, 0)
-    YACAPPPROPERTY(double, logoOffsetX, LogoOffsetX, 0)
-    YACAPPPROPERTY(double, logoOffsetY, LogoOffsetY, 0)
+    YACAPPPROPERTY(double, logoWidthPerThousand, LogoWidthPerThousand, 0)
+    YACAPPPROPERTY(double, logoHeightPerThousand, LogoHeightPerThousand, 0)
+    YACAPPPROPERTY(double, logoOffsetXPerThousand, LogoOffsetXPerThousand, 0)
+    YACAPPPROPERTY(double, logoOffsetYPerThousand, LogoOffsetYPerThousand, 0)
     public:
     explicit GlobalProjectConfig(bool noProjectId = true,
                                  QObject *parent = nullptr);

@@ -67,12 +67,12 @@ Item
     YACImage
     {
         anchors.top: parent.top
-        anchors.topMargin: parent.height * yacApp.globalConfig.logoOffsetY
+        anchors.topMargin: parent.height * yacApp.globalConfig.logoOffsetYPerThousand / 1000.0
         anchors.left: parent.left
-        anchors.leftMargin: parent.width * yacApp.globalConfig.logoOffsetX
+        anchors.leftMargin: parent.width * yacApp.globalConfig.logoOffsetXPerThousand / 1000.0
         visible: source != ""
         source: yacApp.globalConfig.logoUrl
-        width: parent.width * yacApp.globalConfig.logoWidth
-        height: parent.height * yacApp.globalConfig.logoHeight
+        width: parent.width * yacApp.globalConfig.logoWidthPerThousand / 1000.0
+        height: parent.height * yacApp.globalConfig.logoHeightPerThousand / 1000.0
     }
 }

@@ -20,6 +20,7 @@ FocusScope
         DoubleValidator
         {
             id: doubleValidator
+            decimals: 3
         }
         IntValidator
         {

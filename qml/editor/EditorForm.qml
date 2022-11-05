@@ -128,31 +128,31 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
-                        headerText: qsTr("Logo-Width")
-                        doubleEdit: true
-                        text: global.logoWidth
-                        onDisplayTextChanged: global.logoWidth = text
+                        headerText: qsTr("Logo-Width per thousand")
+                        intEdit: true
+                        text: global.logoWidthPerThousand
+                        onDisplayTextChanged: global.logoWidthPerThousand = text
                     }
                     YACLineEditWithHeader
                     {
-                        headerText: qsTr("Logo-Offset-X")
-                        doubleEdit: true
-                        text: global.logoOffsetX
-                        onDisplayTextChanged: global.logoOffsetX = text
+                        headerText: qsTr("Logo-Offset-X per thousand")
+                        intEdit: true
+                        text: global.logoOffsetXPerThousand
+                        onDisplayTextChanged: global.logoOffsetXPerThousand = text
                     }
                     YACLineEditWithHeader
                     {
-                        headerText: qsTr("Logo-Height")
-                        doubleEdit: true
-                        text: global.logoHeight
-                        onDisplayTextChanged: global.logoHeight = text
+                        headerText: qsTr("Logo-Height per thousand")
+                        intEdit: true
+                        text: global.logoHeightPerThousand
+                        onDisplayTextChanged: global.logoHeightPerThousand = text
                     }
                     YACLineEditWithHeader
                     {
-                        headerText: qsTr("Logo-Offset-Y")
-                        doubleEdit: true
-                        text: global.logoOffsetY
-                        onDisplayTextChanged: global.logoOffsetY = text
+                        headerText: qsTr("Logo-Offset-Y per thousand")
+                        intEdit: true
+                        text: global.logoOffsetYPerThousand
+                        onDisplayTextChanged: global.logoOffsetYPerThousand = text
                     }
                 }
 
