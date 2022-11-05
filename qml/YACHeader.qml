@@ -19,7 +19,7 @@ Rectangle
         height: width
         color: "red"
         x: parent.width / 2 - width / 2
-        y: parent.parent.height * headerConfig.height - height / 2
+        y: parent.parent.height * headerConfig.heightPerThousand / 1000.0 - height / 2
         //            onYChanged: parent.height = y + height / 2
 
         MouseArea {

@@ -16,17 +16,17 @@ void HeaderConfig::setConfig(const QJsonValue &config)
     }
     setColor(config["color"].toString());
     setTitle(config["title"].toString());
-    setHeight(config["height"].toDouble(0));
+    setHeightPerThousand(config["heightPerThousand"].toDouble(0));
 }
 
 QJsonObject HeaderConfig::getConfig()
 {
     QJsonObject config;
-    if (changed(color()) || changed(title()) || changed(height()))
+    if (changed(color()) || changed(title()) || changed(heightPerThousand()))
     {
         colorToJSON(color);
         stringToJSON(title);
-        toJSON(height);
+        toJSON(heightPerThousand);
     }
     return config;
 }

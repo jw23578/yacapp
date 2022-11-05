@@ -11,7 +11,7 @@ class HeaderConfig : public ConfigInterface
     Q_OBJECT
 
     YACAPPPROPERTY(QString, title, Title, "")
-    YACAPPPROPERTY(double, height, Height, 0)
+    YACAPPPROPERTY(double, heightPerThousand, HeightPerThousand, 0)
     YACAPPPROPERTY(QColor, color, Color, "white")
 public:
     explicit HeaderConfig(QObject *parent = nullptr);

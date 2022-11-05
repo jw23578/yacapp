@@ -167,10 +167,10 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
-                        headerText: qsTr("Height")
+                        headerText: qsTr("Height per thousand")
                         doubleEdit: true
-                        text: config.header.height
-                        onDisplayTextChanged: config.header.height = text
+                        text: config.header.heightPerThousand
+                        onDisplayTextChanged: config.header.heightPerThousand = text
                     }
                     YACColorDialogWithHeader
                     {
