@@ -16,6 +16,7 @@ class Constants : public QObject
     YACAPPPROPERTY(int, radius, Radius, 21);
     YACAPPPROPERTY(int, shadowHorizontalOffset, ShadowHorizontalOffset, 5);
     YACAPPPROPERTY(int, shadowVerticalOffset, ShadowVerticalOffset, 5);
+    YACAPPPROPERTY(bool, topLevelFormActive, TopLevelFormActive, false);
 public:
     Constants();
 

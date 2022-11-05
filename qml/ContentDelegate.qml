@@ -52,6 +52,7 @@ Item
         {
             anchors.fill: parent
             url: itemConfig.url
+            visible: !theMenue.menueOpen && !Constants.topLevelFormActive
         }
     }
 

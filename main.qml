@@ -56,9 +56,9 @@ ApplicationWindow
         }
     }
     YACRectangle
-    {
-        visible: opacity > 0
+    {        
         id: splashscreen
+        visible: opacity > 0
         anchors.fill: parent
         color: "silver"
         YACText
@@ -70,19 +70,23 @@ ApplicationWindow
             font.pixelSize: width / 10
             horizontalAlignment: Text.AlignHCenter
         }
+        onVisibleChanged: Constants.topLevelFormActive = badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible
     }
 
     YACBadMessageForm
     {
         id: badMessage
+        onVisibleChanged: Constants.topLevelFormActive = badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible
     }
     YACGoodMessageForm
     {
         id: goodMessage
+        onVisibleChanged: Constants.topLevelFormActive = badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible
     }
     YACYesNoQuestionForm
     {
         id: yesNoQuestion
+        onVisibleChanged: Constants.topLevelFormActive = badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible
     }
 
     function checkForAppUpdate()

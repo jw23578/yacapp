@@ -27,7 +27,7 @@ Rectangle
         Item
         {
             id: webviewItem
-            visible: !theMenue.menueOpen &&  (!config.content.loginNeeded || yacApp.loginToken != "")
+            visible: !theMenue.menueOpen && !Constants.topLevelFormActive &&  (!config.content.loginNeeded || yacApp.loginToken != "")
             enabled: visible
             anchors.fill: parent
             WebView
