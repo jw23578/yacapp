@@ -62,8 +62,6 @@ public:
                                       const QString &projectFolder);
 
 signals:
-    void userLoggedInSuccessful();
-    void userLoggedInNotSuccessful();
     void verifySuccessful();
     void verifyNotSuccessful(const QString &messge);
 

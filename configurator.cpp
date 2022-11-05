@@ -292,11 +292,9 @@ void Configurator::yacserverUserLoggedIn(const QString &loginEMail, const QStrin
     network.yacappServerUserLoggedIn(loginEMail, loginToken,
                                      [this, projectID](const QString &loginToken){
         deployConfigs[projectID]->setYacappServerLoginToken(loginToken);
-        userLoggedInSuccessful();
     },
     [this, projectID](const QString &message){
         deployConfigs[projectID]->setYacappServerLoginToken("");
-        userLoggedInNotSuccessful();
     }
     );
 }
