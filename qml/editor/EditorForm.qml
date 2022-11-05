@@ -256,6 +256,7 @@ Rectangle
                             model: parent.showColumn || parent.showRow ? config.content.itemCount : 0
                             delegate: Column
                             {
+                                id: itemColumn
                                 property var currentItem: config.content.items[index]
                                 width: columnItems.width
                                 Item
@@ -264,13 +265,33 @@ Rectangle
                                     width: 1
                                 }
 
-                                YACComboBoxWithHeader
+                                Row
                                 {
-                                    id: contentItemType
-                                    headerText: qsTr("Type")
-                                    currentIndex: find(config.content.items[index].type)
-                                    onCurrentTextChanged: config.content.items[index].type = currentText
-                                    model: config.content.items[index].typeOptions
+                                    YACComboBoxWithHeader
+                                    {
+                                        id: contentItemType
+                                        width: itemColumn.width - removeItem.width
+                                        headerText: qsTr("Type")
+                                        currentIndex: find(config.content.items[index].type)
+                                        onCurrentTextChanged: config.content.items[index].type = currentText
+                                        model: config.content.items[index].typeOptions
+                                    }
+                                    YACButton
+                                    {
+                                        id: removeItem
+                                        text: qsTr("Remove Item")
+                                        onClicked: yacApp.yesNoQuestion(qsTr("Remove Item?")
+                                                                        , null
+                                                                        , function()
+                                                                        {
+                                                                            config.content.removeItem(index)
+                                                                        }
+                                                                        , function()
+                                                                        {
+                                                                        }
+
+                                            )
+                                    }
                                 }
                                 YACLineEditWithHeader
                                 {

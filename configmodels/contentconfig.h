@@ -25,6 +25,7 @@ public:
     QJsonObject getConfig();
 
     Q_INVOKABLE void addItem(int index);
+    Q_INVOKABLE void removeItem(int index);
 
 signals:
 

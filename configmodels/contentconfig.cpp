@@ -60,3 +60,12 @@ void ContentConfig::addItem(int index)
         return;
     }
 }
+
+void ContentConfig::removeItem(int index)
+{
+    ContentItem *help(item(index));
+    replaceItem(index, item(itemCount() - 1));
+    removeLastItem();
+    delete help;
+    setItemCount(m_items.length());
+}
