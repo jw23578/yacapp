@@ -18,6 +18,8 @@ void ContentItem::setConfig(const QJsonValue &config)
     doubleFromJSON(heightPerThousand, HeightPerThousand);
     stringFromJSON(text, Text);
     colorFromJSON(color, Color);
+    stringFromJSON(text2, Text2);
+    colorFromJSON(color2, Color2);
 }
 
 QJsonObject ContentItem::getConfig()
@@ -31,5 +33,7 @@ QJsonObject ContentItem::getConfig()
     toJSON(heightPerThousand);
     toJSON(text);
     colorToJSON(color);
+    toJSON(text2);
+    colorToJSON(color2);
     return config;
 }

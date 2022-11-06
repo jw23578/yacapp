@@ -33,6 +33,58 @@ Item
             }
         }
     }
+    Component
+    {
+        id: slidertileComponent
+        Item
+        {
+            id: slidertileItem
+            clip: true
+            anchors.fill: parent
+            Row
+            {
+                id: slidertileRow
+                height: slidertileItem.height
+                Behavior on x
+                {
+                    NumberAnimation
+                    {
+                        duration: 200
+                    }
+                }
+
+                YACRectangle
+                {
+                    width: slidertileItem.width
+                    height: slidertileItem.height
+                    color: itemConfig.color
+                    YACText
+                    {
+                        anchors.centerIn: parent
+                        text: itemConfig.text
+                    }
+                }
+                YACRectangle
+                {
+                    width: slidertileItem.width
+                    height: slidertileItem.height
+                    color: itemConfig.color2
+                    YACText
+                    {
+                        anchors.centerIn: parent
+                        text: itemConfig.text2
+                    }
+                }
+            }
+            Timer
+            {
+                running: true
+                interval: 3000
+                repeat: true
+                onTriggered: slidertileRow.x = slidertileRow.x == 0 ? -slidertileItem.width : 0
+            }
+        }
+    }
 
     Component
     {
@@ -62,7 +114,8 @@ Item
         anchors.fill: parent
         sourceComponent: itemConfig.type == "image" ? imageComponent
                                                     : itemConfig.type == "webview" ? webviewComponent
-                                                                                   : itemConfig.type == "tile" ? tileComponent : null
+                                                                                   : itemConfig.type == "tile" ? tileComponent :
+                                                                                                                 itemConfig.type == "slidertile" ? slidertileComponent : null
     }
 
 

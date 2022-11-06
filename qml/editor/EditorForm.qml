@@ -258,6 +258,8 @@ Rectangle
                             {
                                 id: itemColumn
                                 property var currentItem: config.content.items[index]
+                                property bool tileType: ["tile"].includes(currentItem.type)
+                                property bool slidertileType: ["slidertile"].includes(currentItem.type)
                                 width: columnItems.width
                                 Item
                                 {
@@ -306,14 +308,29 @@ Rectangle
                                     headerText: qsTr("Text")
                                     text: currentItem.text
                                     onDisplayTextChanged: currentItem.text = text
-                                    visible: ["tile"].includes(currentItem.type)
+                                    visible: tileType || slidertileType
                                 }
                                 YACColorDialogWithHeader
                                 {
                                     headerText: qsTr("Color")
                                     color: currentItem.color
                                     onAccepted: currentItem.color = color
-                                    visible: ["tile"].includes(currentItem.type)
+                                    visible: tileType || slidertileType
+                                }
+                                YACLineEditWithHeader
+                                {
+                                    id: theText2
+                                    headerText: qsTr("Text2")
+                                    text: currentItem.text2
+                                    onDisplayTextChanged: currentItem.text2 = text
+                                    visible: slidertileType
+                                }
+                                YACColorDialogWithHeader
+                                {
+                                    headerText: qsTr("Color2")
+                                    color: currentItem.color2
+                                    onAccepted: currentItem.color2 = color
+                                    visible: slidertileType
                                 }
 
                                 YACLineEditWithHeader
