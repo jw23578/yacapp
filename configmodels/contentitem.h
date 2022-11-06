@@ -9,7 +9,7 @@
 class ContentItem : public ConfigInterface
 {
     Q_OBJECT
-    YACAPPPROPERTYWITHOPTIONS(QString, type, Type, "", "file", "webview", "image", "tile", "slidertile");
+    YACAPPPROPERTYWITHOPTIONS(QString, type, Type, "", "file", "webview", "image", "tile", "slidertile", "flipable");
     YACAPPPROPERTY(QString, filename, Filename, "")
     YACAPPPROPERTY(QString, url, Url, "")
     YACAPPPROPERTY(QString, target, Target, "")
@@ -19,6 +19,8 @@ class ContentItem : public ConfigInterface
     YACAPPPROPERTY(QColor, color, Color, "white")
     YACAPPPROPERTY(QString, text2, Text2, "")
     YACAPPPROPERTY(QColor, color2, Color2, "white")
+    YACAPPPROPERTY(QString, flipableFilename, FlipableFilename, "")
+    YACAPPPROPERTY(QString, flipableFilename2, FlipableFilename2, "")
 
 public:
     explicit ContentItem(QObject *parent = nullptr);

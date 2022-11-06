@@ -260,6 +260,7 @@ Rectangle
                                 property var currentItem: config.content.items[index]
                                 property bool tileType: ["tile"].includes(currentItem.type)
                                 property bool slidertileType: ["slidertile"].includes(currentItem.type)
+                                property bool flipableType: ["flipable"].includes(currentItem.type)
                                 width: columnItems.width
                                 Item
                                 {
@@ -308,14 +309,22 @@ Rectangle
                                     headerText: qsTr("Text")
                                     text: currentItem.text
                                     onDisplayTextChanged: currentItem.text = text
-                                    visible: tileType || slidertileType
+                                    visible: tileType || slidertileType || flipableType
                                 }
                                 YACColorDialogWithHeader
                                 {
                                     headerText: qsTr("Color")
                                     color: currentItem.color
                                     onAccepted: currentItem.color = color
-                                    visible: tileType || slidertileType
+                                    visible: tileType || slidertileType || flipableType
+                                }
+                                YACLineEditWithHeader
+                                {
+                                    id: theFlipableFilename
+                                    headerText: qsTr("FlipableFilename")
+                                    text: currentItem.flipableFilename
+                                    onDisplayTextChanged: currentItem.flipableFilename = text
+                                    visible: slidertileType || flipableType
                                 }
                                 YACLineEditWithHeader
                                 {
@@ -323,14 +332,22 @@ Rectangle
                                     headerText: qsTr("Text2")
                                     text: currentItem.text2
                                     onDisplayTextChanged: currentItem.text2 = text
-                                    visible: slidertileType
+                                    visible: slidertileType || flipableType
                                 }
                                 YACColorDialogWithHeader
                                 {
                                     headerText: qsTr("Color2")
                                     color: currentItem.color2
                                     onAccepted: currentItem.color2 = color
-                                    visible: slidertileType
+                                    visible: slidertileType || flipableType
+                                }
+                                YACLineEditWithHeader
+                                {
+                                    id: theFlipableFilename2
+                                    headerText: qsTr("FlipableFilename2")
+                                    text: currentItem.flipableFilename2
+                                    onDisplayTextChanged: currentItem.flipableFilename2 = text
+                                    visible: slidertileType || flipableType
                                 }
 
                                 YACLineEditWithHeader

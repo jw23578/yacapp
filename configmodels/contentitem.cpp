@@ -20,6 +20,8 @@ void ContentItem::setConfig(const QJsonValue &config)
     colorFromJSON(color, Color);
     stringFromJSON(text2, Text2);
     colorFromJSON(color2, Color2);
+    stringFromJSON(flipableFilename, FlipableFilename);
+    stringFromJSON(flipableFilename2, FlipableFilename2);
 }
 
 QJsonObject ContentItem::getConfig()
@@ -35,5 +37,7 @@ QJsonObject ContentItem::getConfig()
     colorToJSON(color);
     toJSON(text2);
     colorToJSON(color2);
+    toJSON(flipableFilename);
+    toJSON(flipableFilename2);
     return config;
 }

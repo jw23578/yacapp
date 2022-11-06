@@ -7,6 +7,7 @@ import "qrc:/qml/items"
 
 Item
 {
+    id: theContentDelegate
     property var stackView: null
     property var theMenue: null
     property int formHeight: 0
@@ -35,6 +36,57 @@ Item
     }
     Component
     {
+        id: flipableComponent
+        Flipable
+        {
+            id: flipable
+            anchors.fill: parent
+            front: RectangleORSuperForm
+            {
+                anchors.fill: parent
+                filename: itemConfig.flipableFilename
+                color: itemConfig.color
+                text: itemConfig.text
+                stackView: theContentDelegate.stackView
+                theMenue: theContentDelegate.theMenue
+            }
+
+            back: RectangleORSuperForm
+            {
+                anchors.fill: parent
+                filename: itemConfig.flipableFilename2
+                color: itemConfig.color2
+                text: itemConfig.text2
+                stackView: theContentDelegate.stackView
+                theMenue: theContentDelegate.theMenue
+            }
+            transform: Rotation
+            {
+                id: rotation
+                origin.x: flipable.width/2
+                origin.y: flipable.height/2
+                axis.x: 0; axis.y: 1; axis.z: 0     // set axis.y to 1 to rotate around y-axis
+                angle: 0    // the default angle
+                Behavior on angle
+                {
+                    NumberAnimation
+                    {
+                        duration: 400
+                    }
+                }
+            }
+            Timer
+            {
+                running: true
+                interval: 3000
+                repeat: true
+                onTriggered: rotation.angle += 180 // rotation.angle == 0 ? 180 : 0
+            }
+        }
+    }
+
+    Component
+    {
         id: slidertileComponent
         Item
         {
@@ -53,27 +105,25 @@ Item
                     }
                 }
 
-                YACRectangle
+                RectangleORSuperForm
                 {
                     width: slidertileItem.width
                     height: slidertileItem.height
+                    filename: itemConfig.flipableFilename
                     color: itemConfig.color
-                    YACText
-                    {
-                        anchors.centerIn: parent
-                        text: itemConfig.text
-                    }
+                    text: itemConfig.text
+                    stackView: theContentDelegate.stackView
+                    theMenue: theContentDelegate.theMenue
                 }
-                YACRectangle
+                RectangleORSuperForm
                 {
                     width: slidertileItem.width
                     height: slidertileItem.height
+                    filename: itemConfig.flipableFilename2
                     color: itemConfig.color2
-                    YACText
-                    {
-                        anchors.centerIn: parent
-                        text: itemConfig.text2
-                    }
+                    text: itemConfig.text2
+                    stackView: theContentDelegate.stackView
+                    theMenue: theContentDelegate.theMenue
                 }
             }
             Timer
@@ -108,16 +158,25 @@ Item
         }
     }
 
+    function getComponent(type)
+    {
+        switch (type)
+        {
+        case "image": return imageComponent
+        case "webview": return webviewComponent
+        case "tile": return tileComponent
+        case "slidertile": return slidertileComponent
+        case "flipable": return flipableComponent
+        }
+        return null
+    }
+
     Loader
     {
         id: contentLoader
         anchors.fill: parent
-        sourceComponent: itemConfig.type == "image" ? imageComponent
-                                                    : itemConfig.type == "webview" ? webviewComponent
-                                                                                   : itemConfig.type == "tile" ? tileComponent :
-                                                                                                                 itemConfig.type == "slidertile" ? slidertileComponent : null
+        sourceComponent: getComponent(itemConfig.type)
     }
-
 
     Loader
     {

@@ -40,5 +40,6 @@
         <file>qml/dialogs/DialogBase.qml</file>
         <file>qml/dialogs/DialogAddFile.qml</file>
         <file>qml/items/YACDropShadow.qml</file>
+        <file>qml/RectangleORSuperForm.qml</file>
     </qresource>
 </RCC>
