@@ -70,6 +70,7 @@ public:
                                       const QString &projectFolder);
 
     Q_INVOKABLE void addFormFile(QString fileUrl);
+    Q_INVOKABLE void addMenueFile(QString fileUrl);
 
 signals:
 

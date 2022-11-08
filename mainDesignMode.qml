@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import "qml"
+import "qrc:/qml/items"
 import "qml/editor"
 import "qml/dialogs"
 
@@ -51,39 +52,104 @@ Window {
     Component
     {
         id: editorFormComponent
-        EditorForm
+        Item
         {
-            id: editorForm
-            config: yacApp.mainConfig
-            global: yacApp.globalConfig
             anchors.fill: parent
-            onOpenOtherProject: startPage.visible = true
-            onLoadConfig: mainFormLoader.item.openFilename(filename)
-            onDeployProjectClicked: deployPage.visible = true
-            onConfigChanged:
+            Column
             {
-                menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
+                id: topColumn
+                width: parent.width
+                spacing: projectName.height
+                Row
+                {
+                    spacing: 1
+                    width: parent.width
+                    YACButton
+                    {
+                        width: parent.width / 3 - 2
+                        text: qsTr("Other Project")
+                        onClicked: startPage.visible = true
+                    }
+                    YACButton
+                    {
+                        width: parent.width / 3 - 2
+                        text: qsTr("Save Project")
+                        onClicked: yacApp.saveCurrentProject()
+                    }
+                    YACButton
+                    {
+                        width: parent.width / 3 - 2
+                        text: qsTr("Deploy Project")
+                        onClicked: deployPage.visible = true
+                    }
+                }
+                YACProjectText
+                {
+                    id: projectName
+                    width: parent.width
+                    text: qsTr("Project: ") + yacApp.globalConfig.projectName
+                }
+                Row
+                {
+                    spacing: 1
+                    width: parent.width
+                    YACButton
+                    {
+                        width: parent.width / 2 - 1
+                        text: theSwipeView.currentIndex == 0 ? qsTr("Page Editor visible") : qsTr("Show Page Editor")
+                        onClicked: theSwipeView.currentIndex = 0
+                    }
+                    YACButton
+                    {
+                        width: parent.width / 2 - 1
+                        text: theSwipeView.currentIndex == 1 ? qsTr("Menue Editor visible") : qsTr("Menue Page Editor")
+                        onClicked: theSwipeView.currentIndex = 1
+                    }
+                }
+                Item
+                {
+                    width: 1
+                    height: 1
+                }
             }
-            onMenueFilenameChanged:
+            SwipeView
             {
-                menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
+                id: theSwipeView
+                anchors.top: topColumn.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                clip: true
+                ConfiguratorPageEditor
+                {
+                    id: editorForm
+                    config: yacApp.mainConfig
+                    global: yacApp.globalConfig
+                    onLoadConfig: mainFormLoader.item.openFilename(filename)
+                    onConfigChanged:
+                    {
+                        menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
+                    }
+                    onMenueFilenameChanged:
+                    {
+                        menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
+                    }
+
+                    Component.onCompleted:
+                    {
+                        menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
+                    }
+                }
+                ConfiguratorMenueEditor
+                {
+                    id: menueEditor
+                    config: yacApp.getMenueConfig(yacApp.mainConfig.menueFilename)
+                }
             }
 
-            Component.onCompleted:
-            {
-                menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
-            }
         }
     }
-    MenueEditor
-    {
-        id: menueEditor
-        anchors.left: mainFormLoader.left
-        anchors.top: mainFormLoader.bottom
-        anchors.topMargin: 10
-        anchors.right: mainFormLoader.right
-        anchors.bottom: parent.bottom
-    }
+
     ConfiguratorDeployPage
     {
         id: deployPage
@@ -95,7 +161,7 @@ Window {
         id: startPage
         onNewProjectLoaded:
         {
-            menueEditor.config = yacApp.getMenueConfig(yacApp.mainConfig.menueFilename)
+            //            menueEditor.config = yacApp.getMenueConfig(yacApp.mainConfig.menueFilename)
             mainFormLoader.source = ""
             editorFormLoader.source = ""
             mainFormLoader.sourceComponent = mainFormComponent

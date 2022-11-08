@@ -361,14 +361,25 @@ void Configurator::createNewProject(const QString &projectName,
     setLastProjectFilename(projectFileName);
 }
 
-void Configurator::addFormFile(QString fileName)
+void Configurator::addFormFile(QString fileUrl)
 {
-    if (!QFile(yacApp.appFolder() + fileName).exists())
+    if (!QFile(yacApp.appFolder() + fileUrl).exists())
     {
-        QFile jsonFile(yacApp.appFolder() + fileName);
+        QFile jsonFile(yacApp.appFolder() + fileUrl);
         jsonFile.open(QIODevice::WriteOnly);
     }
-    yacApp.getConfig(fileName);
-    yacApp.globalConfig()->formFiles.append(fileName);
+    yacApp.getConfig(fileUrl);
+    yacApp.globalConfig()->formFiles.append(fileUrl);
+}
+
+void Configurator::addMenueFile(QString fileUrl)
+{
+    if (!QFile(yacApp.appFolder() + fileUrl).exists())
+    {
+        QFile jsonFile(yacApp.appFolder() + fileUrl);
+        jsonFile.open(QIODevice::WriteOnly);
+    }
+    yacApp.getMenueConfig(fileUrl);
+    yacApp.globalConfig()->menueFiles.append(fileUrl);
 }
 

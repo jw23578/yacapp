@@ -15,39 +15,18 @@ Rectangle
     property GlobalProjectConfig global: null
     signal loadConfig(string filename)
     signal menueFilenameChanged(string filename)
-    signal openOtherProject()
-    signal deployProjectClicked()
     Column
     {
         id: topColumn
         width: parent.width
-        Row
+        YACText
         {
             width: parent.width
-            YACButton
-            {
-                text: qsTr("Other Project")
-                onClicked: openOtherProject()
-            }
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("Pages")
+            font.bold: true
+        }
 
-            spacing: 1
-            YACButton
-            {
-                width: parent.width / 2 - 1
-                text: qsTr("Save Project")
-                onClicked: yacApp.saveCurrentProject()
-            }
-            YACButton
-            {
-                text: qsTr("Deploy Project")
-                onClicked: deployProjectClicked()
-            }
-        }
-        YACProjectText
-        {
-            width: parent.width
-            text: qsTr("Project: ") + global.projectName
-        }
         Row
         {
             width: parent.width

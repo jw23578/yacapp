@@ -6,14 +6,14 @@
         <file>qml/YACHeader.qml</file>
         <file>qml/MainForm.qml</file>
         <file>mainDesignMode.qml</file>
-        <file>qml/editor/EditorForm.qml</file>
+        <file>qml/editor/ConfiguratorPageEditor.qml</file>
         <file>qml/editor/EditorSection.qml</file>
         <file>qml/items/YACButton.qml</file>
         <file>qml/items/YACProjectText.qml</file>
         <file>qml/items/YACLineEditWithHeader.qml</file>
         <file>qml/items/YACComboBoxWithHeader.qml</file>
         <file>qml/items/YACColorDialogWithHeader.qml</file>
-        <file>qml/editor/MenueEditor.qml</file>
+        <file>qml/editor/ConfiguratorMenueEditor.qml</file>
         <file>ModelFunctions.js</file>
         <file>qml/ContentDelegate.qml</file>
         <file>MenueFunctions.js</file>
