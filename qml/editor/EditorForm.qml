@@ -261,6 +261,7 @@ Rectangle
                                 property bool tileType: ["tile"].includes(currentItem.type)
                                 property bool slidertileType: ["slidertile"].includes(currentItem.type)
                                 property bool flipableType: ["flipable"].includes(currentItem.type)
+                                property bool animatedimageType: ["animatedimage"].includes(currentItem.type)
                                 width: columnItems.width
                                 Item
                                 {
@@ -356,7 +357,7 @@ Rectangle
                                     headerText: qsTr("Url")
                                     text: config.content.items[index].url
                                     onDisplayTextChanged: config.content.items[index].url= text
-                                    visible: ["webview", "image"].includes(config.content.items[index].type)
+                                    visible: ["webview", "image"].includes(config.content.items[index].type) || animatedimageType
                                 }
                                 Row
                                 {

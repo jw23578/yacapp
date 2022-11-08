@@ -149,6 +149,17 @@ Item
     }
     Component
     {
+        id: animatedimageComponent
+        AnimatedImage
+        {
+            anchors.fill: parent
+            source: itemConfig.url
+            fillMode: Image.Stretch
+            cache: true
+        }
+    }
+    Component
+    {
         id: webviewComponent
         WebView
         {
@@ -163,6 +174,7 @@ Item
         switch (type)
         {
         case "image": return imageComponent
+        case "animatedimage": return animatedimageComponent
         case "webview": return webviewComponent
         case "tile": return tileComponent
         case "slidertile": return slidertileComponent
