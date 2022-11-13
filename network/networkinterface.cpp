@@ -22,5 +22,10 @@ void NetworkInterface::replyFinished(QNetworkReply *reply)
     }
     SRunningRequest rr(it.value());
     runningRequests.erase(it);
+    if (reply->error() != QNetworkReply::NoError)
+    {
+        rr.errorCallback(reply->errorString());
+        return;
+    }
     rr.handlerFunction(reply, rr);
 }

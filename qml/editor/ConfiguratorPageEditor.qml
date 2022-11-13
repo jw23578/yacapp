@@ -85,16 +85,18 @@ Rectangle
                 width: parent.width
                 spacing: 1
 
-                YACLineEditWithHeader
+                YACComboBoxWithHeader
                 {
-                    headerText: qsTr("Menuefilename")
-                    width: parent.width
-                    text: config.menueFilename
-                    onDisplayTextChanged:
+                    id: menuefileCombobox
+                    currentIndex: find(config.menueFilename)
+                    headerText: qsTr("Menuefile")
+                    onActivated:
                     {
                         config.menueFilename = text
                         menueFilenameChanged(text)
                     }
+                    model: yacApp.knownMenueFiles
+                    width: parent.width
                 }
                 EditorSection
                 {

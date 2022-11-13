@@ -28,13 +28,13 @@ Window {
             width: 480
             height: 640
             config: yacApp.mainConfig
-            onCurrentItemChanged:
-            {
-                if (config != null && editorFormLoader.item != null)
-                {
-                    editorFormLoader.item.config = config
-                }
-            }
+//            onCurrentItemChanged:
+//            {
+//                if (config != null && editorFormLoader.item != null)
+//                {
+//                    editorFormLoader.item.config = config
+//                }
+//            }
             clip: true
         }
     }
@@ -125,7 +125,11 @@ Window {
                     id: editorForm
                     config: yacApp.mainConfig
                     global: yacApp.globalConfig
-                    onLoadConfig: mainFormLoader.item.openFilename(filename)
+                    onLoadConfig:
+                    {
+                        config = yacApp.getConfig(filename)
+                        mainFormLoader.item.openFilename(filename)
+                    }
                     onConfigChanged:
                     {
                         menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
