@@ -11,7 +11,7 @@ Item
     property alias sectionCaption: theSectionCaption.text
     clip: true
     height: theBackground.height + Constants.shadowVerticalOffset
-    property alias column: sectionColumn
+    default property alias column: sectionColumn.data
     Behavior on height
     {
         NumberAnimation {

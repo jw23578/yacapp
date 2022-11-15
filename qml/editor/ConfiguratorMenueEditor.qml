@@ -79,11 +79,11 @@ Rectangle
 
                 EditorSection
                 {
+                    id: theMenueEditorSection
                     sectionCaption: "Menue"
                     YACComboBoxWithHeader
                     {
                         id: menueType
-                        parent: parent.column
                         headerText: "Type"
                         currentIndex: config ? find(config.type) : 0
                         onCurrentTextChanged: config.type = currentText
@@ -93,7 +93,6 @@ Rectangle
                     {
                         id: columnItems
                         width: parent.width
-                        parent: parent.column
                         Repeater
                         {
                             model: config ? config.itemCount : null
