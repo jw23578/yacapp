@@ -12,7 +12,6 @@ Item
     id: theItem
     anchors.fill: parent
     focus: true
-    property MenueConfig menue: yacApp.getMenueConfig(config.menueFilename)
     property ParsedConfig config: yacApp.mainConfig
     signal currentItemChanged(ParsedConfig config)
     function openFilename(filename)
@@ -22,6 +21,12 @@ Item
                               "stackView": theStackView,
                               "theMenue": theRealMenue
                           })
+    }
+
+    PauseAnimation {
+        duration: 200
+        id: menueSwitchPause
+        onStopped: theRealMenue.theMenue = yacApp.getMenueConfig(theStackView.currentItem.config.menueFilename)
     }
     Column
     {
@@ -48,6 +53,7 @@ Item
                 header.headerConfig = currentItem.config.header
                 footer.footerConfig = currentItem.config.footer
                 theItem.currentItemChanged(currentItem.config)
+                menueSwitchPause.start()
             }
         }
 
@@ -60,8 +66,9 @@ Item
     YACDefaultMenue
     {
         id: theRealMenue
-        visible: menue.type === "" || menue.type === "default"
+        visible: theMenue.type === "" || theMenue.type === "default"
         stackView: theStackView
+        theMenue: yacApp.getMenueConfig(config.menueFilename)
     }
 
     YACImage

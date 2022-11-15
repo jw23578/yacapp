@@ -1,11 +1,13 @@
 import QtQuick 2.15
 import "qrc:/MenueFunctions.js" as MenueFunctions
+import com.yacapp.menueconfig 1.0
 import "items"
 
 Item
 {
     id: defaultMenue
     anchors.fill: parent
+    property MenueConfig theMenue: null
     property var stackView: null
     property bool once: true
     property bool isClosed: true
@@ -127,15 +129,15 @@ Item
 
         Repeater
         {
-            model: menue.itemCount
+            model: theMenue.itemCount
             YACButton
             {
                 width: parent.width
-                text: menue.items[index].caption
+                text: theMenue.items[index].caption
                 onClicked:
                 {
                     defaultMenue.close()
-                    MenueFunctions.openTarget(yacApp, stackView, menue.items[index].target, defaultMenue)
+                    MenueFunctions.openTarget(yacApp, stackView, theMenue.items[index].target, defaultMenue)
                 }
             }
         }

@@ -99,12 +99,31 @@ Rectangle
                             delegate: Column
                             {
                                 width: columnItems.width
-                                YACLineEditWithHeader
+                                Row
                                 {
-                                    headerText: "Caption"
-                                    doubleEdit: true
-                                    text: config.items[index].caption
-                                    onDisplayTextChanged: config.items[index].caption = text
+                                    YACLineEditWithHeader
+                                    {
+                                        headerText: "Caption"
+                                        width: columnItems.width - removeItem.width
+                                        text: config.items[index].caption
+                                        onDisplayTextChanged: config.items[index].caption = text
+                                    }
+                                    YACButton
+                                    {
+                                        id: removeItem
+                                        text: qsTr("Remove Item")
+                                        onClicked: yacApp.yesNoQuestion(qsTr("Remove Item?")
+                                                                        , null
+                                                                        , function()
+                                                                        {
+                                                                            config.removeItem(index)
+                                                                        }
+                                                                        , function()
+                                                                        {
+                                                                        }
+
+                                            )
+                                    }
                                 }
                                 YACLineEditWithHeader
                                 {
@@ -114,6 +133,11 @@ Rectangle
                                     onDisplayTextChanged: config.items[index].target = text
                                 }
                             }
+                        }
+                        YACButton
+                        {
+                            text: qsTr("Add Item")
+                            onClicked: config.addItem(-1)
                         }
                     }
                 }

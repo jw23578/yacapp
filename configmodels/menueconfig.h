@@ -23,6 +23,10 @@ public:
 
     bool init(const QString &jsonConfigFile);
     void save(const QString &jsonConfigFile);
+
+    Q_INVOKABLE void addItem(int index);
+    Q_INVOKABLE void removeItem(int index);
+
 signals:
 
 };

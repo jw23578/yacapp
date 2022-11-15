@@ -74,3 +74,22 @@ void MenueConfig::save(const QString &jsonConfigFile)
     jsonFile.open(QIODevice::WriteOnly);
     jsonFile.write(QJsonDocument(config).toJson());
 }
+
+void MenueConfig::addItem(int index)
+{
+    if (index < 0)
+    {
+        appendItem(new MenueItem);
+        setItemCount(m_items.length());
+        return;
+    }
+}
+
+void MenueConfig::removeItem(int index)
+{
+    MenueItem *help(item(index));
+    replaceItem(index, item(itemCount() - 1));
+    removeLastItem();
+    delete help;
+    setItemCount(m_items.length());
+}
