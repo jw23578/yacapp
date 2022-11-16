@@ -33,6 +33,7 @@ public:
                                const int app_version,
                                const QString &app_logo_url,
                                const QString &app_color_name,
+                               const bool is_template_app,
                                const QString &json_yacapp,
                                const QString &yacpck_base64,
                                CallbackFunction successCallback,

@@ -235,6 +235,7 @@ void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCall
                                   gpc.version(),
                                   gpc.logoUrl(),
                                   gpc.projectColorName(),
+                                  gpc.isTemplateApp(),
                                   gpc.getConfigAsString(),
                                   appPackage.toBase64(),
                                   [goodCallback](const QString &message) mutable

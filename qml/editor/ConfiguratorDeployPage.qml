@@ -76,6 +76,13 @@ Rectangle
 
         YACButton
         {
+            id: templateAppButton
+            text: yacApp.globalConfig.isTemplateApp ? qsTr("APP is offered as Startingpoint for others") : qsTr("APP is not offered as Startingpoint for others")
+            onClicked: yacApp.globalConfig.isTemplateApp = !yacApp.globalConfig.isTemplateApp
+        }
+
+        YACButton
+        {
             text: qsTr("Upload")
             width: parent.width
             onClicked:

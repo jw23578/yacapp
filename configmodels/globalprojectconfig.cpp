@@ -43,6 +43,7 @@ void GlobalProjectConfig::setConfig(const QJsonValue &config)
     stringFromJSON(projectName, ProjectName);
     stringFromJSON(projectID, ProjectID);
     stringFromJSON(projectColorName, ProjectColorName);
+    boolFromJSON(isTemplateApp, IsTemplateApp);
     if (projectID() == "")
     {
         setProjectID(QUuid::createUuid().toString(QUuid::WithoutBraces));
@@ -79,6 +80,7 @@ QJsonObject GlobalProjectConfig::getConfig()
     stringToJSON(projectID);
     toJSON(mainFormFilename);
     toJSON(projectColorName);
+    boolToJSON(isTemplateApp);
     return config;
 }
 

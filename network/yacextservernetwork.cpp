@@ -6,15 +6,15 @@
 YACExtServerNetwork::YACExtServerNetwork(QNetworkAccessManager &manager
                                          , const Constants &constants)
     :YACServerNetwork(manager
-     , constants)
+                      , constants)
 {
 
 }
 
 void YACExtServerNetwork::yacappServerRegisterUser(QString loginEMail,
-                                          QString password,
-                                          CallbackFunction successCallback,
-                                          CallbackFunction errorCallback)
+                                                   QString password,
+                                                   CallbackFunction successCallback,
+                                                   CallbackFunction errorCallback)
 {
     auto replyHandler([](QNetworkReply *finishedReply,
                       SRunningRequest &rr)
@@ -117,16 +117,17 @@ void YACExtServerNetwork::yacappServerUserLoggedIn(QString loginEMail, QString v
 }
 
 void YACExtServerNetwork::yacappServerUploadApp(const QString &loginEMail,
-                                       const QString &loginToken,
-                                       const QString &app_id,
-                                       const QString &app_name,
-                                       const int app_version,
-                                       const QString &app_logo_url,
-                                       const QString &app_color_name,
-                                       const QString &json_yacapp,
-                                       const QString &yacpck_base64,
-                                       CallbackFunction successCallback,
-                                       CallbackFunction errorCallback)
+                                                const QString &loginToken,
+                                                const QString &app_id,
+                                                const QString &app_name,
+                                                const int app_version,
+                                                const QString &app_logo_url,
+                                                const QString &app_color_name,
+                                                const bool is_template_app,
+                                                const QString &json_yacapp,
+                                                const QString &yacpck_base64,
+                                                CallbackFunction successCallback,
+                                                CallbackFunction errorCallback)
 {
     auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
     {
@@ -150,6 +151,7 @@ void YACExtServerNetwork::yacappServerUploadApp(const QString &loginEMail,
     obj["app_version"] = app_version;
     obj["app_logo_url"] = app_logo_url;
     obj["app_color_name"] = app_color_name;
+    obj["is_template_app"] = is_template_app;
     obj["json_yacapp"] = json_yacapp;
     obj["yacpck_base64"] = yacpck_base64;
     QMap<QByteArray, QByteArray> rawHeader;
