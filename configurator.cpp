@@ -30,6 +30,7 @@ Configurator::Configurator(YACAPP &yacApp
         return;
     }
     configFilename = paths[0] + "/yacAppConfig.json";
+    qDebug() << __FILE__ << ": " << __LINE__ << configFilename;
     QFile jsonFile(configFilename);
     jsonFile.open(QIODevice::ReadOnly);
     QByteArray fileData(jsonFile.readAll());
@@ -45,12 +46,19 @@ Configurator::Configurator(YACAPP &yacApp
         deployConfigs[projectID] = new ProjectData;
         ProjectData &pd(*deployConfigs[projectID]);
         pd.setProjectID(projectID);
+        pd.setProjectName(config["projectName"].toString());
+        pd.setLogoUrl(config["logoUrl"].toString());
         pd.setDeployPassword(config["deployPassword"].toString());
         pd.setDeployUrl(config["deployUrl"].toString());
         pd.setDeployBaseDirectory(config["deployBaseDirectory"].toString());
         pd.setDeployUser(config["deployUser"].toString());
         pd.setYacappServerLoginToken(config["yacappServerLoginToken"].toString());
+
+        RecentProject *rp(new RecentProject);
+        rp->setConfig(config);
+        appendRecentProject(rp);
     }
+    setRecentItemCount(recentProjectsCount());
 }
 
 void Configurator::save()
@@ -64,6 +72,8 @@ void Configurator::save()
     {
         QJsonObject pd;
         pd["projectID"] = (*it)->projectID();
+        pd["projectName"] = (*it)->projectName();
+        pd["logoUrl"] = (*it)->logoUrl();
         pd["deployPassword"] = (*it)->deployPassword();
         pd["deployUrl"] = (*it)->deployUrl();
         pd["deployBaseDirectory"] = (*it)->deployBaseDirectory();
@@ -142,7 +152,9 @@ void Configurator::defaultDeploy(const QString &globalProjectConfigFilename, QSt
         deployConfigs[gpc.projectID()] = new ProjectData;
     }
     ProjectData &pd(*deployConfigs[gpc.projectID()]);
+    pd.setProjectName(gpc.projectName());
     pd.setProjectID(gpc.projectID());
+    pd.setLogoUrl(gpc.logoUrl());
     pd.setDeployPassword(password);
     pd.setDeployUrl(host);
     pd.setDeployBaseDirectory("");
@@ -198,6 +210,8 @@ void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCall
     }
     ProjectData &pd(*deployConfigs[gpc.projectID()]);
     pd.setProjectID(gpc.projectID());
+    pd.setProjectName(gpc.projectName());
+    pd.setLogoUrl(gpc.logoUrl());
     pd.setDeployBaseDirectory("");
 
     save();

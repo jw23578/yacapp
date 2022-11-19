@@ -8,6 +8,7 @@
 #include "yacapp.h"
 #include "configurator.h"
 #include "configmodels/globalprojectconfig.h"
+#include "configuratormodels/recentproject.h"
 #include "projectdata.h"
 #include "constants.h"
 #include <QtWebView>
@@ -42,6 +43,8 @@ int main(int argc, char *argv[])
     qRegisterMetaType<HeaderConfig*>("HeaderConfig");
     qRegisterMetaType<ProjectData*>("ProjectData");
 
+    qmlRegisterType<RecentProject>("com.yacapp.recentproject", 1, 0, "RecentProject");
+    qRegisterMetaType<RecentProject*>("RecentProject");
 
     qmlRegisterType<Constants>("com.yacapp.constants", 1, 0, "Constants");
     qRegisterMetaType<Constants*>("Constants");

@@ -4,6 +4,7 @@ import QtGraphicalEffects 1.15
 Item
 {
     id: theYACRectangle
+    property alias theInnerRectangle: anchorItem
     property alias color: theRectangle.color
     property alias radius: theRectangle.radius
     property alias border: theRectangle.border
@@ -14,13 +15,21 @@ Item
     property bool radiusBottomRight: false
     Item
     {
+        id: anchorItem
+        width: parent.width - theDropShadow.shadowRadius * 2
+        height: parent.height - theDropShadow.shadowRadius * 2
+    }
+
+    Item
+    {
         id: innerItem
         width: parent.width
         height: parent.height
         Rectangle
         {
             id: theRectangle
-            anchors.fill: parent
+            width: parent.width - theDropShadow.shadowRadius * 2
+            height: parent.height - theDropShadow.shadowRadius * 2
             border.width: 0
         }
 
@@ -30,8 +39,8 @@ Item
             width: parent.width / 2
             height: parent.height / 2
             color: theRectangle.color
-            anchors.left: parent.left
-            anchors.top: parent.top
+            anchors.left: theRectangle.left
+            anchors.top: theRectangle.top
             visible: !theYACRectangle.radiusTopLeft
             Rectangle
             {
@@ -52,8 +61,8 @@ Item
             width: parent.width / 2
             height: parent.height / 2
             color: theRectangle.color
-            anchors.right: parent.right
-            anchors.top: parent.top
+            anchors.right: theRectangle.right
+            anchors.top: theRectangle.top
             visible: !theYACRectangle.radiusTopRight
             Rectangle
             {
@@ -75,8 +84,8 @@ Item
             width: parent.width / 2
             height: parent.height / 2
             color: theRectangle.color
-            anchors.left: parent.left
-            anchors.bottom: parent.bottom
+            anchors.left: theRectangle.left
+            anchors.bottom: theRectangle.bottom
             visible: !theYACRectangle.radiusBottomLeft
             Rectangle
             {
@@ -98,8 +107,8 @@ Item
             width: parent.width / 2
             height: parent.height / 2
             color: theRectangle.color
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
+            anchors.right: theRectangle.right
+            anchors.bottom: theRectangle.bottom
             visible: !theYACRectangle.radiusBottomRight
             Rectangle
             {

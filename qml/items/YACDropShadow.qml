@@ -6,6 +6,7 @@ Item
     id: theYACDropShadow
     enabled: Constants.shadowActive
     property var source: null
+    property int shadowRadius: enabled ? 8.0 : 0
     Component
     {
         id: theShadow
@@ -14,7 +15,7 @@ Item
             anchors.fill: parent
             horizontalOffset: Constants.shadowHorizontalOffset
             verticalOffset: Constants.shadowVerticalOffset
-            radius: 8.0
+            radius: theYACDropShadow.shadowRadius
             samples: 9
             color: "#80000000"
             source: theYACDropShadow.source

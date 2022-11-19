@@ -8,6 +8,7 @@
 #include "network/yacextservernetwork.h"
 #include <QJSValue>
 #include "yacapp.h"
+#include "configuratormodels/recentproject.h"
 
 class Configurator : public QObject
 {
@@ -19,6 +20,9 @@ class Configurator : public QObject
 
     YACAPPPROPERTY(QString, lastProjectName, LastProjectName, "");
     YACAPPPROPERTY(QString, lastProjectFilename, LastProjectFilename, "");
+
+    YACAPPPROPERTY(int, recentItemCount, RecentItemCount, 0);
+    YACOBJECTLISTPROPERTY(RecentProject, recentProject, RecentProject, Configurator)
 
     QMap<QString, ProjectData*> deployConfigs;
 

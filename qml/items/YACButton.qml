@@ -7,7 +7,7 @@ YACRectangle
     property alias text: theText.text
     property color baseColor: "lightgrey"
     width: theText.contentWidth + theText.contentHeight * 2
-    implicitHeight: theText.contentHeight * 2
+    implicitHeight: theText.contentHeight * 2 + shadow.shadowRadius * 2
     color: mouseArea.pressed ? Qt.darker(baseColor, 1.1) :
                                mouseArea.containsMouse ? Qt.lighter(baseColor, 1.1) : baseColor
     shadow.visible: !mouseArea.pressed
@@ -19,7 +19,10 @@ YACRectangle
     YACText
     {
         id: theText
-        anchors.centerIn: parent
+        anchors.fill: parent.theInnerRectangle
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        clip: true
     }
 
     MouseArea

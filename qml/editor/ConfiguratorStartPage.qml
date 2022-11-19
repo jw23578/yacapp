@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Dialogs 1.3
 import "qrc:/qml/items"
 import "qrc:/qml/dialogs"
+import com.yacapp.recentproject 1.0
 
 Rectangle
 {
@@ -24,21 +25,35 @@ Rectangle
             startPage.visible = false
         }
     }
-    Row
+    property int buttonHeight: parent.height / 3.6
+    property int buttonWidth: parent.width / 3
+    Column
     {
-        spacing: 1
+        id: leftColumn
+        width: startPage.buttonWidth
+        spacing: parent.height / 40
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.horizontalCenterOffset: -parent.width / 4
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: spacing
         YACButton
         {
-            text: qsTr("New Project")
+            width: startPage.buttonWidth
+            height: startPage.buttonHeight
+            text: qsTr("Create New Project")
             onClicked: newProjectPage.open()
         }
         YACButton
         {
+            width: startPage.buttonWidth
+            height: startPage.buttonHeight
             text: qsTr("Load Project")
             onClicked: loadProjectDialog.open()
         }
         YACButton
         {
+            width: startPage.buttonWidth
+            height: startPage.buttonHeight
             visible: configurator.lastProjectName != ""
             text: "Last Project: " + configurator.lastProjectName
             onClicked:
@@ -49,6 +64,30 @@ Rectangle
             }
         }
     }
+    ListView
+    {
+        clip: true
+        width: startPage.buttonWidth
+        spacing: parent.height / 40
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.horizontalCenterOffset: parent.width / 4
+        anchors.top: leftColumn.top
+        anchors.bottom: leftColumn.bottom
+        model: configurator.recentItemCount
+        delegate: YACButton
+        {
+            width: startPage.buttonWidth
+            height: startPage.buttonHeight
+            text: configurator.recentProjects[index].projectName
+            YACImage
+            {
+                width: parent.width / 2
+                height: parent.height
+                source: configurator.recentProjects[index].logoUrl
+            }
+        }
+    }
+
     ConfiguratorNewProject
     {
         id: newProjectPage

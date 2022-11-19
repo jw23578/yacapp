@@ -22,6 +22,7 @@ SOURCES += \
         configmodels/parsedconfig.cpp \
         configmodels/splashscreenconfig.cpp \
         configurator.cpp \
+        configuratormodels/recentproject.cpp \
         constants.cpp \
         helper.cpp \
         main.cpp \
@@ -64,6 +65,7 @@ HEADERS += \
   configmodels/parsedconfig.h \
   configmodels/splashscreenconfig.h \
   configurator.h \
+  configuratormodels/recentproject.h \
   constants.h \
   helper.h \
   network/customservernetwork.h \
