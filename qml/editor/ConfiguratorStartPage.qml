@@ -79,12 +79,7 @@ Rectangle
             width: startPage.buttonWidth
             height: startPage.buttonHeight
             text: configurator.recentProjects[index].projectName
-            YACImage
-            {
-                width: parent.width / 2
-                height: parent.height
-                source: configurator.recentProjects[index].logoUrl
-            }
+            source: configurator.recentProjects[index].logoUrl
         }
     }
 

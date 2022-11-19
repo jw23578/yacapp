@@ -27,6 +27,7 @@ Item
         {
             anchors.fill: parent
             color: itemConfig.color
+            shadowEnabled: false
             YACText
             {
                 anchors.centerIn: parent
