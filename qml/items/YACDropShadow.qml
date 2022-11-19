@@ -6,17 +6,18 @@ Item
     id: theYACDropShadow
     enabled: Constants.shadowActive
     property var source: null
-    property int shadowRadius: enabled ? 8.0 : 0
+    property int shadowHorizontalOffset: enabled ? Constants.shadowHorizontalOffset : 0
+    property int shadowVerticalOffset: enabled ? Constants.shadowVerticalOffset : 0
     Component
     {
         id: theShadow
         DropShadow
         {
             anchors.fill: parent
-            horizontalOffset: Constants.shadowHorizontalOffset
-            verticalOffset: Constants.shadowVerticalOffset
-            radius: theYACDropShadow.shadowRadius
-            samples: 9
+            horizontalOffset: theYACDropShadow.shadowHorizontalOffset
+            verticalOffset: theYACDropShadow.shadowVerticalOffset
+            radius: Math.floor(samples)
+            samples: Constants.shadowSamples
             color: "#80000000"
             source: theYACDropShadow.source
         }

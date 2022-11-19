@@ -8,6 +8,7 @@ Item
     property alias color: theRectangle.color
     property alias radius: theRectangle.radius
     property alias border: theRectangle.border
+    property alias shadowEnabled: theDropShadow.enabled
     property alias shadow: theDropShadow
     property bool radiusTopLeft: false
     property bool radiusTopRight: false
@@ -16,8 +17,8 @@ Item
     Item
     {
         id: anchorItem
-        width: parent.width - theDropShadow.shadowRadius * 2
-        height: parent.height - theDropShadow.shadowRadius * 2
+        width: theRectangle.width
+        height: theRectangle.height
     }
 
     Item
@@ -28,8 +29,8 @@ Item
         Rectangle
         {
             id: theRectangle
-            width: parent.width - theDropShadow.shadowRadius * 2
-            height: parent.height - theDropShadow.shadowRadius * 2
+            width: parent.width - theDropShadow.shadowHorizontalOffset * 3
+            height: parent.height - theDropShadow.shadowVerticalOffset * 3
             border.width: 0
         }
 

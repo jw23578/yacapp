@@ -53,11 +53,13 @@ void GlobalProjectConfig::setConfig(const QJsonValue &config)
         setProjectColorName("white");
     }
     stringFromJSON(mainFormFilename, MainFormFilename);
+    formFiles.clear();
     QJsonArray array(config["formFiles"].toArray());
     for (int i(0); i < array.size(); ++i)
     {
         formFiles.append(array[i].toString());
     }
+    menueFiles.clear();
     array = config["menueFiles"].toArray();
     for (int i(0); i < array.size(); ++i)
     {

@@ -21,6 +21,7 @@ void ContentConfig::setConfig(const QJsonValue &config)
     intFromJSON(rows, Rows);
     boolFromJSON(loginNeeded, LoginNeeded);
     QJsonArray array(config["items"].toArray());
+    clearItems();
     setItemCount(0);
     for (int i(0); i < array.count(); ++i)
     {

@@ -124,7 +124,6 @@ Item
         visible: false
         id: buttonColumn
         anchors.centerIn: parent
-        spacing: 1
         width: parent.width * 3 / 4
 
         Repeater

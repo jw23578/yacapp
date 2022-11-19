@@ -61,6 +61,7 @@ ApplicationWindow
         visible: opacity > 0
         anchors.fill: parent
         color: "silver"
+        shadowEnabled: false
         YACText
         {
             anchors.centerIn: parent

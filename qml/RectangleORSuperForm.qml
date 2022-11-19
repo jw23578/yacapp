@@ -14,6 +14,7 @@ Item
         id: theRectangle
         visible: theItem.filename == ""
         anchors.fill: parent
+        shadowEnabled: false
         YACText
         {
             id: theText
