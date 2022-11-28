@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QColor>
 #include "yacappmacros.h"
 
 class Constants : public QObject
@@ -18,6 +19,9 @@ class Constants : public QObject
     YACAPPPROPERTY(int, shadowVerticalOffset, ShadowVerticalOffset, 5);
     YACAPPPROPERTY(int, shadowSamples, ShadowSamples, 9)
     YACAPPPROPERTY(bool, topLevelFormActive, TopLevelFormActive, false);
+
+    YACAPPPROPERTY(QColor, goodColor, GoodColor, "#A9CEA5");
+    YACAPPPROPERTY(QColor, badColor, BadColor, "#F09494");
 public:
     Constants();
 

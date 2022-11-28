@@ -31,7 +31,7 @@ Rectangle
     YACRectangle
     {
         anchors.centerIn: parent
-        color: "#F09494"
+        color: Constants.badColor
         radius: width / 10
         radiusTopLeft: true
         radiusBottomRight: radiusTopLeft

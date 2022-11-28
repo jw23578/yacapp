@@ -95,3 +95,53 @@ void YACServerNetwork::yacappServerGetAPP(const QString &app_id,
                     successCallback,
                     errorCallback);
 }
+
+void YACServerNetwork::yacappServerAppUserRegister(const QString &loginEMail,
+                                                   const QString &password,
+                                                   const QString &appId,
+                                                   CallbackFunction successCallback,
+                                                   CallbackFunction errorCallback)
+{
+    auto replyHandler([this](QNetworkReply *finishedReply, SRunningRequest &rr)
+    {
+        QByteArray all(finishedReply->readAll());
+        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
+        QJsonObject object(replyDoc.object());
+        QString message(object["message"].toString());
+        int t = 0;
+    });
+
+    QJsonObject obj;
+    obj["loginEMail"] = loginEMail;
+    obj["password"] = password;
+    obj["appId"] = appId;
+    yacappServerPost("/registerAppUser",
+                     obj,
+                     replyHandler,
+                     successCallback,
+                     errorCallback);
+}
+
+void YACServerNetwork::yacappServerAppUserVerify(const QString &loginEMail,
+                                                 const QString &verifyToken,
+                                                 CallbackFunction successCallback,
+                                                 CallbackFunction errorCallback)
+{
+    auto replyHandler([this](QNetworkReply *finishedReply, SRunningRequest &rr)
+    {
+        QByteArray all(finishedReply->readAll());
+        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
+        QJsonObject object(replyDoc.object());
+        QString message(object["message"].toString());
+        rr.successCallback(message);
+    });
+
+    QJsonObject obj;
+    obj["loginEMail"] = loginEMail;
+    obj["verifyToken"] = verifyToken;
+    yacappServerPost("/verifyAppUser",
+                     obj,
+                     replyHandler,
+                     successCallback,
+                     errorCallback);
+}

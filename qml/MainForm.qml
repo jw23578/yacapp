@@ -5,6 +5,7 @@ import com.yacapp.globalprojectconfig 1.0
 import com.yacapp.parsedconfig 1.0
 import com.yacapp.menueconfig 1.0
 import "items"
+import "apppages"
 
 
 Item
@@ -81,5 +82,9 @@ Item
         source: yacApp.globalConfig.logoUrl
         width: parent.width * yacApp.globalConfig.logoWidthPerThousand / 1000.0
         height: parent.height * yacApp.globalConfig.logoHeightPerThousand / 1000.0
+    }
+
+    YACUserRegisterVerifyLogin
+    {
     }
 }

@@ -68,6 +68,7 @@ int main(int argc, char *argv[])
                                             , constants);
 
     YACAPP yacApp(constants
+                  , helper
                   , network
                   , customServerNetwork);
     QUrl url(QStringLiteral("qrc:/main.qml"));

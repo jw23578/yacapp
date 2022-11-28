@@ -4,11 +4,13 @@
 #include <QJsonObject>
 
 YACAPP::YACAPP(const Constants &constants
+               , const Helper &helper
                , YACServerNetwork &network
                , CustomServerNetwork &customServerNetwork
                , QObject *parent)
     : QObject{parent},
       constants(constants),
+      helper(helper),
       network(network),
       customServerNetwork(customServerNetwork)
 {
@@ -279,4 +281,39 @@ void YACAPP::yacappServerGetAPP(const QString &app_id,
     {
         errorCallback.call(QJSValueList() << message);
     });
+}
+
+void YACAPP::appUserRegister(const QString &loginEMail,
+                             const QString &password,
+                             QJSValue successCallback,
+                             QJSValue errorCallback)
+{
+    network.yacappServerAppUserRegister(loginEMail,
+                                        password,
+                                        globalConfig()->projectID(),
+                                        [successCallback](const QString &message)
+    {
+    },
+    [errorCallback, this](const QString &message)
+    {
+        badMessage(message, QJSValue::NullValue, QJSValue::NullValue);
+    }
+    );
+}
+
+void YACAPP::appUserVerify(const QString &loginEMail,
+                           const QString &verifyToken,
+                           QJSValue successCallback,
+                           QJSValue errorCallback)
+{
+    network.yacappServerAppUserVerify(loginEMail,
+                                        verifyToken,
+                                        [successCallback](const QString &message)
+    {
+    },
+    [errorCallback, this](const QString &message)
+    {
+        badMessage(message, QJSValue::NullValue, QJSValue::NullValue);
+    }
+    );
 }

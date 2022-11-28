@@ -5,7 +5,7 @@ FocusScope
     id: theScope
     property bool showColumn: true
     property alias echoMode: inputItem.echoMode
-
+    property alias color: theRectangle.color
     property bool doubleEdit: false
     property bool intEdit: false
     property alias headerText: header.text
@@ -42,6 +42,7 @@ FocusScope
         }
         Rectangle
         {
+            id: theRectangle
             x: header.height
             width: parent.width - x
             height: inputItem.height + 4

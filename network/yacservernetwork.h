@@ -17,6 +17,22 @@ public:
                             const int current_installed_version,
                             CallbackFunction successCallback,
                             CallbackFunction  errorCallback);
-};
+
+    void yacappServerAppUserRegister(const QString &loginEMail,
+                                     const QString &password,
+                                     const QString &appId,
+                                     CallbackFunction successCallback,
+                                     CallbackFunction  errorCallback);
+
+    void yacappServerAppUserVerify(const QString &loginEMail,
+                                     const QString &verifyToken,
+                                     CallbackFunction successCallback,
+                                     CallbackFunction  errorCallback);
+
+    void yacappServerAppUserLogin(const QString &loginEMail,
+                                  const QString &password,
+                                  const QString &appId,
+                                  CallbackFunction successCallback,
+                                  CallbackFunction  errorCallback);};
 
 #endif // YACSERVERNETWORK_H

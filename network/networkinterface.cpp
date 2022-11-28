@@ -1,4 +1,6 @@
 #include "networkinterface.h"
+#include <QJsonDocument>
+#include <QJsonObject>
 
 NetworkInterface::NetworkInterface(QNetworkAccessManager &manager
                                    , const Constants &constants
@@ -24,6 +26,17 @@ void NetworkInterface::replyFinished(QNetworkReply *reply)
     runningRequests.erase(it);
     if (reply->error() != QNetworkReply::NoError)
     {
+        qDebug() << reply->errorString();
+        QByteArray all(reply->readAll());
+        qDebug() << all;
+        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
+        QJsonObject object(replyDoc.object());
+        QString message(object["message"].toString());
+        if (message.size())
+        {
+            rr.errorCallback(message);
+            return;
+        }
         rr.errorCallback(reply->errorString());
         return;
     }

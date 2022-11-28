@@ -7,6 +7,7 @@
 #include "network/yacservernetwork.h"
 #include "network/customservernetwork.h"
 #include "constants.h"
+#include "helper.h"
 #include <QJSValue>
 
 class Configurator;
@@ -16,6 +17,7 @@ class YACAPP : public QObject
     friend Configurator;
     Q_OBJECT
     const Constants &constants;
+    const Helper &helper;
     YACAPPPROPERTY(QString, appFolder, AppFolder, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
     YACAPPPROPERTY(ParsedConfig*, mainConfig, MainConfig, 0);
@@ -38,6 +40,7 @@ class YACAPP : public QObject
 
 public:
     explicit YACAPP(const Constants &constants
+                    , const Helper &helper
                     , YACServerNetwork &network
                     , CustomServerNetwork &customServerNetwork
                     , QObject *parent = nullptr);
@@ -67,6 +70,15 @@ public:
                                         const int current_installed_version,
                                         QJSValue successCallback,
                                         QJSValue errorCallback);
+
+    Q_INVOKABLE void appUserRegister(const QString &loginEMail,
+                                     const QString &password,
+                                     QJSValue successCallback,
+                                     QJSValue errorCallback);
+    Q_INVOKABLE void appUserVerify(const QString &loginEMail,
+                                   const QString &verifyToken,
+                                   QJSValue successCallback,
+                                   QJSValue errorCallback);
 
 signals:
 

@@ -9,7 +9,9 @@ class Helper : public QObject
 public:
     explicit Helper(QObject *parent = nullptr);
 
-    Q_INVOKABLE bool emailIsValid(const QString &email);
+    Q_INVOKABLE bool emailIsValid(const QString &email) const;
+
+    Q_INVOKABLE bool passwordOk(const QString &password) const;
 
 signals:
 
