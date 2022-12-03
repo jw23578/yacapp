@@ -10,6 +10,7 @@ include("JW78CurlLib/JW78CurlLib.pri")
 
 
 SOURCES += \
+        configmodels/appuserconfig.cpp \
         configmodels/backgroundconfig.cpp \
         configmodels/configinterface.cpp \
         configmodels/contentconfig.cpp \
@@ -53,6 +54,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+  configmodels/appuserconfig.h \
   configmodels/backgroundconfig.h \
   configmodels/configinterface.h \
   configmodels/contentconfig.h \

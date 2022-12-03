@@ -4,6 +4,7 @@
 #include <QObject>
 #include "configmodels/parsedconfig.h"
 #include "configmodels/globalprojectconfig.h"
+#include "configmodels/appuserconfig.h"
 #include "network/yacservernetwork.h"
 #include "network/customservernetwork.h"
 #include "constants.h"
@@ -20,6 +21,7 @@ class YACAPP : public QObject
     const Helper &helper;
     YACAPPPROPERTY(QString, appFolder, AppFolder, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
+    YACAPPPROPERTY(AppUserConfig*, appUserConfig, AppUserConfig, new AppUserConfig(0));
     YACAPPPROPERTY(ParsedConfig*, mainConfig, MainConfig, 0);
     YACAPPPROPERTY(QString, globalProjectConfigFilename, GlobalProjectConfigFilename, "");
     YACAPPPROPERTY(GlobalProjectConfig*, globalConfig, GlobalConfig, new GlobalProjectConfig(true));

@@ -100,6 +100,17 @@ Rectangle
                 }
                 EditorSection
                 {
+                    sectionCaption: qsTr("AppUser")
+                    YACButton
+                    {
+                        width: parent.width
+                        text: qsTr("APP-User enabled: ") + (global.appUserEnabled ? qsTr("Yes") : qsTr("No"))
+                        onClicked: global.appUserEnabled = !global.appUserEnabled
+                    }
+                }
+
+                EditorSection
+                {
                     sectionCaption: qsTr("Logo")
                     YACLineEditWithHeader
                     {
