@@ -8,7 +8,7 @@ class YACServerNetwork: public YACServerBaseNetwork
     Q_OBJECT
 public:
     YACServerNetwork(QNetworkAccessManager &manager
-               , const Constants &constants);
+                     , const Constants &constants);
 
     void yacappServerGetAllAPPs(CallbackFunction successCallback,
                                 CallbackFunction  errorCallback);
@@ -25,14 +25,29 @@ public:
                                      CallbackFunction  errorCallback);
 
     void yacappServerAppUserVerify(const QString &loginEMail,
-                                     const QString &verifyToken,
-                                     CallbackFunction successCallback,
-                                     CallbackFunction  errorCallback);
+                                   const QString &verifyToken,
+                                   const QString &appId,
+                                   CallbackFunction successCallback,
+                                   CallbackFunction  errorCallback);
 
     void yacappServerAppUserLogin(const QString &loginEMail,
                                   const QString &password,
                                   const QString &appId,
                                   CallbackFunction successCallback,
-                                  CallbackFunction  errorCallback);};
+                                  CallbackFunction  errorCallback);
+
+    void appUserRequestPasswordUpdate(const QString &loginEMail,
+                                      const QString &appId,
+                                      CallbackFunction successCallback,
+                                      CallbackFunction  errorCallback);
+
+    void appUserUpdatePassword(const QString &loginEMail,
+                               const QString &password,
+                               const QString &updatePasswordToken,
+                               const QString &appId,
+                               CallbackFunction successCallback,
+                               CallbackFunction  errorCallback);
+
+};
 
 #endif // YACSERVERNETWORK_H

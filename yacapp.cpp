@@ -307,13 +307,70 @@ void YACAPP::appUserVerify(const QString &loginEMail,
                            QJSValue errorCallback)
 {
     network.yacappServerAppUserVerify(loginEMail,
-                                        verifyToken,
-                                        [successCallback](const QString &message)
+                                      verifyToken,
+                                      globalConfig()->projectID(),
+                                      [successCallback](const QString &message)
     {
     },
     [errorCallback, this](const QString &message)
     {
         badMessage(message, QJSValue::NullValue, QJSValue::NullValue);
+    }
+    );
+}
+
+void YACAPP::appUserLogin(const QString &loginEMail,
+                          const QString &password,
+                          QJSValue successCallback,
+                          QJSValue errorCallback)
+{
+    network.yacappServerAppUserLogin(loginEMail,
+                                     password,
+                                     globalConfig()->projectID(),
+                                     [successCallback](const QString &message)
+    {
+    },
+    [errorCallback, this](const QString &message)
+    {
+        badMessage(message, QJSValue::NullValue, QJSValue::NullValue);
+    }
+    );
+}
+
+void YACAPP::appUserRequestPasswordUpdate(const QString &loginEMail,
+                                          QJSValue successCallback,
+                                          QJSValue errorCallback)
+{
+    network.appUserRequestPasswordUpdate(loginEMail,
+                                         globalConfig()->projectID(),
+                                         [successCallback](const QString &message) mutable
+    {
+        successCallback.call(QJSValueList() << message);
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+}
+
+void YACAPP::appUserUpdatePassword(const QString &loginEMail,
+                                   const QString &password,
+                                   const QString &updatePasswordToken,
+                                   QJSValue successCallback,
+                                   QJSValue errorCallback)
+{
+    network.appUserUpdatePassword(loginEMail,
+                                  password,
+                                  updatePasswordToken,
+                                  globalConfig()->projectID(),
+                                  [successCallback](const QString &message) mutable
+    {
+        successCallback.call(QJSValueList() << message);
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
     }
     );
 }

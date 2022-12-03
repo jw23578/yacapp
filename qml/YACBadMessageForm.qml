@@ -45,6 +45,11 @@ Rectangle
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
         }
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked: hide()
+        }
     }
 
     YACButton

@@ -87,4 +87,23 @@ Item
     YACUserRegisterVerifyLogin
     {
     }
+    Item
+    {
+        width: parent.width
+        height: parent.height / 2
+        YACUserRequestPasswordUpdate
+        {
+        }
+    }
+
+    Item
+    {
+        width: parent.width
+        y: parent.height / 2
+        height: parent.height / 2
+        YACUserUpdatePassword
+        {
+
+        }
+    }
 }

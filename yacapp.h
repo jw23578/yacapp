@@ -79,7 +79,20 @@ public:
                                    const QString &verifyToken,
                                    QJSValue successCallback,
                                    QJSValue errorCallback);
+    Q_INVOKABLE void appUserLogin(const QString &loginEMail,
+                                  const QString &password,
+                                  QJSValue successCallback,
+                                  QJSValue errorCallback);
 
+
+    Q_INVOKABLE void appUserRequestPasswordUpdate(const QString &loginEMail,
+                                                  QJSValue successCallback,
+                                                  QJSValue errorCallback);
+    Q_INVOKABLE void appUserUpdatePassword(const QString &loginEMail,
+                                           const QString &password,
+                                           const QString &updatePasswordToken,
+                                           QJSValue successCallback,
+                                           QJSValue errorCallback);
 signals:
 
     void badMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);

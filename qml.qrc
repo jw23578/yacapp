@@ -43,5 +43,8 @@
         <file>qml/RectangleORSuperForm.qml</file>
         <file>qml/apppages/YACUserRegisterVerifyLogin.qml</file>
         <file>qml/items/YACPageColumn.qml</file>
+        <file>qml/apppages/YACUserRequestPasswordUpdate.qml</file>
+        <file>EMailPasswordFunctions.js</file>
+        <file>qml/apppages/YACUserUpdatePassword.qml</file>
     </qresource>
 </RCC>

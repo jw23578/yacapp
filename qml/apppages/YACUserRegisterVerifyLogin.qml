@@ -1,11 +1,25 @@
 import QtQuick 2.15
 import "../items"
+import "qrc:/EMailPasswordFunctions.js" as EMailPasswordFunctions
+
 
 FocusScope
 {
     anchors.fill: parent
     focus: true
     Component.onCompleted: forceActiveFocus()
+
+    function goVerify()
+    {
+        if (login.displayText != "")
+        {
+            verifyLogin.text = login.displayText
+        }
+
+        registerColumn.visible = false
+        verifyColumn.visible = true
+    }
+
     Rectangle
     {
         anchors.fill: parent
@@ -31,38 +45,67 @@ FocusScope
             YACButton
             {
                 width: parent.width
+                text: qsTr("Login")
+                onClicked:
+                {
+                    if (!EMailPasswordFunctions.checkEMail(Helper, yacApp, login.displayText, login))
+                    {
+                        return;
+                    }
+                    if (!EMailPasswordFunctions.checkPassword(Helper, yacApp, password.text, password))
+                    {
+                        return;
+                    }
+                    yacApp.appUserLogin(login.displayText,
+                                        password.text,
+                                        function(message) {
+                                            yacApp.goodMessage(qsTr(message))
+                                        },
+                                        function(message) {
+                                            yacApp.badMessage(qsTr(message))
+                                        })
+                }
+            }
+
+            YACButton
+            {
+                width: parent.width
                 text: qsTr("Register")
                 onClicked:
                 {
-                    if (!Helper.emailIsValid(login.displayText))
+                    if (!EMailPasswordFunctions.checkEMail(Helper, yacApp, login.displayText, login))
                     {
-                        yacApp.badMessage(qsTr("Please enter a valid E-Mail as Login."), login, null)
-                        return
+                        return;
                     }
-                    if (!Helper.passwordOk(password.text))
+                    if (!EMailPasswordFunctions.checkPassword(Helper, yacApp, password.text, password))
                     {
-                        yacApp.badMessage(qsTr("Please enter a better Password."), password, null)
-                        return
+                        return;
                     }
+
                     yacApp.appUserRegister(login.displayText,
-                                          password.text,
-                                          function() {},
-                                          function() {})
+                                           password.text,
+                                           function() {
+                                               yacApp.goodMessage(qsTr("Registered, please verify."))
+                                               goVerify()
+                                           },
+                                           function() {})
                 }
             }
             YACButton
             {
                 width: parent.width
                 text: qsTr("Verify")
+                onClicked: goVerify()
+            }
+            YACButton
+            {
+                width: parent.width
+                text: qsTr("Reset password")
                 onClicked:
                 {
-                    if (login.displayText != "")
-                    {
-                        verifyLogin.text = login.displayText
-                    }
-
                     registerColumn.visible = false
-                    verifyColumn.visible = true
+                    verifyColumn.visible = false
+                    resetPasswordColumn.visible = true
                 }
             }
             YACButton
@@ -71,6 +114,17 @@ FocusScope
                 text: qsTr("Back")
             }
         }
+        YACPageColumn
+        {
+            id: resetPasswordColumn
+            visible: false
+            YACButton
+            {
+                width: parent.width
+                text: qsTr("Update password")
+            }
+        }
+
         YACPageColumn
         {
             id: verifyColumn
@@ -94,10 +148,9 @@ FocusScope
                 text: qsTr("Verify")
                 onClicked:
                 {
-                    if (!Helper.emailIsValid(verifyLogin.displayText))
+                    if (!EMailPasswordFunctions.checkEMail(Helper, yacApp, verifyLogin.displayText, verifyLogin))
                     {
-                        yacApp.badMessage(qsTr("Please enter a valid E-Mail as Login."), verifyLogin, null)
-                        return
+                        return;
                     }
                     if (verifyToken.displayText == "")
                     {
@@ -106,11 +159,12 @@ FocusScope
                     }
 
                     yacApp.appUserVerify(verifyLogin.displayText,
-                                          verifyToken.displayText,
-                                          function() {},
-                                          function() {})
+                                         verifyToken.displayText,
+                                         function() {},
+                                         function() {})
                 }
             }
+
             YACButton
             {
                 width: parent.width

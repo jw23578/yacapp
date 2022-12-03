@@ -124,6 +124,7 @@ void YACServerNetwork::yacappServerAppUserRegister(const QString &loginEMail,
 
 void YACServerNetwork::yacappServerAppUserVerify(const QString &loginEMail,
                                                  const QString &verifyToken,
+                                                 const QString &appId,
                                                  CallbackFunction successCallback,
                                                  CallbackFunction errorCallback)
 {
@@ -139,9 +140,110 @@ void YACServerNetwork::yacappServerAppUserVerify(const QString &loginEMail,
     QJsonObject obj;
     obj["loginEMail"] = loginEMail;
     obj["verifyToken"] = verifyToken;
+    obj["appId"] = appId;
     yacappServerPost("/verifyAppUser",
                      obj,
                      replyHandler,
                      successCallback,
                      errorCallback);
+}
+
+void YACServerNetwork::yacappServerAppUserLogin(const QString &loginEMail,
+                                                const QString &password,
+                                                const QString &appId,
+                                                CallbackFunction successCallback,
+                                                CallbackFunction errorCallback)
+{
+    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
+    {
+        QByteArray all(finishedReply->readAll());
+        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
+        QJsonObject object(replyDoc.object());
+        QString message(object["message"].toString());
+        if (message == "Login successful")
+        {
+            rr.successCallback(message);
+        }
+        else
+        {
+            rr.errorCallback(message);
+        }
+    });
+
+    QJsonObject obj;
+    obj["loginEMail"] = loginEMail;
+    obj["password"] = password;
+    obj["appId"] = appId;
+    yacappServerPost("/loginAppUser",
+                     obj,
+                     replyHandler,
+                     successCallback,
+                     errorCallback);
+}
+
+void YACServerNetwork::appUserRequestPasswordUpdate(const QString &loginEMail,
+                                                    const QString &appId,
+                                                    CallbackFunction successCallback,
+                                                    CallbackFunction errorCallback)
+{
+    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
+    {
+        QByteArray all(finishedReply->readAll());
+        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
+        QJsonObject object(replyDoc.object());
+        QString message(object["message"].toString());
+        if (message == "e-mail with updatePasswordToken sended")
+        {
+            rr.successCallback(message);
+        }
+        else
+        {
+            rr.errorCallback(message);
+        }
+    });
+
+    QJsonObject obj;
+    obj["loginEMail"] = loginEMail;
+    obj["appId"] = appId;
+    yacappServerPost("/requestUpdatePasswordAppUser",
+                     obj,
+                     replyHandler,
+                     successCallback,
+                     errorCallback);
+}
+
+void YACServerNetwork::appUserUpdatePassword(const QString &loginEMail,
+                                             const QString &password,
+                                             const QString &updatePasswordToken,
+                                             const QString &appId,
+                                             CallbackFunction successCallback,
+                                             CallbackFunction errorCallback)
+{
+    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
+    {
+        QByteArray all(finishedReply->readAll());
+        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
+        QJsonObject object(replyDoc.object());
+        QString message(object["message"].toString());
+        if (object["success"].toBool())
+        {
+            rr.successCallback(message);
+        }
+        else
+        {
+            rr.errorCallback(message);
+        }
+    });
+
+    QJsonObject obj;
+    obj["loginEMail"] = loginEMail;
+    obj["password"] = password;
+    obj["updatePasswordToken"] = updatePasswordToken;
+    obj["appId"] = appId;
+    yacappServerPost("/updatePasswordAppUser",
+                     obj,
+                     replyHandler,
+                     successCallback,
+                     errorCallback);
+
 }
