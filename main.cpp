@@ -9,6 +9,7 @@
 #include "configurator.h"
 #include "configmodels/globalprojectconfig.h"
 #include "configuratormodels/recentproject.h"
+#include "configmodels/appuserconfig.h"
 #include "projectdata.h"
 #include "constants.h"
 #include <QtWebView>
@@ -48,6 +49,9 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<Constants>("com.yacapp.constants", 1, 0, "Constants");
     qRegisterMetaType<Constants*>("Constants");
+
+    qmlRegisterType<AppUserConfig>("com.yacapp.appuserconfig", 1, 0, "AppUserConfig");
+    qRegisterMetaType<AppUserConfig*>("AppUserConfig");
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();

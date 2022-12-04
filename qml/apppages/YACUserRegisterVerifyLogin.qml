@@ -8,16 +8,21 @@ FocusScope
     anchors.fill: parent
     focus: true
     Component.onCompleted: forceActiveFocus()
+    signal closeClicked()
 
-    function goVerify()
+    function goRegisterVerify()
     {
         if (login.displayText != "")
         {
-            verifyLogin.text = login.displayText
+            registerVerifyLogin.text = login.displayText
+        }
+        if (password.text != "")
+        {
+            registerPassword.text = password.text
         }
 
-        registerColumn.visible = false
-        verifyColumn.visible = true
+        loginColumn.visible = false
+        registerVerifyColumn.visible = true
     }
 
     Rectangle
@@ -25,7 +30,7 @@ FocusScope
         anchors.fill: parent
         YACPageColumn
         {
-            id: registerColumn
+            id: loginColumn
             visible: true
             YACLineEditWithHeader
             {
@@ -59,10 +64,10 @@ FocusScope
                     yacApp.appUserLogin(login.displayText,
                                         password.text,
                                         function(message) {
-                                            yacApp.goodMessage(qsTr(message))
+                                            yacApp.goodMessage(qsTr("Login successful, have fun!"), null, null)
                                         },
                                         function(message) {
-                                            yacApp.badMessage(qsTr(message))
+                                            yacApp.badMessage(qsTr(message), null, null)
                                         })
                 }
             }
@@ -70,32 +75,8 @@ FocusScope
             YACButton
             {
                 width: parent.width
-                text: qsTr("Register")
-                onClicked:
-                {
-                    if (!EMailPasswordFunctions.checkEMail(Helper, yacApp, login.displayText, login))
-                    {
-                        return;
-                    }
-                    if (!EMailPasswordFunctions.checkPassword(Helper, yacApp, password.text, password))
-                    {
-                        return;
-                    }
-
-                    yacApp.appUserRegister(login.displayText,
-                                           password.text,
-                                           function() {
-                                               yacApp.goodMessage(qsTr("Registered, please verify."))
-                                               goVerify()
-                                           },
-                                           function() {})
-                }
-            }
-            YACButton
-            {
-                width: parent.width
-                text: qsTr("Verify")
-                onClicked: goVerify()
+                text: qsTr("Register / Verify")
+                onClicked: goRegisterVerify()
             }
             YACButton
             {
@@ -103,15 +84,16 @@ FocusScope
                 text: qsTr("Reset password")
                 onClicked:
                 {
-                    registerColumn.visible = false
-                    verifyColumn.visible = false
+                    loginColumn.visible = false
+                    registerVerifyColumn.visible = false
                     resetPasswordColumn.visible = true
                 }
             }
             YACButton
             {
                 width: parent.width
-                text: qsTr("Back")
+                text: qsTr("Close")
+                onClicked: closeClicked()
             }
         }
         YACPageColumn
@@ -127,14 +109,22 @@ FocusScope
 
         YACPageColumn
         {
-            id: verifyColumn
+            id: registerVerifyColumn
             visible: false
             YACLineEditWithHeader
             {
-                id: verifyLogin
+                id: registerVerifyLogin
                 width: parent.width
                 headerText: qsTr("E-Mail")
                 color: Helper.emailIsValid(displayText) ? Constants.goodColor : Constants.badColor
+            }
+            YACLineEditWithHeader
+            {
+                id: registerPassword
+                width: parent.width
+                echoMode: TextInput.Password
+                headerText: qsTr("Password")
+                color: Helper.passwordOk(text) ? Constants.goodColor : Constants.badColor
             }
             YACLineEditWithHeader
             {
@@ -145,10 +135,35 @@ FocusScope
             YACButton
             {
                 width: parent.width
+                text: qsTr("Register")
+                onClicked:
+                {
+                    if (!EMailPasswordFunctions.checkEMail(Helper, yacApp, registerVerifyLogin.displayText, registerVerifyLogin))
+                    {
+                        return;
+                    }
+                    if (!EMailPasswordFunctions.checkPassword(Helper, yacApp, registerPassword.text, registerPassword))
+                    {
+                        return;
+                    }
+
+                    yacApp.appUserRegister(registerVerifyLogin.displayText,
+                                           registerPassword.text,
+                                           function(message) {
+                                               yacApp.goodMessage(qsTr("Registration successful, please verify with the Code you received per E-Mail."), verifyToken, null)
+                                           },
+                                           function(message) {
+                                               yacApp.badMessage(qsTr(message), null, null)
+                                           })
+                }
+            }
+            YACButton
+            {
+                width: parent.width
                 text: qsTr("Verify")
                 onClicked:
                 {
-                    if (!EMailPasswordFunctions.checkEMail(Helper, yacApp, verifyLogin.displayText, verifyLogin))
+                    if (!EMailPasswordFunctions.checkEMail(Helper, yacApp, registerVerifyLogin.displayText, registerVerifyLogin))
                     {
                         return;
                     }
@@ -158,10 +173,14 @@ FocusScope
                         return
                     }
 
-                    yacApp.appUserVerify(verifyLogin.displayText,
+                    yacApp.appUserVerify(registerVerifyLogin.displayText,
                                          verifyToken.displayText,
-                                         function() {},
-                                         function() {})
+                                         function(message) {
+                                             yacApp.goodMessage(qsTr("Verification successful, you are logged in. Have fun!"), null, null)
+                                         },
+                                         function(message) {
+                                             yacApp.badMessage(message, verifyToken, null)
+                                         })
                 }
             }
 
@@ -171,8 +190,8 @@ FocusScope
                 text: qsTr("Back")
                 onClicked:
                 {
-                    registerColumn.visible = true
-                    verifyColumn.visible = false
+                    loginColumn.visible = true
+                    registerVerifyColumn.visible = false
                 }
             }
         }

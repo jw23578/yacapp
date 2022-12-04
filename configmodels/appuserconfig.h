@@ -1,13 +1,18 @@
 #ifndef APPUSERCONFIG_H
 #define APPUSERCONFIG_H
 
-#include <QObject>
+#include "configinterface.h"
 #include "yacappmacros.h"
 
-class AppUserConfig: public QObject
+class AppUserConfig: public ConfigInterface
 {
+    Q_OBJECT
+    YACAPPPROPERTY(QString, loginToken, LoginToken, "");
 public:
-    AppUserConfig(QObject *owner);
+    explicit AppUserConfig(QObject *parent = nullptr);
+
+    void setConfig(const QJsonValue &config) override;
+    QJsonObject getConfig() override;
 };
 
 #endif // APPUSERCONFIG_H

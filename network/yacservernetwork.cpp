@@ -108,7 +108,14 @@ void YACServerNetwork::yacappServerAppUserRegister(const QString &loginEMail,
         QJsonDocument replyDoc(QJsonDocument::fromJson(all));
         QJsonObject object(replyDoc.object());
         QString message(object["message"].toString());
-        int t = 0;
+        if (object["success"].toBool())
+        {
+            rr.successCallback(message);
+        }
+        else
+        {
+            rr.errorCallback(message);
+        }
     });
 
     QJsonObject obj;
@@ -134,7 +141,14 @@ void YACServerNetwork::yacappServerAppUserVerify(const QString &loginEMail,
         QJsonDocument replyDoc(QJsonDocument::fromJson(all));
         QJsonObject object(replyDoc.object());
         QString message(object["message"].toString());
-        rr.successCallback(message);
+        if (object["success"].toBool())
+        {
+            rr.successCallback(object["loginToken"].toString());
+        }
+        else
+        {
+            rr.errorCallback(message);
+        }
     });
 
     QJsonObject obj;
@@ -160,14 +174,15 @@ void YACServerNetwork::yacappServerAppUserLogin(const QString &loginEMail,
         QJsonDocument replyDoc(QJsonDocument::fromJson(all));
         QJsonObject object(replyDoc.object());
         QString message(object["message"].toString());
-        if (message == "Login successful")
+        if (object["success"].toBool())
         {
-            rr.successCallback(message);
+            rr.successCallback(object["loginToken"].toString());
         }
         else
         {
             rr.errorCallback(message);
         }
+
     });
 
     QJsonObject obj;
@@ -192,7 +207,7 @@ void YACServerNetwork::appUserRequestPasswordUpdate(const QString &loginEMail,
         QJsonDocument replyDoc(QJsonDocument::fromJson(all));
         QJsonObject object(replyDoc.object());
         QString message(object["message"].toString());
-        if (message == "e-mail with updatePasswordToken sended")
+        if (object["success"].toBool())
         {
             rr.successCallback(message);
         }

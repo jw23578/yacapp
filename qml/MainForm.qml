@@ -84,26 +84,11 @@ Item
         height: parent.height * yacApp.globalConfig.logoHeightPerThousand / 1000.0
     }
 
-    YACUserRegisterVerifyLogin
+    Loader
     {
-    }
-    Item
-    {
-        width: parent.width
-        height: parent.height / 2
-        YACUserRequestPasswordUpdate
-        {
-        }
-    }
-
-    Item
-    {
-        width: parent.width
-        y: parent.height / 2
-        height: parent.height / 2
-        YACUserUpdatePassword
-        {
-
-        }
+        id: appUserProfileLoader
+        anchors.fill: parent
+        active: yacApp.globalConfig.appUserEnabled
+        source: "qrc:/qml/apppages/AppUserProfile.qml"
     }
 }

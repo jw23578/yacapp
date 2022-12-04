@@ -21,6 +21,7 @@ YACAPP::YACAPP(const Constants &constants
     QJsonDocument config(QJsonDocument::fromJson(fileData));
     stringFromJSON(loginToken, LoginToken);
     stringFromJSON(globalProjectConfigFilename, GlobalProjectConfigFilename);
+    appUserConfig()->setConfig(config["appUserConfig"]);
 }
 
 void YACAPP::init(QString projectFilename)
@@ -92,6 +93,9 @@ void YACAPP::saveState()
     QJsonObject config;
     stringToJSON(loginToken);
     stringToJSON(globalProjectConfigFilename);
+
+    config["appUserConfig"] = appUserConfig()->getConfig();
+
     QFile jsonFile(constants.getStateFilename());
     jsonFile.open(QIODevice::WriteOnly);
     jsonFile.write(QJsonDocument(config).toJson());
@@ -291,12 +295,13 @@ void YACAPP::appUserRegister(const QString &loginEMail,
     network.yacappServerAppUserRegister(loginEMail,
                                         password,
                                         globalConfig()->projectID(),
-                                        [successCallback](const QString &message)
+                                        [successCallback](const QString &message) mutable
     {
+        successCallback.call(QJSValueList() << message);
     },
-    [errorCallback, this](const QString &message)
+    [errorCallback](const QString &message) mutable
     {
-        badMessage(message, QJSValue::NullValue, QJSValue::NullValue);
+        errorCallback.call(QJSValueList() << message);
     }
     );
 }
@@ -309,12 +314,13 @@ void YACAPP::appUserVerify(const QString &loginEMail,
     network.yacappServerAppUserVerify(loginEMail,
                                       verifyToken,
                                       globalConfig()->projectID(),
-                                      [successCallback](const QString &message)
+                                      [successCallback](const QString &message) mutable
     {
+        successCallback.call(QJSValueList() << message);
     },
-    [errorCallback, this](const QString &message)
+    [errorCallback](const QString &message) mutable
     {
-        badMessage(message, QJSValue::NullValue, QJSValue::NullValue);
+        errorCallback.call(QJSValueList() << message);
     }
     );
 }
@@ -327,12 +333,15 @@ void YACAPP::appUserLogin(const QString &loginEMail,
     network.yacappServerAppUserLogin(loginEMail,
                                      password,
                                      globalConfig()->projectID(),
-                                     [successCallback](const QString &message)
+                                     [this, successCallback](const QString &message) mutable
     {
+        appUserConfig()->setLoginToken(message);
+        saveState();
+        successCallback.call(QJSValueList());
     },
-    [errorCallback, this](const QString &message)
+    [errorCallback](const QString &message) mutable
     {
-        badMessage(message, QJSValue::NullValue, QJSValue::NullValue);
+        errorCallback.call(QJSValueList() << message);
     }
     );
 }

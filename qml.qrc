@@ -46,5 +46,6 @@
         <file>qml/apppages/YACUserRequestPasswordUpdate.qml</file>
         <file>EMailPasswordFunctions.js</file>
         <file>qml/apppages/YACUserUpdatePassword.qml</file>
+        <file>qml/apppages/AppUserProfile.qml</file>
     </qresource>
 </RCC>
