@@ -14,9 +14,12 @@
 #include "constants.h"
 #include <QtWebView>
 #include "helper.h"
+#include "datamodels/datamodelinterface.h"
+#include "dataobjects/messageobject.h"
 
 int main(int argc, char *argv[])
 {
+    std::srand(std::time(nullptr));
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
@@ -33,7 +36,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<GlobalProjectConfig>("com.yacapp.globalprojectconfig", 1, 0, "GlobalProjectConfig");
     qmlRegisterType<HeaderConfig>("com.yacapp.headerconfig", 1, 0, "HeaderConfig");
     qmlRegisterType<ProjectData>("com.yacapp.projectdata", 1, 0, "ProjectData");
-//    qmlRegisterType<ContentItem>("com.yacapp.headerc", 1, 0, "ContentItem");
+    //    qmlRegisterType<ContentItem>("com.yacapp.headerc", 1, 0, "ContentItem");
     qRegisterMetaType<GlobalProjectConfig*>("GlobalProjectConfig");
     qRegisterMetaType<ParsedConfig*>("ParsedConfig");
     qRegisterMetaType<BackgroundConfig*>("BackgroundConfig");
@@ -81,6 +84,22 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("Helper", &helper);
     engine.rootContext()->setContextProperty("Constants", &constants);
+
+    DataModelInterface messagesModel(engine, "MessagesModel", "message", DataModelInterface::reverse);
+    for (size_t i(0); i < 3; ++i)
+    {
+        const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+        const int randomStringLength = 12;
+
+        QString randomString(QString::number(i) + "  ");
+        for(int i=0; i<randomStringLength; ++i)
+        {
+            int index = rand() % possibleCharacters.length();
+            QChar nextChar = possibleCharacters.at(index);
+            randomString.append(nextChar);
+        }
+        messagesModel.append(new MessageObject(randomString));
+    }
 
     if (app.arguments().contains("Configurator"))
     {

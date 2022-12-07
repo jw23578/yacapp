@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QColor>
-#include "yacappmacros.h"
 #include "configinterface.h"
 
 

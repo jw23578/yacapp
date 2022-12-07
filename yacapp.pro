@@ -25,6 +25,9 @@ SOURCES += \
         configurator.cpp \
         configuratormodels/recentproject.cpp \
         constants.cpp \
+        datamodels/datamodelinterface.cpp \
+        dataobjects/dataobjectinterface.cpp \
+        dataobjects/messageobject.cpp \
         helper.cpp \
         main.cpp \
         network/customservernetwork.cpp \
@@ -69,6 +72,9 @@ HEADERS += \
   configurator.h \
   configuratormodels/recentproject.h \
   constants.h \
+  datamodels/datamodelinterface.h \
+  dataobjects/dataobjectinterface.h \
+  dataobjects/messageobject.h \
   helper.h \
   network/customservernetwork.h \
   network/networkinterface.h \

@@ -89,6 +89,6 @@ Item
         id: appUserProfileLoader
         anchors.fill: parent
         active: yacApp.globalConfig.appUserEnabled
-        source: "qrc:/qml/apppages/AppUserProfile.qml"
+        source: "qrc:/qml/apppages/AppUserProfileIcon.qml"
     }
 }

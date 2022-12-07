@@ -2,6 +2,7 @@
 #define CONFIGINTERFACE_H
 
 #include <QObject>
+#include "yacappmacros.h"
 
 class ConfigInterface : public QObject
 {
