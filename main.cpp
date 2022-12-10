@@ -14,8 +14,10 @@
 #include "constants.h"
 #include <QtWebView>
 #include "helper.h"
-#include "datamodels/datamodelinterface.h"
-#include "dataobjects/messageobject.h"
+#include "datamodels/messagesmodel.h"
+
+#include "datamodels/templateddatamodel.h"
+#include "dataobjects/profileobject.h"
 
 int main(int argc, char *argv[])
 {
@@ -85,7 +87,10 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("Helper", &helper);
     engine.rootContext()->setContextProperty("Constants", &constants);
 
-    DataModelInterface messagesModel(engine, "MessagesModel", "message", DataModelInterface::reverse);
+    MessagesModel messagesModel(engine);
+
+    TemplatedDataModel<ProfileObject> profilesModel(engine, "ProfilesModel", "profile", TemplatedDataModel<ProfileObject>::forward);
+
     for (size_t i(0); i < 3; ++i)
     {
         const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
@@ -98,7 +103,9 @@ int main(int argc, char *argv[])
             QChar nextChar = possibleCharacters.at(index);
             randomString.append(nextChar);
         }
-        messagesModel.append(new MessageObject(randomString));
+        messagesModel.append(new MessageObject(randomString, randomString,
+                                               QDateTime::currentDateTime().addDays(i / 2),
+                                               randomString));
     }
 
     if (app.arguments().contains("Configurator"))

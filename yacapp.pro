@@ -25,9 +25,12 @@ SOURCES += \
         configurator.cpp \
         configuratormodels/recentproject.cpp \
         constants.cpp \
-        datamodels/datamodelinterface.cpp \
+        datamodels/messagesmodel.cpp \
+        datamodels/objectdatamodel.cpp \
         dataobjects/dataobjectinterface.cpp \
+        dataobjects/groupobject.cpp \
         dataobjects/messageobject.cpp \
+        dataobjects/profileobject.cpp \
         helper.cpp \
         main.cpp \
         network/customservernetwork.cpp \
@@ -73,8 +76,14 @@ HEADERS += \
   configuratormodels/recentproject.h \
   constants.h \
   datamodels/datamodelinterface.h \
+  datamodels/exttemplateddatamodel.h \
+  datamodels/messagesmodel.h \
+  datamodels/objectdatamodel.h \
+  datamodels/templateddatamodel.h \
   dataobjects/dataobjectinterface.h \
+  dataobjects/groupobject.h \
   dataobjects/messageobject.h \
+  dataobjects/profileobject.h \
   helper.h \
   network/customservernetwork.h \
   network/networkinterface.h \

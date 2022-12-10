@@ -1,6 +1,7 @@
 #include "helper.h"
 #include <QRegularExpression>
-
+#include <QDateTime>
+#include <QLocale>
 Helper::Helper(QObject *parent)
     : QObject{parent}
 {
@@ -20,4 +21,14 @@ bool Helper::passwordOk(const QString &password) const
         return false;
     }
     return true;
+}
+
+QString Helper::formatTime(const QDateTime &dt) const
+{
+    return dt.toString(QLocale::system().timeFormat(QLocale::ShortFormat));
+}
+
+QString Helper::formatDate(const QDateTime &dt) const
+{
+    return dt.toString(QLocale::system().dateFormat(QLocale::ShortFormat));
 }

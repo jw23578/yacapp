@@ -1,9 +1,23 @@
 #include "datamodelinterface.h"
 #include <QQmlContext>
 
-bool DataModelInterface::first(true);
+template <class T>
+bool DataModelInterface<T>::first(true);
 
-DataModelInterface::DataModelInterface(QQmlApplicationEngine &engine,
+template<class T>
+QHash<int, QByteArray> DataModelInterface<T>::customRoleNames() const
+{
+    return QHash<int, QByteArray>();
+}
+
+template<class T>
+QVariant DataModelInterface<T>::customData(int row, int role) const
+{
+    return QVariant();
+}
+
+template <class T>
+DataModelInterface<T>::DataModelInterface(QQmlApplicationEngine &engine,
                                        const QString &modelName,
                                        const QString &objectName,
                                        const DirectionType direction)
@@ -20,44 +34,55 @@ DataModelInterface::DataModelInterface(QQmlApplicationEngine &engine,
     engine.rootContext()->setContextProperty(modelName, QVariant::fromValue(this));
 }
 
-QModelIndex DataModelInterface::index(int row, int column, const QModelIndex &parent) const
+template <class T>
+QModelIndex DataModelInterface<T>::index(int row, int column, const QModelIndex &parent) const
 {
     return createIndex(row, column);
 }
 
-QModelIndex DataModelInterface::parent(const QModelIndex &child) const
+template <class T>
+QModelIndex DataModelInterface<T>::parent(const QModelIndex &child) const
 {
     return QModelIndex();
 }
 
-int DataModelInterface::rowCount(const QModelIndex &parent) const
+template <class T>
+int DataModelInterface<T>::rowCount(const QModelIndex &parent) const
 {
-    return static_cast<int>(objects.size());
+    return static_cast<int>(size());
 }
 
-int DataModelInterface::columnCount(const QModelIndex &parent) const
+template <class T>
+int DataModelInterface<T>::columnCount(const QModelIndex &parent) const
 {
     return 1;
 }
 
-QVariant DataModelInterface::data(const QModelIndex &index, int role) const
+template <class T>
+QVariant DataModelInterface<T>::data(const QModelIndex &index, int role) const
 {
-    int row(direction == reverse ? objects.size() - 1 - index.row() : index.row());
-    if (row >= static_cast<int>(objects.size()) || row < 0)
+    int row(direction == reverse ? size() - 1 - index.row() : index.row());
+    if (row >= static_cast<int>(size()) || row < 0)
     {
         return QVariant();
+    }
+    QVariant ret(customData(row, role));
+    if (ret != QVariant())
+    {
+        return ret;
     }
     if (role != ObjectRole && role != DefaultObjectRole)
     {
         return QVariant();
     }
-    return QVariant::fromValue<QObject *>(objects[static_cast<size_t>(row)]);
+    return QVariant::fromValue<QObject *>(getObject(static_cast<size_t>(row)));
 
 }
 
-QHash<int, QByteArray> DataModelInterface::roleNames() const
+template <class T>
+QHash<int, QByteArray> DataModelInterface<T>::roleNames() const
 {
-    QHash<int, QByteArray> roles;
+    QHash<int, QByteArray> roles(customRoleNames());
     if (objectName.length())
     {
         roles[ObjectRole] = objectName.toLatin1();
@@ -66,7 +91,8 @@ QHash<int, QByteArray> DataModelInterface::roleNames() const
     return roles;
 }
 
-void DataModelInterface::append(DataObjectInterface *object)
+template <class T>
+void DataModelInterface<T>::append(T *object)
 {
     if (direction == reverse)
     {
@@ -74,8 +100,8 @@ void DataModelInterface::append(DataObjectInterface *object)
     }
     else
     {
-        beginInsertRows(QModelIndex(), objects.size(), objects.size());
+        beginInsertRows(QModelIndex(), size(), size());
     }
-    objects.push_back(object);
+    internalAppend(object);
     endInsertRows();
 }

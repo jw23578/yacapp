@@ -20,8 +20,22 @@ Rectangle
             height: 200
             Text
             {
+                anchors.top: parent.top
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: daySwitch
+                text: Helper.formatDate(message.sent)
+            }
+
+            Text
+            {
                 anchors.centerIn: parent
                 text: message.content
+            }
+            Text
+            {
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                text: Helper.formatTime(message.sent)
             }
         }
     }
