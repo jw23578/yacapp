@@ -48,6 +48,19 @@ public:
                                CallbackFunction successCallback,
                                CallbackFunction  errorCallback);
 
+    void appUserGetWorktimeState(const QString &appId,
+                                 const QString &loginEMail,
+                                 const QString &loginToken,
+                                 JSONCallbackFunction successCallback,
+                                 CallbackFunction  errorCallback);
+    void appUserInsertWorktime(const QString &appId,
+                               const QString &loginEMail,
+                               const QString &loginToken,
+                               const int workTimeType,
+                               const QDateTime ts,
+                               JSONCallbackFunction jsonSuccessCallback,
+                               CallbackFunction  errorCallback);
+
 };
 
 #endif // YACSERVERNETWORK_H

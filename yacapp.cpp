@@ -19,8 +19,8 @@ YACAPP::YACAPP(const Constants &constants
     jsonFile.open(QIODevice::ReadOnly);
     QByteArray fileData(jsonFile.readAll());
     QJsonDocument config(QJsonDocument::fromJson(fileData));
-    stringFromJSON(loginToken, LoginToken);
     stringFromJSON(globalProjectConfigFilename, GlobalProjectConfigFilename);
+    stringFromJSON(loginToken, LoginToken);
     appUserConfig()->setConfig(config["appUserConfig"]);
 }
 
@@ -333,8 +333,9 @@ void YACAPP::appUserLogin(const QString &loginEMail,
     network.yacappServerAppUserLogin(loginEMail,
                                      password,
                                      globalConfig()->projectID(),
-                                     [this, successCallback](const QString &message) mutable
+                                     [this, loginEMail, successCallback](const QString &message) mutable
     {
+        appUserConfig()->setLoginEMail(loginEMail);
         appUserConfig()->setLoginToken(message);
         saveState();
         successCallback.call(QJSValueList());
@@ -382,4 +383,66 @@ void YACAPP::appUserUpdatePassword(const QString &loginEMail,
         errorCallback.call(QJSValueList() << message);
     }
     );
+}
+
+void YACAPP::appUserGetWorktimeState(QJSValue successCallback,
+                                     QJSValue errorCallback)
+{
+    if (!appUserConfig()->loginToken().size())
+    {
+        errorCallback.call(QJSValueList() << tr("please login first"));
+        return;
+    }
+    network.appUserGetWorktimeState(globalConfig()->projectID(),
+                                    appUserConfig()->loginEMail(),
+                                    appUserConfig()->loginToken(),
+                                    [successCallback, this](const QJsonDocument &jsonDoc) mutable
+    {
+        QJsonObject object(jsonDoc.object());
+        QString message(object["message"].toString());
+        QString workStart(object["workStart"].toString());
+        QString pauseStart(object["pauseStart"].toString());
+        QString offSiteWorkStart(object["offSiteWorkStart"].toString());
+        appUserConfig()->setWorkStart(QDateTime::fromString(workStart, Qt::DateFormat::ISODateWithMs));
+        appUserConfig()->setPauseStart(QDateTime::fromString(pauseStart, Qt::DateFormat::ISODateWithMs));
+        appUserConfig()->setOffSiteWorkStart(QDateTime::fromString(offSiteWorkStart, Qt::DateFormat::ISODateWithMs));
+        successCallback.call(QJSValueList() << message);
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+}
+
+void YACAPP::appUserInsertWorktime(int worktimeType, QJSValue successCallback, QJSValue errorCallback)
+{
+    if (!appUserConfig()->loginToken().size())
+    {
+        errorCallback.call(QJSValueList() << tr("please login first"));
+        return;
+    }
+    network.appUserInsertWorktime(globalConfig()->projectID(),
+                                  appUserConfig()->loginEMail(),
+                                  appUserConfig()->loginToken(),
+                                  worktimeType,
+                                  QDateTime::currentDateTime(),
+                                  [successCallback, this](const QJsonDocument &jsonDoc) mutable
+    {
+        QJsonObject object(jsonDoc.object());
+        QString message(object["message"].toString());
+        QString workStart(object["workStart"].toString());
+        QString pauseStart(object["pauseStart"].toString());
+        QString offSiteWorkStart(object["offSiteWorkStart"].toString());
+        appUserConfig()->setWorkStart(QDateTime::fromString(workStart, Qt::DateFormat::ISODateWithMs));
+        appUserConfig()->setPauseStart(QDateTime::fromString(pauseStart, Qt::DateFormat::ISODateWithMs));
+        appUserConfig()->setOffSiteWorkStart(QDateTime::fromString(offSiteWorkStart, Qt::DateFormat::ISODateWithMs));
+        successCallback.call(QJSValueList() << message);
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+
 }

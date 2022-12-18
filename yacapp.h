@@ -95,6 +95,12 @@ public:
                                            const QString &updatePasswordToken,
                                            QJSValue successCallback,
                                            QJSValue errorCallback);
+    Q_INVOKABLE void appUserGetWorktimeState(QJSValue successCallback,
+                                             QJSValue errorCallback);
+    Q_INVOKABLE void appUserInsertWorktime(int worktimeType,
+                                           QJSValue successCallback,
+                                           QJSValue errorCallback);
+
 signals:
 
     void badMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);

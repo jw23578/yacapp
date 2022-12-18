@@ -12,6 +12,14 @@ protected:
                           const QJsonObject &object,
                           HandlerFunction handlerFunction,
                           const QMap<QByteArray, QByteArray> &rawHeader,
+                          CallbackFunction successCallback,
+                          JSONCallbackFunction jsonSuccessCallback,
+                          CallbackFunction errorCallback);
+
+    void yacappServerPost(const QString &method,
+                          const QJsonObject &object,
+                          HandlerFunction handlerFunction,
+                          const QMap<QByteArray, QByteArray> &rawHeader,
                           CallbackFunction registerCallback,
                           CallbackFunction errorCallback);
 
@@ -24,7 +32,15 @@ protected:
     void yacappServerGet(const QString &method,
                          const QUrlQuery &query,
                          HandlerFunction handlerFunction,
-                         CallbackFunction registerCallback,
+                         const QMap<QByteArray, QByteArray> &rawHeader,
+                         CallbackFunction successCallback,
+                         JSONCallbackFunction jsonSuccessCallback,
+                         CallbackFunction errorCallback);
+
+    void yacappServerGet(const QString &method,
+                         const QUrlQuery &query,
+                         HandlerFunction handlerFunction,
+                         CallbackFunction successCallback,
                          CallbackFunction errorCallback);
 
 public:

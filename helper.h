@@ -16,6 +16,8 @@ public:
     Q_INVOKABLE QString formatTime(const QDateTime &dt) const;
     Q_INVOKABLE QString formatDate(const QDateTime &dt) const;
 
+    Q_INVOKABLE QString smartFormatDateTime(const QDateTime &dt) const;
+
 signals:
 
 };

@@ -46,7 +46,19 @@ Item
                 onClicked: profileLoader.sourceComponent = messagesComponent
             }
         }
-    }
+        Rectangle
+        {
+            visible: true // yacApp.globalConfig.appUserMessagesEnabled
+            radius: Constants.radius
+            width: parent.width
+            height: width
+            color: "orange"
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: profileLoader.sourceComponent = worktimeComponent
+            }
+        }    }
     Connections
     {
         target: yacApp.appUserConfig
@@ -62,6 +74,14 @@ Item
     {
         id: messagesComponent
         YACUserMessages
+        {
+
+        }
+    }
+    Component
+    {
+        id: worktimeComponent
+        YACUserWorktimeState
         {
 
         }

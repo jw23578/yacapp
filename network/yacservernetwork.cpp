@@ -7,7 +7,7 @@
 #include <QMap>
 
 YACServerNetwork::YACServerNetwork(QNetworkAccessManager &manager
-                       , const Constants &constants):
+                                   , const Constants &constants):
     YACServerBaseNetwork(manager, constants)
 {
 }
@@ -16,7 +16,7 @@ YACServerNetwork::YACServerNetwork(QNetworkAccessManager &manager
 
 
 void YACServerNetwork::yacappServerGetAllAPPs(CallbackFunction successCallback,
-                                        CallbackFunction errorCallback)
+                                              CallbackFunction errorCallback)
 {
     auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
     {
@@ -32,9 +32,9 @@ void YACServerNetwork::yacappServerGetAllAPPs(CallbackFunction successCallback,
 }
 
 void YACServerNetwork::yacappServerGetAPP(const QString &app_id,
-                                    const int current_installed_version,
-                                    CallbackFunction successCallback,
-                                    CallbackFunction errorCallback)
+                                          const int current_installed_version,
+                                          CallbackFunction successCallback,
+                                          CallbackFunction errorCallback)
 {
     auto replyHandler([this](QNetworkReply *finishedReply, SRunningRequest &rr)
     {
@@ -260,5 +260,84 @@ void YACServerNetwork::appUserUpdatePassword(const QString &loginEMail,
                      replyHandler,
                      successCallback,
                      errorCallback);
+
+}
+
+void YACServerNetwork::appUserGetWorktimeState(const QString &appId,
+                                               const QString &loginEMail,
+                                               const QString &loginToken,
+                                               JSONCallbackFunction jsonSuccessCallback,
+                                               CallbackFunction errorCallback)
+{
+    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
+    {
+        QByteArray all(finishedReply->readAll());
+        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
+        QJsonObject object(replyDoc.object());
+        QString message(object["message"].toString());
+        if (object["success"].toBool())
+        {
+            rr.jsonSuccessCallback(replyDoc);
+        }
+        else
+        {
+            rr.errorCallback(message);
+        }
+    });
+    const QUrlQuery query;
+    QMap<QByteArray, QByteArray> rawHeader;
+    rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
+    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    yacappServerGet("/getWorktimeState",
+                    query,
+                    replyHandler,
+                    rawHeader,
+                    0,
+                    jsonSuccessCallback,
+                    errorCallback);
+
+}
+
+void YACServerNetwork::appUserInsertWorktime(const QString &appId,
+                                             const QString &loginEMail,
+                                             const QString &loginToken,
+                                             const int worktimeType,
+                                             const QDateTime ts,
+                                             JSONCallbackFunction jsonSuccessCallback,
+                                             CallbackFunction errorCallback)
+{
+    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
+    {
+        QByteArray all(finishedReply->readAll());
+        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
+        QJsonObject object(replyDoc.object());
+        QString message(object["message"].toString());
+        if (object["success"].toBool())
+        {
+            rr.jsonSuccessCallback(replyDoc);
+        }
+        else
+        {
+            rr.errorCallback(message);
+        }
+    });
+    QMap<QByteArray, QByteArray> rawHeader;
+    rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
+    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+
+    QJsonObject obj;
+    obj["worktimeType"] = worktimeType;
+    obj["ts"] = ts.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+
+    yacappServerPost("/insertWorktime",
+                     obj,
+                     replyHandler,
+                     rawHeader,
+                     0,
+                     jsonSuccessCallback,
+                     errorCallback);
+
 
 }

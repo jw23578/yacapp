@@ -3,11 +3,16 @@
 
 #include "configinterface.h"
 #include "yacappmacros.h"
+#include <QDateTime>
 
 class AppUserConfig: public ConfigInterface
 {
     Q_OBJECT
+    YACAPPPROPERTY(QString, loginEMail, LoginEMail, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
+    YACAPPPROPERTY(QDateTime, workStart, WorkStart, QDateTime());
+    YACAPPPROPERTY(QDateTime, pauseStart, PauseStart, QDateTime());
+    YACAPPPROPERTY(QDateTime, offSiteWorkStart, OffSiteWorkStart, QDateTime());
 public:
     explicit AppUserConfig(QObject *parent = nullptr);
 

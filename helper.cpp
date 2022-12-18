@@ -32,3 +32,15 @@ QString Helper::formatDate(const QDateTime &dt) const
 {
     return dt.toString(QLocale::system().dateFormat(QLocale::ShortFormat));
 }
+
+QString Helper::smartFormatDateTime(const QDateTime &dt) const
+{
+    QString s;
+    if (dt.date() < QDateTime::currentDateTime().date())
+    {
+        s += formatDate(dt);
+        s += " ";
+    }
+    s += formatTime(dt);
+    return s;
+}
