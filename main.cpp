@@ -22,6 +22,7 @@
 int main(int argc, char *argv[])
 {
     std::srand(std::time(nullptr));
+    QtWebView::initialize();
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
@@ -67,7 +68,6 @@ int main(int argc, char *argv[])
             break;
         }
     }
-    QtWebView::initialize();
     Helper helper;
     Constants constants;
     QNetworkAccessManager manager;
@@ -76,20 +76,19 @@ int main(int argc, char *argv[])
     CustomServerNetwork customServerNetwork(manager
                                             , constants);
 
-    YACAPP yacApp(constants
+    QQmlApplicationEngine engine;
+    YACAPP yacApp(engine
+                  , constants
                   , helper
                   , network
                   , customServerNetwork);
     QUrl url(QStringLiteral("qrc:/main.qml"));
     Configurator *configurator(0);
 
-    QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("Helper", &helper);
     engine.rootContext()->setContextProperty("Constants", &constants);
 
     MessagesModel messagesModel(engine);
-
-    TemplatedDataModel<ProfileObject> profilesModel(engine, "ProfilesModel", "profile", TemplatedDataModel<ProfileObject>::forward);
 
     for (size_t i(0); i < 3; ++i)
     {

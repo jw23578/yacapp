@@ -2,8 +2,10 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 #include <QJsonObject>
+#include <QJsonArray>
 
-YACAPP::YACAPP(const Constants &constants
+YACAPP::YACAPP(QQmlApplicationEngine &engine
+               , const Constants &constants
                , const Helper &helper
                , YACServerNetwork &network
                , CustomServerNetwork &customServerNetwork
@@ -12,7 +14,8 @@ YACAPP::YACAPP(const Constants &constants
       constants(constants),
       helper(helper),
       network(network),
-      customServerNetwork(customServerNetwork)
+      customServerNetwork(customServerNetwork),
+      profilesModel(engine, "ProfilesModel", "profile", TemplatedDataModel<ProfileObject>::forward)
 {
     qDebug() << __FILE__ << ": " << __LINE__ << constants.getStateFilename();
     QFile jsonFile(constants.getStateFilename());
@@ -437,6 +440,51 @@ void YACAPP::appUserInsertWorktime(int worktimeType, QJSValue successCallback, Q
         appUserConfig()->setWorkStart(QDateTime::fromString(workStart, Qt::DateFormat::ISODateWithMs));
         appUserConfig()->setPauseStart(QDateTime::fromString(pauseStart, Qt::DateFormat::ISODateWithMs));
         appUserConfig()->setOffSiteWorkStart(QDateTime::fromString(offSiteWorkStart, Qt::DateFormat::ISODateWithMs));
+        successCallback.call(QJSValueList() << message);
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+
+}
+
+void YACAPP::appUserSearchProfiles(const QString &needle,
+                                   const int limit,
+                                   const int offset,
+                                   QJSValue successCallback,
+                                   QJSValue errorCallback)
+{
+    if (needle.size() == 0)
+    {
+        profilesModel.clear();
+        return;
+    }
+    if (!appUserConfig()->loginToken().size())
+    {
+        errorCallback.call(QJSValueList() << tr("please login first"));
+        return;
+    }
+    network.appUserSearchProfiles(globalConfig()->projectID(),
+                                  appUserConfig()->loginEMail(),
+                                  appUserConfig()->loginToken(),
+                                  needle,
+                                  limit,
+                                  offset,
+                                  [successCallback, this](const QJsonDocument &jsonDoc) mutable
+    {
+        QJsonObject object(jsonDoc.object());
+        QString message(object["message"].toString());
+        profilesModel.clear();
+        QJsonArray profiles(object["profiles"].toArray());
+        for (int i(0); i < profiles.size(); ++i)
+        {
+            ProfileObject *po(new ProfileObject);
+            QJsonObject profile(profiles[i].toObject());
+            po->setVisibleName(profile["visible_name"].toString());
+            profilesModel.append(po);
+        }
         successCallback.call(QJSValueList() << message);
     },
     [errorCallback](const QString &message) mutable

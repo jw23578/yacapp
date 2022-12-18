@@ -19,6 +19,7 @@ class Constants : public QObject
     YACAPPPROPERTY(int, shadowVerticalOffset, ShadowVerticalOffset, 5);
     YACAPPPROPERTY(int, shadowSamples, ShadowSamples, 9)
     YACAPPPROPERTY(bool, topLevelFormActive, TopLevelFormActive, false);
+    YACAPPPROPERTY(double, defaultWidthFactor, DefaultWidthFactor, 3.0 / 4.0)
 
     YACAPPPROPERTY(QColor, goodColor, GoodColor, "#A9CEA5");
     YACAPPPROPERTY(QColor, badColor, BadColor, "#F09494");

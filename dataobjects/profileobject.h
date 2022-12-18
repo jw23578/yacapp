@@ -5,9 +5,9 @@
 
 class ProfileObject : public DataObjectInterface
 {
+    Q_OBJECT
     YACAPPPROPERTY(QString, id, Id, "");
-    YACAPPPROPERTY(QString, name, Name, "");
-    YACAPPPROPERTY(QString, surname, Surame, "");
+    YACAPPPROPERTY(QString, visibleName, VisibleName, "");
 public:
     explicit ProfileObject(QObject *parent = nullptr);
 };

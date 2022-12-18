@@ -14,6 +14,22 @@ NetworkInterface::NetworkInterface(QNetworkAccessManager &manager
 
 }
 
+void defaultJSONReplyHandler(QNetworkReply *finishedReply, NetworkInterface::SRunningRequest &rr)
+{
+    QByteArray all(finishedReply->readAll());
+    QJsonDocument replyDoc(QJsonDocument::fromJson(all));
+    QJsonObject object(replyDoc.object());
+    if (object["success"].toBool())
+    {
+        rr.jsonSuccessCallback(replyDoc);
+    }
+    else
+    {
+        rr.errorCallback(object["message"].toString());
+    }
+}
+
+
 void NetworkInterface::replyFinished(QNetworkReply *reply)
 {
     QMap<QNetworkReply*, SRunningRequest>::Iterator it(runningRequests.find(reply));

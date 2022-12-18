@@ -105,3 +105,11 @@ void DataModelInterface<T>::append(T *object)
     internalAppend(object);
     endInsertRows();
 }
+
+template<class T>
+void DataModelInterface<T>::clear()
+{
+    beginRemoveRows(QModelIndex(), 0, size());
+    internalClear();
+    endRemoveRows();
+}

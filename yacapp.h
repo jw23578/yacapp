@@ -10,6 +10,8 @@
 #include "constants.h"
 #include "helper.h"
 #include <QJSValue>
+#include "datamodels/templateddatamodel.h"
+#include "dataobjects/profileobject.h"
 
 class Configurator;
 
@@ -38,10 +40,14 @@ class YACAPP : public QObject
     YACServerNetwork &network;
     CustomServerNetwork &customServerNetwork;
 
+    TemplatedDataModel<ProfileObject> profilesModel;
+
+
     void cleanUpKnownFile();
 
 public:
-    explicit YACAPP(const Constants &constants
+    explicit YACAPP(QQmlApplicationEngine &engine
+                    , const Constants &constants
                     , const Helper &helper
                     , YACServerNetwork &network
                     , CustomServerNetwork &customServerNetwork
@@ -101,6 +107,11 @@ public:
                                            QJSValue successCallback,
                                            QJSValue errorCallback);
 
+    Q_INVOKABLE void appUserSearchProfiles(const QString &needle,
+                                           const int limit,
+                                           const int offset,
+                                           QJSValue successCallback,
+                                           QJSValue errorCallback);
 signals:
 
     void badMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);

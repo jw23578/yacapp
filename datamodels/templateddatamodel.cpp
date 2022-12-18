@@ -40,3 +40,13 @@ TemplatedDataModel<T>::TemplatedDataModel(QQmlApplicationEngine &engine,
 {
 
 }
+
+template<class T>
+void TemplatedDataModel<T>::internalClear()
+{
+    for (auto o : objects)
+    {
+        delete o;
+    }
+    objects.clear();
+}

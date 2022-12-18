@@ -50,5 +50,6 @@
         <file>qml/apppages/YACUserProfile.qml</file>
         <file>qml/apppages/YACUserMessages.qml</file>
         <file>qml/apppages/YACUserWorktimeState.qml</file>
+        <file>qml/apppages/YACUserSearchProfiles.qml</file>
     </qresource>
 </RCC>

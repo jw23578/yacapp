@@ -12,14 +12,13 @@ protected:
     T *getObject(size_t index) const override;
     void internalAppend(T *object)  override;
     T *previousObject(int index) const override;
-
+    void internalClear();
 
 public:
     TemplatedDataModel(QQmlApplicationEngine &engine,
                        const QString &modelName,
                        const QString &objectName,
                        typename DataModelInterface<T>::DirectionType const direction);
-
 };
 
 #include "templateddatamodel.cpp"

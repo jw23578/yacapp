@@ -61,6 +61,15 @@ public:
                                JSONCallbackFunction jsonSuccessCallback,
                                CallbackFunction  errorCallback);
 
+    void appUserSearchProfiles(const QString &appId,
+                               const QString &loginEMail,
+                               const QString &loginToken,
+                               const QString &needle,
+                               const int limit,
+                               const int offset,
+                               JSONCallbackFunction jsonSuccessCallback,
+                               CallbackFunction  errorCallback);
+
 };
 
 #endif // YACSERVERNETWORK_H

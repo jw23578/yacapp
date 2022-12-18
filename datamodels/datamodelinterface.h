@@ -31,6 +31,7 @@ protected:
     virtual T *getObject(size_t index) const = 0;
     virtual void internalAppend(T *object) = 0;
     virtual T *previousObject(int index) const = 0;
+    virtual void internalClear() = 0;
 public:
     explicit DataModelInterface(QQmlApplicationEngine &engine,
                                 const QString &modelName,
@@ -45,6 +46,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     void append(T *object);
+    void clear();
 };
 
 #include "datamodelinterface.cpp"

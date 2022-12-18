@@ -12,9 +12,6 @@ YACServerNetwork::YACServerNetwork(QNetworkAccessManager &manager
 {
 }
 
-
-
-
 void YACServerNetwork::yacappServerGetAllAPPs(CallbackFunction successCallback,
                                               CallbackFunction errorCallback)
 {
@@ -340,4 +337,30 @@ void YACServerNetwork::appUserInsertWorktime(const QString &appId,
                      errorCallback);
 
 
+}
+
+void YACServerNetwork::appUserSearchProfiles(const QString &appId,
+                                             const QString &loginEMail,
+                                             const QString &loginToken,
+                                             const QString &needle,
+                                             const int limit,
+                                             const int offset,
+                                             JSONCallbackFunction jsonSuccessCallback,
+                                             CallbackFunction errorCallback)
+{
+    QUrlQuery query;
+    query.addQueryItem("needle", needle);
+    query.addQueryItem("limit", QString::number(limit));
+    query.addQueryItem("offset", QString::number(offset));
+    QMap<QByteArray, QByteArray> rawHeader;
+    rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
+    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    yacappServerGet("/appUserSearchProfiles",
+                    query,
+                    defaultJSONReplyHandler,
+                    rawHeader,
+                    0,
+                    jsonSuccessCallback,
+                    errorCallback);
 }

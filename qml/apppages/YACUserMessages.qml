@@ -1,9 +1,11 @@
 import QtQuick 2.15
+import "../items"
 
 Rectangle
 {
     color: "red"
     anchors.fill: parent
+
     ListView
     {
         rotation: 180
@@ -37,6 +39,25 @@ Rectangle
                 anchors.bottom: parent.bottom
                 text: Helper.formatTime(message.sent)
             }
+        }
+    }
+    YACButton
+    {
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width * Constants.defaultWidthFactor
+        text: qsTr("Add Contact")
+        onClicked: searchProfilesLoader.sourceComponent = searchProfiles
+    }
+    Loader
+    {
+        id: searchProfilesLoader
+        anchors.fill: parent
+    }
+    Component
+    {
+        id: searchProfiles
+        YACUserSearchProfiles
+        {
         }
     }
 }
