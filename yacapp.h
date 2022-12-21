@@ -40,7 +40,7 @@ class YACAPP : public QObject
     YACServerNetwork &network;
     CustomServerNetwork &customServerNetwork;
 
-    TemplatedDataModel<ProfileObject> profilesModel;
+    TemplatedDataModel<ProfileObject> searchProfilesModel;
 
 
     void cleanUpKnownFile();

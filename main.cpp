@@ -15,6 +15,7 @@
 #include <QtWebView>
 #include "helper.h"
 #include "datamodels/messagesmodel.h"
+#include "localstorage/localstorage.h"
 
 #include "datamodels/templateddatamodel.h"
 #include "dataobjects/profileobject.h"
@@ -77,6 +78,7 @@ int main(int argc, char *argv[])
                                             , constants);
 
     QQmlApplicationEngine engine;
+    LocalStorage localStorage(constants);
     YACAPP yacApp(engine
                   , constants
                   , helper

@@ -1,4 +1,4 @@
-QT += quick widgets network webview
+QT += quick widgets network webview sql
 
 android: include(/home/jw78/Android/Sdk/android_openssl/openssl.pri)
 
@@ -32,6 +32,8 @@ SOURCES += \
         dataobjects/messageobject.cpp \
         dataobjects/profileobject.cpp \
         helper.cpp \
+        localstorage/localstorage.cpp \
+        localstorage/tablenames.cpp \
         main.cpp \
         network/customservernetwork.cpp \
         network/networkinterface.cpp \
@@ -85,6 +87,8 @@ HEADERS += \
   dataobjects/messageobject.h \
   dataobjects/profileobject.h \
   helper.h \
+  localstorage/localstorage.h \
+  localstorage/tablenames.h \
   network/customservernetwork.h \
   network/networkinterface.h \
   network/yacextservernetwork.h \

@@ -36,4 +36,9 @@ const QString Constants::getStateFilename() const
     return writeablePath + "yacAppState.json";
 }
 
+const QString Constants::getDBFilename() const
+{
+    return writeablePath + "yacApp.db";
+}
+
 

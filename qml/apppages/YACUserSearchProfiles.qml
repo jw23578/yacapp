@@ -35,11 +35,11 @@ Rectangle
         anchors.right: parent.right
         anchors.top: needleText.bottom
         anchors.bottom: parent.bottom
-        model: ProfilesModel
+        model: SearchProfilesModel
         delegate: Rectangle
         {
             width: listView.width
-            height: 100
+            height: 50
             Text
             {
                 anchors.centerIn: parent

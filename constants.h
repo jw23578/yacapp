@@ -29,6 +29,7 @@ public:
     const QString &getWriteablePath() const;
     const QString getYacAppConfigPath() const;
     const QString getStateFilename() const;
+    const QString getDBFilename() const;
 };
 
 #endif // CONSTANTS_H

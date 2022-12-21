@@ -15,7 +15,7 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
       helper(helper),
       network(network),
       customServerNetwork(customServerNetwork),
-      profilesModel(engine, "ProfilesModel", "profile", TemplatedDataModel<ProfileObject>::forward)
+      searchProfilesModel(engine, "SearchProfilesModel", "profile", TemplatedDataModel<ProfileObject>::forward)
 {
     qDebug() << __FILE__ << ": " << __LINE__ << constants.getStateFilename();
     QFile jsonFile(constants.getStateFilename());
@@ -458,7 +458,7 @@ void YACAPP::appUserSearchProfiles(const QString &needle,
 {
     if (needle.size() == 0)
     {
-        profilesModel.clear();
+        searchProfilesModel.clear();
         return;
     }
     if (!appUserConfig()->loginToken().size())
@@ -476,14 +476,14 @@ void YACAPP::appUserSearchProfiles(const QString &needle,
     {
         QJsonObject object(jsonDoc.object());
         QString message(object["message"].toString());
-        profilesModel.clear();
+        searchProfilesModel.clear();
         QJsonArray profiles(object["profiles"].toArray());
         for (int i(0); i < profiles.size(); ++i)
         {
             ProfileObject *po(new ProfileObject);
             QJsonObject profile(profiles[i].toObject());
             po->setVisibleName(profile["visible_name"].toString());
-            profilesModel.append(po);
+            searchProfilesModel.append(po);
         }
         successCallback.call(QJSValueList() << message);
     },
