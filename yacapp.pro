@@ -27,6 +27,7 @@ SOURCES += \
         constants.cpp \
         datamodels/messagesmodel.cpp \
         datamodels/objectdatamodel.cpp \
+        datamodels/profilesmodel.cpp \
         dataobjects/dataobjectinterface.cpp \
         dataobjects/groupobject.cpp \
         dataobjects/messageobject.cpp \
@@ -81,6 +82,7 @@ HEADERS += \
   datamodels/exttemplateddatamodel.h \
   datamodels/messagesmodel.h \
   datamodels/objectdatamodel.h \
+  datamodels/profilesmodel.h \
   datamodels/templateddatamodel.h \
   dataobjects/dataobjectinterface.h \
   dataobjects/groupobject.h \

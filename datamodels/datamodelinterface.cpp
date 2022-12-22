@@ -92,8 +92,13 @@ QHash<int, QByteArray> DataModelInterface<T>::roleNames() const
 }
 
 template <class T>
-void DataModelInterface<T>::append(T *object)
+bool DataModelInterface<T>::append(T *object)
 {
+    if (!canAppend(object))
+    {
+        delete object;
+        return false;
+    }
     if (direction == reverse)
     {
         beginInsertRows(QModelIndex(), 0, 0);
@@ -104,6 +109,7 @@ void DataModelInterface<T>::append(T *object)
     }
     internalAppend(object);
     endInsertRows();
+    return true;
 }
 
 template<class T>

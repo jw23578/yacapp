@@ -45,6 +45,11 @@ Rectangle
                 anchors.centerIn: parent
                 text: profile.visibleName
             }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: yacApp.addProfileToKnownProfiles(profile.id)
+            }
         }
 
     }

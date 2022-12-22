@@ -13,6 +13,12 @@ T *TemplatedDataModel<T>::getObject(size_t index) const
 }
 
 template<class T>
+bool TemplatedDataModel<T>::canAppend(T *object) const
+{
+    return true;
+}
+
+template<class T>
 void TemplatedDataModel<T>::internalAppend(T *object)
 {
     objects.push_back(object);

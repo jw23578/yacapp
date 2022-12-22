@@ -12,6 +12,8 @@
 #include <QJSValue>
 #include "datamodels/templateddatamodel.h"
 #include "dataobjects/profileobject.h"
+#include "datamodels/profilesmodel.h"
+#include "localstorage/localstorage.h"
 
 class Configurator;
 
@@ -21,6 +23,7 @@ class YACAPP : public QObject
     Q_OBJECT
     const Constants &constants;
     const Helper &helper;
+    LocalStorage &localStorage;
     YACAPPPROPERTY(QString, appFolder, AppFolder, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
     YACAPPPROPERTY(AppUserConfig*, appUserConfig, AppUserConfig, new AppUserConfig(0));
@@ -40,7 +43,8 @@ class YACAPP : public QObject
     YACServerNetwork &network;
     CustomServerNetwork &customServerNetwork;
 
-    TemplatedDataModel<ProfileObject> searchProfilesModel;
+    ProfilesModel searchProfilesModel;
+    ProfilesModel knownProfilesModel;
 
 
     void cleanUpKnownFile();
@@ -49,6 +53,7 @@ public:
     explicit YACAPP(QQmlApplicationEngine &engine
                     , const Constants &constants
                     , const Helper &helper
+                    , LocalStorage &localStorage
                     , YACServerNetwork &network
                     , CustomServerNetwork &customServerNetwork
                     , QObject *parent = nullptr);
@@ -112,6 +117,8 @@ public:
                                            const int offset,
                                            QJSValue successCallback,
                                            QJSValue errorCallback);
+
+    Q_INVOKABLE void addProfileToKnownProfiles(const QString &id);
 signals:
 
     void badMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);

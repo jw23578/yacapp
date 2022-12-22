@@ -30,6 +30,7 @@ protected:
     virtual size_t size() const = 0;
     virtual T *getObject(size_t index) const = 0;
     virtual void internalAppend(T *object) = 0;
+    virtual bool canAppend(T *object) const = 0;
     virtual T *previousObject(int index) const = 0;
     virtual void internalClear() = 0;
 public:
@@ -45,7 +46,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    void append(T *object);
+    bool append(T *object);
     void clear();
 };
 

@@ -5,7 +5,7 @@
 #include "constants.h"
 #include "tablenames.h"
 #include "dataobjects/dataobjectinterface.h"
-#include "datamodels/datamodelinterface.h"
+#include "dataobjects/profileobject.h"
 
 
 class LocalStorage
@@ -19,7 +19,9 @@ class LocalStorage
 public:
     LocalStorage(Constants &constants);
 
-    int loadKnownContacts(DataModelInterface)
+    typedef std::function<void(DataObjectInterface *)> AppendFunction;
+    int loadKnownContacts(AppendFunction appendFunction);
+    void upsertKnownContact(ProfileObject *po);
 };
 
 #endif // LOCALSTORAGE_H

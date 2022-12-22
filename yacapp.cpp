@@ -7,15 +7,18 @@
 YACAPP::YACAPP(QQmlApplicationEngine &engine
                , const Constants &constants
                , const Helper &helper
+               , LocalStorage &localStorage
                , YACServerNetwork &network
                , CustomServerNetwork &customServerNetwork
                , QObject *parent)
     : QObject{parent},
       constants(constants),
       helper(helper),
+      localStorage(localStorage),
       network(network),
       customServerNetwork(customServerNetwork),
-      searchProfilesModel(engine, "SearchProfilesModel", "profile", TemplatedDataModel<ProfileObject>::forward)
+      searchProfilesModel(engine, "SearchProfilesModel"),
+      knownProfilesModel(engine, "KnownProfilesModel")
 {
     qDebug() << __FILE__ << ": " << __LINE__ << constants.getStateFilename();
     QFile jsonFile(constants.getStateFilename());
@@ -25,6 +28,9 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
     stringFromJSON(globalProjectConfigFilename, GlobalProjectConfigFilename);
     stringFromJSON(loginToken, LoginToken);
     appUserConfig()->setConfig(config["appUserConfig"]);
+
+    localStorage.loadKnownContacts([this](DataObjectInterface *o){knownProfilesModel.append(dynamic_cast<ProfileObject*>(o));});
+
 }
 
 void YACAPP::init(QString projectFilename)
@@ -482,6 +488,7 @@ void YACAPP::appUserSearchProfiles(const QString &needle,
         {
             ProfileObject *po(new ProfileObject);
             QJsonObject profile(profiles[i].toObject());
+            po->setId(profile["id"].toString());
             po->setVisibleName(profile["visible_name"].toString());
             searchProfilesModel.append(po);
         }
@@ -493,4 +500,13 @@ void YACAPP::appUserSearchProfiles(const QString &needle,
     }
     );
 
+}
+
+void YACAPP::addProfileToKnownProfiles(const QString &id)
+{
+    ProfileObject *po(searchProfilesModel.getCopyById(id));
+    if (knownProfilesModel.append(po))
+    {
+        localStorage.upsertKnownContact(po);
+    }
 }

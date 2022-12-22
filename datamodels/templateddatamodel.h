@@ -10,9 +10,10 @@ class TemplatedDataModel : public DataModelInterface<T>
 protected:
     size_t size() const override;
     T *getObject(size_t index) const override;
+    bool canAppend(T *object) const override;
     void internalAppend(T *object)  override;
     T *previousObject(int index) const override;
-    void internalClear();
+    void internalClear() override;
 
 public:
     TemplatedDataModel(QQmlApplicationEngine &engine,
