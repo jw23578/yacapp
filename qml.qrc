@@ -51,5 +51,7 @@
         <file>qml/apppages/YACUserMessages.qml</file>
         <file>qml/apppages/YACUserWorktimeState.qml</file>
         <file>qml/apppages/YACUserSearchProfiles.qml</file>
+        <file>qml/apppages/YACUserKnownProfiles.qml</file>
+        <file>qml/items/YACTextEdit.qml</file>
     </qresource>
 </RCC>

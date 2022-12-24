@@ -18,7 +18,8 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
       network(network),
       customServerNetwork(customServerNetwork),
       searchProfilesModel(engine, "SearchProfilesModel"),
-      knownProfilesModel(engine, "KnownProfilesModel")
+      knownProfilesModel(engine, "KnownProfilesModel"),
+      messagesModel(engine)
 {
     qDebug() << __FILE__ << ": " << __LINE__ << constants.getStateFilename();
     QFile jsonFile(constants.getStateFilename());
@@ -31,6 +32,29 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
 
     localStorage.loadKnownContacts([this](DataObjectInterface *o){knownProfilesModel.append(dynamic_cast<ProfileObject*>(o));});
 
+//    for (size_t i(0); i < 3; ++i)
+//    {
+//        const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+//        const int randomStringLength = 12;
+
+//        QString randomString(QString::number(i) + "  ");
+//        for(int i=0; i<randomStringLength; ++i)
+//        {
+//            int index = rand() % possibleCharacters.length();
+//            QChar nextChar = possibleCharacters.at(index);
+//            randomString.append(nextChar);
+//        }
+//        QString senderId(knownProfilesModel.get(0).id());
+//        MessageObject *mo(new MessageObject(randomString,
+//                                            senderId,
+//                                            "",
+//                                            QDateTime::currentDateTime().addDays(i / 2),
+//                                            QDateTime::currentDateTime().addDays(i / 2),
+//                                            randomString,
+//                                            false));
+//        localStorage.insertMessage(*mo);
+
+//    }
 }
 
 void YACAPP::init(QString projectFilename)
@@ -502,11 +526,30 @@ void YACAPP::appUserSearchProfiles(const QString &needle,
 
 }
 
+void YACAPP::loadMessages(const QString &contactId)
+{
+    messagesModel.clear();
+    localStorage.loadMessages(contactId, [this](DataObjectInterface *o){messagesModel.append(dynamic_cast<MessageObject*>(o));});
+}
+
+void YACAPP::sendMessage(const QString &profileId, const QString &content)
+{
+    MessageObject *mo(new MessageObject(QUuid::createUuid().toString(),
+                                        "",
+                                        profileId,
+                                        QDateTime::currentDateTime(),
+                                        QDateTime::currentDateTime(),
+                                        content,
+                                        false));
+    messagesModel.append(mo);
+    localStorage.insertMessage(*mo);
+}
+
 void YACAPP::addProfileToKnownProfiles(const QString &id)
 {
     ProfileObject *po(searchProfilesModel.getCopyById(id));
     if (knownProfilesModel.append(po))
     {
-        localStorage.upsertKnownContact(po);
+        localStorage.upsertKnownContact(*po);
     }
 }

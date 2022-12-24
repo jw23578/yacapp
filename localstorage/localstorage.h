@@ -6,6 +6,7 @@
 #include "tablenames.h"
 #include "dataobjects/dataobjectinterface.h"
 #include "dataobjects/profileobject.h"
+#include "dataobjects/messageobject.h"
 
 
 class LocalStorage
@@ -16,12 +17,18 @@ class LocalStorage
                         const QString &columnName);
     bool tableExists(const QString &tableName);
     void createTables();
+
+    const QString insertMessageString;
 public:
     LocalStorage(Constants &constants);
 
+    void exec(const QString &sql);
     typedef std::function<void(DataObjectInterface *)> AppendFunction;
     int loadKnownContacts(AppendFunction appendFunction);
-    void upsertKnownContact(ProfileObject *po);
+    void upsertKnownContact(const ProfileObject &po);
+
+    int loadMessages(const QString &contactId, AppendFunction appendFunction);
+    void insertMessage(const MessageObject &mo);
 };
 
 #endif // LOCALSTORAGE_H

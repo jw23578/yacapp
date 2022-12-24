@@ -48,6 +48,7 @@ public:
 
     bool append(T *object);
     void clear();
+    const T& get(size_t index) const;
 };
 
 #include "datamodelinterface.cpp"

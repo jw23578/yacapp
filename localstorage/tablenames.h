@@ -9,6 +9,7 @@ public:
     TableNames();
 
     const QString knowncontacts = "knowncontacts";
+    const QString messages = "messages";
 };
 
 #endif // TABLENAMES_H

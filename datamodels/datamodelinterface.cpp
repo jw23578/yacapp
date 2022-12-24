@@ -119,3 +119,9 @@ void DataModelInterface<T>::clear()
     internalClear();
     endRemoveRows();
 }
+
+template<class T>
+const T &DataModelInterface<T>::get(size_t index) const
+{
+    return *getObject(index);
+}

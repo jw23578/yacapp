@@ -91,25 +91,6 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("Helper", &helper);
     engine.rootContext()->setContextProperty("Constants", &constants);
 
-    MessagesModel messagesModel(engine);
-
-    for (size_t i(0); i < 3; ++i)
-    {
-        const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
-        const int randomStringLength = 12;
-
-        QString randomString(QString::number(i) + "  ");
-        for(int i=0; i<randomStringLength; ++i)
-        {
-            int index = rand() % possibleCharacters.length();
-            QChar nextChar = possibleCharacters.at(index);
-            randomString.append(nextChar);
-        }
-        messagesModel.append(new MessageObject(randomString, randomString,
-                                               QDateTime::currentDateTime().addDays(i / 2),
-                                               randomString));
-    }
-
     if (app.arguments().contains("Configurator"))
     {
         constants.setIsConfigurator(true);

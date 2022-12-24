@@ -4,6 +4,7 @@ import "../items"
 Rectangle
 {
     anchors.fill: parent
+    signal profileSelected(string id)
     YACLineEditWithHeader
     {
         id: needleText
@@ -31,6 +32,7 @@ Rectangle
     ListView
     {
         id: listView
+        clip: true
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: needleText.bottom
@@ -48,7 +50,11 @@ Rectangle
             MouseArea
             {
                 anchors.fill: parent
-                onClicked: yacApp.addProfileToKnownProfiles(profile.id)
+                onClicked:
+                {
+                    yacApp.addProfileToKnownProfiles(profile.id)
+                    profileSelected(profile.id)
+                }
             }
         }
 

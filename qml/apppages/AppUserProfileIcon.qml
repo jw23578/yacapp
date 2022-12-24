@@ -43,7 +43,7 @@ Item
             MouseArea
             {
                 anchors.fill: parent
-                onClicked: profileLoader.sourceComponent = messagesComponent
+                onClicked: profileLoader.sourceComponent = knownProfilesComponent
             }
         }
         Rectangle
@@ -72,8 +72,8 @@ Item
     }
     Component
     {
-        id: messagesComponent
-        YACUserMessages
+        id: knownProfilesComponent
+        YACUserKnownProfiles
         {
 
         }

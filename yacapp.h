@@ -14,6 +14,7 @@
 #include "dataobjects/profileobject.h"
 #include "datamodels/profilesmodel.h"
 #include "localstorage/localstorage.h"
+#include "datamodels/messagesmodel.h"
 
 class Configurator;
 
@@ -45,6 +46,8 @@ class YACAPP : public QObject
 
     ProfilesModel searchProfilesModel;
     ProfilesModel knownProfilesModel;
+
+    MessagesModel messagesModel;
 
 
     void cleanUpKnownFile();
@@ -118,6 +121,8 @@ public:
                                            QJSValue successCallback,
                                            QJSValue errorCallback);
 
+    Q_INVOKABLE void loadMessages(const QString &contactId);
+    Q_INVOKABLE void sendMessage(const QString &profileId, const QString &content);
     Q_INVOKABLE void addProfileToKnownProfiles(const QString &id);
 signals:
 
