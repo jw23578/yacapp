@@ -29,6 +29,7 @@ protected:
         SRunningRequest():handlerFunction(0), successCallback(0), jsonSuccessCallback(0), errorCallback(0) {}
     };
     friend void defaultJSONReplyHandler(QNetworkReply *finishedReply, SRunningRequest &rr);
+    friend void defaultReplyHandler(QNetworkReply *finishedReply, NetworkInterface::SRunningRequest &rr);
 
     QMap<QNetworkReply*, SRunningRequest> runningRequests;
 
@@ -41,6 +42,7 @@ public slots:
     void replyFinished(QNetworkReply *reply);
 };
 
+extern void defaultReplyHandler(QNetworkReply *finishedReply, NetworkInterface::SRunningRequest &rr);
 extern void defaultJSONReplyHandler(QNetworkReply *finishedReply, NetworkInterface::SRunningRequest &rr);
 
 

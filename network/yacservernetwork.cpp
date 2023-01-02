@@ -231,22 +231,6 @@ void YACServerNetwork::appUserUpdatePassword(const QString &loginEMail,
                                              CallbackFunction successCallback,
                                              CallbackFunction errorCallback)
 {
-    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
-    {
-        QByteArray all(finishedReply->readAll());
-        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
-        QJsonObject object(replyDoc.object());
-        QString message(object["message"].toString());
-        if (object["success"].toBool())
-        {
-            rr.successCallback(message);
-        }
-        else
-        {
-            rr.errorCallback(message);
-        }
-    });
-
     QJsonObject obj;
     obj["loginEMail"] = loginEMail;
     obj["password"] = password;
@@ -254,7 +238,7 @@ void YACServerNetwork::appUserUpdatePassword(const QString &loginEMail,
     obj["appId"] = appId;
     yacappServerPost("/updatePasswordAppUser",
                      obj,
-                     replyHandler,
+                     defaultReplyHandler,
                      successCallback,
                      errorCallback);
 
@@ -266,21 +250,6 @@ void YACServerNetwork::appUserGetWorktimeState(const QString &appId,
                                                JSONCallbackFunction jsonSuccessCallback,
                                                CallbackFunction errorCallback)
 {
-    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
-    {
-        QByteArray all(finishedReply->readAll());
-        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
-        QJsonObject object(replyDoc.object());
-        QString message(object["message"].toString());
-        if (object["success"].toBool())
-        {
-            rr.jsonSuccessCallback(replyDoc);
-        }
-        else
-        {
-            rr.errorCallback(message);
-        }
-    });
     const QUrlQuery query;
     QMap<QByteArray, QByteArray> rawHeader;
     rawHeader["YACAPP-AppId"] = appId.toLatin1();
@@ -288,7 +257,7 @@ void YACServerNetwork::appUserGetWorktimeState(const QString &appId,
     rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
     yacappServerGet("/getWorktimeState",
                     query,
-                    replyHandler,
+                    defaultJSONReplyHandler,
                     rawHeader,
                     0,
                     jsonSuccessCallback,
@@ -304,21 +273,6 @@ void YACServerNetwork::appUserInsertWorktime(const QString &appId,
                                              JSONCallbackFunction jsonSuccessCallback,
                                              CallbackFunction errorCallback)
 {
-    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
-    {
-        QByteArray all(finishedReply->readAll());
-        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
-        QJsonObject object(replyDoc.object());
-        QString message(object["message"].toString());
-        if (object["success"].toBool())
-        {
-            rr.jsonSuccessCallback(replyDoc);
-        }
-        else
-        {
-            rr.errorCallback(message);
-        }
-    });
     QMap<QByteArray, QByteArray> rawHeader;
     rawHeader["YACAPP-AppId"] = appId.toLatin1();
     rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
@@ -330,7 +284,7 @@ void YACServerNetwork::appUserInsertWorktime(const QString &appId,
 
     yacappServerPost("/insertWorktime",
                      obj,
-                     replyHandler,
+                     defaultJSONReplyHandler,
                      rawHeader,
                      0,
                      jsonSuccessCallback,
@@ -363,4 +317,32 @@ void YACServerNetwork::appUserSearchProfiles(const QString &appId,
                     0,
                     jsonSuccessCallback,
                     errorCallback);
+}
+
+void YACServerNetwork::appUserStoreMessage(const QString &appId,
+                                           const QString &loginEMail,
+                                           const QString &loginToken,
+                                           const QString &id,
+                                           const QString &to_id,
+                                           const QString &content_base64,
+                                           CallbackFunction successCallback,
+                                           CallbackFunction errorCallback)
+{
+    QMap<QByteArray, QByteArray> rawHeader;
+    rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
+    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+
+    QJsonObject obj;
+    obj["id"] = id;
+    obj["to_id"] = to_id;
+    obj["content_base64"] = content_base64;
+
+    yacappServerPost("/storeMessage",
+                     obj,
+                     defaultReplyHandler,
+                     rawHeader,
+                     successCallback,
+                     0,
+                     errorCallback);
 }

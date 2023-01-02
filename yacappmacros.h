@@ -92,6 +92,17 @@
     void name##Changed(); \
     private:
 
+#define YACAPPPROPERTYCUSTOMSET(type, name, uppercasename, defaultvalue, setFunction) \
+    private: \
+    type m_##name = {defaultvalue}; \
+    public: \
+    Q_PROPERTY(type name READ name WRITE set##uppercasename NOTIFY name##Changed) \
+    type name() const {return m_##name;} \
+    setFunction \
+    Q_SIGNAL \
+    void name##Changed(); \
+    private:
+
 #define YACAPPPROPERTYWITHOPTIONS(type, name, uppercasename, defaultvalue, ...) \
     private: \
     type m_##name = {defaultvalue}; \

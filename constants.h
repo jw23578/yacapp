@@ -24,7 +24,8 @@ class Constants : public QObject
     YACAPPPROPERTY(QColor, goodColor, GoodColor, "#A9CEA5");
     YACAPPPROPERTY(QColor, badColor, BadColor, "#F09494");
 public:
-    Constants();
+    Constants() {}
+    Constants(const QString &customWriteablePath);
 
     const QString &getWriteablePath() const;
     const QString getYacAppConfigPath() const;

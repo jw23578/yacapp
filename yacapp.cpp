@@ -32,29 +32,29 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
 
     localStorage.loadKnownContacts([this](DataObjectInterface *o){knownProfilesModel.append(dynamic_cast<ProfileObject*>(o));});
 
-//    for (size_t i(0); i < 3; ++i)
-//    {
-//        const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
-//        const int randomStringLength = 12;
+    //    for (size_t i(0); i < 3; ++i)
+    //    {
+    //        const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+    //        const int randomStringLength = 12;
 
-//        QString randomString(QString::number(i) + "  ");
-//        for(int i=0; i<randomStringLength; ++i)
-//        {
-//            int index = rand() % possibleCharacters.length();
-//            QChar nextChar = possibleCharacters.at(index);
-//            randomString.append(nextChar);
-//        }
-//        QString senderId(knownProfilesModel.get(0).id());
-//        MessageObject *mo(new MessageObject(randomString,
-//                                            senderId,
-//                                            "",
-//                                            QDateTime::currentDateTime().addDays(i / 2),
-//                                            QDateTime::currentDateTime().addDays(i / 2),
-//                                            randomString,
-//                                            false));
-//        localStorage.insertMessage(*mo);
+    //        QString randomString(QString::number(i) + "  ");
+    //        for(int i=0; i<randomStringLength; ++i)
+    //        {
+    //            int index = rand() % possibleCharacters.length();
+    //            QChar nextChar = possibleCharacters.at(index);
+    //            randomString.append(nextChar);
+    //        }
+    //        QString senderId(knownProfilesModel.get(0).id());
+    //        MessageObject *mo(new MessageObject(randomString,
+    //                                            senderId,
+    //                                            "",
+    //                                            QDateTime::currentDateTime().addDays(i / 2),
+    //                                            QDateTime::currentDateTime().addDays(i / 2),
+    //                                            randomString,
+    //                                            false));
+    //        localStorage.insertMessage(*mo);
 
-//    }
+    //    }
 }
 
 void YACAPP::init(QString projectFilename)
@@ -534,7 +534,7 @@ void YACAPP::loadMessages(const QString &contactId)
 
 void YACAPP::sendMessage(const QString &profileId, const QString &content)
 {
-    MessageObject *mo(new MessageObject(QUuid::createUuid().toString(),
+    MessageObject *mo(new MessageObject(QUuid::createUuid().toString(QUuid::WithoutBraces),
                                         "",
                                         profileId,
                                         QDateTime::currentDateTime(),
@@ -543,6 +543,15 @@ void YACAPP::sendMessage(const QString &profileId, const QString &content)
                                         false));
     messagesModel.append(mo);
     localStorage.insertMessage(*mo);
+
+    network.appUserStoreMessage(globalConfig()->projectID(),
+                                appUserConfig()->loginEMail(),
+                                appUserConfig()->loginToken(),
+                                mo->id(),
+                                mo->receiverId(),
+                                mo->base64(),
+                                [](const QString &message){},
+    [](const QString &message){});
 }
 
 void YACAPP::addProfileToKnownProfiles(const QString &id)

@@ -23,6 +23,8 @@ public:
                            const QString &content,
                            const bool read);
 
+    QString base64();
+
 signals:
 
 };

@@ -17,3 +17,8 @@ MessageObject::MessageObject(const QString &id,
     setContent(content);
     setRead(read);
 }
+
+QString MessageObject::base64()
+{
+    return QByteArray(content().toLatin1()).toBase64();
+}

@@ -20,6 +20,21 @@
 #include "datamodels/templateddatamodel.h"
 #include "dataobjects/profileobject.h"
 
+QString getAppParam(const QGuiApplication &app, const QString &param)
+{
+    QStringList args(app.arguments());
+    for (int i(0); i < args.size(); ++i)
+    {
+        if (args[i].startsWith(param))
+        {
+            QString paramValue(args[i]);
+            paramValue = paramValue.remove(0, param.size());
+            return paramValue;
+        }
+    }
+    return "";
+}
+
 int main(int argc, char *argv[])
 {
     std::srand(std::time(nullptr));
@@ -70,7 +85,7 @@ int main(int argc, char *argv[])
         }
     }
     Helper helper;
-    Constants constants;
+    Constants constants(getAppParam(app, "customWriteablePath="));
     QNetworkAccessManager manager;
     YACExtServerNetwork network(manager
                                 , constants);
@@ -101,20 +116,10 @@ int main(int argc, char *argv[])
     }
     else
     {
-        QString appFilesArgument("AppFiles=");
-        if (app.arguments().contains(appFilesArgument))
+        QString appFiles(getAppParam(app, "AppFiles="));
+        if (appFiles.size())
         {
-            // for development configure the app through local files
-            QStringList args(app.arguments());
-            for (int i(0); i < args.size(); ++i)
-            {
-                if (args[i].startsWith(appFilesArgument))
-                {
-                    QString appFiles(args[i]);
-                    appFiles.remove(appFilesArgument.size());
-                    yacApp.loadNewProject(appFiles);
-                }
-            }
+            yacApp.loadNewProject(appFiles);
         }
         else
         {

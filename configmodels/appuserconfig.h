@@ -8,8 +8,10 @@
 class AppUserConfig: public ConfigInterface
 {
     Q_OBJECT
+
     YACAPPPROPERTY(QString, loginEMail, LoginEMail, "");
-    YACAPPPROPERTY(QString, loginToken, LoginToken, "");
+    YACAPPPROPERTYCUSTOMSET(QString, loginToken, LoginToken, "", void setLoginToken(QString n){if (m_loginToken == n) return; m_loginToken = n; setLoggedIn(loginToken().size() > 0); emit loginEMailChanged();});
+    YACAPPPROPERTY(bool, loggedIn, LoggedIn, false);
     YACAPPPROPERTY(QDateTime, workStart, WorkStart, QDateTime());
     YACAPPPROPERTY(QDateTime, pauseStart, PauseStart, QDateTime());
     YACAPPPROPERTY(QDateTime, offSiteWorkStart, OffSiteWorkStart, QDateTime());

@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import "items"
 
-YACRectangle
+Rectangle
 {
     color: "orange"
     anchors.fill: parent

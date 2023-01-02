@@ -46,7 +46,7 @@ public:
                                const QString &updatePasswordToken,
                                const QString &appId,
                                CallbackFunction successCallback,
-                               CallbackFunction  errorCallback);
+                               CallbackFunction errorCallback);
 
     void appUserGetWorktimeState(const QString &appId,
                                  const QString &loginEMail,
@@ -69,6 +69,15 @@ public:
                                const int offset,
                                JSONCallbackFunction jsonSuccessCallback,
                                CallbackFunction  errorCallback);
+
+    void appUserStoreMessage(const QString &appId,
+                             const QString &loginEMail,
+                             const QString &loginToken,
+                             const QString &id,
+                             const QString &to_id,
+                             const QString &content_base64,
+                             CallbackFunction successCallback,
+                             CallbackFunction errorCallback);
 
 };
 
