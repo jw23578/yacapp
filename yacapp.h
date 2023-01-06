@@ -27,6 +27,7 @@ class YACAPP : public QObject
     LocalStorage &localStorage;
     YACAPPPROPERTY(QString, appFolder, AppFolder, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
+    YACAPPPROPERTY(QDateTime, serverNow, ServerNow, QDateTime());
     YACAPPPROPERTY(AppUserConfig*, appUserConfig, AppUserConfig, new AppUserConfig(0));
     YACAPPPROPERTY(ParsedConfig*, mainConfig, MainConfig, 0);
     YACAPPPROPERTY(QString, globalProjectConfigFilename, GlobalProjectConfigFilename, "");
@@ -100,6 +101,8 @@ public:
                                   QJSValue successCallback,
                                   QJSValue errorCallback);
 
+    Q_INVOKABLE void appUserLogout();
+
 
     Q_INVOKABLE void appUserRequestPasswordUpdate(const QString &loginEMail,
                                                   QJSValue successCallback,
@@ -120,6 +123,8 @@ public:
                                            const int offset,
                                            QJSValue successCallback,
                                            QJSValue errorCallback);
+
+    Q_INVOKABLE void fetchMessageUpdates();
 
     Q_INVOKABLE void loadMessages(const QString &contactId);
     Q_INVOKABLE void sendMessage(const QString &profileId, const QString &content);

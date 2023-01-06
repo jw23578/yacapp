@@ -37,3 +37,14 @@ ProfileObject *ProfilesModel::getCopyById(const QString &id) const
     }
     return new ProfileObject(*it->second);
 }
+
+bool ProfilesModel::incUnreadMessages(const QString &id)
+{
+    auto it(id2object.find(id));
+    if (it == id2object.end())
+    {
+        return false;
+    }
+    it->second->setUnreadMessages(it->second->unreadMessages() + 1);
+    return false;
+}

@@ -33,7 +33,7 @@ public:
     void yacappServerAppUserLogin(const QString &loginEMail,
                                   const QString &password,
                                   const QString &appId,
-                                  CallbackFunction successCallback,
+                                  JSONCallbackFunction successCallback,
                                   CallbackFunction  errorCallback);
 
     void appUserRequestPasswordUpdate(const QString &loginEMail,
@@ -78,6 +78,13 @@ public:
                              const QString &content_base64,
                              CallbackFunction successCallback,
                              CallbackFunction errorCallback);
+
+    void appUserFetchMessageUpdates(const QString &appId,
+                                    const QString &loginEMail,
+                                    const QString &loginToken,
+                                    const QDateTime &updatesSince,
+                                    JSONCallbackFunction jsonSuccessCallback,
+                                    CallbackFunction  errorCallback);
 
 };
 

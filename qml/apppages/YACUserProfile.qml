@@ -15,10 +15,17 @@ FocusScope
             YACLineEditWithHeader
             {
                 headerText: qsTr("Name")
+                text: yacApp.appUserConfig.fstname
             }
             YACLineEditWithHeader
             {
                 headerText: qsTr("Surname")
+                text: yacApp.appUserConfig.surname
+            }
+            YACLineEditWithHeader
+            {
+                headerText: qsTr("Visiblename")
+                text: yacApp.appUserConfig.visibleName
             }
             YACButton
             {
@@ -29,6 +36,16 @@ FocusScope
             {
                 text: qsTr("Close")
                 onClicked: closeClicked()
+                width: parent.width
+            }
+            YACButton
+            {
+                text: qsTr("Logout")
+                onClicked:
+                {
+                    yacApp.appUserLogout()
+                    closeClicked()
+                }
                 width: parent.width
             }
         }

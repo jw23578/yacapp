@@ -162,7 +162,7 @@ void YACServerNetwork::yacappServerAppUserVerify(const QString &loginEMail,
 void YACServerNetwork::yacappServerAppUserLogin(const QString &loginEMail,
                                                 const QString &password,
                                                 const QString &appId,
-                                                CallbackFunction successCallback,
+                                                JSONCallbackFunction jsonSuccessCallback,
                                                 CallbackFunction errorCallback)
 {
     auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
@@ -186,10 +186,13 @@ void YACServerNetwork::yacappServerAppUserLogin(const QString &loginEMail,
     obj["loginEMail"] = loginEMail;
     obj["password"] = password;
     obj["appId"] = appId;
+    QMap<QByteArray, QByteArray> rawHeader;
     yacappServerPost("/loginAppUser",
                      obj,
-                     replyHandler,
-                     successCallback,
+                     defaultJSONReplyHandler,
+                     rawHeader,
+                     0,
+                     jsonSuccessCallback,
                      errorCallback);
 }
 
@@ -344,5 +347,30 @@ void YACServerNetwork::appUserStoreMessage(const QString &appId,
                      rawHeader,
                      successCallback,
                      0,
+                     errorCallback);
+}
+
+void YACServerNetwork::appUserFetchMessageUpdates(const QString &appId,
+                                                  const QString &loginEMail,
+                                                  const QString &loginToken,
+                                                  const QDateTime &updatesSince,
+                                                  JSONCallbackFunction jsonSuccessCallback,
+                                                  CallbackFunction errorCallback)
+{
+    QMap<QByteArray, QByteArray> rawHeader;
+    rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
+    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+
+    QUrlQuery query;
+    QString help(updatesSince.toString(Qt::ISODate));
+    query.addQueryItem("updatesSinceISO", updatesSince.toString(Qt::ISODate));
+
+    yacappServerGet("/fetchMessageUpdates",
+                     query,
+                     defaultJSONReplyHandler,
+                     rawHeader,
+                     0,
+                     jsonSuccessCallback,
                      errorCallback);
 }

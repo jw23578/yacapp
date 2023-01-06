@@ -16,6 +16,7 @@ public:
                   const QString &modelName);
 
     ProfileObject *getCopyById(const QString &id) const;
+    bool incUnreadMessages(const QString &id);
 };
 
 #endif // PROFILESMODEL_H

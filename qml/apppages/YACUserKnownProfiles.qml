@@ -5,6 +5,8 @@ Rectangle
 {
     anchors.fill: parent
 
+    signal closeClicked()
+
     property string currentProfileId: ""
 
     YACButton
@@ -23,7 +25,7 @@ Rectangle
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: addButton.bottom
-        anchors.bottom: parent.bottom
+        anchors.bottom: closeButton.top
         model: KnownProfilesModel
         delegate: Rectangle
         {
@@ -45,8 +47,24 @@ Rectangle
                 }
             }
         }
-
     }
+    YACButton
+    {
+        id: closeButton
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        text: qsTr("Close")
+        onClicked: closeClicked()
+    }
+    YACButton
+    {
+        id: fetchButton
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        text: qsTr("Fetch")
+        onClicked: yacApp.fetchMessageUpdates()
+    }
+
     Loader
     {
         id: theLoader

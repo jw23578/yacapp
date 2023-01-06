@@ -43,12 +43,20 @@ Item
             MouseArea
             {
                 anchors.fill: parent
-                onClicked: profileLoader.sourceComponent = knownProfilesComponent
+                onClicked:
+                {
+                    if (!yacApp.appUserConfig.loggedIn)
+                    {
+                        yacApp.badMessage(qsTr("Please login first."), null, null);
+                        return
+                    }
+                    profileLoader.sourceComponent = knownProfilesComponent
+                }
             }
         }
         Rectangle
         {
-            visible: true // yacApp.globalConfig.appUserMessagesEnabled
+            visible: true
             radius: Constants.radius
             width: parent.width
             height: width
@@ -56,9 +64,18 @@ Item
             MouseArea
             {
                 anchors.fill: parent
-                onClicked: profileLoader.sourceComponent = worktimeComponent
+                onClicked:
+                {
+                    if (!yacApp.appUserConfig.loggedIn)
+                    {
+                        yacApp.badMessage(qsTr("Please login first."), null, null);
+                        return
+                    }
+                    profileLoader.sourceComponent = worktimeComponent
+                }
             }
-        }    }
+        }
+    }
     Connections
     {
         target: yacApp.appUserConfig
@@ -75,7 +92,7 @@ Item
         id: knownProfilesComponent
         YACUserKnownProfiles
         {
-
+            onCloseClicked: profileLoader.sourceComponent = null
         }
     }
     Component

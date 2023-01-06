@@ -58,7 +58,7 @@ void NetworkInterface::replyFinished(QNetworkReply *reply)
     runningRequests.erase(it);
     if (reply->error() != QNetworkReply::NoError)
     {
-        qDebug() << reply->errorString();
+        qDebug() << __FILE__ << " " << __LINE__ << ": " << reply->errorString();
         QByteArray all(reply->readAll());
         qDebug() << all;
         QJsonDocument replyDoc(QJsonDocument::fromJson(all));
