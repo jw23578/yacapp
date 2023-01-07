@@ -56,3 +56,25 @@ void TemplatedDataModel<T>::internalClear()
     }
     objects.clear();
 }
+
+template<class T>
+void TemplatedDataModel<T>::swap(size_t i1,
+                                 size_t i2,
+                                 bool update)
+{
+    if (i2 <= i1)
+    {
+        return;
+    }
+    if (update)
+    {
+        DataModelInterface<T>::beginMoveRows(QModelIndex(), i2, i2, QModelIndex(), i1);
+    }
+    T *a(objects[i1]);
+    objects[i1] = objects[i2];
+    objects[i2] = a;
+    if (update)
+    {
+        DataModelInterface<T>::endMoveRows();
+    }
+}

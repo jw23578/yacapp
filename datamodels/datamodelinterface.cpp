@@ -125,3 +125,46 @@ const T &DataModelInterface<T>::get(size_t index) const
 {
     return *getObject(index);
 }
+
+template<class T>
+size_t DataModelInterface<T>::oneBubbleSort(bool withSwapUpdates, compareFunction cf)
+{
+    size_t swapped(0);
+    for (size_t i(0); i < size() - 1; ++i)
+    {
+        T *a(getObject(i));
+        T *b(getObject(i + 1));
+        if (cf(a, b))
+        {
+            swap(i, i + 1, withSwapUpdates);
+            ++swapped;
+        }
+    }
+    return swapped;
+}
+
+template<class T>
+void DataModelInterface<T>::bubbleSort(bool withUpdatePerSort, bool withSwapUpdates, compareFunction cf)
+{
+    if (!withUpdatePerSort && !withSwapUpdates)
+    {
+        DataModelInterface<T>::beginResetModel();
+    }
+    bool done(false);
+    while (!done)
+    {
+        if (withUpdatePerSort)
+        {
+            DataModelInterface<T>::beginResetModel();
+        }
+        done = oneBubbleSort(withSwapUpdates, cf) == 0;
+        if (withUpdatePerSort)
+        {
+            DataModelInterface<T>::endResetModel();
+        }
+    }
+    if (!withUpdatePerSort && !withSwapUpdates)
+    {
+        DataModelInterface<T>::endResetModel();
+    }
+}

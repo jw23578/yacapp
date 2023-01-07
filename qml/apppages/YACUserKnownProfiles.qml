@@ -47,6 +47,12 @@ Rectangle
                 }
             }
         }
+        move: Transition {
+               NumberAnimation { properties: "x,y"; duration: 300 }
+        }
+        displaced: Transition {
+               NumberAnimation { properties: "x,y"; duration: 300 }
+        }
     }
     YACButton
     {

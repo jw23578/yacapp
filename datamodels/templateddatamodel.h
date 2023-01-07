@@ -14,6 +14,7 @@ protected:
     void internalAppend(T *object)  override;
     T *previousObject(int index) const override;
     void internalClear() override;
+    void swap(size_t i1, size_t i2, bool update) override;
 
 public:
     TemplatedDataModel(QQmlApplicationEngine &engine,

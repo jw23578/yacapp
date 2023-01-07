@@ -33,6 +33,7 @@ protected:
     virtual bool canAppend(T *object) const = 0;
     virtual T *previousObject(int index) const = 0;
     virtual void internalClear() = 0;
+    virtual void swap(size_t i1, size_t i2, bool update) = 0;
 public:
     explicit DataModelInterface(QQmlApplicationEngine &engine,
                                 const QString &modelName,
@@ -49,6 +50,10 @@ public:
     bool append(T *object);
     void clear();
     const T& get(size_t index) const;
+
+    typedef std::function<bool(T*, T*)> compareFunction;
+    size_t oneBubbleSort(bool withSwapUpdates, compareFunction cf);
+    void bubbleSort(bool withUpdatePerSort, bool withSwapUpdates, compareFunction cf);
 };
 
 #include "datamodelinterface.cpp"

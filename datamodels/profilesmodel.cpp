@@ -46,5 +46,8 @@ bool ProfilesModel::incUnreadMessages(const QString &id)
         return false;
     }
     it->second->setUnreadMessages(it->second->unreadMessages() + 1);
+    bubbleSort(false,
+               true,
+               [](ProfileObject *a, ProfileObject *b){return a->unreadMessages() < b->unreadMessages();});
     return false;
 }
