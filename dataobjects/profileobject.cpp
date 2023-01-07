@@ -12,3 +12,9 @@ ProfileObject::ProfileObject(const ProfileObject &other):DataObjectInterface(0)
     setVisibleName(other.visibleName());
     setUnreadMessages(other.unreadMessages());
 }
+
+void ProfileObject::incUnreadMessages()
+{
+    setUnreadMessages(unreadMessages() + 1);
+    setLastAddedMessage(QDateTime::currentDateTime());
+}

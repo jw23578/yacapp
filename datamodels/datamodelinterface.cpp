@@ -134,7 +134,7 @@ size_t DataModelInterface<T>::oneBubbleSort(bool withSwapUpdates, compareFunctio
     {
         T *a(getObject(i));
         T *b(getObject(i + 1));
-        if (cf(a, b))
+        if (cf(*a, *b))
         {
             swap(i, i + 1, withSwapUpdates);
             ++swapped;

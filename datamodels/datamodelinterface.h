@@ -51,7 +51,7 @@ public:
     void clear();
     const T& get(size_t index) const;
 
-    typedef std::function<bool(T*, T*)> compareFunction;
+    typedef std::function<bool(const T &,const T &)> compareFunction;
     size_t oneBubbleSort(bool withSwapUpdates, compareFunction cf);
     void bubbleSort(bool withUpdatePerSort, bool withSwapUpdates, compareFunction cf);
 };
