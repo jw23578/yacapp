@@ -558,36 +558,38 @@ void YACAPP::fetchMessageUpdates()
                                        appUserConfig()->loginToken(),
                                        serverNow(),
                                        [this](const QJsonDocument &jsonDoc) mutable
-         {
-             QJsonObject object(jsonDoc.object());
-             QString sni(jsonDoc["serverNowISO"].toString());
-             setServerNow(QDateTime::fromString(sni, "yyyy-MM-ddThh:mm:ssZ"));
-             saveState();
-             QJsonArray messages(object["messages"].toArray());
-             for (int i(0); i < messages.size(); ++i)
-             {
-                 const QJsonObject message(messages[i].toObject());
-                 QByteArray content_base64(message["content_base64"].toString().toLatin1());
-                 QString toId(message["to_id"].toString());
-                 QString senderId(message["sender_id"].toString());
-                 MessageObject *mo(new MessageObject(message["id"].toString(),
-                                                     senderId,
-                                                     toId,
-                                                     QDateTime::currentDateTime(),
-                                                     QDateTime::currentDateTime(),
-                                                     QByteArray::fromBase64(content_base64),
-                                                     false));
-                 localStorage.insertMessage(*mo);
-                 if (!knownProfilesModel.incUnreadMessages(senderId))
-                 {
+    {
+        QJsonObject object(jsonDoc.object());
+        QString sni(jsonDoc["serverNowISO"].toString());
+        setServerNow(QDateTime::fromString(sni, "yyyy-MM-ddThh:mm:ssZ"));
+        saveState();
+        QJsonArray messages(object["messages"].toArray());
+        for (int i(0); i < messages.size(); ++i)
+        {
+            const QJsonObject message(messages[i].toObject());
+            QByteArray content_base64(message["content_base64"].toString().toLatin1());
+            QString toId(message["to_id"].toString());
+            QString senderId(message["sender_id"].toString());
+            MessageObject *mo(new MessageObject(message["id"].toString(),
+                              senderId,
+                              toId,
+                              QDateTime::currentDateTime(),
+                              QDateTime::currentDateTime(),
+                              QByteArray::fromBase64(content_base64),
+                              false));
+            if (localStorage.insertMessage(*mo))
+            {
+                if (!knownProfilesModel.incUnreadMessages(senderId))
+                {
                     // fetch Profile and incUnreadMessage
-                 }
-             }
-         },
-         [](const QString &message) mutable
-         {
-         }
-         );
+                }
+            }
+        }
+    },
+    [](const QString &message) mutable
+    {
+    }
+    );
 }
 
 void YACAPP::loadMessages(const QString &contactId)

@@ -18,6 +18,7 @@ class LocalStorage
     bool tableExists(const QString &tableName);
     void createTables();
 
+    const QString selectOneMessageString;
     const QString insertMessageString;
 public:
     LocalStorage(Constants &constants);
@@ -27,8 +28,9 @@ public:
     int loadKnownContacts(AppendFunction appendFunction);
     void upsertKnownContact(const ProfileObject &po);
 
+    bool messageExists(const QString &id);
     int loadMessages(const QString &contactId, AppendFunction appendFunction);
-    void insertMessage(const MessageObject &mo);
+    bool insertMessage(const MessageObject &mo);
 };
 
 #endif // LOCALSTORAGE_H

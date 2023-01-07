@@ -6,6 +6,9 @@
 
 LocalStorage::LocalStorage(Constants &constants):
     db(QSqlDatabase::addDatabase("QSQLITE")),
+    selectOneMessageString("select * from messages "
+                           "where id = :id "
+                           "limit 1"),
     insertMessageString("insert into messages (id, sender_id, receiver_or_group_id, content, sent_msecs, received_msecs, read) "
                         " values "
                         "(:id, :sender_id, :receiver_or_group_id, :content, :sent_msecs, :received_msecs, :read)")
@@ -68,6 +71,15 @@ void LocalStorage::upsertKnownContact(const ProfileObject &po)
     q.exec();
 }
 
+bool LocalStorage::messageExists(const QString &id)
+{
+    QSqlQuery q;
+    q.prepare(selectOneMessageString);
+    q.bindValue(":id", id);
+    q.exec();
+    return q.first();
+}
+
 int LocalStorage::loadMessages(const QString &contactId,
                                AppendFunction appendFunction)
 {
@@ -102,8 +114,12 @@ int LocalStorage::loadMessages(const QString &contactId,
     }
 }
 
-void LocalStorage::insertMessage(const MessageObject &mo)
+bool LocalStorage::insertMessage(const MessageObject &mo)
 {
+    if (messageExists(mo.id()))
+    {
+        return false;
+    }
     QSqlQuery q;
     q.prepare(insertMessageString);
     q.bindValue(":id", mo.id());
@@ -114,6 +130,7 @@ void LocalStorage::insertMessage(const MessageObject &mo)
     q.bindValue(":received_msecs", mo.received().toMSecsSinceEpoch());
     q.bindValue(":read", mo.read());
     q.exec();
+    return true;
 }
 
 bool LocalStorage::tableHasColumn(const QString &tableName,
