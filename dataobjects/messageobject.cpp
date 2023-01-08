@@ -20,5 +20,5 @@ MessageObject::MessageObject(const QString &id,
 
 QString MessageObject::base64()
 {
-    return QByteArray(content().toLatin1()).toBase64();
+    return QByteArray(content().toUtf8()).toBase64();
 }

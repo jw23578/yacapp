@@ -567,7 +567,7 @@ void YACAPP::fetchMessageUpdates()
         for (int i(0); i < messages.size(); ++i)
         {
             const QJsonObject message(messages[i].toObject());
-            QByteArray content_base64(message["content_base64"].toString().toLatin1());
+            QByteArray content_base64(message["content_base64"].toString().toUtf8());
             QString toId(message["to_id"].toString());
             QString senderId(message["sender_id"].toString());
             MessageObject *mo(new MessageObject(message["id"].toString(),
@@ -583,6 +583,10 @@ void YACAPP::fetchMessageUpdates()
                 {
                     // fetch Profile and incUnreadMessage
                 }
+                if (messagesModel.profileId() == senderId)
+                {
+                    messagesModel.append(mo);
+                }
             }
         }
     },
@@ -596,6 +600,7 @@ void YACAPP::loadMessages(const QString &contactId)
 {
     messagesModel.clear();
     localStorage.loadMessages(contactId, [this](DataObjectInterface *o){messagesModel.append(dynamic_cast<MessageObject*>(o));});
+    messagesModel.setProfileID(contactId);
 }
 
 void YACAPP::sendMessage(const QString &profileId, const QString &content)

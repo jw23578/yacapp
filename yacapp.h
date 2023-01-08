@@ -27,7 +27,7 @@ class YACAPP : public QObject
     LocalStorage &localStorage;
     YACAPPPROPERTY(QString, appFolder, AppFolder, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
-    YACAPPPROPERTY(QDateTime, serverNow, ServerNow, QDateTime());
+    YACAPPPROPERTY(QDateTime, serverNow, ServerNow, QDateTime(QDate(1978, 1, 1), QTime(12, 0)));
     YACAPPPROPERTY(AppUserConfig*, appUserConfig, AppUserConfig, new AppUserConfig(0));
     YACAPPPROPERTY(ParsedConfig*, mainConfig, MainConfig, 0);
     YACAPPPROPERTY(QString, globalProjectConfigFilename, GlobalProjectConfigFilename, "");

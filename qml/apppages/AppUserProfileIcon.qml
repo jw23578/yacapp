@@ -5,6 +5,28 @@ import com.yacapp.appuserconfig 1.0
 Item
 {
     visible: !Constants.topLevelFormActive
+    function fetchMessages()
+    {
+        console.log("fetch messages")
+        yacApp.fetchMessageUpdates()
+    }
+
+    Component.onCompleted:
+    {
+        if (Constants.isDesktop)
+        {
+            fetchMessages()
+        }
+    }
+
+    Timer
+    {
+        running: Constants.isDesktop
+        interval: 10000
+        onTriggered: fetchMessages()
+        repeat: true
+    }
+
     Column
     {
         anchors.top: parent.top

@@ -53,5 +53,6 @@
         <file>qml/apppages/YACUserSearchProfiles.qml</file>
         <file>qml/apppages/YACUserKnownProfiles.qml</file>
         <file>qml/items/YACTextEdit.qml</file>
+        <file>qml/items/YACTextEditWithBackground.qml</file>
     </qresource>
 </RCC>

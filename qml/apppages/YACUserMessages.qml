@@ -72,7 +72,7 @@ Rectangle
         text: qsTr("Close")
         onClicked: closeClicked()
     }
-    YACTextEdit
+    YACTextEditWithBackground
     {
         id: theTextEdit
         anchors.left: parent.left
