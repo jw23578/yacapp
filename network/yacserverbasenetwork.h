@@ -43,6 +43,14 @@ protected:
                          CallbackFunction successCallback,
                          CallbackFunction errorCallback);
 
+
+    void yacappServerAppUserGetJSONReply(const QString &method,
+                                         const QUrlQuery &query,
+                                         const QString &appId,
+                                         const QString &loginEMail,
+                                         const QString &loginToken,
+                                         JSONCallbackFunction jsonSuccessCallback,
+                                         CallbackFunction errorCallback);
 public:
     explicit YACServerBaseNetwork(QNetworkAccessManager &manager
                                   , const Constants &constants);

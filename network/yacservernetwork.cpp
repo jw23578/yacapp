@@ -367,10 +367,29 @@ void YACServerNetwork::appUserFetchMessageUpdates(const QString &appId,
     query.addQueryItem("updatesSinceISO", updatesSince.toString(Qt::ISODate));
 
     yacappServerGet("/fetchMessageUpdates",
-                     query,
-                     defaultJSONReplyHandler,
-                     rawHeader,
-                     0,
-                     jsonSuccessCallback,
-                     errorCallback);
+                    query,
+                    defaultJSONReplyHandler,
+                    rawHeader,
+                    0,
+                    jsonSuccessCallback,
+                    errorCallback);
 }
+
+void YACServerNetwork::appUserFetchProfile(const QString &appId,
+                                           const QString &loginEMail,
+                                           const QString &loginToken,
+                                           const QString &profileId,
+                                           JSONCallbackFunction jsonSuccessCallback,
+                                           CallbackFunction errorCallback)
+{
+    QUrlQuery query;
+    query.addQueryItem("profileId", profileId);
+
+    yacappServerAppUserGetJSONReply("/fetchProfile",
+                                    query,
+                                    appId,
+                                    loginEMail,
+                                    loginToken,
+                                    jsonSuccessCallback,
+                                    errorCallback);
+    }

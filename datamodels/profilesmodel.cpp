@@ -60,5 +60,5 @@ bool ProfilesModel::incUnreadMessages(const QString &id)
     bubbleSort(false,
                true,
                [](const ProfileObject &a, const ProfileObject &b){return a.lastAddedMessage() < b.lastAddedMessage();});
-    return false;
+    return true;
 }

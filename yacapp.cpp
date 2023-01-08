@@ -581,6 +581,26 @@ void YACAPP::fetchMessageUpdates()
             {
                 if (!knownProfilesModel.incUnreadMessages(senderId))
                 {
+                    network.appUserFetchProfile(globalConfig()->projectID(),
+                                                appUserConfig()->loginEMail(),
+                                                appUserConfig()->loginToken(),
+                                                senderId,
+                                                [this](const QJsonDocument &jsonDoc) mutable
+                    {
+                        QJsonObject profile(jsonDoc.object());
+                        ProfileObject *po(new ProfileObject);
+                        po->setId(profile["id"].toString());
+                        po->setVisibleName(profile["visible_name"].toString());
+                        if (knownProfilesModel.append(po))
+                        {
+                            localStorage.upsertKnownContact(*po);
+                            knownProfilesModel.incUnreadMessages(po->id());
+                        }
+                    },
+                    [](const QString &message) mutable
+                    {
+
+                    });
                     // fetch Profile and incUnreadMessage
                 }
                 if (messagesModel.profileId() == senderId)
