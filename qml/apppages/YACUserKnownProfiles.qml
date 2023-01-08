@@ -27,31 +27,46 @@ Rectangle
         anchors.top: addButton.bottom
         anchors.bottom: closeButton.top
         model: KnownProfilesModel
-        delegate: Rectangle
+        delegate: Row
         {
-            width: listView.width
             height: 50
-            Text
+            Rectangle
             {
-                anchors.centerIn: parent
-                text: profile.visibleName + " " + profile.unreadMessages
-            }
-            MouseArea
-            {
-                anchors.fill: parent
-                onClicked:
+                width: listView.width - height
+                height: 50
+                Text
                 {
-                    currentProfileId = profile.id
-                    yacApp.loadMessages(profile.id)
-                    theLoader.sourceComponent = messages
+                    anchors.centerIn: parent
+                    text: profile.visibleName + " " + profile.unreadMessages
                 }
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked:
+                    {
+                        currentProfileId = profile.id
+                        yacApp.loadMessages(profile.id)
+                        theLoader.sourceComponent = messages
+                    }
+                }
+            }
+            YACButton
+            {
+                height: parent.height
+                width: height
+                text: "-"
+                onClicked: yacApp.yesNoQuestion(qsTr("Delete this Contact?"), null,
+                                                function() {
+                                                    yacApp.removeProfileFromKnownProfiles(profile.id)
+                                                },
+                    function(){})
             }
         }
         move: Transition {
-               NumberAnimation { properties: "x,y"; duration: 300 }
+            NumberAnimation { properties: "x,y"; duration: 300 }
         }
         displaced: Transition {
-               NumberAnimation { properties: "x,y"; duration: 300 }
+            NumberAnimation { properties: "x,y"; duration: 300 }
         }
     }
     YACButton

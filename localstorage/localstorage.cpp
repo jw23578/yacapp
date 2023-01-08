@@ -11,7 +11,9 @@ LocalStorage::LocalStorage(Constants &constants):
                            "limit 1"),
     insertMessageString("insert into messages (id, sender_id, receiver_or_group_id, content, sent_msecs, received_msecs, read) "
                         " values "
-                        "(:id, :sender_id, :receiver_or_group_id, :content, :sent_msecs, :received_msecs, :read)")
+                        "(:id, :sender_id, :receiver_or_group_id, :content, :sent_msecs, :received_msecs, :read)"),
+    deleteKnownContactString(QString("delete from ") + tableNames.knowncontacts
+                             + QString(" where id = :id"))
 {
     db.setDatabaseName(constants.getDBFilename());
     qDebug() << "dbFilename: " << constants.getDBFilename();
@@ -68,6 +70,14 @@ void LocalStorage::upsertKnownContact(const ProfileObject &po)
     q.bindValue(":id", po.id());
     q.bindValue(":visible_name", po.visibleName());
     q.bindValue(":unread_messages", po.unreadMessages());
+    q.exec();
+}
+
+void LocalStorage::deleteKnownContact(const QString &id)
+{
+    QSqlQuery q;
+    q.prepare(deleteKnownContactString);
+    q.bindValue(":id", id);
     q.exec();
 }
 

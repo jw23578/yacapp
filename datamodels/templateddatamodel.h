@@ -11,6 +11,7 @@ protected:
     size_t size() const override;
     T *getObject(size_t index) const override;
     bool canAppend(T *object) const override;
+    void internalRemove(T *object) override;
     void internalAppend(T *object)  override;
     T *previousObject(int index) const override;
     void internalClear() override;

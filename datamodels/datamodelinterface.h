@@ -29,6 +29,7 @@ protected:
     virtual QVariant customData(int row, int role) const;
     virtual size_t size() const = 0;
     virtual T *getObject(size_t index) const = 0;
+    virtual void internalRemove(T *object) = 0;
     virtual void internalAppend(T *object) = 0;
     virtual bool canAppend(T *object) const = 0;
     virtual T *previousObject(int index) const = 0;
@@ -48,6 +49,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     bool append(T *object);
+    void remove(T *object);
     void clear();
     const T& get(size_t index) const;
 

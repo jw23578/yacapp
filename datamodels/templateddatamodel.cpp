@@ -19,6 +19,26 @@ bool TemplatedDataModel<T>::canAppend(T *object) const
 }
 
 template<class T>
+void TemplatedDataModel<T>::internalRemove(T *object)
+{
+    auto it(objects.begin());
+    size_t index(0);
+    while (it != objects.end())
+    {
+        if (*it == object)
+        {
+            DataModelInterface<T>::beginRemoveRows(QModelIndex(), index, index);
+            objects.erase(it);
+            DataModelInterface<T>::endRemoveRows();
+            delete object;
+            return;
+        }
+        ++it;
+        ++index;
+    }
+}
+
+template<class T>
 void TemplatedDataModel<T>::internalAppend(T *object)
 {
     objects.push_back(object);

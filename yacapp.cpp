@@ -633,3 +633,9 @@ void YACAPP::addProfileToKnownProfiles(const QString &id)
         localStorage.upsertKnownContact(*po);
     }
 }
+
+void YACAPP::removeProfileFromKnownProfiles(const QString &id)
+{
+    knownProfilesModel.removeById(id);
+    localStorage.deleteKnownContact(id);
+}

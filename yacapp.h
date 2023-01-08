@@ -129,6 +129,7 @@ public:
     Q_INVOKABLE void loadMessages(const QString &contactId);
     Q_INVOKABLE void sendMessage(const QString &profileId, const QString &content);
     Q_INVOKABLE void addProfileToKnownProfiles(const QString &id);
+    Q_INVOKABLE void removeProfileFromKnownProfiles(const QString &id);
 signals:
 
     void badMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);

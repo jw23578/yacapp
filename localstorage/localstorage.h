@@ -20,6 +20,7 @@ class LocalStorage
 
     const QString selectOneMessageString;
     const QString insertMessageString;
+    const QString deleteKnownContactString;
 public:
     LocalStorage(Constants &constants);
 
@@ -27,6 +28,7 @@ public:
     typedef std::function<void(DataObjectInterface *)> AppendFunction;
     int loadKnownContacts(AppendFunction appendFunction);
     void upsertKnownContact(const ProfileObject &po);
+    void deleteKnownContact(const QString &id);
 
     bool messageExists(const QString &id);
     int loadMessages(const QString &contactId, AppendFunction appendFunction);

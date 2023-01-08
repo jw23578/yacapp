@@ -113,6 +113,12 @@ bool DataModelInterface<T>::append(T *object)
 }
 
 template<class T>
+void DataModelInterface<T>::remove(T *object)
+{
+    internalRemove(object);
+}
+
+template<class T>
 void DataModelInterface<T>::clear()
 {
     beginRemoveRows(QModelIndex(), 0, size());
