@@ -20,6 +20,8 @@
 #include "datamodels/templateddatamodel.h"
 #include "dataobjects/profileobject.h"
 
+#include "yacappfirebase.h"
+
 QString getAppParam(const QGuiApplication &app, const QString &param)
 {
     QStringList args(app.arguments());
@@ -129,6 +131,8 @@ int main(int argc, char *argv[])
         }
     }
     engine.rootContext()->setContextProperty("yacApp", &yacApp);
+
+    YACAPPFirebase fb;
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

@@ -1,7 +1,5 @@
 QT += quick widgets network webview sql
 
-android: include(/home/jw78/Android/Sdk/android_openssl/openssl.pri)
-
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
@@ -104,11 +102,28 @@ DISTFILES += \
   README.md \
   android/AndroidManifest.xml \
   android/build.gradle \
+  android/google-services.json \
   android/gradle.properties \
   android/gradle/wrapper/gradle-wrapper.jar \
   android/gradle/wrapper/gradle-wrapper.properties \
   android/gradlew \
   android/gradlew.bat \
-  android/res/values/libs.xml
+  android/res/values/libs.xml \
+  android/settings.gradle
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+
+HEADERS += yacappfirebase.h
+
+android {
+  SOURCES += yacappfirebase.cpp
+  message("main pro android")
+  include(/home/jw78/Android/Sdk/android_openssl/openssl.pri)
+  INCLUDEPATH += $$PWD/firebase_cpp_sdk/include
+
+  QT += androidextras
+
+
+  LIBS += -L$$PWD/firebase_cpp_sdk/libs/android/armeabi-v7a -lfirebase_app -lfirebase_messaging
+}

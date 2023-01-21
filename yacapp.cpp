@@ -279,6 +279,7 @@ void YACAPP::downloadApp(QString url
                                     , url + projectID + ".yacpck"
                                     , [this, projectID, successCallback](const QString &message) mutable
     {
+        Q_UNUSED(message);
         loadNewProject(constants.getYacAppConfigPath() + projectID + ".yacapp");
         saveState();
         successCallback.call(QJSValueList());
@@ -599,7 +600,7 @@ void YACAPP::fetchMessageUpdates()
                     },
                     [](const QString &message) mutable
                     {
-
+                        Q_UNUSED(message);
                     });
                     // fetch Profile and incUnreadMessage
                 }
@@ -612,6 +613,7 @@ void YACAPP::fetchMessageUpdates()
     },
     [](const QString &message) mutable
     {
+        Q_UNUSED(message);
     }
     );
 }
@@ -641,8 +643,14 @@ void YACAPP::sendMessage(const QString &profileId, const QString &content)
                                 mo->id(),
                                 mo->receiverId(),
                                 mo->base64(),
-                                [](const QString &message){},
-    [](const QString &message){});
+                                [](const QString &message)
+    {
+        Q_UNUSED(message);
+    },
+    [](const QString &message)
+    {
+        Q_UNUSED(message);
+    });
 }
 
 void YACAPP::addProfileToKnownProfiles(const QString &id)

@@ -6,6 +6,7 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.0'
+        classpath 'com.google.gms:google-services:4.3.14'
     }
 }
 
@@ -15,6 +16,16 @@ repositories {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+apply from: "$gradle.firebase_cpp_sdk_dir/Android/firebase_dependencies.gradle"
+firebaseCpp.dependencies {
+  auth
+  database
+  messaging
+}
+
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
@@ -70,6 +81,7 @@ android {
     }
 
     defaultConfig {
+        applicationId "yacapp.jw78.de"
         resConfig "en"
         minSdkVersion = qtMinSdkVersion
         targetSdkVersion = qtTargetSdkVersion

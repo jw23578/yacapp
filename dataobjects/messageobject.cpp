@@ -1,4 +1,4 @@
-#include "messageobject.h".h"
+#include "messageobject.h"
 
 MessageObject::MessageObject(const QString &id,
                              const QString &senderId,

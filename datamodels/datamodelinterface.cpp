@@ -13,6 +13,8 @@ QHash<int, QByteArray> DataModelInterface<T>::customRoleNames() const
 template<class T>
 QVariant DataModelInterface<T>::customData(int row, int role) const
 {
+    Q_UNUSED(row);
+    Q_UNUSED(role);
     return QVariant();
 }
 
@@ -37,24 +39,28 @@ DataModelInterface<T>::DataModelInterface(QQmlApplicationEngine &engine,
 template <class T>
 QModelIndex DataModelInterface<T>::index(int row, int column, const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return createIndex(row, column);
 }
 
 template <class T>
 QModelIndex DataModelInterface<T>::parent(const QModelIndex &child) const
 {
+    Q_UNUSED(child);
     return QModelIndex();
 }
 
 template <class T>
 int DataModelInterface<T>::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return static_cast<int>(size());
 }
 
 template <class T>
 int DataModelInterface<T>::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return 1;
 }
 

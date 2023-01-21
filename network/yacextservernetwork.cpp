@@ -104,6 +104,7 @@ void YACExtServerNetwork::yacappServerUserLoggedIn(QString loginEMail, QString v
 {
     auto replyHander = [](QNetworkReply *finishedReply, SRunningRequest &rr)
     {
+        Q_UNUSED(rr);
         qDebug() << __FILE__ << ": " << __LINE__ << finishedReply->readAll();
     };
 

@@ -15,6 +15,7 @@ T *TemplatedDataModel<T>::getObject(size_t index) const
 template<class T>
 bool TemplatedDataModel<T>::canAppend(T *object) const
 {
+    Q_UNUSED(object);
     return true;
 }
 

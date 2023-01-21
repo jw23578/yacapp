@@ -53,6 +53,7 @@ int LocalStorage::loadKnownContacts(AppendFunction appendFunction)
         po->setUnreadMessages(q.value(unreadMessagesColumn).toInt());
         appendFunction(po);
     }
+    return q.size();
 }
 
 void LocalStorage::upsertKnownContact(const ProfileObject &po)
@@ -109,6 +110,7 @@ int LocalStorage::loadMessages(const QString &contactId,
     int sent_msecsColumn(q.record().indexOf("sent_msecs"));
     int received_msecsColumn(q.record().indexOf("received_msecs"));
     int readColumn(q.record().indexOf("read"));
+    int count(0);
     while (q.next())
     {
         QDateTime sent(QDateTime::fromMSecsSinceEpoch(q.value(sent_msecsColumn).toLongLong()));
@@ -121,7 +123,9 @@ int LocalStorage::loadMessages(const QString &contactId,
                                             q.value(contentColumn).toString(),
                                             q.value(readColumn).toBool()));
         appendFunction(mo);
+        ++count;
     }
+    return count;
 }
 
 bool LocalStorage::insertMessage(const MessageObject &mo)

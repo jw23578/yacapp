@@ -8,9 +8,9 @@
 #include <QJsonArray>
 #include "configmodels/globalprojectconfig.h"
 #include "configmodels/parsedconfig.h"
-#include "helper.h"
 
 #ifndef Q_OS_ANDROID
+#include "helper.h"
 #include "jw78curlwrapper.h"
 #endif
 
@@ -91,7 +91,13 @@ void Configurator::save()
 
 void Configurator::deploy(QString projectID, QString host, QString user, QString password, QString www_basedirectory)
 {
-
+#ifdef Q_OS_ANDROID
+    Q_UNUSED(projectID);
+    Q_UNUSED(host);
+    Q_UNUSED(user);
+    Q_UNUSED(password);
+    Q_UNUSED(www_basedirectory);
+#endif
 #ifndef Q_OS_ANDROID
     if (!deployConfigs[projectID])
     {
@@ -125,6 +131,13 @@ void Configurator::deploy(QString projectID, QString host, QString user, QString
 
 void Configurator::sftpUpload(QString host, QString user, QString password, QString targetFilename, QString sourceFilename)
 {
+#ifdef Q_OS_ANDROID
+    Q_UNUSED(targetFilename);
+    Q_UNUSED(host);
+    Q_UNUSED(user);
+    Q_UNUSED(password);
+    Q_UNUSED(sourceFilename);
+#endif
 #ifndef Q_OS_ANDROID
     std::string remoteUrl("sftp://");
     remoteUrl += user.toStdString();
@@ -254,6 +267,7 @@ void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCall
                                   appPackage.toBase64(),
                                   [goodCallback](const QString &message) mutable
     {
+        Q_UNUSED(message);
         goodCallback.call();
     },
     [this, badCallback](const QString &message) mutable
@@ -270,6 +284,8 @@ void Configurator::deployToYACAPPServer(QString globalProjectConfigFilename,
                                         QJSValue goodCallback,
                                         QJSValue badCallback)
 {
+    Q_UNUSED(goodCallback);
+    Q_UNUSED(badCallback);
     qDebug() << __FILE__ << ": " << __LINE__ << globalProjectConfigFilename;
 }
 
@@ -311,7 +327,9 @@ void Configurator::yacserverUserLoggedIn(const QString &loginEMail, const QStrin
                                      [this, projectID](const QString &loginToken){
         deployConfigs[projectID]->setYacappServerLoginToken(loginToken);
     },
-    [this, projectID](const QString &message){
+    [this, projectID](const QString &message)
+    {
+        Q_UNUSED(message);
         deployConfigs[projectID]->setYacappServerLoginToken("");
     }
     );
@@ -329,6 +347,7 @@ void Configurator::yacserverRegister(const QString &loginEMail,
     },
     [badCallback](const QString &message) mutable
     {
+        Q_UNUSED(message);
         badCallback.call(QJSValueList() << message);
     }
     );
@@ -342,6 +361,7 @@ void Configurator::yacserverVerify(const QString &loginEMail
     network.yacappServerVerifyUser(loginEMail, verifyToken,
                                    [goodCallback](const QString &message) mutable
     {
+        Q_UNUSED(message);
         goodCallback.call(QJSValueList());
     },
     [badCallback](const QString &message) mutable

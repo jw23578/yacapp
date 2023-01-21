@@ -10,8 +10,12 @@ Constants::Constants(const QString &customWriteablePath):writeablePath(customWri
     setIsDesktop(true);
 #endif
 
+#ifdef Q_OS_ANDROID
+    setIsDesktop(false);
+#else
 #ifdef Q_OS_LINUX
     setIsDesktop(true);
+#endif
 #endif
 
     if (writeablePath == "")
