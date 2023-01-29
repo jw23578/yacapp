@@ -101,6 +101,7 @@ HEADERS += \
   yacappmacros.h
 
 DISTFILES += \
+  .gitignore \
   README.md \
   android/AndroidManifest.xml \
   android/build.gradle \
