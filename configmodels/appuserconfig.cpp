@@ -34,6 +34,18 @@ QJsonObject AppUserConfig::getConfig()
     {
         stringToJSON(loginEMail);
     }
+    if (changed(fstname()))
+    {
+        stringToJSON(fstname);
+    }
+    if (changed(surname()))
+    {
+        stringToJSON(surname);
+    }
+    if (changed(visibleName()))
+    {
+        stringToJSON(visibleName);
+    }
     return config;
 
 }

@@ -65,6 +65,7 @@ FocusScope
                                         password.text,
                                         function(message) {
                                             yacApp.goodMessage(qsTr("Login successful, have fun!"), null, null)
+                                            closeClicked()
                                         },
                                         function(message) {
                                             yacApp.badMessage(qsTr(message), null, null)
