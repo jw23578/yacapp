@@ -111,7 +111,7 @@ Item
         }
         Rectangle
         {
-            visible: true
+            visible: yacApp.globalConfig.appUserWorktimeEnabled
             radius: Constants.radius
             width: parent.width
             height: width

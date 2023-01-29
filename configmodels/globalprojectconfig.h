@@ -16,6 +16,7 @@ class GlobalProjectConfig : public ConfigInterface
     YACAPPPROPERTY(QString, projectColorName, ProjectColorName, "white");
     YACAPPPROPERTY(bool, appUserEnabled, AppUserEnabled, false);
     YACAPPPROPERTY(bool, appUserMessagesEnabled, AppUserMessagesEnabled, false);
+    YACAPPPROPERTY(bool, appUserWorktimeEnabled, AppUserWorktimeEnabled, false);
     YACAPPPROPERTY(bool, isTemplateApp, IsTemplateApp, false);
     YACAPPPROPERTY(double, logoWidthPerThousand, LogoWidthPerThousand, 0)
     YACAPPPROPERTY(double, logoHeightPerThousand, LogoHeightPerThousand, 0)

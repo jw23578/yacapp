@@ -46,6 +46,7 @@ void GlobalProjectConfig::setConfig(const QJsonValue &config)
     boolFromJSON(isTemplateApp, IsTemplateApp);
     boolFromJSON(appUserEnabled, AppUserEnabled);
     boolFromJSON(appUserMessagesEnabled, AppUserMessagesEnabled);
+    boolFromJSON(appUserWorktimeEnabled, AppUserWorktimeEnabled);
     if (projectID() == "")
     {
         setProjectID(QUuid::createUuid().toString(QUuid::WithoutBraces));
@@ -87,6 +88,7 @@ QJsonObject GlobalProjectConfig::getConfig()
     boolToJSON(isTemplateApp);
     boolToJSON(appUserEnabled);
     boolToJSON(appUserMessagesEnabled);
+    boolToJSON(appUserWorktimeEnabled);
     return config;
 }
 

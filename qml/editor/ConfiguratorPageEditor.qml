@@ -113,6 +113,12 @@ Rectangle
                         text: qsTr("APP-User Messages enabled: ") + (global.appUserMessagesEnabled ? qsTr("Yes") : qsTr("No"))
                         onClicked: global.appUserMessagesEnabled = !global.appUserMessagesEnabled
                     }
+                    YACButton
+                    {
+                        width: parent.width
+                        text: qsTr("APP-User Worktime: ") + (global.appUserWorktimeEnabled ? qsTr("Yes") : qsTr("No"))
+                        onClicked: global.appUserWorktimeEnabled = !global.appUserWorktimeEnabled
+                    }
                 }
 
                 EditorSection
