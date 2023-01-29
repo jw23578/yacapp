@@ -33,6 +33,7 @@ public:
     void yacappServerAppUserLogin(const QString &loginEMail,
                                   const QString &password,
                                   const QString &appId,
+                                  const QString &deviceToken,
                                   JSONCallbackFunction successCallback,
                                   CallbackFunction  errorCallback);
 
@@ -69,6 +70,13 @@ public:
                                const int offset,
                                JSONCallbackFunction jsonSuccessCallback,
                                CallbackFunction  errorCallback);
+
+    void appUserUpdateDeviceToken(const QString &appId,
+                                  const QString &loginEMail,
+                                  const QString &loginToken,
+                                  const QString &deviceToken,
+                                  CallbackFunction successCallback,
+                                  CallbackFunction errorCallback);
 
     void appUserStoreMessage(const QString &appId,
                              const QString &loginEMail,

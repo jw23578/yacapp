@@ -11,7 +11,9 @@ bool YACAPPFirebase::checkGooglePlayService()
     return true;
 }
 
-YACAPPFirebase::YACAPPFirebase()
+YACAPPFirebase::YACAPPFirebase(Firebase2Qt &firebase2qt):
+    firebase2qt(firebase2qt),
+    messageListener(firebase2qt)
 {
     checkGooglePlayService();
 
@@ -28,7 +30,7 @@ YACAPPFirebase::YACAPPFirebase()
 
     qDebug() << "YACAPPFirebase";
 
-    ::firebase::messaging::RequestPermission();
+    //::firebase::messaging::RequestPermission();
     qDebug() << "-----------------------------------------*********************-------------------------";
     firebase::InitResult res = ::firebase::messaging::Initialize(*firebaseApp, &messageListener);
     qDebug() << "-----------------------------------------*********************-------------------------";
@@ -36,8 +38,15 @@ YACAPPFirebase::YACAPPFirebase()
 }
 
 
+MessageListener::MessageListener(Firebase2Qt &firebase2qt):
+    firebase2qt(firebase2qt)
+{
+
+}
+
 void MessageListener::OnMessage(const firebase::messaging::Message &message)
 {
+   firebase2qt.handleNewMessage();
    qDebug() << "got message";
    for (auto const &s2s: message.data)
    {
@@ -48,6 +57,7 @@ void MessageListener::OnMessage(const firebase::messaging::Message &message)
 void MessageListener::OnTokenReceived(const char *token)
 {
     const auto t = QString::fromUtf8(token);
+    firebase2qt.handleDeviceToken(t);
     qDebug() << "from utf8: " << t;
     qDebug() << "got token: " << token;
 }

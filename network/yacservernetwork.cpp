@@ -162,6 +162,7 @@ void YACServerNetwork::yacappServerAppUserVerify(const QString &loginEMail,
 void YACServerNetwork::yacappServerAppUserLogin(const QString &loginEMail,
                                                 const QString &password,
                                                 const QString &appId,
+                                                const QString &deviceToken,
                                                 JSONCallbackFunction jsonSuccessCallback,
                                                 CallbackFunction errorCallback)
 {
@@ -169,6 +170,7 @@ void YACServerNetwork::yacappServerAppUserLogin(const QString &loginEMail,
     obj["loginEMail"] = loginEMail;
     obj["password"] = password;
     obj["appId"] = appId;
+    obj["deviceToken"] = deviceToken;
     QMap<QByteArray, QByteArray> rawHeader;
     yacappServerPost("/loginAppUser",
                      obj,
@@ -303,6 +305,28 @@ void YACServerNetwork::appUserSearchProfiles(const QString &appId,
                     0,
                     jsonSuccessCallback,
                     errorCallback);
+}
+
+void YACServerNetwork::appUserUpdateDeviceToken(const QString &appId,
+                                                const QString &loginEMail,
+                                                const QString &loginToken,
+                                                const QString &deviceToken,
+                                                CallbackFunction successCallback,
+                                                CallbackFunction errorCallback)
+{
+    QMap<QByteArray, QByteArray> rawHeader;
+    rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
+    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+
+    QJsonObject obj;
+    obj["deviceToken"] = deviceToken;
+    yacappServerPost("/updateDeviceToken",
+                     obj,
+                     defaultReplyHandler,
+                     rawHeader,
+                     successCallback,
+                     errorCallback);
 }
 
 void YACServerNetwork::appUserStoreMessage(const QString &appId,

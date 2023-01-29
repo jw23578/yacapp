@@ -14,7 +14,9 @@ class MessageObject : public DataObjectInterface
     YACAPPPROPERTY(QDateTime, received, Received, QDateTime());
     YACAPPPROPERTY(QString, content, Content, "");
     YACAPPPROPERTY(bool, read, Read, false);
+    YACAPPPROPERTY(double, qmlWidth, QmlWidth, 0);
 public:
+    MessageObject(){}
     explicit MessageObject(const QString &id,
                            const QString &senderId,
                            const QString &receiverId,

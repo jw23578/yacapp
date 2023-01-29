@@ -4,6 +4,7 @@ import com.yacapp.appuserconfig 1.0
 
 Item
 {
+    id: appUserProfileIcon
     visible: !Constants.topLevelFormActive
     function fetchMessages()
     {
@@ -27,8 +28,30 @@ Item
         repeat: true
     }
 
+    Rectangle
+    {
+        visible: !Constants.profileOpen
+        anchors.top: parent.top
+        anchors.right: parent.right
+        width: parent.width / 8
+        height: width
+        radius: Constants.radius
+        color: "cyan"
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked: Constants.profileOpen = !Constants.profileOpen
+        }
+        YACText
+        {
+            anchors.centerIn: parent
+            text: "open"
+        }
+    }
+
     Column
     {
+        visible: Constants.profileOpen
         anchors.top: parent.top
         anchors.right: parent.right
         width: parent.width / 8
@@ -54,6 +77,11 @@ Item
                     }
                 }
             }
+            YACText
+            {
+                anchors.centerIn: parent
+                text: "Profile"
+            }
         }
         Rectangle
         {
@@ -75,6 +103,11 @@ Item
                     profileLoader.sourceComponent = knownProfilesComponent
                 }
             }
+            YACText
+            {
+                anchors.centerIn: parent
+                text: "Messages"
+            }
         }
         Rectangle
         {
@@ -95,6 +128,28 @@ Item
                     }
                     profileLoader.sourceComponent = worktimeComponent
                 }
+            }
+            YACText
+            {
+                anchors.centerIn: parent
+                text: "Dienst"
+            }
+        }
+        Rectangle
+        {
+            width: parent.width
+            height: width
+            radius: Constants.radius
+            color: "cyan"
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: Constants.profileOpen = !Constants.profileOpen
+            }
+            YACText
+            {
+                anchors.centerIn: parent
+                text: "close"
             }
         }
     }

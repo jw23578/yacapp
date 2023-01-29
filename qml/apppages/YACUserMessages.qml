@@ -4,7 +4,6 @@ import "../items"
 Rectangle
 {
     property string profileId: ""
-    color: "red"
     anchors.fill: parent
     signal closeClicked()
     id: messagePage
@@ -12,34 +11,109 @@ Rectangle
     Component
     {
         id: messageDelegate
-        Rectangle
+
+        Column
         {
-            property var message: null
-            property bool daySwitch: false
-            property bool other: message.senderId != ""
-            rotation: 180
-            color: "lightgrey"
-            width: contentText.contentWidth
-            height: contentText.contentHeight * 3
-            x: other ? messagePage.width - width : 0
-            Text
+            function updateFunction(widthToSet)
             {
-                anchors.top: parent.top
-                anchors.horizontalCenter: parent.horizontalCenter
-                visible: daySwitch
-                text: Helper.formatDate(message.sent)
+                if (widthToSet <= message.qmlWidth)
+                {
+                    return;
+                }
+
+                message.qmlWidth = widthToSet;
+                if (theColumn.model.nextSameTime)
+                {
+                    theListview.itemAtIndex(theColumn.model.index - 1).item.updateFunction(message.qmlWidth)
+                }
             }
+            id: theColumn
+            width: messagePage.width - 40 // - messagePage.width / 30
+            rotation: 180
+            x: 20
+            //x: -20 //  (messagePage.width - width) / 2
+            property var model: null
+            property var message: model.message
 
             Text
             {
-                id: contentText
-                anchors.centerIn: parent
-                text: message.content
+                height: visible ? contentHeight : 0
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: theColumn.model.daySwitch
+                text: Helper.formatDate(message.sent)
             }
-            Text
+            YACRoundedRectangle
             {
-                anchors.bottom: parent.bottom
-                text: Helper.formatTime(message.sent)
+                id: messageRectangle
+                radius: Constants.radius
+                radiusTopLeft: other && !theColumn.model.prevSameTime
+                radiusBottomRight: other && !theColumn.model.nextSameTime
+                radiusTopRight: !other && !theColumn.model.prevSameTime
+                radiusBottomLeft: !other && !theColumn.model.nextSameTime
+                color: "lightgrey"
+                property bool other: message.senderId != ""
+                width: Math.max(contentText.contentWidth, messageDateTime.contentWidth, theColumn.model.message.qmlWidth, theColumn.model.nextQMLWidth, theColumn.model.prevQMLWidth) + radius
+                height: messageColumn.height
+                x: other ? 0 : theColumn.width - width
+                Column
+                {
+                    id: messageColumn
+                    width: parent.width
+                    Item
+                    {
+                        width: 1
+                        height: messageRectangle.radius / 2
+                    }
+
+                    Item
+                    {
+                        width: theColumn.width * 0.7
+                        height: contentText.contentHeight
+                        x: messageRectangle.radius / 2
+                        YACText
+                        {
+                            id: contentText
+                            text: message.content.trim()
+                            width: parent.width
+//                            x: (contentWidth < messageDateTime.contentWidth ? messageColumn.width - contentWidth - messageRectangle.radius / 2 : messageRectangle.radius / 2)
+                            onContentWidthChanged:
+                            {
+                                if (theColumn.message == null)
+                                {
+                                    return
+                                }
+                                if (theColumn.model.message.qmlWidth >= contentWidth)
+                                {
+                                    return
+                                }
+                                contentWidth = Math.max(theColumn.model.prevQMLWidth, theColumn.model.nextQMLWidth, contentWidth)
+                                theColumn.model.message.qmlWidth = contentWidth
+                                if (theColumn.model.nextSameTime)
+                                {
+                                    theListview.itemAtIndex(theColumn.model.index - 1).item.updateFunction(contentWidth)
+                                }
+                            }
+                        }
+                    }
+                    Item
+                    {
+                        width: 1
+                        height: messageRectangle.radius / 4
+                    }
+                    YACText
+                    {
+                        visible: !theColumn.model.nextSameTime
+                        font.pixelSize: contentText.font.pixelSize * Constants.smallerTextFactor
+                        id: messageDateTime
+                        text: Helper.formatTime(message.sent)
+                        x: messageRectangle.other ? messageRectangle.radius / 4 : messageColumn.width - width - messageRectangle.radius / 4
+                    }
+                    Item
+                    {
+                        width: 1
+                        height: messageRectangle.radius / 4
+                    }
+                }
             }
         }
     }
@@ -47,6 +121,7 @@ Rectangle
 
     ListView
     {
+        id: theListview
         rotation: 180
         anchors.top: parent.top
         anchors.left: parent.left
@@ -60,8 +135,7 @@ Rectangle
             sourceComponent: messageDelegate // message.senderID = "" ? myMessageDelegate : otherMessageDelegate
             onLoaded:
             {
-                item.daySwitch = daySwitch
-                item.message = message
+                item.model = model
             }
         }
     }

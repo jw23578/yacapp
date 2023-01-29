@@ -21,6 +21,9 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
       knownProfilesModel(engine, "KnownProfilesModel"),
       messagesModel(engine)
 {
+    connect(&firebase2qt, &Firebase2Qt::deviceTokenChanged, this, &YACAPP::deviceTokenChanged);
+    connect(&firebase2qt, &Firebase2Qt::newMessages, this, &YACAPP::newMessages);
+
     qDebug() << __FILE__ << ": " << __LINE__ << constants.getStateFilename();
     QFile jsonFile(constants.getStateFilename());
     jsonFile.open(QIODevice::ReadOnly);
@@ -28,6 +31,7 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
     QJsonDocument config(QJsonDocument::fromJson(fileData));
     stringFromJSON(globalProjectConfigFilename, GlobalProjectConfigFilename);
     stringFromJSON(loginToken, LoginToken);
+    deviceToken = config["deviceToken"].toString();
     QString serverNowISO(config["serverNowISO"].toString());
     if (serverNowISO.size())
     {
@@ -131,6 +135,7 @@ void YACAPP::saveState()
     QJsonObject config;
     stringToJSON(loginToken);
     stringToJSON(globalProjectConfigFilename);
+    config["deviceToken"] = deviceToken;
 
     config["appUserConfig"] = appUserConfig()->getConfig();
     QString help(serverNow().toString(Qt::ISODate));
@@ -374,6 +379,7 @@ void YACAPP::appUserLogin(const QString &loginEMail,
     network.yacappServerAppUserLogin(loginEMail,
                                      password,
                                      globalConfig()->projectID(),
+                                     deviceToken,
                                      [this, loginEMail, successCallback](const QJsonDocument &jsonDoc) mutable
     {
         QJsonObject object(jsonDoc.object());
@@ -666,4 +672,37 @@ void YACAPP::removeProfileFromKnownProfiles(const QString &id)
 {
     knownProfilesModel.removeById(id);
     localStorage.deleteKnownContact(id);
+}
+
+void YACAPP::deviceTokenChanged(QString deviceToken)
+{
+    if (this->deviceToken == deviceToken)
+    {
+        return;
+    }
+    this->deviceToken = deviceToken;
+    saveState();
+    qDebug() << "YACAPP: " << deviceToken;
+    if (!appUserConfig()->loggedIn())
+    {
+        qDebug() << "not logged in";
+        return;
+    }
+    network.appUserUpdateDeviceToken(globalConfig()->projectID(),
+                                     appUserConfig()->loginEMail(),
+                                     appUserConfig()->loginToken(),
+                                     deviceToken,
+                                     [](const QString &message)
+         {
+             Q_UNUSED(message);
+         },
+         [](const QString &message)
+         {
+             Q_UNUSED(message);
+    });
+}
+
+void YACAPP::newMessages()
+{
+    fetchMessageUpdates();
 }

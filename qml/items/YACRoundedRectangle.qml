@@ -8,8 +8,6 @@ Item
     property alias color: theRectangle.color
     property alias radius: theRectangle.radius
     property alias border: theRectangle.border
-    property alias shadowEnabled: theDropShadow.enabled
-    property alias shadow: theDropShadow
     property bool radiusTopLeft: false
     property bool radiusTopRight: false
     property bool radiusBottomLeft: false
@@ -29,8 +27,8 @@ Item
         Rectangle
         {
             id: theRectangle
-            width: parent.width - theDropShadow.shadowHorizontalOffset * 3
-            height: parent.height - theDropShadow.shadowVerticalOffset * 3
+            width: parent.width
+            height: parent.height
             border.width: 0
         }
 
@@ -126,12 +124,5 @@ Item
                 anchors.right: parent.right
             }
         }
-    }
-    YACDropShadow
-    {
-        id: theDropShadow
-        visible: enabled
-        anchors.fill: innerItem
-        source: innerItem
     }
 }

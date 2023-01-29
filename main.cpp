@@ -19,6 +19,7 @@
 
 #include "datamodels/templateddatamodel.h"
 #include "dataobjects/profileobject.h"
+#include "dataobjects/messageobject.h"
 
 #include "yacappfirebase.h"
 
@@ -48,6 +49,7 @@ int main(int argc, char *argv[])
     app.setOrganizationName("jw78");
     app.setOrganizationDomain("jw78.de");
     qRegisterMetaType<QObjectList*>("QObjectList*");
+    qmlRegisterType<MessageObject>("com.yacapp.messageobject", 1, 0, "MessageObject");
     qmlRegisterType<ParsedConfig>("com.yacapp.parsedconfig", 1, 0, "ParsedConfig");
     qmlRegisterType<BackgroundConfig>("com.yacapp.backgroundconfig", 1, 0, "BackgroundConfig");
     qmlRegisterType<MenueConfig>("com.yacapp.menueconfig", 1, 0, "MenueConfig");
@@ -68,6 +70,7 @@ int main(int argc, char *argv[])
     qRegisterMetaType<ContentItem*>("ContentItem");
     qRegisterMetaType<HeaderConfig*>("HeaderConfig");
     qRegisterMetaType<ProjectData*>("ProjectData");
+    qRegisterMetaType<MessageObject*>("MessageObject");
 
     qmlRegisterType<RecentProject>("com.yacapp.recentproject", 1, 0, "RecentProject");
     qRegisterMetaType<RecentProject*>("RecentProject");
@@ -132,7 +135,7 @@ int main(int argc, char *argv[])
     }
     engine.rootContext()->setContextProperty("yacApp", &yacApp);
 
-    YACAPPFirebase fb;
+    YACAPPFirebase fb(yacApp.firebase2qt);
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

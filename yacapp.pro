@@ -30,6 +30,7 @@ SOURCES += \
         dataobjects/groupobject.cpp \
         dataobjects/messageobject.cpp \
         dataobjects/profileobject.cpp \
+        firebase2qt.cpp \
         helper.cpp \
         localstorage/localstorage.cpp \
         localstorage/tablenames.cpp \
@@ -86,6 +87,7 @@ HEADERS += \
   dataobjects/groupobject.h \
   dataobjects/messageobject.h \
   dataobjects/profileobject.h \
+  firebase2qt.h \
   helper.h \
   localstorage/localstorage.h \
   localstorage/tablenames.h \

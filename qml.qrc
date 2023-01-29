@@ -54,5 +54,6 @@
         <file>qml/apppages/YACUserKnownProfiles.qml</file>
         <file>qml/items/YACTextEdit.qml</file>
         <file>qml/items/YACTextEditWithBackground.qml</file>
+        <file>qml/items/YACRoundedRectangle.qml</file>
     </qresource>
 </RCC>

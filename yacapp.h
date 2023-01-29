@@ -15,6 +15,7 @@
 #include "datamodels/profilesmodel.h"
 #include "localstorage/localstorage.h"
 #include "datamodels/messagesmodel.h"
+#include "firebase2qt.h"
 
 class Configurator;
 
@@ -25,6 +26,7 @@ class YACAPP : public QObject
     const Constants &constants;
     const Helper &helper;
     LocalStorage &localStorage;
+    QString deviceToken;
     YACAPPPROPERTY(QString, appFolder, AppFolder, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
     YACAPPPROPERTY(QDateTime, serverNow, ServerNow, QDateTime(QDate(1978, 1, 1), QTime(12, 0)));
@@ -54,6 +56,7 @@ class YACAPP : public QObject
     void cleanUpKnownFile();
 
 public:
+    Firebase2Qt firebase2qt;
     explicit YACAPP(QQmlApplicationEngine &engine
                     , const Constants &constants
                     , const Helper &helper
@@ -136,6 +139,11 @@ signals:
     void badMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
     void goodMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
     void yesNoQuestion(const QString &question, QJSValue itemToFocus, QJSValue yesCallback, QJSValue noCallback);
+
+private slots:
+    void deviceTokenChanged(QString deviceToken);
+    void newMessages();
+
 };
 
 #endif // YACAPP_H

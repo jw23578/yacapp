@@ -166,7 +166,7 @@ Item
         {
             anchors.fill: parent
             url: itemConfig.url
-            visible: !theMenue.menueOpen && !Constants.topLevelFormActive
+            visible: !theMenue.menueOpen && !Constants.topLevelFormActive && !Constants.profileOpen
         }
     }
 
