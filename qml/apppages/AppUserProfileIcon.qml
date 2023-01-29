@@ -65,6 +65,23 @@ Item
             MouseArea
             {
                 anchors.fill: parent
+                onClicked: profileLoader.sourceComponent = selectLanguageComponent
+            }
+            YACText
+            {
+                anchors.centerIn: parent
+                text: qsTr("Language")
+            }
+        }
+        Rectangle
+        {
+            radius: Constants.radius
+            width: parent.width
+            height: width
+            color: "cyan"
+            MouseArea
+            {
+                anchors.fill: parent
                 onClicked:
                 {
                     if (yacApp.appUserConfig.loginToken == "")
@@ -80,7 +97,7 @@ Item
             YACText
             {
                 anchors.centerIn: parent
-                text: "Profile"
+                text: qsTr("Profile")
             }
         }
         Rectangle
@@ -106,7 +123,7 @@ Item
             YACText
             {
                 anchors.centerIn: parent
-                text: "Messages"
+                text: qsTr("Messages")
             }
         }
         Rectangle
@@ -132,7 +149,7 @@ Item
             YACText
             {
                 anchors.centerIn: parent
-                text: "Dienst"
+                text: qsTr("Worktime")
             }
         }
         Rectangle
@@ -149,7 +166,7 @@ Item
             YACText
             {
                 anchors.centerIn: parent
-                text: "close"
+                text: qsTr("Close")
             }
         }
     }
@@ -164,6 +181,15 @@ Item
             }
         }
     }
+    Component
+    {
+        id: selectLanguageComponent
+        YACUserSelectLanguage
+        {
+            onCloseClicked: profileLoader.sourceComponent = null
+        }
+    }
+
     Component
     {
         id: knownProfilesComponent

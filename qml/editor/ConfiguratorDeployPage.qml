@@ -119,7 +119,7 @@ Rectangle
         }
         YACButton
         {
-            text: qsTr("Abbrechen")
+            text: qsTr("Abort")
             onClicked: deployPage.visible = false
             width: parent.width
         }

@@ -3,6 +3,7 @@
 #include <QStandardPaths>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QCoreApplication>
 
 YACAPP::YACAPP(QQmlApplicationEngine &engine
                , const Constants &constants
@@ -678,6 +679,15 @@ void YACAPP::removeProfileFromKnownProfiles(const QString &id)
 {
     knownProfilesModel.removeById(id);
     localStorage.deleteKnownContact(id);
+}
+
+void YACAPP::switchLanguage(const QString &language)
+{
+    const QString baseName = "yacapp_" + language;
+    if (translator.load(":/i18n/" + baseName)) {
+        QCoreApplication::installTranslator(&translator);
+    }
+
 }
 
 void YACAPP::deviceTokenChanged(QString deviceToken)

@@ -108,7 +108,7 @@ Rectangle
         }
         YACButton
         {
-            text: qsTr("Abbrechen")
+            text: qsTr("Abort")
             onClicked: registerVerifyPage.visible = false
             width: parent.width
         }

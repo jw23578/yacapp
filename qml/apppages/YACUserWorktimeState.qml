@@ -16,7 +16,7 @@ Rectangle
         {
             width: parent.width
             id: workStartButton
-            text:  workStarted ? qsTr("End work\nsince ") +  Helper.smartFormatDateTime(yacApp.appUserConfig.workStart): qsTr("Start work")
+            text:  workStarted ? qsTr("End work\nSince: ") +  Helper.smartFormatDateTime(yacApp.appUserConfig.workStart): qsTr("Start work")
             onClicked:
             {
                 let worktimeType = 1;

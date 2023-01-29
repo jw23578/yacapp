@@ -16,11 +16,13 @@
 #include "localstorage/localstorage.h"
 #include "datamodels/messagesmodel.h"
 #include "firebase2qt.h"
+#include <QTranslator>
 
 class Configurator;
 
 class YACAPP : public QObject
 {
+    QTranslator translator;
     friend Configurator;
     Q_OBJECT
     const Constants &constants;
@@ -135,6 +137,8 @@ public:
     Q_INVOKABLE void sendMessage(const QString &profileId, const QString &content);
     Q_INVOKABLE void addProfileToKnownProfiles(const QString &id);
     Q_INVOKABLE void removeProfileFromKnownProfiles(const QString &id);
+
+    Q_INVOKABLE void switchLanguage(const QString &language);
 
 signals:
 
