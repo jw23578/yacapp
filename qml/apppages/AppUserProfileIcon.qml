@@ -61,7 +61,7 @@ Item
             radius: Constants.radius
             width: parent.width
             height: width
-            color: "blue"
+            color: "cyan"
             MouseArea
             {
                 anchors.fill: parent
@@ -177,7 +177,7 @@ Item
         id: worktimeComponent
         YACUserWorktimeState
         {
-
+            onCloseClicked: profileLoader.sourceComponent = null
         }
     }
 

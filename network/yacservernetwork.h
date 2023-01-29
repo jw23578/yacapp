@@ -58,6 +58,8 @@ public:
                                const QString &loginEMail,
                                const QString &loginToken,
                                const int workTimeType,
+                               const int userMood,
+                               const int dayRating,
                                const QDateTime ts,
                                JSONCallbackFunction jsonSuccessCallback,
                                CallbackFunction  errorCallback);

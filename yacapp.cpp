@@ -480,7 +480,11 @@ void YACAPP::appUserGetWorktimeState(QJSValue successCallback,
     );
 }
 
-void YACAPP::appUserInsertWorktime(int worktimeType, QJSValue successCallback, QJSValue errorCallback)
+void YACAPP::appUserInsertWorktime(int worktimeType,
+                                   int userMood,
+                                   int dayRating,
+                                   QJSValue successCallback,
+                                   QJSValue errorCallback)
 {
     if (!appUserConfig()->loginToken().size())
     {
@@ -491,6 +495,8 @@ void YACAPP::appUserInsertWorktime(int worktimeType, QJSValue successCallback, Q
                                   appUserConfig()->loginEMail(),
                                   appUserConfig()->loginToken(),
                                   worktimeType,
+                                  userMood,
+                                  dayRating,
                                   QDateTime::currentDateTime(),
                                   [successCallback, this](const QJsonDocument &jsonDoc) mutable
     {

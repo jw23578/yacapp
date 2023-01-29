@@ -83,17 +83,17 @@ Rectangle
             {
                 id: nameText
                 text: app_name
-                anchors.top: parent.top
+                anchors.top: parent.theInnerRectangle.top
                 anchors.topMargin: appView.spacing
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.horizontalCenter: parent.theInnerRectangle.horizontalCenter
                 horizontalAlignment: Text.AlignHCenter
             }
             YACImage
             {
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.horizontalCenter: parent.theInnerRectangle.horizontalCenter
                 anchors.top: nameText.bottom
-                anchors.bottom: parent.bottom
-                width: height
+                anchors.bottom: parent.theInnerRectangle.bottom
+                width: Math.min(parent.theInnerRectangle.width, height)
                 source: app_logo_url
             }
             MouseArea

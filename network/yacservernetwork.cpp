@@ -257,6 +257,8 @@ void YACServerNetwork::appUserInsertWorktime(const QString &appId,
                                              const QString &loginEMail,
                                              const QString &loginToken,
                                              const int worktimeType,
+                                             const int userMood,
+                                             const int dayRating,
                                              const QDateTime ts,
                                              JSONCallbackFunction jsonSuccessCallback,
                                              CallbackFunction errorCallback)
@@ -268,6 +270,8 @@ void YACServerNetwork::appUserInsertWorktime(const QString &appId,
 
     QJsonObject obj;
     obj["worktimeType"] = worktimeType;
+    obj["userMood"] = userMood;
+    obj["dayRating"] = dayRating;
     obj["ts"] = ts.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
 
     yacappServerPost("/insertWorktime",

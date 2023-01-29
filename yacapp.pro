@@ -112,7 +112,8 @@ DISTFILES += \
   android/gradlew \
   android/gradlew.bat \
   android/res/values/libs.xml \
-  android/settings.gradle
+  android/settings.gradle \
+  deployToJW78.sh
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 

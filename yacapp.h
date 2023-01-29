@@ -118,6 +118,8 @@ public:
     Q_INVOKABLE void appUserGetWorktimeState(QJSValue successCallback,
                                              QJSValue errorCallback);
     Q_INVOKABLE void appUserInsertWorktime(int worktimeType,
+                                           int userMood,
+                                           int dayRating,
                                            QJSValue successCallback,
                                            QJSValue errorCallback);
 
