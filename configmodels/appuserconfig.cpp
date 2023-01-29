@@ -17,6 +17,9 @@ void AppUserConfig::setConfig(const QJsonValue &config)
     }
     stringFromJSON(loginEMail, LoginEMail);
     stringFromJSON(loginToken, LoginToken);
+    stringFromJSON(fstname, Fstname);
+    stringFromJSON(surname, Surname);
+    stringFromJSON(visibleName, VisibleName);
     if (!loginEMail().size())
     {
         setLoginToken("");
