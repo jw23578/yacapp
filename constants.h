@@ -18,12 +18,18 @@ class Constants : public QObject
     YACAPPPROPERTY(int, shadowHorizontalOffset, ShadowHorizontalOffset, 5);
     YACAPPPROPERTY(int, shadowVerticalOffset, ShadowVerticalOffset, 5);
     YACAPPPROPERTY(int, shadowSamples, ShadowSamples, 9)
-    YACAPPPROPERTY(bool, topLevelFormActive, TopLevelFormActive, false);
+    YACAPPPROPERTY(bool, topLevelFormActive, TopLevelFormActive, true);
     YACAPPPROPERTY(bool, profileOpen, ProfileOpen, false);
     YACAPPPROPERTY(double, defaultWidthFactor, DefaultWidthFactor, 3.0 / 4.0)
 
+    YACAPPPROPERTY(double, defaultMargin, DefaultMargin, 0);
+
+    YACAPPPROPERTY(double, defaultFontPixelSize, DefaultFontPixelSize, 0)
     YACAPPPROPERTY(double, smallerTextFactor, SmallerTextFactor, 3.0 / 4.0)
     YACAPPPROPERTY(double, largerTextFactor, LargerTextFactor, 5.0 / 4.0)
+    YACAPPPROPERTY(double, x2largerTextFactor, X2largerTextFactor, 6.0 / 4.0)
+    YACAPPPROPERTY(double, x3largerTextFactor, X3largerTextFactor, 7.0 / 4.0)
+    YACAPPPROPERTY(double, x4largerTextFactor, X4largerTextFactor, 8.0 / 4.0)
 
     YACAPPPROPERTY(QColor, goodColor, GoodColor, "#A9CEA5");
     YACAPPPROPERTY(QColor, badColor, BadColor, "#F09494");

@@ -12,6 +12,23 @@ ApplicationWindow
     height: 640
     title: qsTr("Hello World")
 
+    Item
+    {
+        id: theDefaultSetItem
+        Text
+        {
+            id: theDefaultTextAndFont
+            Component.onCompleted:
+            {
+                Constants.defaultFontPixelSize = font.pixelSize
+            }
+        }
+        Component.onCompleted:
+        {
+            Constants.defaultMargin = parent.width / 20
+        }
+    }
+
     //    onActiveFocusItemChanged:
     //    {
     //        var count = 0
@@ -30,7 +47,7 @@ ApplicationWindow
         anchors.fill: parent
         id: mainformLoader
         active: yacApp.mainConfig != null && yacApp.globalConfig.projectID != ""
-        source: "qml/MainForm.qml"        
+        source: "qml/MainForm.qml"
     }
 
     SelectAppForm
@@ -56,7 +73,7 @@ ApplicationWindow
         }
     }
     YACRectangle
-    {        
+    {
         id: splashscreen
         visible: opacity > 0
         anchors.fill: parent
@@ -71,7 +88,11 @@ ApplicationWindow
             font.pixelSize: width / 10
             horizontalAlignment: Text.AlignHCenter
         }
-        onVisibleChanged: Constants.topLevelFormActive = badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible
+        onVisibleChanged:
+        {
+            Constants.topLevelFormActive = badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible
+            console.log("Constants.topLevelFormActive: " + Constants.topLevelFormActive)
+        }
     }
 
     YACBadMessageForm
@@ -146,15 +167,15 @@ ApplicationWindow
     Component.onCompleted:
     {
         startUpAni.start()
-//        console.log("hello")
-//        console.log("ProjectID: " + yacApp.globalConfig.projectID)
-//        console.log(yacApp.mainConfig)
-//        console.log(yacApp.mainConfig.background)
-//        console.log(yacApp.mainConfig.background.imageFilename)
-//        console.log(yacApp.mainConfig.background.color)
-//        console.log(yacApp.mainConfig.content.type)
-//        console.log(yacApp.mainConfig.content.items.length)
-//        console.log(yacApp.mainConfig.content.items[1].height)
+        //        console.log("hello")
+        //        console.log("ProjectID: " + yacApp.globalConfig.projectID)
+        //        console.log(yacApp.mainConfig)
+        //        console.log(yacApp.mainConfig.background)
+        //        console.log(yacApp.mainConfig.background.imageFilename)
+        //        console.log(yacApp.mainConfig.background.color)
+        //        console.log(yacApp.mainConfig.content.type)
+        //        console.log(yacApp.mainConfig.content.items.length)
+        //        console.log(yacApp.mainConfig.content.items[1].height)
         checkForAppUpdate()
     }
 }

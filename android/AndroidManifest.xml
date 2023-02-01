@@ -70,21 +70,14 @@
             <!-- extract android style -->
         </activity>
         <!-- For adding service(s) please check: https://wiki.qt.io/AndroidServices -->
-        <service android:name="com.google.firebase.messaging.cpp.ListenerService"
-                     android:exported="false" >
-              <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-              </intent-filter>
-            </service>
+        <!-- Firebase Messaging specific services -->
+                <service android:name="com.google.firebase.messaging.cpp.ListenerService" android:exported="false">
+                  <intent-filter>
+                    <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                  </intent-filter>
+                </service>
 
-            <service android:name="com.google.firebase.messaging.cpp.RegistrationIntentService"
-                     android:permission="android.permission.BIND_JOB_SERVICE"
-                     android:exported="false" >
-            </service>
-            <service android:name="com.google.firebase.messaging.MessageForwardingService"
-                     android:permission="android.permission.BIND_JOB_SERVICE"
-                     android:exported="false" >
-            </service>
+
     </application>
 
 </manifest>

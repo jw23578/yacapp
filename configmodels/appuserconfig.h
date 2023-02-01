@@ -12,7 +12,7 @@ class AppUserConfig: public ConfigInterface
     YACAPPPROPERTY(QString, surname, Surname, "");
     YACAPPPROPERTY(QString, visibleName, VisibleName, "");
     YACAPPPROPERTY(QString, loginEMail, LoginEMail, "");
-    YACAPPPROPERTYCUSTOMSET(QString, loginToken, LoginToken, "", void setLoginToken(QString n){if (m_loginToken == n) return; m_loginToken = n; setLoggedIn(loginToken().size() > 0); emit loginEMailChanged();});
+    YACAPPPROPERTYCUSTOMSET(QString, loginToken, LoginToken, "", void setLoginToken(QString n){if (m_loginToken == n) return; m_loginToken = n; setLoggedIn(loginToken().size() > 0); emit loginTokenChanged();});
     YACAPPPROPERTY(bool, loggedIn, LoggedIn, false);
     YACAPPPROPERTY(QDateTime, workStart, WorkStart, QDateTime());
     YACAPPPROPERTY(QDateTime, pauseStart, PauseStart, QDateTime());

@@ -108,6 +108,7 @@ Rectangle
                 console.log("id: " + id)
                 theLoader.sourceComponent = null
             }
+            onCloseClicked: theLoader.sourceComponent = null
         }
     }
     Component

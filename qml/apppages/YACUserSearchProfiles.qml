@@ -5,6 +5,7 @@ Rectangle
 {
     anchors.fill: parent
     signal profileSelected(string id)
+    signal closeClicked()
     YACLineEditWithHeader
     {
         id: needleText
@@ -36,7 +37,7 @@ Rectangle
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: needleText.bottom
-        anchors.bottom: parent.bottom
+        anchors.bottom: closeButton.top
         model: SearchProfilesModel
         delegate: Rectangle
         {
@@ -58,5 +59,14 @@ Rectangle
             }
         }
 
+    }
+    YACButton
+    {
+        id: closeButton
+        anchors.bottom: parent.bottom
+        width: parent.width * Constants.defaultWidthFactor
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: qsTr("Close")
+        onClicked: closeClicked()
     }
 }

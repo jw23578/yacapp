@@ -27,14 +27,18 @@ YACAPPFirebase::YACAPPFirebase(Firebase2Qt &firebase2qt):
         qDebug() << "creating firebase app";
         firebaseApp = firebase::App::Create(*qjniEnv, activity.object<jobject>());
     }
+    if (firebaseApp)
+    {
+        qDebug() << "firebaseapp successfuly created";
+    }
 
     qDebug() << "YACAPPFirebase";
 
-    //::firebase::messaging::RequestPermission();
     qDebug() << "-----------------------------------------*********************-------------------------";
     firebase::InitResult res = ::firebase::messaging::Initialize(*firebaseApp, &messageListener);
     qDebug() << "-----------------------------------------*********************-------------------------";
     qDebug() << __FILE__ << " " << __LINE__ << "Initresult: " << res;
+    ::firebase::messaging::RequestPermission();
 }
 
 
@@ -44,14 +48,19 @@ MessageListener::MessageListener(Firebase2Qt &firebase2qt):
 
 }
 
+MessageListener::~MessageListener()
+{
+    qDebug() << "destroy listener";
+}
+
 void MessageListener::OnMessage(const firebase::messaging::Message &message)
 {
-   firebase2qt.handleNewMessage();
-   qDebug() << "got message";
-   for (auto const &s2s: message.data)
-   {
-       qDebug() << s2s.first.c_str() << ": " << s2s.second.c_str();
-   }
+    qDebug() << "got message";
+    for (auto const &s2s: message.data)
+    {
+        qDebug() << s2s.first.c_str() << ": " << s2s.second.c_str();
+    }
+    firebase2qt.handleNewMessage();
 }
 
 void MessageListener::OnTokenReceived(const char *token)

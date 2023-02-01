@@ -361,9 +361,12 @@ void YACAPP::appUserVerify(const QString &loginEMail,
     network.yacappServerAppUserVerify(loginEMail,
                                       verifyToken,
                                       globalConfig()->projectID(),
-                                      [successCallback](const QString &message) mutable
+                                      [this, loginEMail, successCallback](const QString &message) mutable
     {
         successCallback.call(QJSValueList() << message);
+        appUserConfig()->setLoginEMail(loginEMail);
+        appUserConfig()->setLoginToken(message);
+        saveState();
     },
     [errorCallback](const QString &message) mutable
     {
@@ -567,6 +570,10 @@ void YACAPP::appUserSearchProfiles(const QString &needle,
 
 void YACAPP::fetchMessageUpdates()
 {
+    if (!appUserConfig()->loggedIn())
+    {
+        return;
+    }
     network.appUserFetchMessageUpdates(globalConfig()->projectID(),
                                        appUserConfig()->loginEMail(),
                                        appUserConfig()->loginToken(),

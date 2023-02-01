@@ -86,7 +86,8 @@ Item
                 {
                     if (yacApp.appUserConfig.loginToken == "")
                     {
-                        profileLoader.sourceComponent = registerVerifyLoginComponent
+                        profileLoader.sourceComponent = tokenLogin
+//                        profileLoader.sourceComponent = registerVerifyLoginComponent
                     }
                     else
                     {
@@ -181,6 +182,15 @@ Item
             }
         }
     }
+    Component
+    {
+        id: tokenLogin
+        YACUserTokenLogin
+        {
+            onCloseClicked: profileLoader.sourceComponent = null
+        }
+    }
+
     Component
     {
         id: selectLanguageComponent

@@ -149,10 +149,14 @@ Rectangle
     YACTextEditWithBackground
     {
         id: theTextEdit
+        focus: false
         anchors.left: parent.left
         anchors.right: sendButton.left
+        anchors.leftMargin: Constants.defaultMargin
         anchors.bottom: parent.bottom
         wrapMode: Text.WordWrap
+        font.pixelSize: Constants.defaultFontPixelSize * Constants.x4largerTextFactor
+        textFocus: false
     }
     YACButton
     {
@@ -162,11 +166,12 @@ Rectangle
         anchors.bottom: parent.bottom
         onClicked:
         {
-            if (theTextEdit.text == "")
+            var toSend = theTextEdit.text + theTextEdit.preeditText
+            if (toSend == "")
             {
                 return
             }
-            yacApp.sendMessage(profileId, theTextEdit.text)
+            yacApp.sendMessage(profileId, toSend)
             theTextEdit.text = ""
         }
     }

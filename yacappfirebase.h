@@ -22,6 +22,7 @@ class MessageListener: public firebase::messaging::Listener
     Firebase2Qt &firebase2qt;
 public:
     MessageListener(Firebase2Qt &firebase2qt);
+    ~MessageListener();
     void OnMessage(const firebase::messaging::Message &message) override;
     void OnTokenReceived(const char *token) override;
 };

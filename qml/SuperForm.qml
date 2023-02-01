@@ -34,8 +34,14 @@ Rectangle
             {
                 id: theWebview
                 anchors.fill: parent
-                visible: !loading && theSuperForm.currentSuperForm
+                visible: !loading && theSuperForm.currentSuperForm && !Constants.topLevelFormActive
                 url: config.content.url + (config.content.loginNeeded ? yacApp.loginToken : "")
+                onUrlChanged: console.log("url: " + url)
+                onVisibleChanged:
+                {
+                    console.log("Webview Visible: " + visible)
+                    console.log("Webview Constants.topLevelFormActive: " + Constants.topLevelFormActive)
+                }
             }
             Rectangle
             {
