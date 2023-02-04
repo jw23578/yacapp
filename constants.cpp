@@ -27,17 +27,23 @@ Constants::Constants(const QString &customWriteablePath):writeablePath(customWri
         }
         writeablePath = paths[0] + "/";
     }
-
-    QDir().mkpath(getYacAppConfigPath());
+    QDir().mkpath(writeablePath);
 }
 
-const QString &Constants::getWriteablePath() const
+const QString &Constants::getWriteablePath(QString appId)
 {
-    return writeablePath;
+    if (!writeablePathWidthAppId.contains(appId))
+    {
+        writeablePathWidthAppId = writeablePath + appId + "/";
+        QDir().mkpath(writeablePathWidthAppId);
+    }
+    return writeablePathWidthAppId;
 }
-const QString Constants::getYacAppConfigPath() const
+const QString Constants::getYacAppConfigPath(QString appId)
 {
-    return writeablePath + "yacAppConfig/";
+    QString path(getWriteablePath(appId) + "yacAppConfig/");
+    QDir().mkpath(path);
+    return path;
 }
 
 const QString Constants::getStateFilename() const
@@ -45,9 +51,14 @@ const QString Constants::getStateFilename() const
     return writeablePath + "yacAppState.json";
 }
 
-const QString Constants::getDBFilename() const
+const QString Constants::getDBFilename(QString appId)
 {
-    return writeablePath + "yacApp.db";
+    return getWriteablePath(appId) + "yacApp.db";
+}
+
+const QString Constants::getAppConfigFilename(QString appId)
+{
+    return getWriteablePath(appId) + "appConfig.json";
 }
 
 

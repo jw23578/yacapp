@@ -9,10 +9,11 @@ class CustomServerNetwork : public NetworkInterface
     void projectPackageFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
 public:
     explicit CustomServerNetwork(QNetworkAccessManager &manager
-                                 , const Constants &constants);
+                                 , Constants &constants);
 
     void downloadApp(QString projectFilename,
                      QString projectPackage,
+                     const QString &appId,
                      std::function<void(const QString &)> appDownloadedCallback,
                      std::function<void (const QString &)>  errorCallback);
 

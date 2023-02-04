@@ -3,7 +3,7 @@
 #include <QJsonDocument>
 
 YACServerBaseNetwork::YACServerBaseNetwork(QNetworkAccessManager &manager
-                                           , const Constants &constants):
+                                           , Constants &constants):
     NetworkInterface{manager, constants}
 {
 

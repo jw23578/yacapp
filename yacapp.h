@@ -25,9 +25,9 @@ class YACAPP : public QObject
     QTranslator translator;
     friend Configurator;
     Q_OBJECT
-    const Constants &constants;
+    Constants &constants;
     const Helper &helper;
-    LocalStorage &localStorage;
+    LocalStorage *localStorage;
     QString deviceToken;
     YACAPPPROPERTY(QString, appFolder, AppFolder, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
@@ -57,12 +57,14 @@ class YACAPP : public QObject
 
     void cleanUpKnownFile();
 
+    void loadAppConfig();
+    void saveAppConfig();
+
 public:
     Firebase2Qt firebase2qt;
     explicit YACAPP(QQmlApplicationEngine &engine
-                    , const Constants &constants
+                    , Constants &constants
                     , const Helper &helper
-                    , LocalStorage &localStorage
                     , YACServerNetwork &network
                     , CustomServerNetwork &customServerNetwork
                     , QObject *parent = nullptr);

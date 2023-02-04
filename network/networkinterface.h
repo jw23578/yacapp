@@ -11,7 +11,7 @@ class NetworkInterface : public QObject
     Q_OBJECT
 protected:
     QNetworkAccessManager &manager;
-    const Constants &constants;
+    Constants &constants;
 
 
     struct SRunningRequest;
@@ -22,6 +22,7 @@ protected:
     {
         QString projectFilename;
         QString projectPackage;
+        QString appId;
         HandlerFunction handlerFunction;
         CallbackFunction successCallback;
         JSONCallbackFunction jsonSuccessCallback;
@@ -34,7 +35,7 @@ protected:
     QMap<QNetworkReply*, SRunningRequest> runningRequests;
 
 public:
-    explicit NetworkInterface(QNetworkAccessManager &manager, const Constants &constants, QObject *parent = nullptr);
+    explicit NetworkInterface(QNetworkAccessManager &manager, Constants &constants, QObject *parent = nullptr);
 
 signals:
 

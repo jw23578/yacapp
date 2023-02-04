@@ -22,7 +22,7 @@ class LocalStorage
     const QString insertMessageString;
     const QString deleteKnownContactString;
 public:
-    LocalStorage(Constants &constants);
+    LocalStorage(QString appId, Constants &constants);
 
     void exec(const QString &sql);
     typedef std::function<void(DataObjectInterface *)> AppendFunction;

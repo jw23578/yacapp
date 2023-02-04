@@ -7,7 +7,7 @@
 #include <QMap>
 
 YACServerNetwork::YACServerNetwork(QNetworkAccessManager &manager
-                                   , const Constants &constants):
+                                   , Constants &constants):
     YACServerBaseNetwork(manager, constants)
 {
 }
@@ -51,7 +51,7 @@ void YACServerNetwork::yacappServerGetAPP(const QString &app_id,
 
             QByteArray yacpck_base64(object["yacpck_base64"].toString().toLatin1());
             QByteArray yacpck(QByteArray::fromBase64(yacpck_base64));
-            QFile file(constants.getYacAppConfigPath() + app_id + ".yacapp");
+            QFile file(constants.getYacAppConfigPath(app_id) + app_id + ".yacapp");
             file.open(QIODevice::WriteOnly);
             file.write(json_yacapp.toLatin1());
             file.close();
@@ -70,7 +70,7 @@ void YACServerNetwork::yacappServerGetAPP(const QString &app_id,
                 }
                 QByteArray data(uncompressedData.mid(pos, nextPos - pos));
 
-                QFile file(constants.getYacAppConfigPath() + filename);
+                QFile file(constants.getYacAppConfigPath(app_id) + filename);
                 file.open(QIODevice::WriteOnly);
                 file.write(data);
                 file.close();

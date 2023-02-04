@@ -4,7 +4,7 @@
 #include <QUrlQuery>
 
 YACExtServerNetwork::YACExtServerNetwork(QNetworkAccessManager &manager
-                                         , const Constants &constants)
+                                         , Constants &constants)
     :YACServerNetwork(manager
                       , constants)
 {

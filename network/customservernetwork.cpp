@@ -3,7 +3,7 @@
 #include <QFileInfo>
 
 CustomServerNetwork::CustomServerNetwork(QNetworkAccessManager &manager
-                                         , const Constants &constants)
+                                         , Constants &constants)
     : NetworkInterface{manager
                        , constants}
 {
@@ -11,9 +11,10 @@ CustomServerNetwork::CustomServerNetwork(QNetworkAccessManager &manager
 }
 
 void CustomServerNetwork::downloadApp(QString projectFilename,
-                             QString projectPackage,
-                             std::function<void(const QString &)> appDownloadedCallback,
-                             std::function<void(const QString &errorMessage)> errorCallback)
+                                      QString projectPackage,
+                                      const QString &appId,
+                                      std::function<void(const QString &)> appDownloadedCallback,
+                                      std::function<void(const QString &errorMessage)> errorCallback)
 {
     QNetworkRequest request;
     request.setUrl(QUrl(projectFilename));
@@ -22,6 +23,7 @@ void CustomServerNetwork::downloadApp(QString projectFilename,
     rr.handlerFunction = std::bind(&CustomServerNetwork::projectFilenameFinished, this, std::placeholders::_1, std::placeholders::_2);
     rr.projectFilename = projectFilename;
     rr.projectPackage = projectPackage;
+    rr.appId = appId;
     rr.errorCallback = errorCallback;
     rr.successCallback = appDownloadedCallback;
 }
@@ -35,7 +37,7 @@ void CustomServerNetwork::projectFilenameFinished(QNetworkReply *finishedReply, 
     }
     // Success? Then save Project File
 
-    QFile file(constants.getYacAppConfigPath() + QFileInfo(rr.projectFilename).fileName());
+    QFile file(constants.getYacAppConfigPath(rr.appId) + QFileInfo(rr.projectFilename).fileName());
     file.open(QIODevice::WriteOnly);
     file.write(finishedReply->readAll());
     file.close();
@@ -69,7 +71,7 @@ void CustomServerNetwork::projectPackageFinished(QNetworkReply *finishedReply, S
         }
         QByteArray data(uncompressedData.mid(pos, nextPos - pos));
 
-        QFile file(constants.getYacAppConfigPath() + filename);
+        QFile file(constants.getYacAppConfigPath(rr.appId) + filename);
         file.open(QIODevice::WriteOnly);
         file.write(data);
         file.close();

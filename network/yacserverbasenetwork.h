@@ -53,7 +53,7 @@ protected:
                                          CallbackFunction errorCallback);
 public:
     explicit YACServerBaseNetwork(QNetworkAccessManager &manager
-                                  , const Constants &constants);
+                                  , Constants &constants);
 };
 
 #endif // YACSERVERBASENETWORK_H

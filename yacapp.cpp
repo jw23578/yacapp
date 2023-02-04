@@ -6,16 +6,15 @@
 #include <QCoreApplication>
 
 YACAPP::YACAPP(QQmlApplicationEngine &engine
-               , const Constants &constants
+               , Constants &constants
                , const Helper &helper
-               , LocalStorage &localStorage
                , YACServerNetwork &network
                , CustomServerNetwork &customServerNetwork
                , QObject *parent)
     : QObject{parent},
       constants(constants),
       helper(helper),
-      localStorage(localStorage),
+      localStorage(0),
       network(network),
       customServerNetwork(customServerNetwork),
       searchProfilesModel(engine, "SearchProfilesModel"),
@@ -33,14 +32,6 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
     stringFromJSON(globalProjectConfigFilename, GlobalProjectConfigFilename);
     stringFromJSON(loginToken, LoginToken);
     deviceToken = config["deviceToken"].toString();
-    QString serverNowISO(config["serverNowISO"].toString());
-    if (serverNowISO.size())
-    {
-        setServerNow(QDateTime::fromString(serverNowISO, Qt::ISODate));
-    }
-    appUserConfig()->setConfig(config["appUserConfig"]);
-
-    localStorage.loadKnownContacts([this](DataObjectInterface *o){knownProfilesModel.append(dynamic_cast<ProfileObject*>(o));});
 
     //    for (size_t i(0); i < 3; ++i)
     //    {
@@ -95,6 +86,15 @@ void YACAPP::init(QString projectFilename)
     }
     setMainConfig(getConfig(globalConfig()->mainFormFilename()));
     cleanUpKnownFile();
+
+    delete localStorage;
+    if (globalConfig()->projectID().size())
+    {
+        loadAppConfig();
+        localStorage = new LocalStorage(globalConfig()->projectID(), constants);
+        knownProfilesModel.clear();
+        localStorage->loadKnownContacts([this](DataObjectInterface *o){knownProfilesModel.append(dynamic_cast<ProfileObject*>(o));});
+    }
 }
 
 void YACAPP::logout()
@@ -138,13 +138,11 @@ void YACAPP::saveState()
     stringToJSON(globalProjectConfigFilename);
     config["deviceToken"] = deviceToken;
 
-    config["appUserConfig"] = appUserConfig()->getConfig();
-    QString help(serverNow().toString(Qt::ISODate));
-    config["serverNowISO"] = serverNow().toString(Qt::ISODate);
-
     QFile jsonFile(constants.getStateFilename());
     jsonFile.open(QIODevice::WriteOnly);
     jsonFile.write(QJsonDocument(config).toJson());
+
+    saveAppConfig();
 }
 
 void YACAPP::addKnownFile(QString const &filename)
@@ -201,6 +199,35 @@ void YACAPP::cleanUpKnownFile()
             }
         }
     }
+}
+
+void YACAPP::loadAppConfig()
+{
+    QFile jsonFile(constants.getAppConfigFilename(globalConfig()->projectID()));
+    jsonFile.open(QIODevice::ReadOnly);
+    QByteArray fileData(jsonFile.readAll());
+    QJsonDocument config(QJsonDocument::fromJson(fileData));
+
+    appUserConfig()->setConfig(config["appUserConfig"]);
+    QString serverNowISO(config["serverNowISO"].toString());
+    if (serverNowISO.size())
+    {
+        setServerNow(QDateTime::fromString(serverNowISO, Qt::ISODate));
+    }
+}
+
+void YACAPP::saveAppConfig()
+{
+    QJsonObject config;
+
+    config["appUserConfig"] = appUserConfig()->getConfig();
+    QString help(serverNow().toString(Qt::ISODate));
+    config["serverNowISO"] = serverNow().toString(Qt::ISODate);
+
+    QFile jsonFile(constants.getAppConfigFilename(globalConfig()->projectID()));
+    jsonFile.open(QIODevice::WriteOnly);
+    jsonFile.write(QJsonDocument(config).toJson());
+
 }
 
 ParsedConfig *YACAPP::getConfig(const QString &filename)
@@ -283,10 +310,11 @@ void YACAPP::downloadApp(QString url
 
     customServerNetwork.downloadApp(url + projectID + ".yacapp"
                                     , url + projectID + ".yacpck"
+                                    , projectID
                                     , [this, projectID, successCallback](const QString &message) mutable
     {
         Q_UNUSED(message);
-        loadNewProject(constants.getYacAppConfigPath() + projectID + ".yacapp");
+        loadNewProject(constants.getYacAppConfigPath(projectID) + projectID + ".yacapp");
         saveState();
         successCallback.call(QJSValueList());
     }
@@ -324,7 +352,7 @@ void YACAPP::yacappServerGetAPP(const QString &app_id,
             successCallback.call(QJSValueList() << message);
             return;
         }
-        loadNewProject(constants.getYacAppConfigPath() + app_id + ".yacapp");
+        loadNewProject(constants.getYacAppConfigPath(app_id) + app_id + ".yacapp");
         saveState();
         successCallback.call(QJSValueList() << message);
     },
@@ -628,7 +656,7 @@ void YACAPP::fetchMessageUpdates()
                               QDateTime::currentDateTime(),
                               QByteArray::fromBase64(content_base64),
                               false));
-            if (localStorage.insertMessage(*mo))
+            if (localStorage->insertMessage(*mo))
             {
                 if (!knownProfilesModel.incUnreadMessages(senderId))
                 {
@@ -644,7 +672,7 @@ void YACAPP::fetchMessageUpdates()
                         po->setVisibleName(profile["visible_name"].toString());
                         if (knownProfilesModel.append(po))
                         {
-                            localStorage.upsertKnownContact(*po);
+                            localStorage->upsertKnownContact(*po);
                             knownProfilesModel.incUnreadMessages(po->id());
                         }
                     },
@@ -671,7 +699,7 @@ void YACAPP::fetchMessageUpdates()
 void YACAPP::loadMessages(const QString &contactId)
 {
     messagesModel.clear();
-    localStorage.loadMessages(contactId, [this](DataObjectInterface *o){messagesModel.append(dynamic_cast<MessageObject*>(o));});
+    localStorage->loadMessages(contactId, [this](DataObjectInterface *o){messagesModel.append(dynamic_cast<MessageObject*>(o));});
     messagesModel.setProfileID(contactId);
 }
 
@@ -685,7 +713,7 @@ void YACAPP::sendMessage(const QString &profileId, const QString &content)
                                         content,
                                         false));
     messagesModel.append(mo);
-    localStorage.insertMessage(*mo);
+    localStorage->insertMessage(*mo);
 
     network.appUserStoreMessage(globalConfig()->projectID(),
                                 appUserConfig()->loginEMail(),
@@ -708,14 +736,14 @@ void YACAPP::addProfileToKnownProfiles(const QString &id)
     ProfileObject *po(searchProfilesModel.getCopyById(id));
     if (knownProfilesModel.append(po))
     {
-        localStorage.upsertKnownContact(*po);
+        localStorage->upsertKnownContact(*po);
     }
 }
 
 void YACAPP::removeProfileFromKnownProfiles(const QString &id)
 {
     knownProfilesModel.removeById(id);
-    localStorage.deleteKnownContact(id);
+    localStorage->deleteKnownContact(id);
 }
 
 void YACAPP::switchLanguage(const QString &language)

@@ -3,7 +3,7 @@
 #include <QJsonObject>
 
 NetworkInterface::NetworkInterface(QNetworkAccessManager &manager
-                                   , const Constants &constants
+                                   , Constants &constants
                                    , QObject *parent)
     : QObject{parent}
     , manager(manager)

@@ -4,7 +4,8 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 
-LocalStorage::LocalStorage(Constants &constants):
+LocalStorage::LocalStorage(QString appId,
+                           Constants &constants):
     db(QSqlDatabase::addDatabase("QSQLITE")),
     selectOneMessageString("select * from messages "
                            "where id = :id "
@@ -15,8 +16,8 @@ LocalStorage::LocalStorage(Constants &constants):
     deleteKnownContactString(QString("delete from ") + tableNames.knowncontacts
                              + QString(" where id = :id"))
 {
-    db.setDatabaseName(constants.getDBFilename());
-    qDebug() << "dbFilename: " << constants.getDBFilename();
+    db.setDatabaseName(constants.getDBFilename(appId));
+    qDebug() << "dbFilename: " << constants.getDBFilename(appId);
     if (db.open())
     {
         qDebug() << "db opened successfully";

@@ -8,7 +8,7 @@ class YACServerNetwork: public YACServerBaseNetwork
     Q_OBJECT
 public:
     YACServerNetwork(QNetworkAccessManager &manager
-                     , const Constants &constants);
+                     , Constants &constants);
 
     void yacappServerGetAllAPPs(CallbackFunction successCallback,
                                 CallbackFunction  errorCallback);

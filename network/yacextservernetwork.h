@@ -7,7 +7,7 @@ class YACExtServerNetwork : public YACServerNetwork
 {
 public:
     YACExtServerNetwork(QNetworkAccessManager &manager
-                        , const Constants &constants);
+                        , Constants &constants);
 
     void yacappServerRegisterUser(QString loginEMail,
                                   QString password,
