@@ -160,6 +160,15 @@ Rectangle
                     text: qsTr("Request Logintoken")
                     onClicked:
                     {
+                        yacApp.appUserRequestVerifyToken(login.displayText,
+                                                         function(message)
+                                                         {
+                                                             yacApp.goodMessage(qsTr("Token sended, please check your E-Mails."), null, null)
+                                                         },
+                                                         function(message)
+                                                         {
+                                                             yacApp.badMessage(message, null, null)
+                                                         })
                         tokenButton.text = qsTr("Login")
                         tokenOrPasswort.byToken = true
                     }

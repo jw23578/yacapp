@@ -97,6 +97,9 @@ public:
                                      const QString &password,
                                      QJSValue successCallback,
                                      QJSValue errorCallback);
+    Q_INVOKABLE void appUserRequestVerifyToken(const QString &loginEMail,
+                                               QJSValue successCallback,
+                                               QJSValue errorCallback);
     Q_INVOKABLE void appUserVerify(const QString &loginEMail,
                                    const QString &verifyToken,
                                    QJSValue successCallback,

@@ -20,13 +20,13 @@ protected:
                           const QJsonObject &object,
                           HandlerFunction handlerFunction,
                           const QMap<QByteArray, QByteArray> &rawHeader,
-                          CallbackFunction registerCallback,
+                          CallbackFunction successCallback,
                           CallbackFunction errorCallback);
 
     void yacappServerPost(const QString &method,
                           const QJsonObject &object,
                           HandlerFunction handlerFunction,
-                          CallbackFunction registerCallback,
+                          CallbackFunction successCallback,
                           CallbackFunction errorCallback);
 
     void yacappServerGet(const QString &method,

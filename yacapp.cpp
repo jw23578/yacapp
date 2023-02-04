@@ -353,6 +353,23 @@ void YACAPP::appUserRegister(const QString &loginEMail,
     );
 }
 
+void YACAPP::appUserRequestVerifyToken(const QString &loginEMail,
+                                       QJSValue successCallback,
+                                       QJSValue errorCallback)
+{
+    network.yacappServerAppUserRequestVerifyToken(loginEMail,
+                                                  globalConfig()->projectID(),
+                                                  [successCallback](const QString &message) mutable
+    {
+        successCallback.call(QJSValueList() << message);
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+}
+
 void YACAPP::appUserVerify(const QString &loginEMail,
                            const QString &verifyToken,
                            QJSValue successCallback,
@@ -361,12 +378,25 @@ void YACAPP::appUserVerify(const QString &loginEMail,
     network.yacappServerAppUserVerify(loginEMail,
                                       verifyToken,
                                       globalConfig()->projectID(),
-                                      [this, loginEMail, successCallback](const QString &message) mutable
+                                      [this, loginEMail, successCallback](const QJsonDocument &jsonDoc) mutable
     {
-        successCallback.call(QJSValueList() << message);
+        QJsonObject object(jsonDoc.object());
+        QString fstname(object["fstname"].toString());
+        QString surname(object["surname"].toString());
+        QString loginToken(object["loginToken"].toString());
+        QString visible_name(object["visible_name"].toString());
         appUserConfig()->setLoginEMail(loginEMail);
-        appUserConfig()->setLoginToken(message);
+        appUserConfig()->setLoginToken(loginToken);
+        appUserConfig()->setFstname(fstname);
+        appUserConfig()->setSurname(surname);
+        appUserConfig()->setVisibleName(visible_name);
         saveState();
+        successCallback.call(QJSValueList());
+
+//        successCallback.call(QJSValueList() << message);
+//        appUserConfig()->setLoginEMail(loginEMail);
+//        appUserConfig()->setLoginToken(message);
+//        saveState();
     },
     [errorCallback](const QString &message) mutable
     {

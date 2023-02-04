@@ -24,10 +24,15 @@ public:
                                      CallbackFunction successCallback,
                                      CallbackFunction  errorCallback);
 
+    void yacappServerAppUserRequestVerifyToken(const QString &loginEMail,
+                                               const QString &appId,
+                                               CallbackFunction successCallback,
+                                               CallbackFunction  errorCallback);
+
     void yacappServerAppUserVerify(const QString &loginEMail,
                                    const QString &verifyToken,
                                    const QString &appId,
-                                   CallbackFunction successCallback,
+                                   JSONCallbackFunction jsonSuccessCallback,
                                    CallbackFunction  errorCallback);
 
     void yacappServerAppUserLogin(const QString &loginEMail,

@@ -99,29 +99,28 @@ void YACServerNetwork::yacappServerAppUserRegister(const QString &loginEMail,
                                                    CallbackFunction successCallback,
                                                    CallbackFunction errorCallback)
 {
-    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
-    {
-        QByteArray all(finishedReply->readAll());
-        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
-        QJsonObject object(replyDoc.object());
-        QString message(object["message"].toString());
-        if (object["success"].toBool())
-        {
-            rr.successCallback(message);
-        }
-        else
-        {
-            rr.errorCallback(message);
-        }
-    });
-
     QJsonObject obj;
     obj["loginEMail"] = loginEMail;
     obj["password"] = password;
     obj["appId"] = appId;
     yacappServerPost("/registerAppUser",
                      obj,
-                     replyHandler,
+                     defaultReplyHandler,
+                     successCallback,
+                     errorCallback);
+}
+
+void YACServerNetwork::yacappServerAppUserRequestVerifyToken(const QString &loginEMail,
+                                                             const QString &appId,
+                                                             CallbackFunction successCallback,
+                                                             CallbackFunction errorCallback)
+{
+    QJsonObject obj;
+    obj["loginEMail"] = loginEMail;
+    obj["appId"] = appId;
+    yacappServerPost("/requestVerifyToken",
+                     obj,
+                     defaultReplyHandler,
                      successCallback,
                      errorCallback);
 }
@@ -129,33 +128,20 @@ void YACServerNetwork::yacappServerAppUserRegister(const QString &loginEMail,
 void YACServerNetwork::yacappServerAppUserVerify(const QString &loginEMail,
                                                  const QString &verifyToken,
                                                  const QString &appId,
-                                                 CallbackFunction successCallback,
+                                                 JSONCallbackFunction jsonSuccessCallback,
                                                  CallbackFunction errorCallback)
 {
-    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
-    {
-        QByteArray all(finishedReply->readAll());
-        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
-        QJsonObject object(replyDoc.object());
-        QString message(object["message"].toString());
-        if (object["success"].toBool())
-        {
-            rr.successCallback(object["loginToken"].toString());
-        }
-        else
-        {
-            rr.errorCallback(message);
-        }
-    });
-
     QJsonObject obj;
     obj["loginEMail"] = loginEMail;
     obj["verifyToken"] = verifyToken;
     obj["appId"] = appId;
+    QMap<QByteArray, QByteArray> rawHeader;
     yacappServerPost("/verifyAppUser",
                      obj,
-                     replyHandler,
-                     successCallback,
+                     defaultJSONReplyHandler,
+                     rawHeader,
+                     0,
+                     jsonSuccessCallback,
                      errorCallback);
 }
 

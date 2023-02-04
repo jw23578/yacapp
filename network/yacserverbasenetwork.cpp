@@ -42,28 +42,28 @@ void YACServerBaseNetwork::yacappServerPost(const QString &method,
                                             const QJsonObject &object,
                                             HandlerFunction handlerFunction,
                                             const QMap<QByteArray, QByteArray> &rawHeader,
-                                            CallbackFunction registerCallback,
+                                            CallbackFunction successCallback,
                                             CallbackFunction errorCallback)
 {
     yacappServerPost(method,
                      object,
                      handlerFunction,
                      rawHeader,
-                     registerCallback,
+                     successCallback,
                      0,
                      errorCallback);
 }
 void YACServerBaseNetwork::yacappServerPost(const QString &method,
                                             const QJsonObject &object,
                                             HandlerFunction handlerFunction,
-                                            CallbackFunction registerCallback,
+                                            CallbackFunction successCallback,
                                             CallbackFunction errorCallback)
 {
     yacappServerPost(method,
                      object,
                      handlerFunction,
                      QMap<QByteArray, QByteArray>(),
-                     registerCallback,
+                     successCallback,
                      errorCallback);
 }
 
