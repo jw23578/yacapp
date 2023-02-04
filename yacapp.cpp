@@ -466,7 +466,11 @@ void YACAPP::appUserLogin(const QString &loginEMail,
 
 void YACAPP::appUserLogout()
 {
-    appUserConfig()->setLoginEMail("");
+    if (!appUserConfig()->saveLoginEMail())
+    {
+        appUserConfig()->setLoginEMail("");
+    }
+    appUserConfig()->setSaveLoginEMail(true);
     appUserConfig()->setLoginToken("");
     appUserConfig()->setFstname("");
     appUserConfig()->setSurname("");

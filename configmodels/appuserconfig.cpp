@@ -20,6 +20,7 @@ void AppUserConfig::setConfig(const QJsonValue &config)
     stringFromJSON(fstname, Fstname);
     stringFromJSON(surname, Surname);
     stringFromJSON(visibleName, VisibleName);
+    boolFromJSON(saveLoginEMail, SaveLoginEMail);
     if (!loginEMail().size())
     {
         setLoginToken("");
@@ -29,6 +30,10 @@ void AppUserConfig::setConfig(const QJsonValue &config)
 QJsonObject AppUserConfig::getConfig()
 {
     QJsonObject config;
+    if (changed(saveLoginEMail()))
+    {
+        boolToJSON(saveLoginEMail);
+    }
     if (changed(loginToken()))
     {
         stringToJSON(loginToken);

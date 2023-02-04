@@ -40,6 +40,7 @@ Rectangle
                 {
                     id: login
                     color: Helper.emailIsValid(displayText) ? Constants.goodColor : Constants.badColor
+                    text: yacApp.appUserConfig.loginEMail
                 }
                 YACButton
                 {
@@ -141,12 +142,33 @@ Rectangle
                 {
                     id: password
                     visible: !tokenOrPasswort.byToken
+                    echoMode: TextInput.Password
                 }
                 YACButton
                 {
                     width: parent.width
                     visible: !tokenOrPasswort.byToken
                     text: qsTr("Login")
+                    onClicked:
+                    {
+                        if (!EMailPasswordFunctions.checkEMail(Helper, yacApp, login.displayText, login))
+                        {
+                            return;
+                        }
+                        if (!EMailPasswordFunctions.checkPassword(Helper, yacApp, password.text, password))
+                        {
+                            return;
+                        }
+                        yacApp.appUserLogin(login.displayText,
+                                            password.text,
+                                            function(message) {
+                                                yacApp.goodMessage(qsTr("Login successful, have fun!"), null, null)
+                                                closeClicked()
+                                            },
+                                            function(message) {
+                                                yacApp.badMessage(qsTr(message), null, null)
+                                            })
+                    }
                 }
                 YACText
                 {
@@ -164,13 +186,13 @@ Rectangle
                                                          function(message)
                                                          {
                                                              yacApp.goodMessage(qsTr("Token sended, please check your E-Mails."), null, null)
+                                                             tokenButton.text = qsTr("Login")
+                                                             tokenOrPasswort.byToken = true
                                                          },
                                                          function(message)
                                                          {
                                                              yacApp.badMessage(message, null, null)
                                                          })
-                        tokenButton.text = qsTr("Login")
-                        tokenOrPasswort.byToken = true
                     }
                 }
             }

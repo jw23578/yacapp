@@ -11,6 +11,7 @@ class AppUserConfig: public ConfigInterface
     YACAPPPROPERTY(QString, fstname, Fstname, "");
     YACAPPPROPERTY(QString, surname, Surname, "");
     YACAPPPROPERTY(QString, visibleName, VisibleName, "");
+    YACAPPPROPERTY(bool, saveLoginEMail, SaveLoginEMail, true);
     YACAPPPROPERTY(QString, loginEMail, LoginEMail, "");
     YACAPPPROPERTYCUSTOMSET(QString, loginToken, LoginToken, "", void setLoginToken(QString n){if (m_loginToken == n) return; m_loginToken = n; setLoggedIn(loginToken().size() > 0); emit loginTokenChanged();});
     YACAPPPROPERTY(bool, loggedIn, LoggedIn, false);
