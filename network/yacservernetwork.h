@@ -94,6 +94,18 @@ public:
                              CallbackFunction successCallback,
                              CallbackFunction errorCallback);
 
+    void appUserUpdateProfile(const QString &appId,
+                              const QString &loginEMail,
+                              const QString &loginToken,
+                              const QString &fstname,
+                              const QString &surname,
+                              const QString &visible_name,
+                              const QString &profileFilename,
+                              const bool searching_exactly_allowed,
+                              const bool searching_fuzzy_allowed,
+                              CallbackFunction successCallback,
+                              CallbackFunction errorCallback);
+
     void appUserFetchMessageUpdates(const QString &appId,
                                     const QString &loginEMail,
                                     const QString &loginToken,

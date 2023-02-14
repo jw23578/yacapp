@@ -1,4 +1,4 @@
-QT += quick widgets network webview sql
+QT += quick widgets network webview sql multimedia
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.

@@ -29,6 +29,7 @@ class YACAPP : public QObject
     const Helper &helper;
     LocalStorage *localStorage;
     QString deviceToken;
+    YACAPPPROPERTY(bool, secondStart, SecondStart, false);
     YACAPPPROPERTY(QString, appFolder, AppFolder, "");
     YACAPPPROPERTY(QString, loginToken, LoginToken, "");
     YACAPPPROPERTY(QDateTime, serverNow, ServerNow, QDateTime(QDate(1978, 1, 1), QTime(12, 0)));
@@ -130,6 +131,15 @@ public:
                                            QJSValue successCallback,
                                            QJSValue errorCallback);
 
+    Q_INVOKABLE void appUserUpdateProfile(const QString &fstname,
+                                          const QString &surname,
+                                          const QString &visible_name,
+                                          const QString &profileFilename,
+                                          const bool searching_exactly_allowed,
+                                          const bool searching_fuzzy_allowed,
+                                          QJSValue successCallback,
+                                          QJSValue errorCallback);
+
     Q_INVOKABLE void appUserSearchProfiles(const QString &needle,
                                            const int limit,
                                            const int offset,
@@ -145,8 +155,10 @@ public:
 
     Q_INVOKABLE void switchLanguage(const QString &language);
 
-signals:
+    Q_INVOKABLE void goTakePhoto(bool squared, bool circled, QJSValue target);
 
+signals:
+    void takePhoto(bool squared, bool circled, QJSValue target);
     void badMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
     void goodMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
     void yesNoQuestion(const QString &question, QJSValue itemToFocus, QJSValue yesCallback, QJSValue noCallback);

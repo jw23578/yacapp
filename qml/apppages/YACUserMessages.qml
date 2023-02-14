@@ -50,7 +50,7 @@ Rectangle
                 radiusBottomRight: other && !theColumn.model.nextSameTime
                 radiusTopRight: !other && !theColumn.model.prevSameTime
                 radiusBottomLeft: !other && !theColumn.model.nextSameTime
-                color: "lightgrey"
+                color: other ? Qt.darker("lightgrey", 1.3) : "lightgrey"
                 property bool other: message.senderId != ""
                 width: Math.max(contentText.contentWidth, messageDateTime.contentWidth, theColumn.model.message.qmlWidth, theColumn.model.nextQMLWidth, theColumn.model.prevQMLWidth) + radius
                 height: messageColumn.height

@@ -347,6 +347,39 @@ void YACServerNetwork::appUserStoreMessage(const QString &appId,
                      errorCallback);
 }
 
+void YACServerNetwork::appUserUpdateProfile(const QString &appId,
+                                            const QString &loginEMail,
+                                            const QString &loginToken,
+                                            const QString &fstname,
+                                            const QString &surname,
+                                            const QString &visible_name,
+                                            const QString &profileFilename,
+                                            const bool searching_exactly_allowed,
+                                            const bool searching_fuzzy_allowed,
+                                            CallbackFunction successCallback,
+                                            CallbackFunction errorCallback)
+{
+    QMap<QByteArray, QByteArray> rawHeader;
+    rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
+    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+
+    QJsonObject obj;
+    obj["fstname"] = fstname;
+    obj["surname"] = surname;
+    obj["visible_name"] = visible_name;
+    obj["searching_exactly_allowed"] = searching_exactly_allowed;
+    obj["searching_fuzzy_allowed"] = searching_fuzzy_allowed;
+
+    yacappServerPost("/updateAppUserProfile",
+                     obj,
+                     defaultReplyHandler,
+                     rawHeader,
+                     successCallback,
+                     0,
+                     errorCallback);
+}
+
 void YACServerNetwork::appUserFetchMessageUpdates(const QString &appId,
                                                   const QString &loginEMail,
                                                   const QString &loginToken,

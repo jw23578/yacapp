@@ -58,5 +58,7 @@
         <file>qml/apppages/YACUserSelectLanguage.qml</file>
         <file>qml/apppages/YACUserTokenLogin.qml</file>
         <file>qml/items/YACLineEdit.qml</file>
+        <file>qml/apppages/YACPhoto.qml</file>
+        <file>qml/items/YACRoundedImage.qml</file>
     </qresource>
 </RCC>

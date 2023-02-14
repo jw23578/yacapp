@@ -31,6 +31,11 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
     QJsonDocument config(QJsonDocument::fromJson(fileData));
     stringFromJSON(globalProjectConfigFilename, GlobalProjectConfigFilename);
     stringFromJSON(loginToken, LoginToken);
+    boolFromJSON(secondStart, SecondStart);
+    if (!secondStart())
+    {
+        saveState();
+    }
     deviceToken = config["deviceToken"].toString();
 
     //    for (size_t i(0); i < 3; ++i)
@@ -137,6 +142,7 @@ void YACAPP::saveState()
     stringToJSON(loginToken);
     stringToJSON(globalProjectConfigFilename);
     config["deviceToken"] = deviceToken;
+    config["secondStart"] = true;
 
     QFile jsonFile(constants.getStateFilename());
     jsonFile.open(QIODevice::WriteOnly);
@@ -421,10 +427,10 @@ void YACAPP::appUserVerify(const QString &loginEMail,
         saveState();
         successCallback.call(QJSValueList());
 
-//        successCallback.call(QJSValueList() << message);
-//        appUserConfig()->setLoginEMail(loginEMail);
-//        appUserConfig()->setLoginToken(message);
-//        saveState();
+        //        successCallback.call(QJSValueList() << message);
+        //        appUserConfig()->setLoginEMail(loginEMail);
+        //        appUserConfig()->setLoginToken(message);
+        //        saveState();
     },
     [errorCallback](const QString &message) mutable
     {
@@ -581,6 +587,35 @@ void YACAPP::appUserInsertWorktime(int worktimeType,
         errorCallback.call(QJSValueList() << message);
     }
     );
+
+}
+
+void YACAPP::appUserUpdateProfile(const QString &fstname,
+                                  const QString &surname,
+                                  const QString &visible_name,
+                                  const QString &profileFilename,
+                                  const bool searching_exactly_allowed,
+                                  const bool searching_fuzzy_allowed,
+                                  QJSValue successCallback,
+                                  QJSValue errorCallback)
+{
+    network.appUserUpdateProfile(globalConfig()->projectID(),
+                                 appUserConfig()->loginEMail(),
+                                 appUserConfig()->loginToken(),
+                                 fstname,
+                                 surname,
+                                 visible_name,
+                                 profileFilename,
+                                 searching_exactly_allowed,
+                                 searching_fuzzy_allowed,
+                                 [](const QString &message)
+     {
+         Q_UNUSED(message);
+     },
+     [](const QString &message)
+     {
+         Q_UNUSED(message);
+     });
 
 }
 
@@ -759,6 +794,21 @@ void YACAPP::switchLanguage(const QString &language)
 
 }
 
+#ifdef Q_OS_ANDROID
+#include <QtAndroid>
+#endif
+
+void YACAPP::goTakePhoto(bool squared, bool circled, QJSValue target)
+{
+#ifdef Q_OS_ANDROID
+    if (QtAndroid::checkPermission("android.permission.CAMERA") == QtAndroid::PermissionResult::Denied)
+    {
+
+    }
+#endif
+    emit takePhoto(squared, circled, target);
+}
+
 void YACAPP::deviceTokenChanged(QString deviceToken)
 {
     if (this->deviceToken == deviceToken)
@@ -778,12 +828,12 @@ void YACAPP::deviceTokenChanged(QString deviceToken)
                                      appUserConfig()->loginToken(),
                                      deviceToken,
                                      [](const QString &message)
-         {
-             Q_UNUSED(message);
-         },
-         [](const QString &message)
-         {
-             Q_UNUSED(message);
+    {
+        Q_UNUSED(message);
+    },
+    [](const QString &message)
+    {
+        Q_UNUSED(message);
     });
 }
 

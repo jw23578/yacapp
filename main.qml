@@ -4,6 +4,7 @@ import QtQuick.Controls 2.15
 
 import "qml"
 import "qml/items"
+import "qml/apppages"
 
 ApplicationWindow
 {
@@ -75,6 +76,7 @@ ApplicationWindow
     YACRectangle
     {
         id: splashscreen
+        opacity: yacApp.secondStart ? 0 : 1
         visible: opacity > 0
         anchors.fill: parent
         color: "silver"
@@ -92,6 +94,37 @@ ApplicationWindow
         {
             Constants.topLevelFormActive = badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible
             console.log("Constants.topLevelFormActive: " + Constants.topLevelFormActive)
+        }
+    }
+    Component
+    {
+        id: photoComponent
+        YACPhoto
+        {
+            onAbortClicked:
+            {
+                photoLoader.sourceComponent = null
+            }
+            onOkClicked:
+            {
+                target.source = ""
+                target.source = image.source
+                photoLoader.sourceComponent = null
+            }
+        }
+    }
+
+    Loader
+    {
+        id: photoLoader
+        property bool squared: false
+        property bool circled: false
+        property var target: null
+        anchors.fill: parent
+        onLoaded:
+        {
+            item.circled = circled
+            item.squared = squared
         }
     }
 
@@ -150,6 +183,14 @@ ApplicationWindow
     Connections
     {
         target: yacApp
+        function onTakePhoto(squared, circled, target)
+        {
+            photoLoader.circled = circled
+            photoLoader.squared = squared
+            photoLoader.target = target
+            photoLoader.sourceComponent = photoComponent
+        }
+
         function onBadMessage(message, itemToFocus, okCallback)
         {
             badMessage.show(message, itemToFocus)
@@ -166,7 +207,10 @@ ApplicationWindow
 
     Component.onCompleted:
     {
-        startUpAni.start()
+        if (!yacApp.secondStart)
+        {
+            startUpAni.start()
+        }
         //        console.log("hello")
         //        console.log("ProjectID: " + yacApp.globalConfig.projectID)
         //        console.log(yacApp.mainConfig)
