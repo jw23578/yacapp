@@ -370,6 +370,20 @@ void YACServerNetwork::appUserUpdateProfile(const QString &appId,
     obj["visible_name"] = visible_name;
     obj["searching_exactly_allowed"] = searching_exactly_allowed;
     obj["searching_fuzzy_allowed"] = searching_fuzzy_allowed;
+    if (profileFilename.size())
+    {
+        QFile file(profileFilename);
+        if (file.open(QIODevice::ReadOnly))
+        {
+            QByteArray image(file.readAll());
+            obj["with_image"] = true;
+            obj["image_data_base64"] = QString(image.toBase64());
+        }
+        else
+        {
+            obj["with_image"] = false;
+        }
+    }
 
     yacappServerPost("/updateAppUserProfile",
                      obj,
@@ -422,4 +436,27 @@ void YACServerNetwork::appUserFetchProfile(const QString &appId,
                                     loginToken,
                                     jsonSuccessCallback,
                                     errorCallback);
-    }
+}
+
+void YACServerNetwork::appUserFetchImage(const QString &appId,
+                                         const QString &loginEMail,
+                                         const QString &loginToken,
+                                         const QString &imageType,
+                                         const QString &imageId,
+                                         JSONCallbackFunction jsonSuccessCallback,
+                                         CallbackFunction errorCallback)
+{
+    QUrlQuery query;
+    query.addQueryItem("imageType", imageType);
+    query.addQueryItem("imageId", imageId);
+    QMap<QByteArray, QByteArray> rawHeader;
+    rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
+    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    yacappServerGet("/fetchImage",
+                    query,
+                    defaultJSONReplyHandler,
+                    rawHeader,
+                    0,
+                    jsonSuccessCallback,
+                    errorCallback);}

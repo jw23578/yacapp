@@ -46,12 +46,14 @@ int LocalStorage::loadKnownContacts(AppendFunction appendFunction)
     int idColumn(q.record().indexOf("id"));
     int visibleNameColumn(q.record().indexOf("visible_name"));
     int unreadMessagesColumn(q.record().indexOf("unread_messages"));
+    int imageIdColumn(q.record().indexOf("image_id"));
     while (q.next())
     {
         ProfileObject *po(new ProfileObject);
         po->setId(q.value(idColumn).toString());
         po->setVisibleName(q.value(visibleNameColumn).toString());
         po->setUnreadMessages(q.value(unreadMessagesColumn).toInt());
+        po->setProfileImageId(q.value(imageIdColumn).toString());
         appendFunction(po);
     }
     return q.size();
@@ -61,17 +63,18 @@ void LocalStorage::upsertKnownContact(const ProfileObject &po)
 {
     QString sql("insert into ");
     sql += tableNames.knowncontacts;
-    sql += QString(" (id, visible_name, unread_messages) ");
+    sql += QString(" (id, visible_name, unread_messages, image_id) ");
     sql += QString(" values ");
-    sql += QString(" (:id, :visible_name, :unread_messages) ");
+    sql += QString(" (:id, :visible_name, :unread_messages, :image_id) ");
     sql += QString(" on conflict(id) do update set ");
-    sql += QString(" visible_name = :visible_name, unread_messages = :unread_messages ");
+    sql += QString(" visible_name = :visible_name, unread_messages = :unread_messages, image_id = :image_id ");
     sql += QString(" where id = :id ");
     QSqlQuery q;
     q.prepare(sql);
     q.bindValue(":id", po.id());
     q.bindValue(":visible_name", po.visibleName());
     q.bindValue(":unread_messages", po.unreadMessages());
+    q.bindValue(":image_id", po.profileImageId());
     q.exec();
 }
 
@@ -184,6 +187,10 @@ void LocalStorage::createTables()
                     "id text primary key, "
                     "visible_name text, "
                     "unread_messages int) ");
+    }
+    if (!tableHasColumn(tableNames.knowncontacts, "image_id"))
+    {
+        QSqlQuery q("alter table knowncontacts add column image_id text");
     }
     if (!tableExists(tableNames.messages))
     {

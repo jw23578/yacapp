@@ -4,8 +4,10 @@
 #include <QDir>
 #include <QApplication>
 
-Constants::Constants(const QString &customWriteablePath):writeablePath(customWriteablePath)
+Constants::Constants(const QString &customWriteablePath):writeablePath(customWriteablePath),
+    theCachePath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/")
 {
+    QDir().mkpath(theCachePath);
 #ifdef Q_OS_WIN
     setIsDesktop(true);
 #endif
@@ -25,7 +27,11 @@ Constants::Constants(const QString &customWriteablePath):writeablePath(customWri
         {
             return;
         }
-        writeablePath = paths[0] + "/";
+        writeablePath = paths[0];
+    }
+    if (writeablePath.length() && writeablePath.right(1) != "/")
+    {
+        writeablePath += "/";
     }
     QDir().mkpath(writeablePath);
 }
@@ -59,6 +65,11 @@ const QString Constants::getDBFilename(QString appId)
 const QString Constants::getAppConfigFilename(QString appId)
 {
     return getWriteablePath(appId) + "appConfig.json";
+}
+
+const QString Constants::getCachePath() const
+{
+    return theCachePath;
 }
 
 

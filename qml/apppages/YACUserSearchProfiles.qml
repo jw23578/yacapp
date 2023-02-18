@@ -43,6 +43,13 @@ Rectangle
         {
             width: listView.width
             height: 50
+            YACRoundedImage
+            {
+                height: parent.height
+                width: height
+                source: "image://async/profileImage/" + profile.profileImageId
+            }
+
             Text
             {
                 anchors.centerIn: parent

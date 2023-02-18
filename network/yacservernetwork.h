@@ -120,6 +120,14 @@ public:
                              JSONCallbackFunction jsonSuccessCallback,
                              CallbackFunction  errorCallback);
 
+    void appUserFetchImage(const QString &appId,
+                           const QString &loginEMail,
+                           const QString &loginToken,
+                           const QString &imageType,
+                           const QString &imageId,
+                           JSONCallbackFunction jsonSuccessCallback,
+                           CallbackFunction errorCallback);
+
 };
 
 #endif // YACSERVERNETWORK_H

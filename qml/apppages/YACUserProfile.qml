@@ -34,6 +34,12 @@ FocusScope
                         autoTransform: true
                         onSourceChanged: theProfilePage.imageChanged = true
                     }
+                    Image
+                    {
+                        id: originalSizeProfileImage
+                        visible: false
+                        onSourceChanged: theProfileImage.source = source
+                    }
                 }
             }
 
@@ -59,7 +65,7 @@ FocusScope
             {
                 width: parent.width
                 text: qsTr("Take Profilephoto")
-                onClicked: yacApp.takePhoto(true, true, theProfileImage)
+                onClicked: yacApp.takePhoto(true, true, originalSizeProfileImage)
             }
 
             YACButton
@@ -68,21 +74,29 @@ FocusScope
                 width: parent.width
                 onClicked:
                 {
-                    if (theProfilePage.imageChanged)
-                    {
-                        console.log("image changed")
-                        return
-                    }
                     var searching_exactly_allowed = true
                     var searching_fuzzy_allowed = true
-                    yacApp.appUserUpdateProfile(fstname.displayText,
-                                                surname.displayText,
-                                                visible_name.displayText,
-                                                "",
-                                                searching_exactly_allowed,
-                                                searching_fuzzy_allowed,
-                                                function(message){},
-                                                function(message){})
+                    if (theProfilePage.imageChanged)
+                    {
+                        theProfilePage.imageChanged = false;
+                        console.log("image changed")
+                        originalSizeProfileImage.grabToImage(function(result)
+                        {
+                            var filename = yacApp.getNewProfileImageFilename();
+                            console.log(filename)
+                            result.saveToFile(filename)
+                            yacApp.appUserUpdateProfile(fstname.displayText,
+                                                        surname.displayText,
+                                                        visible_name.displayText,
+                                                        filename,
+                                                        searching_exactly_allowed,
+                                                        searching_fuzzy_allowed,
+                                                        function(message){},
+                                                        function(message){})
+                        }
+                        )
+                        return
+                    }
                 }
             }
             YACButton

@@ -23,6 +23,7 @@ SOURCES += \
         configurator.cpp \
         configuratormodels/recentproject.cpp \
         constants.cpp \
+        datamodels/asyncimageresponse.cpp \
         datamodels/messagesmodel.cpp \
         datamodels/objectdatamodel.cpp \
         datamodels/profilesmodel.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
         localstorage/localstorage.cpp \
         localstorage/tablenames.cpp \
         main.cpp \
+        network/asyncimageprovider.cpp \
         network/customservernetwork.cpp \
         network/networkinterface.cpp \
         network/yacextservernetwork.cpp \
@@ -77,6 +79,7 @@ HEADERS += \
   configurator.h \
   configuratormodels/recentproject.h \
   constants.h \
+  datamodels/asyncimageresponse.h \
   datamodels/datamodelinterface.h \
   datamodels/exttemplateddatamodel.h \
   datamodels/messagesmodel.h \
@@ -91,6 +94,7 @@ HEADERS += \
   helper.h \
   localstorage/localstorage.h \
   localstorage/tablenames.h \
+  network/asyncimageprovider.h \
   network/customservernetwork.h \
   network/networkinterface.h \
   network/yacextservernetwork.h \

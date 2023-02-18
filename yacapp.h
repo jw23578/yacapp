@@ -7,6 +7,7 @@
 #include "configmodels/appuserconfig.h"
 #include "network/yacservernetwork.h"
 #include "network/customservernetwork.h"
+#include "network/asyncimageprovider.h"
 #include "constants.h"
 #include "helper.h"
 #include <QJSValue>
@@ -17,13 +18,16 @@
 #include "datamodels/messagesmodel.h"
 #include "firebase2qt.h"
 #include <QTranslator>
+#include <QTimer>
 
 class Configurator;
 
 class YACAPP : public QObject
 {
+    QTimer timer;
     QTranslator translator;
     friend Configurator;
+    friend AsyncImageProvider;
     Q_OBJECT
     Constants &constants;
     const Helper &helper;
@@ -41,6 +45,21 @@ class YACAPP : public QObject
     QMap<QString, ParsedConfig*> fileName2ParsedConfig;
     void addKnownFile(QString const &filename);
 
+    struct SFileToFetch
+    {
+        QString imageType;
+        QString imageId;
+        AsyncImageResponse *air;
+        QString imageFilename;
+    };
+    std::vector<SFileToFetch> filesToFetch;
+    std::mutex filesToFetchMutex;
+    void addFileToFetch(const QString &imageType,
+                        const QString &imageId,
+                        AsyncImageResponse *air,
+                        const QString &imageFilename);
+    void fetchFiles();
+
     YACAPPPROPERTY(QStringList, knownMenueFiles, KnownMenueFiles, QStringList())
     QMap<QString, MenueConfig*> fileName2MenueConfig;
     void addKnownMenueFile(QString const &filename);
@@ -48,6 +67,7 @@ class YACAPP : public QObject
     MenueConfig emptyMenue;
 
     YACServerNetwork &network;
+    AsyncImageProvider imageProvider;
     CustomServerNetwork &customServerNetwork;
 
     ProfilesModel searchProfilesModel;
@@ -157,6 +177,8 @@ public:
 
     Q_INVOKABLE void goTakePhoto(bool squared, bool circled, QJSValue target);
 
+    Q_INVOKABLE QString getNewProfileImageFilename();
+
 signals:
     void takePhoto(bool squared, bool circled, QJSValue target);
     void badMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
@@ -166,6 +188,7 @@ signals:
 private slots:
     void deviceTokenChanged(QString deviceToken);
     void newMessages();
+    void timeout();
 
 };
 

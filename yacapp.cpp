@@ -12,15 +12,24 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
                , CustomServerNetwork &customServerNetwork
                , QObject *parent)
     : QObject{parent},
+      timer(0),
       constants(constants),
       helper(helper),
       localStorage(0),
       network(network),
+      imageProvider(*this,
+                    network),
       customServerNetwork(customServerNetwork),
       searchProfilesModel(engine, "SearchProfilesModel"),
       knownProfilesModel(engine, "KnownProfilesModel"),
       messagesModel(engine)
 {
+    engine.addImageProvider("async", &imageProvider);
+    connect(&timer, &QTimer::timeout, this, &YACAPP::timeout);
+    const int timerIntervalMSecs(100);
+    timer.setInterval(timerIntervalMSecs);
+    timer.start();
+
     connect(&firebase2qt, &Firebase2Qt::deviceTokenChanged, this, &YACAPP::deviceTokenChanged);
     connect(&firebase2qt, &Firebase2Qt::newMessages, this, &YACAPP::newMessages);
 
@@ -160,6 +169,58 @@ void YACAPP::addKnownFile(QString const &filename)
     m_knownFiles.append(filename);
     emit knownFilesChanged();
 }
+
+void YACAPP::addFileToFetch(const QString &imageType,
+                            const QString &imageId,
+                            AsyncImageResponse *air,
+                            const QString &imageFilename)
+{
+    const std::lock_guard<std::mutex> guard(filesToFetchMutex);
+    SFileToFetch ftf;
+    ftf.imageId = imageId;
+    ftf.imageType = imageType;
+    ftf.air = air;
+    ftf.imageFilename = imageFilename;
+    filesToFetch.push_back(ftf);
+}
+
+void YACAPP::fetchFiles()
+{
+    const std::lock_guard<std::mutex> guard(filesToFetchMutex);
+    for (auto ftf: filesToFetch)
+    {
+        network.appUserFetchImage(globalConfig()->projectID(),
+                                  appUserConfig()->loginEMail(),
+                                  appUserConfig()->loginToken(),
+                                  ftf.imageType,
+                                  ftf.imageId,
+                                  [ftf](const QJsonDocument &jsonDoc)
+        {
+            QJsonObject imageData(jsonDoc.object());
+            QByteArray dataBase64(imageData["imageDataBase64"].toString().toUtf8());
+            QByteArray data(QByteArray::fromBase64(dataBase64));
+            QFile file(ftf.imageFilename);
+            file.open(QFile::WriteOnly);
+            file.write(data);
+            file.close();
+            QImage image(ftf.imageFilename);
+            ftf.air->setImage(image);
+        }
+        ,
+        [](QString message)
+        {
+            int z1 = 0;
+        });
+
+    }
+    filesToFetch.clear();
+}
+
+void YACAPP::timeout()
+{
+    fetchFiles();
+}
+
 
 void YACAPP::addKnownMenueFile(const QString &filename)
 {
@@ -609,13 +670,13 @@ void YACAPP::appUserUpdateProfile(const QString &fstname,
                                  searching_exactly_allowed,
                                  searching_fuzzy_allowed,
                                  [](const QString &message)
-     {
-         Q_UNUSED(message);
-     },
-     [](const QString &message)
-     {
-         Q_UNUSED(message);
-     });
+    {
+        Q_UNUSED(message);
+    },
+    [](const QString &message)
+    {
+        Q_UNUSED(message);
+    });
 
 }
 
@@ -653,6 +714,7 @@ void YACAPP::appUserSearchProfiles(const QString &needle,
             QJsonObject profile(profiles[i].toObject());
             po->setId(profile["id"].toString());
             po->setVisibleName(profile["visible_name"].toString());
+            po->setProfileImageId(profile["image_id"].toString());
             searchProfilesModel.append(po);
         }
         successCallback.call(QJSValueList() << message);
@@ -709,6 +771,7 @@ void YACAPP::fetchMessageUpdates()
                         ProfileObject *po(new ProfileObject);
                         po->setId(profile["id"].toString());
                         po->setVisibleName(profile["visible_name"].toString());
+                        po->setProfileImageId(profile["image_id"].toString());
                         if (knownProfilesModel.append(po))
                         {
                             localStorage->upsertKnownContact(*po);
@@ -807,6 +870,11 @@ void YACAPP::goTakePhoto(bool squared, bool circled, QJSValue target)
     }
 #endif
     emit takePhoto(squared, circled, target);
+}
+
+QString YACAPP::getNewProfileImageFilename()
+{
+    return constants.getWriteablePath(globalConfig()->projectID()) + "newProfileImage.jpg";
 }
 
 void YACAPP::deviceTokenChanged(QString deviceToken)

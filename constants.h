@@ -11,6 +11,7 @@ class Constants : public QObject
     Q_OBJECT
     QString writeablePath;
     QString writeablePathWidthAppId;
+    const QString theCachePath;
     YACAPPPROPERTY(QString, allAppsBaseUrl, AllAppsBaseUrl, "https://www.jw78.de/yacapp/")
     YACAPPPROPERTY(bool, isDesktop, IsDesktop, false);
     YACAPPPROPERTY(bool, isConfigurator, IsConfigurator, false);
@@ -43,6 +44,8 @@ public:
     const QString getStateFilename() const;
     const QString getDBFilename(QString appId);
     const QString getAppConfigFilename(QString appId);
+    const QString getCachePath() const;
+
 };
 
 #endif // CONSTANTS_H
