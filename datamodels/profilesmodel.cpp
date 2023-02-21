@@ -62,3 +62,18 @@ bool ProfilesModel::incUnreadMessages(const QString &id)
                [](const ProfileObject &a, const ProfileObject &b){return a.lastAddedMessage() < b.lastAddedMessage();});
     return true;
 }
+
+bool ProfilesModel::contains(const QString &id) const
+{
+    return id2object.find(id) != id2object.end();
+}
+
+ProfileObject &ProfilesModel::getById(const QString &id)
+{
+    auto it(id2object.find(id));
+    if (it != id2object.end())
+    {
+            return *it->second;
+    }
+    return emptyProfile;
+}

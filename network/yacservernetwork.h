@@ -120,6 +120,12 @@ public:
                              JSONCallbackFunction jsonSuccessCallback,
                              CallbackFunction  errorCallback);
 
+    void appUserFetchMyProfile(const QString &appId,
+                               const QString &loginEMail,
+                               const QString &loginToken,
+                               JSONCallbackFunction jsonSuccessCallback,
+                               CallbackFunction  errorCallback);
+
     void appUserFetchImage(const QString &appId,
                            const QString &loginEMail,
                            const QString &loginToken,

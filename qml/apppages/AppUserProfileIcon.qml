@@ -91,7 +91,16 @@ Item
                     }
                     else
                     {
-                        profileLoader.sourceComponent = profileComponent
+                        yacApp.fetchMyProfile(function(message){
+                            console.log("fetched")
+                            profileLoader.sourceComponent = profileComponent
+                        },
+                        function(message)
+                        {
+                            console.log("not fetched")
+                            yacApp.badMessage(qsTr("Could not fetch Profile, please try again later."), null, null);
+                        }
+                        )
                     }
                 }
             }

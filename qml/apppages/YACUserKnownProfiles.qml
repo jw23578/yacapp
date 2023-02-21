@@ -7,7 +7,7 @@ Rectangle
 
     signal closeClicked()
 
-    property string currentProfileId: ""
+    property var currentProfile: null
 
     YACButton
     {
@@ -51,10 +51,14 @@ Rectangle
                     anchors.fill: parent
                     onClicked:
                     {
-                        currentProfileId = profile.id
+                        currentProfile = profile
                         yacApp.loadMessages(profile.id)
                         theLoader.sourceComponent = messages
                     }
+                }
+                Component.onCompleted:
+                {
+                    yacApp.fetchProfileAndUpsertKnownProfiles(profile.id)
                 }
             }
             YACButton
@@ -101,7 +105,7 @@ Rectangle
         {
             if (sourceComponent == messages)
             {
-                item.profileId = currentProfileId
+                item.profile = currentProfile
             }
         }
     }

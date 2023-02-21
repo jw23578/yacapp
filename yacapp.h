@@ -19,11 +19,13 @@
 #include "firebase2qt.h"
 #include <QTranslator>
 #include <QTimer>
+#include "yacAppAndServer/tablefields.h"
 
 class Configurator;
 
 class YACAPP : public QObject
 {
+    TableFields tableFields;
     QTimer timer;
     QTranslator translator;
     friend Configurator;
@@ -179,6 +181,10 @@ public:
 
     Q_INVOKABLE QString getNewProfileImageFilename();
 
+    Q_INVOKABLE void fetchProfileAndUpsertKnownProfiles(const QString &profileId);
+
+    Q_INVOKABLE void fetchMyProfile(QJSValue successCallback,
+                                    QJSValue errorCallback);
 signals:
     void takePhoto(bool squared, bool circled, QJSValue target);
     void badMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);

@@ -20,7 +20,10 @@ void AppUserConfig::setConfig(const QJsonValue &config)
     stringFromJSON(fstname, Fstname);
     stringFromJSON(surname, Surname);
     stringFromJSON(visibleName, VisibleName);
+    stringFromJSON(profileImageId, ProfileImageId);
     boolFromJSON(saveLoginEMail, SaveLoginEMail);
+    boolFromJSON(searchingExactlyAllowed, SearchingExactlyAllowed);
+    boolFromJSON(searchingFuzzyAllowed, SearchingFuzzyAllowed);
     if (!loginEMail().size())
     {
         setLoginToken("");
@@ -30,6 +33,18 @@ void AppUserConfig::setConfig(const QJsonValue &config)
 QJsonObject AppUserConfig::getConfig()
 {
     QJsonObject config;
+    if (changed(profileImageId()))
+    {
+        stringToJSON(profileImageId);
+    }
+    if (changed(searchingExactlyAllowed()))
+    {
+        boolToJSON(searchingExactlyAllowed);
+    }
+    if (changed(searchingFuzzyAllowed()))
+    {
+        boolToJSON(searchingFuzzyAllowed);
+    }
     if (changed(saveLoginEMail()))
     {
         boolToJSON(saveLoginEMail);

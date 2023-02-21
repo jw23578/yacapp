@@ -3,10 +3,32 @@ import "../items"
 
 Rectangle
 {
-    property string profileId: ""
+    MouseArea
+    {
+        anchors.fill: parent
+    }
+    property var profile: null
     anchors.fill: parent
     signal closeClicked()
     id: messagePage
+    Rectangle
+    {
+        id: profileHeader
+        height: 50
+        width: parent.width
+
+        YACRoundedImage
+        {
+            height: parent.height
+            width: height
+            source: "image://async/profileImage/" + profile.profileImageId
+        }
+        Text
+        {
+            anchors.centerIn: parent
+            text: profile.visibleName
+        }
+    }
 
     Component
     {
@@ -75,7 +97,7 @@ Rectangle
                             id: contentText
                             text: message.content.trim()
                             width: parent.width
-//                            x: (contentWidth < messageDateTime.contentWidth ? messageColumn.width - contentWidth - messageRectangle.radius / 2 : messageRectangle.radius / 2)
+                            //                            x: (contentWidth < messageDateTime.contentWidth ? messageColumn.width - contentWidth - messageRectangle.radius / 2 : messageRectangle.radius / 2)
                             onContentWidthChanged:
                             {
                                 if (theColumn.message == null)
@@ -123,7 +145,8 @@ Rectangle
     {
         id: theListview
         rotation: 180
-        anchors.top: parent.top
+        clip: true
+        anchors.top: profileHeader.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: theTextEdit.top
@@ -142,7 +165,7 @@ Rectangle
     YACButton
     {
         id: closeButton
-        anchors.top: parent.top
+        anchors.top: profileHeader.bottom
         text: qsTr("Close")
         onClicked: closeClicked()
     }
@@ -171,7 +194,7 @@ Rectangle
             {
                 return
             }
-            yacApp.sendMessage(profileId, toSend)
+            yacApp.sendMessage(profile.id, toSend)
             theTextEdit.text = ""
         }
     }

@@ -6,6 +6,7 @@
 
 class ProfilesModel : public TemplatedDataModel<ProfileObject>
 {
+    ProfileObject emptyProfile;
 protected:
     std::map<QString, ProfileObject*> id2object;
     bool canAppend(ProfileObject *object) const override;
@@ -18,6 +19,9 @@ public:
     void removeById(const QString &id);
     ProfileObject *getCopyById(const QString &id) const;
     bool incUnreadMessages(const QString &id);
+
+    bool contains(const QString &id) const;
+    ProfileObject &getById(const QString &id);
 };
 
 #endif // PROFILESMODEL_H

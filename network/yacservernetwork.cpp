@@ -438,6 +438,23 @@ void YACServerNetwork::appUserFetchProfile(const QString &appId,
                                     errorCallback);
 }
 
+void YACServerNetwork::appUserFetchMyProfile(const QString &appId,
+                                             const QString &loginEMail,
+                                             const QString &loginToken,
+                                             JSONCallbackFunction jsonSuccessCallback,
+                                             CallbackFunction errorCallback)
+{
+    QUrlQuery query;
+
+    yacappServerAppUserGetJSONReply("/fetchMyProfile",
+                                    query,
+                                    appId,
+                                    loginEMail,
+                                    loginToken,
+                                    jsonSuccessCallback,
+                                    errorCallback);
+}
+
 void YACServerNetwork::appUserFetchImage(const QString &appId,
                                          const QString &loginEMail,
                                          const QString &loginToken,

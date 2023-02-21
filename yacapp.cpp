@@ -476,10 +476,10 @@ void YACAPP::appUserVerify(const QString &loginEMail,
                                       [this, loginEMail, successCallback](const QJsonDocument &jsonDoc) mutable
     {
         QJsonObject object(jsonDoc.object());
-        QString fstname(object["fstname"].toString());
-        QString surname(object["surname"].toString());
+        QString fstname(object[tableFields.fstname].toString());
+        QString surname(object[tableFields.surname].toString());
         QString loginToken(object["loginToken"].toString());
-        QString visible_name(object["visible_name"].toString());
+        QString visible_name(object[tableFields.visible_name].toString());
         appUserConfig()->setLoginEMail(loginEMail);
         appUserConfig()->setLoginToken(loginToken);
         appUserConfig()->setFstname(fstname);
@@ -512,10 +512,10 @@ void YACAPP::appUserLogin(const QString &loginEMail,
                                      [this, loginEMail, successCallback](const QJsonDocument &jsonDoc) mutable
     {
         QJsonObject object(jsonDoc.object());
-        QString fstname(object["fstname"].toString());
-        QString surname(object["surname"].toString());
+        QString fstname(object[tableFields.fstname].toString());
+        QString surname(object[tableFields.surname].toString());
         QString loginToken(object["loginToken"].toString());
-        QString visible_name(object["visible_name"].toString());
+        QString visible_name(object[tableFields.visible_name].toString());
         appUserConfig()->setLoginEMail(loginEMail);
         appUserConfig()->setLoginToken(loginToken);
         appUserConfig()->setFstname(fstname);
@@ -660,6 +660,12 @@ void YACAPP::appUserUpdateProfile(const QString &fstname,
                                   QJSValue successCallback,
                                   QJSValue errorCallback)
 {
+    appUserConfig()->setFstname(fstname);
+    appUserConfig()->setSurname(surname);
+    appUserConfig()->setVisibleName(visible_name);
+    appUserConfig()->setSearchingFuzzyAllowed(searching_fuzzy_allowed);
+    appUserConfig()->setSearchingExactlyAllowed(searching_exactly_allowed);
+    saveState();
     network.appUserUpdateProfile(globalConfig()->projectID(),
                                  appUserConfig()->loginEMail(),
                                  appUserConfig()->loginToken(),
@@ -669,13 +675,15 @@ void YACAPP::appUserUpdateProfile(const QString &fstname,
                                  profileFilename,
                                  searching_exactly_allowed,
                                  searching_fuzzy_allowed,
-                                 [](const QString &message)
+                                 [successCallback](const QString &message) mutable
     {
         Q_UNUSED(message);
+        successCallback.call(QJSValueList());
     },
-    [](const QString &message)
+    [errorCallback](const QString &message) mutable
     {
         Q_UNUSED(message);
+        errorCallback.call(QJSValueList());
     });
 
 }
@@ -713,8 +721,8 @@ void YACAPP::appUserSearchProfiles(const QString &needle,
             ProfileObject *po(new ProfileObject);
             QJsonObject profile(profiles[i].toObject());
             po->setId(profile["id"].toString());
-            po->setVisibleName(profile["visible_name"].toString());
-            po->setProfileImageId(profile["image_id"].toString());
+            po->setVisibleName(profile[tableFields.visible_name].toString());
+            po->setProfileImageId(profile[tableFields.image_id].toString());
             searchProfilesModel.append(po);
         }
         successCallback.call(QJSValueList() << message);
@@ -724,6 +732,31 @@ void YACAPP::appUserSearchProfiles(const QString &needle,
         errorCallback.call(QJSValueList() << message);
     }
     );
+
+}
+
+void YACAPP::fetchMyProfile(QJSValue successCallback,
+                            QJSValue errorCallback)
+{
+    network.appUserFetchMyProfile(globalConfig()->projectID(),
+                                  appUserConfig()->loginEMail(),
+                                  appUserConfig()->loginToken(),
+                                  [this, successCallback](const QJsonDocument &jsonDoc) mutable
+    {
+        QJsonObject profile(jsonDoc.object());
+        appUserConfig()->setFstname(profile[tableFields.fstname].toString());
+        appUserConfig()->setSurname(profile[tableFields.surname].toString());
+        appUserConfig()->setVisibleName(profile[tableFields.visible_name].toString());
+        appUserConfig()->setProfileImageId(profile[tableFields.image_id].toString());
+        appUserConfig()->setSearchingExactlyAllowed(profile[tableFields.searching_exactly_allowed].toBool());
+        appUserConfig()->setSearchingFuzzyAllowed(profile[tableFields.searching_fuzzy_allowed].toBool());
+        successCallback.call(QJSValueList());
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList());
+        Q_UNUSED(message);
+    });
 
 }
 
@@ -769,9 +802,9 @@ void YACAPP::fetchMessageUpdates()
                     {
                         QJsonObject profile(jsonDoc.object());
                         ProfileObject *po(new ProfileObject);
-                        po->setId(profile["id"].toString());
-                        po->setVisibleName(profile["visible_name"].toString());
-                        po->setProfileImageId(profile["image_id"].toString());
+                        po->setId(profile[tableFields.id].toString());
+                        po->setVisibleName(profile[tableFields.visible_name].toString());
+                        po->setProfileImageId(profile[tableFields.image_id].toString());
                         if (knownProfilesModel.append(po))
                         {
                             localStorage->upsertKnownContact(*po);
@@ -875,6 +908,42 @@ void YACAPP::goTakePhoto(bool squared, bool circled, QJSValue target)
 QString YACAPP::getNewProfileImageFilename()
 {
     return constants.getWriteablePath(globalConfig()->projectID()) + "newProfileImage.jpg";
+}
+
+void YACAPP::fetchProfileAndUpsertKnownProfiles(const QString &profileId)
+{
+    network.appUserFetchProfile(globalConfig()->projectID(),
+                                appUserConfig()->loginEMail(),
+                                appUserConfig()->loginToken(),
+                                profileId,
+                                [this](const QJsonDocument &jsonDoc) mutable
+    {
+        QJsonObject profile(jsonDoc.object());
+        QString id(profile[tableFields.id].toString());
+        QString imageId(profile[tableFields.image_id].toString());
+        QString visible_name(profile[tableFields.visible_name].toString());
+        if (knownProfilesModel.contains(id))
+        {
+            ProfileObject &po(knownProfilesModel.getById(id));
+            po.setProfileImageId(imageId);
+            po.setVisibleName(visible_name);
+            localStorage->upsertKnownContact(po);
+        }
+        return;
+
+        ProfileObject *po(new ProfileObject);
+        po->setId(id);
+        po->setVisibleName(visible_name);
+        po->setProfileImageId(imageId);
+        if (knownProfilesModel.append(po))
+        {
+            localStorage->upsertKnownContact(*po);
+        }
+    },
+    [](const QString &message) mutable
+    {
+        Q_UNUSED(message);
+    });
 }
 
 void YACAPP::deviceTokenChanged(QString deviceToken)

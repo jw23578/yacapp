@@ -14,12 +14,14 @@ FocusScope
         anchors.fill: parent
         YACPageColumn
         {
+            spacing: parent.height / 50
             Item
             {
                 width: parent.width
                 height: width / 2
                 Rectangle
                 {
+                    id: profileImageRect
                     radius: width / 2
                     border.width: 1
                     border.color: "black"
@@ -32,15 +34,26 @@ FocusScope
                         anchors.fill: parent
                         mipmap: true
                         autoTransform: true
-                        onSourceChanged: theProfilePage.imageChanged = true
+                        source: "image://async/profileImage/" + yacApp.appUserConfig.profileImageId
                     }
                     Image
                     {
                         id: originalSizeProfileImage
                         visible: false
-                        onSourceChanged: theProfileImage.source = source
+                        onSourceChanged: {
+                            theProfilePage.imageChanged = true
+                            theProfileImage.source = source
+                        }
                     }
                 }
+                YACButton
+                {
+                    anchors.left: profileImageRect.right
+                    anchors.bottom: profileImageRect.bottom
+                    text: qsTr("+/-")
+                    onClicked: yacApp.takePhoto(true, true, originalSizeProfileImage)
+                }
+
             }
 
             YACLineEditWithHeader
@@ -61,11 +74,24 @@ FocusScope
                 headerText: qsTr("Visiblename")
                 text: yacApp.appUserConfig.visibleName
             }
-            YACButton
+            YACComboBoxWithHeader
             {
-                width: parent.width
-                text: qsTr("Take Profilephoto")
-                onClicked: yacApp.takePhoto(true, true, originalSizeProfileImage)
+                id: searchOption
+                headerText: qsTr("Search Option")
+                model: [qsTr("not searchable"),
+                    qsTr("only exact searchable"),
+                    qsTr("fuzzy searchable")]
+                Component.onCompleted:
+                {
+                    if (yacApp.appUserConfig.searchingExactlyAllowed)
+                    {
+                        currentIndex = 1
+                    }
+                    if (yacApp.appUserConfig.searchingFuzzyAllowed)
+                    {
+                        currentIndex = 2
+                    }
+                }
             }
 
             YACButton
@@ -74,29 +100,51 @@ FocusScope
                 width: parent.width
                 onClicked:
                 {
-                    var searching_exactly_allowed = true
-                    var searching_fuzzy_allowed = true
+                    var searchingExactlyAllowed = searchOption.currentIndex == 1
+                    var searchingFuzzyAllowed = searchOption.currentIndex == 2
                     if (theProfilePage.imageChanged)
                     {
                         theProfilePage.imageChanged = false;
                         console.log("image changed")
                         originalSizeProfileImage.grabToImage(function(result)
                         {
+                            console.log("grabbed")
                             var filename = yacApp.getNewProfileImageFilename();
                             console.log(filename)
+                            console.log("hello")
                             result.saveToFile(filename)
                             yacApp.appUserUpdateProfile(fstname.displayText,
                                                         surname.displayText,
                                                         visible_name.displayText,
                                                         filename,
-                                                        searching_exactly_allowed,
-                                                        searching_fuzzy_allowed,
-                                                        function(message){},
-                                                        function(message){})
+                                                        searchingExactlyAllowed,
+                                                        searchingFuzzyAllowed,
+                                                        function(message)
+                                                        {
+                                                            yacApp.goodMessage(qsTr("Profile saved"), null, null);
+                                                            closeClicked()
+                                                        },
+                                                        function(message){
+                                                            yacApp.badMessage(qsTr("Could not save Profile, please try again"), null, null)
+                                                        })
                         }
                         )
-                        return
+                        return;
                     }
+                    yacApp.appUserUpdateProfile(fstname.displayText,
+                                                surname.displayText,
+                                                visible_name.displayText,
+                                                "",
+                                                searchingExactlyAllowed,
+                                                searchingFuzzyAllowed,
+                                                function(message)
+                                                {
+                                                    yacApp.goodMessage(qsTr("Profile saved"), null, null);
+                                                    closeClicked()
+                                                },
+                                                function(message){
+                                                    yacApp.badMessage(qsTr("Could not save Profile, please try again"), null, null)
+                                                })
                 }
             }
             YACButton
