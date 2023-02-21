@@ -82,6 +82,11 @@ Item
         source: yacApp.globalConfig.logoUrl
         width: parent.width * yacApp.globalConfig.logoWidthPerThousand / 1000.0
         height: parent.height * yacApp.globalConfig.logoHeightPerThousand / 1000.0
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked: theStackView.pop(null)
+        }
     }
 
     Loader

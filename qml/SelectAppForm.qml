@@ -93,6 +93,7 @@ Rectangle
                 anchors.horizontalCenter: parent.theInnerRectangle.horizontalCenter
                 anchors.top: nameText.bottom
                 anchors.bottom: parent.theInnerRectangle.bottom
+                anchors.bottomMargin: 5
                 width: Math.min(parent.theInnerRectangle.width, height)
                 source: app_logo_url
             }
