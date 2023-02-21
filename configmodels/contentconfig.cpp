@@ -15,8 +15,8 @@ void ContentConfig::setConfig(const QJsonValue &config)
     {
         return;
     }
-    setType(config["type"].toString());
-    setUrl(config["url"].toString());
+    stringFromJSON(type, Type);
+    stringFromJSON(url, Url);
     intFromJSON(columns, Columns);
     intFromJSON(rows, Rows);
     boolFromJSON(loginNeeded, LoginNeeded);

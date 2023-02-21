@@ -11,6 +11,7 @@ class ContentItem : public ConfigInterface
     Q_OBJECT
     YACAPPPROPERTYWITHOPTIONS(QString, type, Type, "", "file", "webview", "image", "animatedimage", "tile", "slidertile", "flipable");
     YACAPPPROPERTY(QString, filename, Filename, "")
+    YACAPPPROPERTY(QString, fillModeString, FillModeString, "")
     YACAPPPROPERTY(QString, url, Url, "")
     YACAPPPROPERTY(QString, target, Target, "")
     YACAPPPROPERTY(double, widthPerThousand, WidthPerThousand, 0)

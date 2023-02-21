@@ -142,9 +142,22 @@ Item
         id: imageComponent
         Image
         {
+            property string fms: itemConfig.fillModeString
             anchors.fill: parent
             source: itemConfig.url
-            fillMode: Image.Stretch
+            fillMode: fms == "Image.Stretch" ?
+                          Image.Stretch :
+                          fms == "Image.PreserveAspectFit" ?
+                              Image.PreserveAspectFit :
+                              fms == "Image.PreserveAspectCrop" ?
+                                  Image.PreserveAspectCrop :
+                                  fms == "Image.Tile" ?
+                                      Image.Tile :
+                                      fms == "Image.TileVertically" ?
+                                          Image.TileVertically :
+                                          fms == "Image.TileHorizontally" ?
+                                              Image.TileHorizontally :
+                                              Image.Pad
             cache: true
         }
     }

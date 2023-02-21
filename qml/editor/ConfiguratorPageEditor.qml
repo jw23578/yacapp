@@ -250,6 +250,7 @@ Rectangle
                                 property bool tileType: ["tile"].includes(currentItem.type)
                                 property bool slidertileType: ["slidertile"].includes(currentItem.type)
                                 property bool flipableType: ["flipable"].includes(currentItem.type)
+                                property bool imageType: ["image"].includes(currentItem.type)
                                 property bool animatedimageType: ["animatedimage"].includes(currentItem.type)
                                 width: columnItems.width
                                 Item
@@ -348,6 +349,22 @@ Rectangle
                                     onDisplayTextChanged: config.content.items[index].url= text
                                     visible: ["webview", "image"].includes(config.content.items[index].type) || animatedimageType
                                 }
+                                YACComboBoxWithHeader
+                                {
+                                    id: theFillMode
+                                    headerText: qsTr("Fillmode")
+                                    visible: imageType || animatedimageType
+                                    initialText: config.content.items[index].fillModeString
+                                    onCurrentTextChanged: config.content.items[index].fillModeString = currentText
+                                    model: ["Image.Stretch"
+                                        , "Image.PreserveAspectFit"
+                                        , "Image.PreserveAspectCrop"
+                                        , "Image.Tile"
+                                        , "Image.TileVertically"
+                                        , "Image.TileHorizontally"
+                                        , "Image.Pad"]
+                                }
+
                                 Row
                                 {
                                     visible: (columnItems.showColumn || columnItems.showRow) && config.content.items[index].type == "file"

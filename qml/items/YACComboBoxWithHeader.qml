@@ -5,6 +5,7 @@ import "qrc:/ModelFunctions.js" as ModelFunctions
 Column
 {
     width: parent.width
+    property string initialText: ""
     property alias headerText: header.text
     property alias model: input.model
     property alias currentText: input.currentText
@@ -27,6 +28,7 @@ Column
         id: input
         x: header.height
         width: parent.width - x
+        currentIndex: find(initialText)
         onActivated: parent.activated(textAt(index))
     }
 }

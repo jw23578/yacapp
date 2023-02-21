@@ -70,6 +70,5 @@ Thumbs.db
 # --------
 *.dll
 *.exe
-
 android/google-services.json
 deployToJW78.sh
