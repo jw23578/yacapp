@@ -28,7 +28,7 @@ Column
         id: input
         x: header.height
         width: parent.width - x
-        currentIndex: initialText != "" ? find(initialText) : null
+        currentIndex: initialText != "" ? find(initialText) : 0
         onActivated: parent.activated(textAt(index))
     }
 }

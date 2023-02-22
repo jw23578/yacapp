@@ -17,6 +17,10 @@ void ContentItem::setConfig(const QJsonValue &config)
     stringFromJSON(fillModeString, FillModeString);
     doubleFromJSON(widthPerThousand, WidthPerThousand);
     doubleFromJSON(heightPerThousand, HeightPerThousand);
+    intFromJSON(leftMarginPerThousand, LeftMarginPerThousand);
+    intFromJSON(topMarginPerThousand, TopMarginPerThousand);
+    intFromJSON(bottomMarginPerThousand, BottomMarginPerThousand);
+    intFromJSON(rightMarginPerThousand, RightMarginPerThousand);
     stringFromJSON(text, Text);
     colorFromJSON(color, Color);
     stringFromJSON(text2, Text2);
@@ -35,6 +39,10 @@ QJsonObject ContentItem::getConfig()
     stringToJSON(fillModeString);
     toJSON(widthPerThousand);
     toJSON(heightPerThousand);
+    toJSON(leftMarginPerThousand);
+    toJSON(rightMarginPerThousand);
+    toJSON(topMarginPerThousand);
+    toJSON(bottomMarginPerThousand);
     toJSON(text);
     colorToJSON(color);
     toJSON(text2);

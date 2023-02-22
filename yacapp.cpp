@@ -120,6 +120,7 @@ void YACAPP::logout()
 void YACAPP::leaveApp()
 {
     setLoginToken("");
+    appUserConfig()->clear();
     setGlobalProjectConfigFilename("");
     globalConfig()->setProjectID("");
     {

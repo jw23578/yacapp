@@ -26,6 +26,8 @@ public:
 
     void setConfig(const QJsonValue &config) override;
     QJsonObject getConfig() override;
+
+    void clear();
 };
 
 #endif // APPUSERCONFIG_H

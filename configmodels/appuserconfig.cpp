@@ -72,3 +72,19 @@ QJsonObject AppUserConfig::getConfig()
     return config;
 
 }
+
+void AppUserConfig::clear()
+{
+    setFstname("");
+    setSurname("");
+    setVisibleName("");
+    setProfileImageId("");
+    setSearchingExactlyAllowed(false);
+    setSearchingFuzzyAllowed(false);
+    setSaveLoginEMail(false);
+    setLoginEMail("");
+    setLoginToken("");
+    setWorkStart(QDateTime());
+    setPauseStart(QDateTime());
+    setOffSiteWorkStart(QDateTime());
+}

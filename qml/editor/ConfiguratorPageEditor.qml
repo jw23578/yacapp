@@ -400,6 +400,34 @@ Rectangle
                                     onDisplayTextChanged: config.content.items[index].heightPerThousand = text
                                     visible: columnItems.showColumn
                                 }
+                                YACLineEditWithHeader
+                                {
+                                    headerText: qsTr("Left Margin per Thousand")
+                                    intEdit: true
+                                    text: config.content.items[index].leftMarginPerThousand
+                                    onDisplayTextChanged: config.content.items[index].leftMarginPerThousand = text
+                                }
+                                YACLineEditWithHeader
+                                {
+                                    headerText: qsTr("Right Margin per Thousand")
+                                    intEdit: true
+                                    text: config.content.items[index].rightMarginPerThousand
+                                    onDisplayTextChanged: config.content.items[index].rightMarginPerThousand = text
+                                }
+                                YACLineEditWithHeader
+                                {
+                                    headerText: qsTr("Top Margin per Thousand")
+                                    intEdit: true
+                                    text: config.content.items[index].topMarginPerThousand
+                                    onDisplayTextChanged: config.content.items[index].topMarginPerThousand = text
+                                }
+                                YACLineEditWithHeader
+                                {
+                                    headerText: qsTr("Bottom Margin per Thousand")
+                                    intEdit: true
+                                    text: config.content.items[index].bottomMarginPerThousand
+                                    onDisplayTextChanged: config.content.items[index].bottomMarginPerThousand = text
+                                }
                             }
                         }
                         YACButton

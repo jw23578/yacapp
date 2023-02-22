@@ -143,7 +143,6 @@ Item
         Image
         {
             property string fms: itemConfig.fillModeString
-            anchors.fill: parent
             source: itemConfig.url
             fillMode: fms == "Image.Stretch" ?
                           Image.Stretch :
@@ -166,7 +165,6 @@ Item
         id: animatedimageComponent
         AnimatedImage
         {
-            anchors.fill: parent
             source: itemConfig.url
             fillMode: Image.Stretch
             cache: true
@@ -201,6 +199,10 @@ Item
     {
         id: contentLoader
         anchors.fill: parent
+        anchors.leftMargin: parent.width * itemConfig.leftMarginPerThousand / 1000.0
+        anchors.rightMargin: parent.width * itemConfig.rightMarginPerThousand / 1000.0
+        anchors.topMargin: parent.height * itemConfig.topMarginPerThousand / 1000.0
+        anchors.bottomMargin: parent.height * itemConfig.bottomMarginPerThousand / 1000.0
         sourceComponent: getComponent(itemConfig.type)
     }
 

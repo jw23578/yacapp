@@ -16,6 +16,10 @@ class ContentItem : public ConfigInterface
     YACAPPPROPERTY(QString, target, Target, "")
     YACAPPPROPERTY(double, widthPerThousand, WidthPerThousand, 0)
     YACAPPPROPERTY(double, heightPerThousand, HeightPerThousand, 0)
+    YACAPPPROPERTY(int, leftMarginPerThousand, LeftMarginPerThousand, 0);
+    YACAPPPROPERTY(int, topMarginPerThousand, TopMarginPerThousand, 0);
+    YACAPPPROPERTY(int, bottomMarginPerThousand, BottomMarginPerThousand, 0);
+    YACAPPPROPERTY(int, rightMarginPerThousand, RightMarginPerThousand, 0);
     YACAPPPROPERTY(QString, text, Text, "")
     YACAPPPROPERTY(QColor, color, Color, "white")
     YACAPPPROPERTY(QString, text2, Text2, "")
