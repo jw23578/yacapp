@@ -10,7 +10,6 @@ include(qzxing/src/QZXing.pri)
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-include("JW78CurlLib/JW78CurlLib.pri")
 include("yacAppAndServer/yacAppAndServer.pri")
 
 
@@ -128,7 +127,6 @@ DISTFILES += \
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
-
 HEADERS += yacappfirebase.h
 
 android {
@@ -138,7 +136,6 @@ android {
   INCLUDEPATH += $$PWD/firebase_cpp_sdk/include
 
   QT += androidextras
-
 
   LIBS += -L$$PWD/firebase_cpp_sdk/libs/android/armeabi-v7a -lfirebase_app -lfirebase_messaging
 }

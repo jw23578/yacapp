@@ -28,18 +28,12 @@ class Configurator : public QObject
 
     YACAPPPROPERTY(ProjectData*, activeProjectData, ActiveProjectData, new ProjectData);
 
-    void sftpUpload(QString host, QString user, QString password, QString targetFilename, QString sourceFilename);
-
 public:
     explicit Configurator(YACAPP &yacApp
                           , YACExtServerNetwork &network
                           , QObject *parent = nullptr);
 
     Q_INVOKABLE void save();
-
-    Q_INVOKABLE void deploy(QString projectID, QString host, QString user, QString password, QString www_basedirectory);
-
-    Q_INVOKABLE void defaultDeploy(const QString &globalProjectConfigFilename, QString host, QString user, QString password);
 
     Q_INVOKABLE void deploy(QString globalProjectConfigFilename,
                                           QJSValue goodCallback,

@@ -11,7 +11,6 @@
 
 #ifndef Q_OS_ANDROID
 #include "helper.h"
-#include "jw78curlwrapper.h"
 #endif
 
 // #include "zlib.h"
@@ -87,130 +86,6 @@ void Configurator::save()
     jsonFile.open(QIODevice::WriteOnly);
     jsonFile.write(QJsonDocument(config).toJson());
 
-}
-
-void Configurator::deploy(QString projectID, QString host, QString user, QString password, QString www_basedirectory)
-{
-#ifdef Q_OS_ANDROID
-    Q_UNUSED(projectID);
-    Q_UNUSED(host);
-    Q_UNUSED(user);
-    Q_UNUSED(password);
-    Q_UNUSED(www_basedirectory);
-#endif
-#ifndef Q_OS_ANDROID
-    if (!deployConfigs[projectID])
-    {
-        deployConfigs[projectID] = new ProjectData;
-    }
-    ProjectData &pd(*deployConfigs[projectID]);
-    pd.setProjectID(projectID);
-    pd.setDeployPassword(password);
-    pd.setDeployUrl(host);
-    pd.setDeployBaseDirectory(www_basedirectory);
-    pd.setDeployUser(user);
-
-    save();
-
-    std::string remoteUrl("sftp://");
-    remoteUrl += user.toStdString();
-    remoteUrl += ":";
-    remoteUrl += password.toStdString();
-    remoteUrl += "@";
-    remoteUrl += host.toStdString();
-    remoteUrl += ":";
-    remoteUrl += www_basedirectory.toStdString();
-
-    jw78::CurlWrapper cw;
-    std::string message;
-    cw.sftpUpload(remoteUrl, "/home/jw78/wes23/wes23.yacapp", message);
-
-#endif
-
-}
-
-void Configurator::sftpUpload(QString host, QString user, QString password, QString targetFilename, QString sourceFilename)
-{
-#ifdef Q_OS_ANDROID
-    Q_UNUSED(targetFilename);
-    Q_UNUSED(host);
-    Q_UNUSED(user);
-    Q_UNUSED(password);
-    Q_UNUSED(sourceFilename);
-#endif
-#ifndef Q_OS_ANDROID
-    std::string remoteUrl("sftp://");
-    remoteUrl += user.toStdString();
-    remoteUrl += ":";
-    remoteUrl += password.toStdString();
-    remoteUrl += "@";
-    remoteUrl += host.toStdString();
-    remoteUrl += ":";
-    remoteUrl += targetFilename.toStdString();
-
-    jw78::CurlWrapper cw;
-    std::string message;
-    cw.sftpUpload(remoteUrl, sourceFilename.toStdString(), message);
-#endif
-}
-
-
-void Configurator::defaultDeploy(const QString &globalProjectConfigFilename, QString host, QString user, QString password)
-{
-    GlobalProjectConfig gpc(true);
-    gpc.init(globalProjectConfigFilename);
-
-    if (!deployConfigs[gpc.projectID()])
-    {
-        deployConfigs[gpc.projectID()] = new ProjectData;
-    }
-    ProjectData &pd(*deployConfigs[gpc.projectID()]);
-    pd.setProjectName(gpc.projectName());
-    pd.setProjectID(gpc.projectID());
-    pd.setLogoUrl(gpc.logoUrl());
-    pd.setDeployPassword(password);
-    pd.setDeployUrl(host);
-    pd.setDeployBaseDirectory("");
-    pd.setDeployUser(user);
-
-    save();
-
-    QFileInfo fileinfo(globalProjectConfigFilename);
-
-    QString path(fileinfo.path() + "/");
-    QString baseName(fileinfo.baseName());
-    baseName.remove(" ");
-
-    sftpUpload(host, user, password, QString("/var/www/html/yacapp/") + gpc.projectID() + ".yacapp",
-               globalProjectConfigFilename);
-
-    QByteArray appPackage;
-    for (int i(0); i < gpc.formFiles.size(); ++i)
-    {
-        appPackage += gpc.formFiles[i].toUtf8();
-        appPackage += '\0';
-        QFile file(path + gpc.formFiles[i]);
-        file.open(QIODevice::ReadOnly);
-        appPackage += file.readAll();
-        appPackage += '\0';
-    }
-    for (int i(0); i < gpc.menueFiles.size(); ++i)
-    {
-        appPackage += gpc.menueFiles[i].toUtf8() + '\0';
-        QFile file(path + gpc.menueFiles[i]);
-        file.open(QIODevice::ReadOnly);
-        appPackage += file.readAll();
-        appPackage += '\0';
-    }
-    appPackage = qCompress(appPackage);
-
-    QString appPackageFilename(path + gpc.projectID() + ".yacpck");
-    QFile appPackageFile(appPackageFilename);
-    appPackageFile.open(QIODevice::WriteOnly);
-    appPackageFile.write(appPackage);
-    appPackageFile.close();
-
-    sftpUpload(host, user, password, QString("/var/www/html/yacapp/") + gpc.projectID() + ".yacpck", appPackageFilename);
 }
 
 void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCallback, QJSValue badCallback)

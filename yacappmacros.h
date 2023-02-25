@@ -117,6 +117,14 @@
     void name##Changed(); \
     private:
 
+#include <QtGlobal>
+#include <QtGlobal>
+#if QT_VERSION >= 0x060000
+    #define mysizetype qsizetype
+#else
+#define mysizetype int
+#endif
+
 #define YACOBJECTLISTPROPERTY(type, singular, uppercasesingular, className) \
 Q_PROPERTY(QQmlListProperty<type> singular##s READ singular##s CONSTANT) \
 QList<type *> m_##singular##s; \
@@ -135,23 +143,23 @@ void append##uppercasesingular(type *singular) \
 { \
     m_##singular##s.append(singular); \
 } \
-qsizetype singular##sCount() const \
+mysizetype singular##sCount() const \
 { \
     return m_##singular##s.count(); \
 } \
-type *singular(qsizetype index) const \
+type *singular(mysizetype index) const \
 { \
     return m_##singular##s.at(index); \
 } \
 void clear##uppercasesingular##s() \
 { \
-    for (qsizetype i(0); i < m_##singular##s.size(); ++i) \
+    for (mysizetype i(0); i < m_##singular##s.size(); ++i) \
     { \
         delete singular(i); \
     } \
     m_##singular##s.clear(); \
 } \
-void replace##uppercasesingular(qsizetype index, type *singular) \
+void replace##uppercasesingular(mysizetype index, type *singular) \
 { \
     m_##singular##s[index] = singular; \
 } \
@@ -164,11 +172,11 @@ static void append##uppercasesingular(QQmlListProperty<type> *list, type *singul
 { \
      reinterpret_cast< className *>(list->data)->append##uppercasesingular(singular); \
 } \
-static qsizetype singular##sCount(QQmlListProperty<type> *list) \
+static mysizetype singular##sCount(QQmlListProperty<type> *list) \
 { \
     return reinterpret_cast< className *>(list->data)->singular##sCount(); \
 } \
-static type* singular(QQmlListProperty<type> *list, qsizetype index) \
+static type* singular(QQmlListProperty<type> *list, mysizetype index) \
 { \
     return reinterpret_cast< className *>(list->data)->singular(index); \
 } \
@@ -176,7 +184,7 @@ static void clear##uppercasesingular##s(QQmlListProperty<type> *list) \
 { \
     reinterpret_cast< className *>(list->data)->clear##uppercasesingular##s(); \
 } \
-static void replace##uppercasesingular(QQmlListProperty<type> *list, qsizetype index, type *singular) \
+static void replace##uppercasesingular(QQmlListProperty<type> *list, mysizetype index, type *singular) \
 { \
     reinterpret_cast< className *>(list->data)->replace##uppercasesingular(index, singular); \
 } \

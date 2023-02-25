@@ -96,7 +96,7 @@ Rectangle
                                              , verifyToken.displayText
                                              , function()
                                              {
-                                                 yacApp.goodMessage(qsTr("Verifyíing Successful, you are now logged in an can deploy your App."), null, null)
+                                                 yacApp.goodMessage(qsTr("Verifying Successful, you are now logged in an can deploy your App."), null, null)
                                                  registerVerifyPage.visible = false
                                              }
                                              , function(message)

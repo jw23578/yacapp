@@ -101,20 +101,6 @@ Rectangle
                                     {
                                         yacApp.badMessage(message, null, null)
                                     })
-                return;
-                configurator.deployToYACAPPServer(yacApp.globalProjectConfigFilename,
-                                                  function()
-                                                  {
-                                                      yacApp.goodMessage(qsTr("Deployment successful"), null, null)
-                                                  },
-                                                  function(message)
-                                                  {
-                                                      yacApp.badMessage(message, null, null)
-                                                  }
-                                                  )
-                return;
-                configurator.defaultDeploy(yacApp.globalProjectConfigFilename, host.displayText, loginEMail.displayText, password.text);
-//                configurator.deploy(yacApp.globalConfig.projectID, host.displayText, user.displayText, password.text, basedirectory.displayText)
             }
         }
         YACButton
@@ -139,10 +125,6 @@ Rectangle
         if (visible)
         {
             configurator.setProjectData(yacApp.globalConfig.projectID)
-            //host.text = configurator.getProjectData(yacApp.globalConfig.projectID).deployUrl
-//            loginEMail.text = configurator.getProjectData(yacApp.globalConfig.projectID).deployUser
-//            password.text = configurator.getProjectData(yacApp.globalConfig.projectID).deployPassword
-            //basedirectory.text = configurator.getProjectData(yacApp.globalConfig.projectID).deployBaseDirectory
         }
     }
 }
