@@ -135,23 +135,23 @@ void append##uppercasesingular(type *singular) \
 { \
     m_##singular##s.append(singular); \
 } \
-int singular##sCount() const \
+qsizetype singular##sCount() const \
 { \
     return m_##singular##s.count(); \
 } \
-type *singular(int index) const \
+type *singular(qsizetype index) const \
 { \
     return m_##singular##s.at(index); \
 } \
 void clear##uppercasesingular##s() \
 { \
-    for (int i(0); i < m_##singular##s.size(); ++i) \
+    for (qsizetype i(0); i < m_##singular##s.size(); ++i) \
     { \
         delete singular(i); \
     } \
     m_##singular##s.clear(); \
 } \
-void replace##uppercasesingular(int index, type *singular) \
+void replace##uppercasesingular(qsizetype index, type *singular) \
 { \
     m_##singular##s[index] = singular; \
 } \
@@ -164,11 +164,11 @@ static void append##uppercasesingular(QQmlListProperty<type> *list, type *singul
 { \
      reinterpret_cast< className *>(list->data)->append##uppercasesingular(singular); \
 } \
-static int singular##sCount(QQmlListProperty<type> *list) \
+static qsizetype singular##sCount(QQmlListProperty<type> *list) \
 { \
     return reinterpret_cast< className *>(list->data)->singular##sCount(); \
 } \
-static type* singular(QQmlListProperty<type> *list, int index) \
+static type* singular(QQmlListProperty<type> *list, qsizetype index) \
 { \
     return reinterpret_cast< className *>(list->data)->singular(index); \
 } \
@@ -176,7 +176,7 @@ static void clear##uppercasesingular##s(QQmlListProperty<type> *list) \
 { \
     reinterpret_cast< className *>(list->data)->clear##uppercasesingular##s(); \
 } \
-static void replace##uppercasesingular(QQmlListProperty<type> *list, int index, type *singular) \
+static void replace##uppercasesingular(QQmlListProperty<type> *list, qsizetype index, type *singular) \
 { \
     reinterpret_cast< className *>(list->data)->replace##uppercasesingular(index, singular); \
 } \
