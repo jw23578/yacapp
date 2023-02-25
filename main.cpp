@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+#include "QZXing.h"
 #include <QLocale>
 #include <QTranslator>
 #include "configmodels/parsedconfig.h"
@@ -48,6 +49,9 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     app.setOrganizationName("jw78");
     app.setOrganizationDomain("jw78.de");
+
+    QZXing::registerQMLTypes();
+
     qRegisterMetaType<QObjectList*>("QObjectList*");
     qmlRegisterType<MessageObject>("com.yacapp.messageobject", 1, 0, "MessageObject");
     qmlRegisterType<ParsedConfig>("com.yacapp.parsedconfig", 1, 0, "ParsedConfig");

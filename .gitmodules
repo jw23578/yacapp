@@ -1,3 +1,6 @@
 [submodule "yacAppAndServer"]
 	path = yacAppAndServer
 	url = https://github.com/jw23578/yacAppAndServer.git
+[submodule "qzxing"]
+	path = qzxing
+	url = https://github.com/ftylitak/qzxing.git

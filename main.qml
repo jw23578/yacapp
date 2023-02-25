@@ -127,6 +127,20 @@ ApplicationWindow
             item.squared = squared
         }
     }
+    Component
+    {
+        id: qrScannerComponent
+        YACQRScanner
+        {
+
+        }
+    }
+
+    Loader
+    {
+        id: qrScannerLoader
+        anchors.fill: parent
+    }
 
     YACBadMessageForm
     {
