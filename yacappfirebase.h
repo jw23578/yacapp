@@ -40,7 +40,7 @@ public:
 };
 
 #else
-#ifdef Q_OS_LINUX
+#if defined Q_OS_LINUX || defined Q_OS_WINDOWS
 class YACAPPFirebase
 {
     Firebase2Qt &firebase2qt;
