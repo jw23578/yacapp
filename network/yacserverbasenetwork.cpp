@@ -2,6 +2,8 @@
 #include <QUrlQuery>
 #include <QJsonDocument>
 
+QString YACServerBaseNetwork::yacappServerUrl  = {"http://www.jw78.de:23579"}; // {"http://127.0.0.1:23578"}; //
+
 YACServerBaseNetwork::YACServerBaseNetwork(QNetworkAccessManager &manager
                                            , Constants &constants):
     NetworkInterface{manager, constants}

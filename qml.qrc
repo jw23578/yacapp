@@ -61,5 +61,7 @@
         <file>qml/apppages/YACPhoto.qml</file>
         <file>qml/items/YACRoundedImage.qml</file>
         <file>qml/apppages/YACQRScanner.qml</file>
+        <file>qml/apppages/AppUserAppointments.qml</file>
+        <file>qml/apppages/AppUserBasePage.qml</file>
     </qresource>
 </RCC>

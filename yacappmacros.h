@@ -1,7 +1,7 @@
 #ifndef YACAPPMACROS_H
 #define YACAPPMACROS_H
 
-#include <math.h>
+#include <cmath>
 
 #define colorFromJSON(name, uppercasename) \
     set##uppercasename(config[#name].toString());

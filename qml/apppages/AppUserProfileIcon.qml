@@ -58,6 +58,23 @@ Item
         spacing: 1
         Rectangle
         {
+            width: parent.width
+            height: width
+            radius: Constants.radius
+            color: "cyan"
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: Constants.profileOpen = !Constants.profileOpen
+            }
+            YACText
+            {
+                anchors.centerIn: parent
+                text: qsTr("Close")
+            }
+        }
+        Rectangle
+        {
             radius: Constants.radius
             width: parent.width
             height: width
@@ -164,19 +181,27 @@ Item
         }
         Rectangle
         {
+            radius: Constants.radius
             width: parent.width
             height: width
-            radius: Constants.radius
             color: "cyan"
             MouseArea
             {
                 anchors.fill: parent
-                onClicked: Constants.profileOpen = !Constants.profileOpen
+                onClicked:
+                {
+                    if (!yacApp.appUserConfig.loggedIn)
+                    {
+                        yacApp.badMessage(qsTr("Please login first."), null, null);
+                        return
+                    }
+                    profileLoader.sourceComponent = appointmentComponent
+                }
             }
             YACText
             {
                 anchors.centerIn: parent
-                text: qsTr("Close")
+                text: qsTr("Appointments")
             }
         }
     }
@@ -221,6 +246,14 @@ Item
     {
         id: worktimeComponent
         YACUserWorktimeState
+        {
+            onCloseClicked: profileLoader.sourceComponent = null
+        }
+    }
+    Component
+    {
+        id: appointmentComponent
+        AppUserAppointments
         {
             onCloseClicked: profileLoader.sourceComponent = null
         }

@@ -94,6 +94,10 @@ int main(int argc, char *argv[])
             break;
         }
     }
+    if (app.arguments().contains("ServerIsLocalhost"))
+    {
+        YACServerBaseNetwork::yacappServerUrl = "http://127.0.0.1:23578";
+    }
     Helper helper;
     Constants constants(getAppParam(app, "customWriteablePath="));
     QNetworkAccessManager manager;

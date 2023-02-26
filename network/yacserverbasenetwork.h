@@ -5,8 +5,9 @@
 
 class YACServerBaseNetwork : public NetworkInterface
 {
+    friend int main(int argc, char *argv[]);
 protected:
-    const QString yacappServerUrl = {"http://www.jw78.de:23579"}; // {"http://127.0.0.1:23578"}; //
+    static QString yacappServerUrl;
 
     void yacappServerPost(const QString &method,
                           const QJsonObject &object,
