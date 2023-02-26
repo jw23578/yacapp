@@ -2,10 +2,12 @@
 #define YACSERVERNETWORK_H
 
 #include "yacserverbasenetwork.h"
+#include "yacAppAndServer/yacappservermethodnames.h"
 
 class YACServerNetwork: public YACServerBaseNetwork
 {
     Q_OBJECT
+    YACAPPServerMethodNames methodNames;
 public:
     YACServerNetwork(QNetworkAccessManager &manager
                      , Constants &constants);
@@ -133,6 +135,23 @@ public:
                            const QString &imageId,
                            JSONCallbackFunction jsonSuccessCallback,
                            CallbackFunction errorCallback);
+
+    void appUserInsertAppointment(const QString &appId,
+                                  const QString &loginEMail,
+                                  const QString &loginToken,
+                                  const QString &appointment_group_id,
+                                  const QString &appointment_template_id,
+                                  const QString &caption,
+                                  const QDateTime &start_datetime,
+                                  const QDateTime &end_datetime,
+                                  JSONCallbackFunction jsonSuccessCallback,
+                                  CallbackFunction errorCallback);
+
+    void appUserFetchAppointments(const QString &appId,
+                                  const QString &loginEMail,
+                                  const QString &loginToken,
+                                  JSONCallbackFunction jsonSuccessCallback,
+                                  CallbackFunction errorCallback);
 
 };
 

@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import "../items"
+import "appointments"
 import com.yacapp.appuserconfig 1.0
 
 Item
@@ -195,7 +196,15 @@ Item
                         yacApp.badMessage(qsTr("Please login first."), null, null);
                         return
                     }
-                    profileLoader.sourceComponent = appointmentComponent
+                    yacApp.appUserFetchAppointments(function(message)
+                    {
+                        profileLoader.sourceComponent = appointmentComponent
+                    },
+                    function(message)
+                    {
+                        yacApp.badMessage(qsTr("could not load appointments, please try again later. ") + message, null, null)
+                    }
+                    )
                 }
             }
             YACText

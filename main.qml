@@ -5,6 +5,7 @@ import QtQuick.Controls 2.15
 import "qml"
 import "qml/items"
 import "qml/apppages"
+import "qml/dialogs"
 
 ApplicationWindow
 {
@@ -141,6 +142,11 @@ ApplicationWindow
         id: qrScannerLoader
         anchors.fill: parent
     }
+    DialogDateTimePicker
+    {
+        visible: false
+        id: dateTimePicker
+    }
 
     YACBadMessageForm
     {
@@ -216,6 +222,10 @@ ApplicationWindow
         function onYesNoQuestion(question, itemToFocus, yesCallback, noCallback)
         {
             yesNoQuestion.show(question, itemToFocus, yesCallback, noCallback)
+        }
+        function onPickDateTime(dateTime, okCallback)
+        {
+            dateTimePicker.show(dateTime, okCallback)
         }
     }
 

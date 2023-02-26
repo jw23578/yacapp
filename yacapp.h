@@ -14,6 +14,7 @@
 #include "datamodels/templateddatamodel.h"
 #include "dataobjects/profileobject.h"
 #include "datamodels/profilesmodel.h"
+#include "datamodels/appointmentsmodel.h"
 #include "localstorage/localstorage.h"
 #include "datamodels/messagesmodel.h"
 #include "firebase2qt.h"
@@ -76,6 +77,8 @@ class YACAPP : public QObject
     ProfilesModel knownProfilesModel;
 
     MessagesModel messagesModel;
+
+    AppointmentsModel appointmentsModel;
 
 
     void cleanUpKnownFile();
@@ -168,6 +171,17 @@ public:
                                            QJSValue successCallback,
                                            QJSValue errorCallback);
 
+    Q_INVOKABLE void appUserInsertAppointment(const QString &appointment_group_id,
+                                              const QString &appointment_template_id,
+                                              const QString &caption,
+                                              const QDateTime &start_datetime,
+                                              const QDateTime &end_datetime,
+                                              QJSValue successCallback,
+                                              QJSValue errorCallback);
+
+    Q_INVOKABLE void appUserFetchAppointments(QJSValue successCallback,
+                                              QJSValue errorCallback);
+
     Q_INVOKABLE void fetchMessageUpdates();
 
     Q_INVOKABLE void loadMessages(const QString &contactId);
@@ -190,6 +204,7 @@ signals:
     void badMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
     void goodMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
     void yesNoQuestion(const QString &question, QJSValue itemToFocus, QJSValue yesCallback, QJSValue noCallback);
+    void pickDateTime(const QDateTime dateTime, const QJSValue okCallback);
 
 private slots:
     void deviceTokenChanged(QString deviceToken);

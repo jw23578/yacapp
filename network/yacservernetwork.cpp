@@ -138,7 +138,7 @@ void YACServerNetwork::yacappServerAppUserVerify(const QString &loginEMail,
     QMap<QByteArray, QByteArray> rawHeader;
     yacappServerPost("/verifyAppUser",
                      obj,
-                     defaultJSONReplyHandler,
+                     defaultReplyHandler,
                      rawHeader,
                      0,
                      jsonSuccessCallback,
@@ -160,7 +160,7 @@ void YACServerNetwork::yacappServerAppUserLogin(const QString &loginEMail,
     QMap<QByteArray, QByteArray> rawHeader;
     yacappServerPost("/loginAppUser",
                      obj,
-                     defaultJSONReplyHandler,
+                     defaultReplyHandler,
                      rawHeader,
                      0,
                      jsonSuccessCallback,
@@ -231,7 +231,7 @@ void YACServerNetwork::appUserGetWorktimeState(const QString &appId,
     rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
     yacappServerGet("/getWorktimeState",
                     query,
-                    defaultJSONReplyHandler,
+                    defaultReplyHandler,
                     rawHeader,
                     0,
                     jsonSuccessCallback,
@@ -262,7 +262,7 @@ void YACServerNetwork::appUserInsertWorktime(const QString &appId,
 
     yacappServerPost("/insertWorktime",
                      obj,
-                     defaultJSONReplyHandler,
+                     defaultReplyHandler,
                      rawHeader,
                      0,
                      jsonSuccessCallback,
@@ -290,7 +290,7 @@ void YACServerNetwork::appUserSearchProfiles(const QString &appId,
     rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
     yacappServerGet("/appUserSearchProfiles",
                     query,
-                    defaultJSONReplyHandler,
+                    defaultReplyHandler,
                     rawHeader,
                     0,
                     jsonSuccessCallback,
@@ -412,7 +412,7 @@ void YACServerNetwork::appUserFetchMessageUpdates(const QString &appId,
 
     yacappServerGet("/fetchMessageUpdates",
                     query,
-                    defaultJSONReplyHandler,
+                    defaultReplyHandler,
                     rawHeader,
                     0,
                     jsonSuccessCallback,
@@ -472,8 +472,73 @@ void YACServerNetwork::appUserFetchImage(const QString &appId,
     rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
     yacappServerGet("/fetchImage",
                     query,
-                    defaultJSONReplyHandler,
+                    defaultReplyHandler,
                     rawHeader,
                     0,
                     jsonSuccessCallback,
-                    errorCallback);}
+                    errorCallback);
+}
+
+void YACServerNetwork::appUserInsertAppointment(const QString &appId,
+                                                const QString &loginEMail,
+                                                const QString &loginToken,
+                                                const QString &appointment_group_id,
+                                                const QString &appointment_template_id,
+                                                const QString &caption,
+                                                const QDateTime &start_datetime,
+                                                const QDateTime &end_datetime,
+                                                JSONCallbackFunction jsonSuccessCallback,
+                                                CallbackFunction errorCallback)
+{
+    QMap<QByteArray, QByteArray> rawHeader;
+    rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
+    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+
+    QJsonObject obj;
+    obj["appointment_group_id"] = appointment_group_id;
+    obj["caption"] = caption;
+    obj["start_datetime"] = start_datetime.toString(Qt::ISODate);
+    obj["end_datetime"] = end_datetime.toString(Qt::ISODate);
+    obj["appointment_template_id"] = appointment_template_id;
+
+    QDateTime bookable_since_datetime;
+    obj["bookable_since_datetime"] = bookable_since_datetime.toString(Qt::ISODate);
+    QDateTime bookable_until_datetime;
+    obj["bookable_until_datetime"] = bookable_until_datetime.toString(Qt::ISODate);
+
+    QString decription;
+    obj["decription"] = decription;
+    int max_bookable_count(0);
+    obj["max_bookable_count"] = max_bookable_count;
+    int booking_credits(0);
+    obj["booking_credits"] = booking_credits;
+
+    yacappServerPost(methodNames.insertAppointment,
+                     obj,
+                     defaultReplyHandler,
+                     rawHeader,
+                     0,
+                     jsonSuccessCallback,
+                     errorCallback);
+}
+
+void YACServerNetwork::appUserFetchAppointments(const QString &appId,
+                                                const QString &loginEMail,
+                                                const QString &loginToken,
+                                                JSONCallbackFunction jsonSuccessCallback,
+                                                CallbackFunction errorCallback)
+{
+    QUrlQuery query;
+    QMap<QByteArray, QByteArray> rawHeader;
+    rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
+    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    yacappServerGet(methodNames.fetchAppointments,
+                    query,
+                    defaultReplyHandler,
+                    rawHeader,
+                    0,
+                    jsonSuccessCallback,
+                    errorCallback);
+}

@@ -29,10 +29,12 @@ SOURCES += \
         configurator.cpp \
         configuratormodels/recentproject.cpp \
         constants.cpp \
+        datamodels/appointmentsmodel.cpp \
         datamodels/asyncimageresponse.cpp \
         datamodels/messagesmodel.cpp \
         datamodels/objectdatamodel.cpp \
         datamodels/profilesmodel.cpp \
+        dataobjects/appointmentobject.cpp \
         dataobjects/dataobjectinterface.cpp \
         dataobjects/groupobject.cpp \
         dataobjects/messageobject.cpp \
@@ -85,6 +87,7 @@ HEADERS += \
   configurator.h \
   configuratormodels/recentproject.h \
   constants.h \
+  datamodels/appointmentsmodel.h \
   datamodels/asyncimageresponse.h \
   datamodels/datamodelinterface.h \
   datamodels/exttemplateddatamodel.h \
@@ -92,6 +95,7 @@ HEADERS += \
   datamodels/objectdatamodel.h \
   datamodels/profilesmodel.h \
   datamodels/templateddatamodel.h \
+  dataobjects/appointmentobject.h \
   dataobjects/dataobjectinterface.h \
   dataobjects/groupobject.h \
   dataobjects/messageobject.h \

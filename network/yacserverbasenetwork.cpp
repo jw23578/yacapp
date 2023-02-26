@@ -11,7 +11,7 @@ YACServerBaseNetwork::YACServerBaseNetwork(QNetworkAccessManager &manager
 
 }
 
-void YACServerBaseNetwork::yacappServerPost(const QString &method,
+void YACServerBaseNetwork::yacappServerPost(QString method,
                                             const QJsonObject &object,
                                             HandlerFunction handlerFunction,
                                             const QMap<QByteArray, QByteArray> &rawHeader,
@@ -19,6 +19,10 @@ void YACServerBaseNetwork::yacappServerPost(const QString &method,
                                             JSONCallbackFunction jsonSuccessCallback,
                                             CallbackFunction errorCallback)
 {
+    if (method[0] != '/')
+    {
+        method = "/" + method;
+    }
     QNetworkRequest request;
     request.setUrl(QUrl(yacappServerUrl + method));
     QJsonDocument doc(object);
@@ -69,7 +73,7 @@ void YACServerBaseNetwork::yacappServerPost(const QString &method,
                      errorCallback);
 }
 
-void YACServerBaseNetwork::yacappServerGet(const QString &method,
+void YACServerBaseNetwork::yacappServerGet(QString method,
                                            const QUrlQuery &query,
                                            HandlerFunction handlerFunction,
                                            const QMap<QByteArray, QByteArray> &rawHeader,
@@ -77,6 +81,10 @@ void YACServerBaseNetwork::yacappServerGet(const QString &method,
                                            JSONCallbackFunction jsonSuccessCallback,
                                            CallbackFunction errorCallback)
 {
+    if (method[0] != '/')
+    {
+        method = "/" + method;
+    }
     QUrl url(yacappServerUrl + method);
     url.setQuery(query.query());
     QNetworkRequest request;
@@ -127,7 +135,7 @@ void YACServerBaseNetwork::yacappServerAppUserGetJSONReply(const QString &method
 
     yacappServerGet(method,
                     query,
-                    defaultJSONReplyHandler,
+                    defaultReplyHandler,
                     rawHeader,
                     0,
                     jsonSuccessCallback,

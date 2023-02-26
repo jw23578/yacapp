@@ -22,7 +22,8 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
       customServerNetwork(customServerNetwork),
       searchProfilesModel(engine, "SearchProfilesModel"),
       knownProfilesModel(engine, "KnownProfilesModel"),
-      messagesModel(engine)
+      messagesModel(engine),
+      appointmentsModel(engine)
 {
     engine.addImageProvider("async", &imageProvider);
     connect(&timer, &QTimer::timeout, this, &YACAPP::timeout);
@@ -734,6 +735,72 @@ void YACAPP::appUserSearchProfiles(const QString &needle,
     }
     );
 
+}
+
+void YACAPP::appUserInsertAppointment(const QString &appointment_group_id,
+                                      const QString &appointment_template_id,
+                                      const QString &caption,
+                                      const QDateTime &start_datetime,
+                                      const QDateTime &end_datetime,
+                                      QJSValue successCallback,
+                                      QJSValue errorCallback)
+{
+    network.appUserInsertAppointment(globalConfig()->projectID(),
+                                     appUserConfig()->loginEMail(),
+                                     appUserConfig()->loginToken(),
+                                     appointment_group_id,
+                                     appointment_template_id,
+                                     caption,
+                                     start_datetime,
+                                     end_datetime,
+                                     [this, successCallback](const QJsonDocument &jsonDoc) mutable
+    {
+        QJsonObject object(jsonDoc.object());
+        QJsonObject appointment(object["appointment"].toObject());
+        AppointmentObject *a(new AppointmentObject);
+        a->setid(appointment[tableFields.id].toString());
+        a->setappointment_group_id(appointment[tableFields.appointment_group_id].toString());
+        a->setcaption(appointment[tableFields.caption].toString());
+        a->setstart_datetime(QDateTime::fromString(appointment[tableFields.start_datetime].toString(), Qt::DateFormat::ISODateWithMs));
+        a->setend_datetime(QDateTime::fromString(appointment[tableFields.end_datetime].toString(), Qt::DateFormat::ISODateWithMs));
+        appointmentsModel.append(a);
+        successCallback.call(QJSValueList());
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+}
+
+void YACAPP::appUserFetchAppointments(QJSValue successCallback,
+                                      QJSValue errorCallback)
+{
+    network.appUserFetchAppointments(globalConfig()->projectID(),
+                                     appUserConfig()->loginEMail(),
+                                     appUserConfig()->loginToken(),
+                                     [this, successCallback](const QJsonDocument &jsonDoc) mutable
+    {
+        QJsonObject object(jsonDoc.object());
+        QJsonArray appointments(object["appointments"].toArray());
+        for (size_t i(0); i < appointments.size(); ++i)
+        {
+            QJsonObject appointment(appointments[i].toObject());
+            AppointmentObject *a(new AppointmentObject);
+            a->setid(appointment[tableFields.id].toString());
+            a->setappointment_group_id(appointment[tableFields.appointment_group_id].toString());
+            a->setcaption(appointment[tableFields.caption].toString());
+            a->setstart_datetime(QDateTime::fromString(appointment[tableFields.start_datetime].toString(), Qt::DateFormat::ISODateWithMs));
+            a->setend_datetime(QDateTime::fromString(appointment[tableFields.end_datetime].toString(), Qt::DateFormat::ISODateWithMs));
+            appointmentsModel.append(a);
+        }
+        successCallback.call(QJSValueList());
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
 }
 
 void YACAPP::fetchMyProfile(QJSValue successCallback,

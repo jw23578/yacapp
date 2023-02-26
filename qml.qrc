@@ -61,7 +61,11 @@
         <file>qml/apppages/YACPhoto.qml</file>
         <file>qml/items/YACRoundedImage.qml</file>
         <file>qml/apppages/YACQRScanner.qml</file>
-        <file>qml/apppages/AppUserAppointments.qml</file>
+        <file>qml/apppages/appointments/AppUserAppointments.qml</file>
         <file>qml/apppages/AppUserBasePage.qml</file>
+        <file>qml/apppages/appointments/AppUserInsertAppointment.qml</file>
+        <file>qml/dialogs/DialogDateTimePicker.qml</file>
+        <file>qml/items/YACTimeWheel.qml</file>
+        <file>qml/items/YACDateWheel.qml</file>
     </qresource>
 </RCC>

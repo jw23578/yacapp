@@ -19,32 +19,24 @@ void defaultReplyHandler(QNetworkReply *finishedReply, NetworkInterface::SRunnin
     QByteArray all(finishedReply->readAll());
     QJsonDocument replyDoc(QJsonDocument::fromJson(all));
     QJsonObject object(replyDoc.object());
-    QString message(object["message"].toString());
     if (object["success"].toBool())
     {
-        rr.successCallback(message);
+        if (rr.successCallback)
+        {
+            QString message(object["message"].toString());
+            rr.successCallback(message);
+        }
+        if (rr.jsonSuccessCallback)
+        {
+            rr.jsonSuccessCallback(replyDoc);
+        }
     }
     else
     {
+        QString message(object["message"].toString());
         rr.errorCallback(message);
     }
 }
-
-void defaultJSONReplyHandler(QNetworkReply *finishedReply, NetworkInterface::SRunningRequest &rr)
-{
-    QByteArray all(finishedReply->readAll());
-    QJsonDocument replyDoc(QJsonDocument::fromJson(all));
-    QJsonObject object(replyDoc.object());
-    if (object["success"].toBool())
-    {
-        rr.jsonSuccessCallback(replyDoc);
-    }
-    else
-    {
-        rr.errorCallback(object["message"].toString());
-    }
-}
-
 
 void NetworkInterface::replyFinished(QNetworkReply *reply)
 {

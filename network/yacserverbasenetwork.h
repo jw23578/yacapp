@@ -9,7 +9,7 @@ class YACServerBaseNetwork : public NetworkInterface
 protected:
     static QString yacappServerUrl;
 
-    void yacappServerPost(const QString &method,
+    void yacappServerPost(QString method,
                           const QJsonObject &object,
                           HandlerFunction handlerFunction,
                           const QMap<QByteArray, QByteArray> &rawHeader,
@@ -30,7 +30,7 @@ protected:
                           CallbackFunction successCallback,
                           CallbackFunction errorCallback);
 
-    void yacappServerGet(const QString &method,
+    void yacappServerGet(QString method,
                          const QUrlQuery &query,
                          HandlerFunction handlerFunction,
                          const QMap<QByteArray, QByteArray> &rawHeader,
