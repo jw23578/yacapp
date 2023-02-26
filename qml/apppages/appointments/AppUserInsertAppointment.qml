@@ -42,6 +42,12 @@ AppUserBasePage
                     theEndDateTime = selectedDate
                 })
             }
+            YACComboBoxWithHeader
+            {
+                id: visible_for_everybody
+                headerText: qsTr("Visibility")
+                model: [qsTr("Only for me"), qsTr("For everybody")]
+            }
         }
     }
     YACButton
@@ -58,6 +64,7 @@ AppUserBasePage
                                             theCaption.displayText,
                                             theStartDateTime,
                                             theEndDateTime,
+                                            visible_for_everybody.currentIndex == 1,
                                             function(message){appointmentSaved()},
                                             function(message){console.log(message)})
         }

@@ -176,6 +176,7 @@ public:
                                               const QString &caption,
                                               const QDateTime &start_datetime,
                                               const QDateTime &end_datetime,
+                                              const bool visible_for_everybody,
                                               QJSValue successCallback,
                                               QJSValue errorCallback);
 

@@ -45,6 +45,10 @@ AppUserBasePage
                     text: sameDay ? Helper.formatDate(start) + " " + Helper.formatTime(start) + " - " + Helper.formatTime(end) :
                                     Helper.formatDateTime(start) + " - " + Helper.formatDateTime(end)
                 }
+                YACText
+                {
+                    text: appointment.visible_for_everybody ? qsTr("Visible for everybody") : qsTr("This appointment is only for me")
+                }
             }
         }
 

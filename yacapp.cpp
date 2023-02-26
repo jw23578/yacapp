@@ -742,6 +742,7 @@ void YACAPP::appUserInsertAppointment(const QString &appointment_group_id,
                                       const QString &caption,
                                       const QDateTime &start_datetime,
                                       const QDateTime &end_datetime,
+                                      const bool visible_for_everybody,
                                       QJSValue successCallback,
                                       QJSValue errorCallback)
 {
@@ -753,6 +754,7 @@ void YACAPP::appUserInsertAppointment(const QString &appointment_group_id,
                                      caption,
                                      start_datetime,
                                      end_datetime,
+                                     visible_for_everybody,
                                      [this, successCallback](const QJsonDocument &jsonDoc) mutable
     {
         QJsonObject object(jsonDoc.object());
@@ -763,6 +765,7 @@ void YACAPP::appUserInsertAppointment(const QString &appointment_group_id,
         a->setcaption(appointment[tableFields.caption].toString());
         a->setstart_datetime(QDateTime::fromString(appointment[tableFields.start_datetime].toString(), Qt::DateFormat::ISODateWithMs));
         a->setend_datetime(QDateTime::fromString(appointment[tableFields.end_datetime].toString(), Qt::DateFormat::ISODateWithMs));
+        a->setvisible_for_everybody(appointment[tableFields.visible_for_everybody].toString() == "t");
         appointmentsModel.append(a);
         successCallback.call(QJSValueList());
     },
@@ -792,6 +795,7 @@ void YACAPP::appUserFetchAppointments(QJSValue successCallback,
             a->setcaption(appointment[tableFields.caption].toString());
             a->setstart_datetime(QDateTime::fromString(appointment[tableFields.start_datetime].toString(), Qt::DateFormat::ISODateWithMs));
             a->setend_datetime(QDateTime::fromString(appointment[tableFields.end_datetime].toString(), Qt::DateFormat::ISODateWithMs));
+            a->setvisible_for_everybody(appointment[tableFields.visible_for_everybody].toString() == "t");
             appointmentsModel.append(a);
         }
         successCallback.call(QJSValueList());

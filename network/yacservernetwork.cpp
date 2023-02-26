@@ -487,6 +487,7 @@ void YACServerNetwork::appUserInsertAppointment(const QString &appId,
                                                 const QString &caption,
                                                 const QDateTime &start_datetime,
                                                 const QDateTime &end_datetime,
+                                                const bool visible_for_everybody,
                                                 JSONCallbackFunction jsonSuccessCallback,
                                                 CallbackFunction errorCallback)
 {
@@ -501,6 +502,7 @@ void YACServerNetwork::appUserInsertAppointment(const QString &appId,
     obj["start_datetime"] = start_datetime.toString(Qt::ISODate);
     obj["end_datetime"] = end_datetime.toString(Qt::ISODate);
     obj["appointment_template_id"] = appointment_template_id;
+    obj["visible_for_everybody"] = visible_for_everybody;
 
     QDateTime bookable_since_datetime;
     obj["bookable_since_datetime"] = bookable_since_datetime.toString(Qt::ISODate);

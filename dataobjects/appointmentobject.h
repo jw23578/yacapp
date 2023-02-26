@@ -19,6 +19,7 @@ class AppointmentObject : public DataObjectInterface
     YACAPPPROPERTY(QDateTime, bookable_since_datetime, bookable_since_datetime, QDateTime());
     YACAPPPROPERTY(QDateTime, bookable_until_datetime, bookable_until_datetime, QDateTime());
     YACAPPPROPERTY(int, booking_credits, booking_credits, 0);
+    YACAPPPROPERTY(bool, visible_for_everybody, visible_for_everybody, false);
 
 public:
     AppointmentObject();

@@ -20,4 +20,5 @@ void AppointmentObject::assign(const AppointmentObject &other)
     setbookable_since_datetime(other.bookable_since_datetime());
     setbookable_until_datetime(other.bookable_until_datetime());
     setbooking_credits(other.booking_credits());
+    setvisible_for_everybody(other.visible_for_everybody());
 }
