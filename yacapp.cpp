@@ -23,7 +23,8 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
       searchProfilesModel(engine, "SearchProfilesModel"),
       knownProfilesModel(engine, "KnownProfilesModel"),
       messagesModel(engine),
-      appointmentsModel(engine)
+      appointmentsModel(engine),
+      rightGroupsModel(engine, "RightGroupsModel", "rightgroup", TemplatedDataModel<GroupObject>::forward)
 {
     engine.addImageProvider("async", &imageProvider);
     connect(&timer, &QTimer::timeout, this, &YACAPP::timeout);
@@ -487,6 +488,7 @@ void YACAPP::appUserVerify(const QString &loginEMail,
         appUserConfig()->setFstname(fstname);
         appUserConfig()->setSurname(surname);
         appUserConfig()->setVisibleName(visible_name);
+        appUserConfig()->setId(object[tableFields.id].toString());
         saveState();
         successCallback.call(QJSValueList());
 
@@ -523,6 +525,7 @@ void YACAPP::appUserLogin(const QString &loginEMail,
         appUserConfig()->setFstname(fstname);
         appUserConfig()->setSurname(surname);
         appUserConfig()->setVisibleName(visible_name);
+        appUserConfig()->setId(object[tableFields.id].toString());
         saveState();
         successCallback.call(QJSValueList());
     },
@@ -760,12 +763,7 @@ void YACAPP::appUserInsertAppointment(const QString &appointment_group_id,
         QJsonObject object(jsonDoc.object());
         QJsonObject appointment(object["appointment"].toObject());
         AppointmentObject *a(new AppointmentObject);
-        a->setid(appointment[tableFields.id].toString());
-        a->setappointment_group_id(appointment[tableFields.appointment_group_id].toString());
-        a->setcaption(appointment[tableFields.caption].toString());
-        a->setstart_datetime(QDateTime::fromString(appointment[tableFields.start_datetime].toString(), Qt::DateFormat::ISODateWithMs));
-        a->setend_datetime(QDateTime::fromString(appointment[tableFields.end_datetime].toString(), Qt::DateFormat::ISODateWithMs));
-        a->setvisible_for_everybody(appointment[tableFields.visible_for_everybody].toString() == "t");
+        a->fromJSON(appointment);
         appointmentsModel.append(a);
         successCallback.call(QJSValueList());
     },
@@ -790,13 +788,52 @@ void YACAPP::appUserFetchAppointments(QJSValue successCallback,
         {
             QJsonObject appointment(appointments[i].toObject());
             AppointmentObject *a(new AppointmentObject);
-            a->setid(appointment[tableFields.id].toString());
-            a->setappointment_group_id(appointment[tableFields.appointment_group_id].toString());
-            a->setcaption(appointment[tableFields.caption].toString());
-            a->setstart_datetime(QDateTime::fromString(appointment[tableFields.start_datetime].toString(), Qt::DateFormat::ISODateWithMs));
-            a->setend_datetime(QDateTime::fromString(appointment[tableFields.end_datetime].toString(), Qt::DateFormat::ISODateWithMs));
-            a->setvisible_for_everybody(appointment[tableFields.visible_for_everybody].toString() == "t");
+            a->fromJSON(appointment);
             appointmentsModel.append(a);
+        }
+        successCallback.call(QJSValueList());
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+}
+
+void YACAPP::appUserDeleteAppointment(const QString &id,
+                                      QJSValue successCallback,
+                                      QJSValue errorCallback)
+{
+    network.appUserDeleteAppointment(globalConfig()->projectID(),
+                                     appUserConfig()->loginEMail(),
+                                     appUserConfig()->loginToken(),
+                                     id,
+                                     [successCallback, this, id](const QString &message) mutable
+    {
+        appointmentsModel.removeById(id);
+        successCallback.call(QJSValueList() << message);
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    });
+}
+
+void YACAPP::appUserFetchRightGroups(QJSValue successCallback, QJSValue errorCallback)
+{
+    network.appUserFetchRightGroups(globalConfig()->projectID(),
+                                     appUserConfig()->loginEMail(),
+                                     appUserConfig()->loginToken(),
+                                     [this, successCallback](const QJsonDocument &jsonDoc) mutable
+    {
+        QJsonObject object(jsonDoc.object());
+        QJsonArray rightgroups(object["rightgroups"].toArray());
+        for (size_t i(0); i < rightgroups.size(); ++i)
+        {
+            QJsonObject rightgroup(rightgroups[i].toObject());
+            GroupObject *rg(new GroupObject);
+            rg->fromJSON(rightgroup);
+            rightGroupsModel.append(rg);
         }
         successCallback.call(QJSValueList());
     },

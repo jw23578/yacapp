@@ -20,7 +20,7 @@ void CustomServerNetwork::downloadApp(QString projectFilename,
     request.setUrl(QUrl(projectFilename));
     QNetworkReply *reply(manager.get(request));
     SRunningRequest &rr(runningRequests[reply]);
-    rr.handlerFunction = std::bind(&CustomServerNetwork::projectFilenameFinished, this, std::placeholders::_1, std::placeholders::_2);
+    rr.handlerFunction = std::bind(&CustomServerNetwork::projectFilenameFinished, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
     rr.projectFilename = projectFilename;
     rr.projectPackage = projectPackage;
     rr.appId = appId;
@@ -28,7 +28,7 @@ void CustomServerNetwork::downloadApp(QString projectFilename,
     rr.successCallback = appDownloadedCallback;
 }
 
-void CustomServerNetwork::projectFilenameFinished(QNetworkReply *finishedReply, SRunningRequest &rr)
+void CustomServerNetwork::projectFilenameFinished(QNetworkReply *finishedReply, QByteArray &allData, SRunningRequest &rr)
 {
     if (finishedReply->error() != QNetworkReply::NoError)
     {
@@ -39,24 +39,24 @@ void CustomServerNetwork::projectFilenameFinished(QNetworkReply *finishedReply, 
 
     QFile file(constants.getYacAppConfigPath(rr.appId) + QFileInfo(rr.projectFilename).fileName());
     file.open(QIODevice::WriteOnly);
-    file.write(finishedReply->readAll());
+    file.write(allData);
     file.close();
 
     QNetworkRequest request;
     request.setUrl(QUrl(rr.projectPackage));
     QNetworkReply *reply(manager.get(request));
-    rr.handlerFunction = std::bind(&CustomServerNetwork::projectPackageFinished, this, std::placeholders::_1, std::placeholders::_2);
+    rr.handlerFunction = std::bind(&CustomServerNetwork::projectPackageFinished, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
     runningRequests[reply] = rr;
 }
 
-void CustomServerNetwork::projectPackageFinished(QNetworkReply *finishedReply, SRunningRequest &rr)
+void CustomServerNetwork::projectPackageFinished(QNetworkReply *finishedReply, QByteArray &allData, SRunningRequest &rr)
 {
     if (finishedReply->error() != QNetworkReply::NoError)
     {
         rr.errorCallback(tr("Error on downloading Projectfile: ") + finishedReply->errorString());
         return;
     }
-    QByteArray uncompressedData(qUncompress(finishedReply->readAll()));
+    QByteArray uncompressedData(qUncompress(allData));
 
     int pos(0);
     while (pos < uncompressedData.size())

@@ -21,6 +21,7 @@
 #include <QTranslator>
 #include <QTimer>
 #include "yacAppAndServer/tablefields.h"
+#include "dataobjects/groupobject.h"
 
 class Configurator;
 
@@ -79,6 +80,8 @@ class YACAPP : public QObject
     MessagesModel messagesModel;
 
     AppointmentsModel appointmentsModel;
+
+    TemplatedDataModel<GroupObject> rightGroupsModel;
 
 
     void cleanUpKnownFile();
@@ -181,6 +184,12 @@ public:
                                               QJSValue errorCallback);
 
     Q_INVOKABLE void appUserFetchAppointments(QJSValue successCallback,
+                                              QJSValue errorCallback);
+    Q_INVOKABLE void appUserDeleteAppointment(const QString &id,
+                                              QJSValue successCallback,
+                                              QJSValue errorCallback);
+
+    Q_INVOKABLE void appUserFetchRightGroups(QJSValue successCallback,
                                               QJSValue errorCallback);
 
     Q_INVOKABLE void fetchMessageUpdates();

@@ -14,10 +14,9 @@ NetworkInterface::NetworkInterface(QNetworkAccessManager &manager
 
 }
 
-void defaultReplyHandler(QNetworkReply *finishedReply, NetworkInterface::SRunningRequest &rr)
+void defaultReplyHandler(QNetworkReply *finishedReply, QByteArray &allData, NetworkInterface::SRunningRequest &rr)
 {
-    QByteArray all(finishedReply->readAll());
-    QJsonDocument replyDoc(QJsonDocument::fromJson(all));
+    QJsonDocument replyDoc(QJsonDocument::fromJson(allData));
     QJsonObject object(replyDoc.object());
     if (object["success"].toBool())
     {
@@ -48,11 +47,15 @@ void NetworkInterface::replyFinished(QNetworkReply *reply)
     }
     SRunningRequest rr(it.value());
     runningRequests.erase(it);
+    QByteArray allData(reply->readAll());
+    if (constants.isDesktop())
+    {
+        qDebug() << __FILE__ << __LINE__ << allData;
+    }
     if (reply->error() != QNetworkReply::NoError)
     {
         qDebug() << __FILE__ << " " << __LINE__ << ": " << reply->errorString();
         QByteArray all(reply->readAll());
-        qDebug() << all;
         QJsonDocument replyDoc(QJsonDocument::fromJson(all));
         QJsonObject object(replyDoc.object());
         QString message(object["message"].toString());
@@ -64,5 +67,5 @@ void NetworkInterface::replyFinished(QNetworkReply *reply)
         rr.errorCallback(reply->errorString());
         return;
     }
-    rr.handlerFunction(reply, rr);
+    rr.handlerFunction(reply, allData, rr);
 }

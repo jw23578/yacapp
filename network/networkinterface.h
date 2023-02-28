@@ -15,7 +15,7 @@ protected:
 
 
     struct SRunningRequest;
-    typedef std::function<void(QNetworkReply*, SRunningRequest &)> HandlerFunction;
+    typedef std::function<void(QNetworkReply*, QByteArray &allData, SRunningRequest &)> HandlerFunction;
     typedef std::function<void(const QString &)> CallbackFunction;
     typedef std::function<void(const QJsonDocument &)> JSONCallbackFunction;
     struct SRunningRequest
@@ -29,7 +29,7 @@ protected:
         CallbackFunction errorCallback;
         SRunningRequest():handlerFunction(0), successCallback(0), jsonSuccessCallback(0), errorCallback(0) {}
     };
-    friend void defaultReplyHandler(QNetworkReply *finishedReply, NetworkInterface::SRunningRequest &rr);
+    friend void defaultReplyHandler(QNetworkReply *finishedReply, QByteArray &allData, NetworkInterface::SRunningRequest &rr);
 
     QMap<QNetworkReply*, SRunningRequest> runningRequests;
 
@@ -42,7 +42,7 @@ public slots:
     void replyFinished(QNetworkReply *reply);
 };
 
-extern void defaultReplyHandler(QNetworkReply *finishedReply, NetworkInterface::SRunningRequest &rr);
+extern void defaultReplyHandler(QNetworkReply *finishedReply, QByteArray &allData, NetworkInterface::SRunningRequest &rr);
 
 
 #endif // NETWORKINTERFACE_H

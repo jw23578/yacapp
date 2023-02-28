@@ -3,10 +3,12 @@
 
 #include "yacserverbasenetwork.h"
 #include "yacAppAndServer/yacappservermethodnames.h"
+#include "yacAppAndServer/tablefields.h"
 
 class YACServerNetwork: public YACServerBaseNetwork
 {
     Q_OBJECT
+    TableFields tableFields;
     YACAPPServerMethodNames methodNames;
 public:
     YACServerNetwork(QNetworkAccessManager &manager
@@ -153,6 +155,19 @@ public:
                                   const QString &loginToken,
                                   JSONCallbackFunction jsonSuccessCallback,
                                   CallbackFunction errorCallback);
+
+    void appUserDeleteAppointment(const QString &appId,
+                                  const QString &loginEMail,
+                                  const QString &loginToken,
+                                  const QString &id,
+                                  CallbackFunction successCallback,
+                                  CallbackFunction errorCallback);
+
+    void appUserFetchRightGroups(const QString &appId,
+                                 const QString &loginEMail,
+                                 const QString &loginToken,
+                                 JSONCallbackFunction jsonSuccessCallback,
+                                 CallbackFunction errorCallback);
 
 };
 

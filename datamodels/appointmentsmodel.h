@@ -6,11 +6,13 @@
 
 class AppointmentsModel : public TemplatedDataModel<AppointmentObject>
 {
-protected:
+protected:    
     void internalAppend(AppointmentObject *object)  override;
 
 public:
     AppointmentsModel(QQmlApplicationEngine &engine);
+
+    void removeById(const QString &id);
 };
 
 #endif // APPOINTMENTSMODEL_H

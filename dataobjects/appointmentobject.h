@@ -3,10 +3,13 @@
 
 #include "dataobjectinterface.h"
 #include <QDateTime>
+#include "yacAppAndServer/tablefields.h"
 
 class AppointmentObject : public DataObjectInterface
-{
+{    
     Q_OBJECT
+    TableFields tableFields;
+
     YACAPPPROPERTY(QString, id, id, "");
     YACAPPPROPERTY(QString, appointment_group_id, appointment_group_id, "");
     YACAPPPROPERTY(QString, appointment_template_id, appointment_template_id, "");
@@ -25,6 +28,8 @@ public:
     AppointmentObject();
 
     void assign(const AppointmentObject &other);
+
+    void fromJSON(QJsonObject &o);
 };
 
 #endif // APPOINTMENTOBJECT_H

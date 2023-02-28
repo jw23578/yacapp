@@ -67,5 +67,6 @@
         <file>qml/dialogs/DialogDateTimePicker.qml</file>
         <file>qml/items/YACTimeWheel.qml</file>
         <file>qml/items/YACDateWheel.qml</file>
+        <file>qml/apppages/rights/AppUserRightGroups.qml</file>
     </qresource>
 </RCC>

@@ -15,10 +15,11 @@ YACServerNetwork::YACServerNetwork(QNetworkAccessManager &manager
 void YACServerNetwork::yacappServerGetAllAPPs(CallbackFunction successCallback,
                                               CallbackFunction errorCallback)
 {
-    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
+    auto replyHandler([](QNetworkReply *finishedReply,
+                      QByteArray &allData,
+                      SRunningRequest &rr)
     {
-        QByteArray all(finishedReply->readAll());
-        rr.successCallback(all);
+        rr.successCallback(allData);
     });
     const QUrlQuery query;
     yacappServerGet("/getAllAPPs",
@@ -33,10 +34,11 @@ void YACServerNetwork::yacappServerGetAPP(const QString &app_id,
                                           CallbackFunction successCallback,
                                           CallbackFunction errorCallback)
 {
-    auto replyHandler([this](QNetworkReply *finishedReply, SRunningRequest &rr)
+    auto replyHandler([this](QNetworkReply *finishedReply,
+                      QByteArray &allData,
+                      SRunningRequest &rr)
     {
-        QByteArray all(finishedReply->readAll());
-        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
+        QJsonDocument replyDoc(QJsonDocument::fromJson(allData));
         QJsonObject object(replyDoc.object());
         QString message(object["message"].toString());
         if (message == "app version is up to date")
@@ -172,28 +174,12 @@ void YACServerNetwork::appUserRequestPasswordUpdate(const QString &loginEMail,
                                                     CallbackFunction successCallback,
                                                     CallbackFunction errorCallback)
 {
-    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
-    {
-        QByteArray all(finishedReply->readAll());
-        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
-        QJsonObject object(replyDoc.object());
-        QString message(object["message"].toString());
-        if (object["success"].toBool())
-        {
-            rr.successCallback(message);
-        }
-        else
-        {
-            rr.errorCallback(message);
-        }
-    });
-
     QJsonObject obj;
     obj["loginEMail"] = loginEMail;
     obj["appId"] = appId;
     yacappServerPost("/requestUpdatePasswordAppUser",
                      obj,
-                     replyHandler,
+                     defaultReplyHandler,
                      successCallback,
                      errorCallback);
 }
@@ -537,6 +523,48 @@ void YACServerNetwork::appUserFetchAppointments(const QString &appId,
     rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
     rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
     yacappServerGet(methodNames.fetchAppointments,
+                    query,
+                    defaultReplyHandler,
+                    rawHeader,
+                    0,
+                    jsonSuccessCallback,
+                    errorCallback);
+}
+
+void YACServerNetwork::appUserDeleteAppointment(const QString &appId,
+                                                const QString &loginEMail,
+                                                const QString &loginToken,
+                                                const QString &id,
+                                                CallbackFunction successCallback,
+                                                CallbackFunction errorCallback)
+{
+    QMap<QByteArray, QByteArray> rawHeader;
+    rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
+    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    QJsonObject obj;
+    obj[tableFields.id] = id;
+    yacappServerPost(methodNames.deleteAppointment,
+                     obj,
+                     defaultReplyHandler,
+                     rawHeader,
+                     successCallback,
+                     0,
+                     errorCallback);
+}
+
+void YACServerNetwork::appUserFetchRightGroups(const QString &appId,
+                                               const QString &loginEMail,
+                                               const QString &loginToken,
+                                               JSONCallbackFunction jsonSuccessCallback,
+                                               CallbackFunction errorCallback)
+{
+    QUrlQuery query;
+    QMap<QByteArray, QByteArray> rawHeader;
+    rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
+    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    yacappServerGet(methodNames.fetchRightGroups,
                     query,
                     defaultReplyHandler,
                     rawHeader,

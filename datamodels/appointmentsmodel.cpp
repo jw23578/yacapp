@@ -20,3 +20,15 @@ AppointmentsModel::AppointmentsModel(QQmlApplicationEngine &engine):
 {
 
 }
+
+void AppointmentsModel::removeById(const QString &id)
+{
+    for (size_t i(0); i < size(); ++i)
+    {
+        AppointmentObject *o(getObject(i));
+        if (o->id() == id)
+        {
+            internalRemove(o);
+        }
+    }
+}

@@ -17,11 +17,10 @@ void YACExtServerNetwork::yacappServerRegisterUser(QString loginEMail,
                                                    CallbackFunction errorCallback)
 {
     auto replyHandler([](QNetworkReply *finishedReply,
+                      QByteArray &allData,
                       SRunningRequest &rr)
     {
-        QByteArray all(finishedReply->readAll());
-        qDebug() << __FILE__ << ": " << __LINE__ << all;
-        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
+        QJsonDocument replyDoc(QJsonDocument::fromJson(allData));
         QJsonObject object(replyDoc.object());
         QString message(object["message"].toString());
         if (message == "user registered, please verify")
@@ -46,11 +45,11 @@ void YACExtServerNetwork::yacappServerRegisterUser(QString loginEMail,
 
 void YACExtServerNetwork::yacappServerVerifyUser(QString loginEMail, QString verifyToken, CallbackFunction successCallback, CallbackFunction errorCallback)
 {
-    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
+    auto replyHandler([](QNetworkReply *finishedReply,
+                      QByteArray &allData,
+                      SRunningRequest &rr)
     {
-        QByteArray all(finishedReply->readAll());
-        qDebug() << __FILE__ << ": " << __LINE__ << all;
-        QJsonDocument loginReplyDoc(QJsonDocument::fromJson(all));
+        QJsonDocument loginReplyDoc(QJsonDocument::fromJson(allData));
         QJsonObject object(loginReplyDoc.object());
         if (object["loginToken"].toString().size())
         {
@@ -74,10 +73,11 @@ void YACExtServerNetwork::yacappServerVerifyUser(QString loginEMail, QString ver
 
 void YACExtServerNetwork::yacappServerLoginUser(QString loginEMail, QString password, CallbackFunction successCallback, CallbackFunction errorCallback)
 {
-    auto replyHandler = [](QNetworkReply *finishedReply, SRunningRequest &rr)
+    auto replyHandler = [](QNetworkReply *finishedReply,
+            QByteArray &allData,
+            SRunningRequest &rr)
     {
-        QByteArray all(finishedReply->readAll());
-        QJsonDocument loginReplyDoc(QJsonDocument::fromJson(all));
+        QJsonDocument loginReplyDoc(QJsonDocument::fromJson(allData));
         QJsonObject object(loginReplyDoc.object());
         if (object["loginToken"].toString().size())
         {
@@ -102,10 +102,12 @@ void YACExtServerNetwork::yacappServerLoginUser(QString loginEMail, QString pass
 
 void YACExtServerNetwork::yacappServerUserLoggedIn(QString loginEMail, QString verifyToken, CallbackFunction successCallback, CallbackFunction errorCallback)
 {
-    auto replyHander = [](QNetworkReply *finishedReply, SRunningRequest &rr)
+    auto replyHander = [](QNetworkReply *finishedReply,
+            QByteArray &allData,
+            SRunningRequest &rr)
     {
         Q_UNUSED(rr);
-        qDebug() << __FILE__ << ": " << __LINE__ << finishedReply->readAll();
+        qDebug() << __FILE__ << ": " << __LINE__ << allData;
     };
 
     QUrlQuery query;
@@ -130,10 +132,11 @@ void YACExtServerNetwork::yacappServerUploadApp(const QString &loginEMail,
                                                 CallbackFunction successCallback,
                                                 CallbackFunction errorCallback)
 {
-    auto replyHandler([](QNetworkReply *finishedReply, SRunningRequest &rr)
+    auto replyHandler([](QNetworkReply *finishedReply,
+                      QByteArray &allData,
+                      SRunningRequest &rr)
     {
-        QByteArray all(finishedReply->readAll());
-        QJsonDocument replyDoc(QJsonDocument::fromJson(all));
+        QJsonDocument replyDoc(QJsonDocument::fromJson(allData));
         QJsonObject object(replyDoc.object());
         QString message(object["message"].toString());
         if (message == "new yacApp stored")

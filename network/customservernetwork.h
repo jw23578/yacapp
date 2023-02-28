@@ -5,8 +5,8 @@
 
 class CustomServerNetwork : public NetworkInterface
 {
-    void projectFilenameFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
-    void projectPackageFinished(QNetworkReply *finishedReply, SRunningRequest &rr);
+    void projectFilenameFinished(QNetworkReply *finishedReply, QByteArray &allData, SRunningRequest &rr);
+    void projectPackageFinished(QNetworkReply *finishedReply, QByteArray &allData, SRunningRequest &rr);
 public:
     explicit CustomServerNetwork(QNetworkAccessManager &manager
                                  , Constants &constants);

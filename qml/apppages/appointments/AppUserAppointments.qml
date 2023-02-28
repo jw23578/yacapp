@@ -24,6 +24,12 @@ AppUserBasePage
         anchors.margins: Constants.defaultMargin
         reuseItems: true
         model: AppointmentsModel
+        displaced: Transition {
+            NumberAnimation { properties: "x,y"; duration: 1000 }
+        }
+        remove: Transition {
+            NumberAnimation { property: "opacity"; to: 0; duration: 1000 }
+        }
         spacing: 1
         delegate: Rectangle
         {
@@ -48,6 +54,39 @@ AppUserBasePage
                 YACText
                 {
                     text: appointment.visible_for_everybody ? qsTr("Visible for everybody") : qsTr("This appointment is only for me")
+                }
+            }
+            YACButton
+            {
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                text: qsTr("Delete")
+                onClicked:
+                {
+                    if (appointment.creater_id != yacApp.appUserConfig.id)
+                    {
+                        yacApp.badMessage(qsTr("You only can delete appointments that you created."), null, null);
+                        return
+                    }
+
+                    yacApp.yesNoQuestion(qsTr("Delete Appointment?"),
+                                         null,
+                                         function()
+                                         {
+
+
+                                             yacApp.appUserDeleteAppointment(appointment.id,
+                                                                             function(message)
+                                                                             {
+                                                                                 console.log(message)
+                                                                             },
+                                                                             function(message)
+                                                                             {
+                                                                                 console.log(message)
+                                                                             }
+                                                                             )
+                                         },
+                                         function() {})
                 }
             }
         }

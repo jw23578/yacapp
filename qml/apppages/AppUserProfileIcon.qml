@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import "../items"
 import "appointments"
+import "rights"
 import com.yacapp.appuserconfig 1.0
 
 Item
@@ -213,7 +214,39 @@ Item
                 text: qsTr("Appointments")
             }
         }
-    }
+        Rectangle
+        {
+            radius: Constants.radius
+            width: parent.width
+            height: width
+            color: "cyan"
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    if (!yacApp.appUserConfig.loggedIn)
+                    {
+                        yacApp.badMessage(qsTr("Please login first."), null, null);
+                        return
+                    }
+                    yacApp.appUserFetchRightGroups(function(message)
+                    {
+                        profileLoader.sourceComponent = rightgroupsComponent
+                    },
+                    function(message)
+                    {
+                        yacApp.badMessage(qsTr("could not load rightgroups, please try again later. ") + message, null, null)
+                    }
+                    )
+                }
+            }
+            YACText
+            {
+                anchors.centerIn: parent
+                text: qsTr("Rights")
+            }
+        }    }
     Connections
     {
         target: yacApp.appUserConfig
@@ -263,6 +296,14 @@ Item
     {
         id: appointmentComponent
         AppUserAppointments
+        {
+            onCloseClicked: profileLoader.sourceComponent = null
+        }
+    }
+    Component
+    {
+        id: rightgroupsComponent
+        AppUserRightGroups
         {
             onCloseClicked: profileLoader.sourceComponent = null
         }

@@ -8,6 +8,7 @@
 class AppUserConfig: public ConfigInterface
 {
     Q_OBJECT
+    YACAPPPROPERTY(QString, id, Id, "");
     YACAPPPROPERTY(QString, fstname, Fstname, "");
     YACAPPPROPERTY(QString, surname, Surname, "");
     YACAPPPROPERTY(QString, visibleName, VisibleName, "");

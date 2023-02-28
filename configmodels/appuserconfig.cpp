@@ -15,6 +15,7 @@ void AppUserConfig::setConfig(const QJsonValue &config)
     {
         return;
     }
+    stringFromJSON(id, Id);
     stringFromJSON(loginEMail, LoginEMail);
     stringFromJSON(loginToken, LoginToken);
     stringFromJSON(fstname, Fstname);
@@ -33,6 +34,10 @@ void AppUserConfig::setConfig(const QJsonValue &config)
 QJsonObject AppUserConfig::getConfig()
 {
     QJsonObject config;
+    if (changed(id()))
+    {
+        stringToJSON(id);
+    }
     if (changed(profileImageId()))
     {
         stringToJSON(profileImageId);
@@ -75,6 +80,7 @@ QJsonObject AppUserConfig::getConfig()
 
 void AppUserConfig::clear()
 {
+    setId("");
     setFstname("");
     setSurname("");
     setVisibleName("");
