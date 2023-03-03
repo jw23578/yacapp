@@ -44,6 +44,21 @@ AppUserBasePage
         anchors.left: parent.left
         anchors.bottom: parent.bottom
         text: qsTr("Add Rightgroup")
+        onClicked: theLoader.sourceComponent = insertRightGroupComponent
+    }
+    Component
+    {
+        id: insertRightGroupComponent
+        AppUserInsertRightGroup
+        {
+            onCloseClicked: theLoader.sourceComponent = null
+            onRightgroupSaved: theLoader.sourceComponent = null
+        }
+    }
+    Loader
+    {
+        anchors.fill: parent
+        id: theLoader
     }
 
 }

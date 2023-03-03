@@ -21,7 +21,7 @@ public:
     TemplatedDataModel(QQmlApplicationEngine &engine,
                        const QString &modelName,
                        const QString &objectName,
-                       typename DataModelInterface<T>::DirectionType const direction);
+                       typename DataModelInterface<T>::DirectionType const direction = DataModelInterface<T>::forward);
 };
 
 #include "templateddatamodel.cpp"

@@ -3,6 +3,16 @@
 
 #include "networkinterface.h"
 
+#define MACRO_RAW_HEADER() \
+    QMap<QByteArray, QByteArray> rawHeader; \
+    rawHeader["YACAPP-AppId"] = appId.toLatin1(); \
+    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1(); \
+    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+
+#define MACRO_JSON_SET(obj, nameValue) \
+    obj[#nameValue] = nameValue;
+
+
 class YACServerBaseNetwork : public NetworkInterface
 {
     friend int main(int argc, char *argv[]);

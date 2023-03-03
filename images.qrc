@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>images/checkbox-passive-svgrepo-com.svg</file>
+        <file>images/checkbox-active-svgrepo-com.svg</file>
+    </qresource>
+</RCC>

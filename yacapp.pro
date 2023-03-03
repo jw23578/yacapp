@@ -38,6 +38,7 @@ SOURCES += \
         dataobjects/dataobjectinterface.cpp \
         dataobjects/groupobject.cpp \
         dataobjects/messageobject.cpp \
+        dataobjects/multipurposeobject.cpp \
         dataobjects/profileobject.cpp \
         firebase2qt.cpp \
         helper.cpp \
@@ -53,7 +54,8 @@ SOURCES += \
         projectdata.cpp \
         yacapp.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc \
+  images.qrc
 
 TRANSLATIONS += \
     yacapp_de_DE.ts
@@ -99,6 +101,7 @@ HEADERS += \
   dataobjects/dataobjectinterface.h \
   dataobjects/groupobject.h \
   dataobjects/messageobject.h \
+  dataobjects/multipurposeobject.h \
   dataobjects/profileobject.h \
   firebase2qt.h \
   helper.h \

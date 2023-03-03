@@ -32,6 +32,11 @@ void defaultReplyHandler(QNetworkReply *finishedReply, QByteArray &allData, Netw
     }
     else
     {
+        int missingRight(object["missingRight"].toInt());
+        if (missingRight)
+        {
+            emit rr.networkInterface->missingRight(missingRight);
+        }
         QString message(object["message"].toString());
         rr.errorCallback(message);
     }
@@ -67,5 +72,6 @@ void NetworkInterface::replyFinished(QNetworkReply *reply)
         rr.errorCallback(reply->errorString());
         return;
     }
+    rr.networkInterface = this;
     rr.handlerFunction(reply, allData, rr);
 }

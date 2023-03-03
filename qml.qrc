@@ -68,5 +68,7 @@
         <file>qml/items/YACTimeWheel.qml</file>
         <file>qml/items/YACDateWheel.qml</file>
         <file>qml/apppages/rights/AppUserRightGroups.qml</file>
+        <file>qml/apppages/rights/AppUserInsertRightGroup.qml</file>
+        <file>qml/MultiSelectItem.qml</file>
     </qresource>
 </RCC>

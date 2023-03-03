@@ -102,19 +102,11 @@ void YACExtServerNetwork::yacappServerLoginUser(QString loginEMail, QString pass
 
 void YACExtServerNetwork::yacappServerUserLoggedIn(QString loginEMail, QString verifyToken, CallbackFunction successCallback, CallbackFunction errorCallback)
 {
-    auto replyHander = [](QNetworkReply *finishedReply,
-            QByteArray &allData,
-            SRunningRequest &rr)
-    {
-        Q_UNUSED(rr);
-        qDebug() << __FILE__ << ": " << __LINE__ << allData;
-    };
-
     QUrlQuery query;
     query.addQueryItem("loginEMail", loginEMail);
     query.addQueryItem("verifyToken", verifyToken);
     yacappServerGet("/userLoggedIn", query,
-                    replyHander,
+                    defaultReplyHandler,
                     successCallback,
                     errorCallback);
 }
@@ -132,23 +124,6 @@ void YACExtServerNetwork::yacappServerUploadApp(const QString &loginEMail,
                                                 CallbackFunction successCallback,
                                                 CallbackFunction errorCallback)
 {
-    auto replyHandler([](QNetworkReply *finishedReply,
-                      QByteArray &allData,
-                      SRunningRequest &rr)
-    {
-        QJsonDocument replyDoc(QJsonDocument::fromJson(allData));
-        QJsonObject object(replyDoc.object());
-        QString message(object["message"].toString());
-        if (message == "new yacApp stored")
-        {
-            rr.successCallback(message);
-        }
-        else
-        {
-            rr.errorCallback(message);
-        }
-    });
-
     QJsonObject obj;
     obj["app_id"] = app_id;
     obj["app_name"] = app_name;
@@ -163,7 +138,7 @@ void YACExtServerNetwork::yacappServerUploadApp(const QString &loginEMail,
     rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
     yacappServerPost("/uploadApp",
                      obj,
-                     replyHandler,
+                     defaultReplyHandler,
                      rawHeader,
                      successCallback,
                      errorCallback);

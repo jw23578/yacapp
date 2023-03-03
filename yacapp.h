@@ -22,6 +22,7 @@
 #include <QTimer>
 #include "yacAppAndServer/tablefields.h"
 #include "dataobjects/groupobject.h"
+#include "dataobjects/multipurposeobject.h"
 
 class Configurator;
 
@@ -82,6 +83,7 @@ class YACAPP : public QObject
     AppointmentsModel appointmentsModel;
 
     TemplatedDataModel<GroupObject> rightGroupsModel;
+    TemplatedDataModel<MultiPurposeObject> allRightsModel;
 
 
     void cleanUpKnownFile();
@@ -191,6 +193,9 @@ public:
 
     Q_INVOKABLE void appUserFetchRightGroups(QJSValue successCallback,
                                               QJSValue errorCallback);
+    Q_INVOKABLE void appUserInsertRightGroup(const QString &name,
+                                             QJSValue successCallback,
+                                             QJSValue errorCallback);
 
     Q_INVOKABLE void fetchMessageUpdates();
 
@@ -220,6 +225,7 @@ private slots:
     void deviceTokenChanged(QString deviceToken);
     void newMessages();
     void timeout();
+    void missingRight(int rightNumber);
 
 };
 

@@ -4,6 +4,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QCoreApplication>
+#include "yacAppAndServer/rightnumbers.h"
 
 YACAPP::YACAPP(QQmlApplicationEngine &engine
                , Constants &constants
@@ -24,9 +25,19 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
       knownProfilesModel(engine, "KnownProfilesModel"),
       messagesModel(engine),
       appointmentsModel(engine),
-      rightGroupsModel(engine, "RightGroupsModel", "rightgroup", TemplatedDataModel<GroupObject>::forward)
+      rightGroupsModel(engine, "RightGroupsModel", "rightgroup"),
+      allRightsModel(engine, "AllRightsModel", "rightmpo")
 {
+    for (const auto &rn: Rights::allRightNumberObjects)
+    {
+        MultiPurposeObject *mpo(new MultiPurposeObject);
+        mpo->setId(QString::number(rn.second->number));
+        mpo->setCaption(rn.second->meaning);
+        allRightsModel.append(mpo);
+    }
     engine.addImageProvider("async", &imageProvider);
+    connect(&network, &NetworkInterface::missingRight, this, &YACAPP::missingRight);
+
     connect(&timer, &QTimer::timeout, this, &YACAPP::timeout);
     const int timerIntervalMSecs(100);
     timer.setInterval(timerIntervalMSecs);
@@ -222,6 +233,11 @@ void YACAPP::fetchFiles()
 void YACAPP::timeout()
 {
     fetchFiles();
+}
+
+void YACAPP::missingRight(int rightNumber)
+{
+    emit badMessage(tr("You are not allowed"), QJSValue::NullValue, QJSValue::NullValue);
 }
 
 
@@ -826,6 +842,7 @@ void YACAPP::appUserFetchRightGroups(QJSValue successCallback, QJSValue errorCal
                                      appUserConfig()->loginToken(),
                                      [this, successCallback](const QJsonDocument &jsonDoc) mutable
     {
+        rightGroupsModel.clear();
         QJsonObject object(jsonDoc.object());
         QJsonArray rightgroups(object["rightgroups"].toArray());
         for (size_t i(0); i < rightgroups.size(); ++i)
@@ -842,6 +859,28 @@ void YACAPP::appUserFetchRightGroups(QJSValue successCallback, QJSValue errorCal
         errorCallback.call(QJSValueList() << message);
     }
     );
+}
+
+void YACAPP::appUserInsertRightGroup(const QString &name, QJSValue successCallback, QJSValue errorCallback)
+{
+    network.appUserInsertRightGroup(globalConfig()->projectID(),
+                                    appUserConfig()->loginEMail(),
+                                    appUserConfig()->loginToken(),
+                                    name,
+                                    [this, successCallback](const QJsonDocument &jsonDoc) mutable
+   {
+       QJsonObject object(jsonDoc.object());
+       QJsonObject rightgroup(object["rightgroup"].toObject());
+       GroupObject *rg(new GroupObject);
+       rg->fromJSON(rightgroup);
+       rightGroupsModel.append(rg);
+       successCallback.call(QJSValueList());
+   },
+   [errorCallback](const QString &message) mutable
+   {
+       errorCallback.call(QJSValueList() << message);
+   }
+   );
 }
 
 void YACAPP::fetchMyProfile(QJSValue successCallback,

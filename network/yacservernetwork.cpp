@@ -211,10 +211,7 @@ void YACServerNetwork::appUserGetWorktimeState(const QString &appId,
                                                CallbackFunction errorCallback)
 {
     const QUrlQuery query;
-    QMap<QByteArray, QByteArray> rawHeader;
-    rawHeader["YACAPP-AppId"] = appId.toLatin1();
-    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
-    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    MACRO_RAW_HEADER();
     yacappServerGet("/getWorktimeState",
                     query,
                     defaultReplyHandler,
@@ -235,10 +232,7 @@ void YACServerNetwork::appUserInsertWorktime(const QString &appId,
                                              JSONCallbackFunction jsonSuccessCallback,
                                              CallbackFunction errorCallback)
 {
-    QMap<QByteArray, QByteArray> rawHeader;
-    rawHeader["YACAPP-AppId"] = appId.toLatin1();
-    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
-    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    MACRO_RAW_HEADER();
 
     QJsonObject obj;
     obj["worktimeType"] = worktimeType;
@@ -270,10 +264,7 @@ void YACServerNetwork::appUserSearchProfiles(const QString &appId,
     query.addQueryItem("needle", needle);
     query.addQueryItem("limit", QString::number(limit));
     query.addQueryItem("offset", QString::number(offset));
-    QMap<QByteArray, QByteArray> rawHeader;
-    rawHeader["YACAPP-AppId"] = appId.toLatin1();
-    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
-    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    MACRO_RAW_HEADER();
     yacappServerGet("/appUserSearchProfiles",
                     query,
                     defaultReplyHandler,
@@ -290,10 +281,7 @@ void YACServerNetwork::appUserUpdateDeviceToken(const QString &appId,
                                                 CallbackFunction successCallback,
                                                 CallbackFunction errorCallback)
 {
-    QMap<QByteArray, QByteArray> rawHeader;
-    rawHeader["YACAPP-AppId"] = appId.toLatin1();
-    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
-    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    MACRO_RAW_HEADER();
 
     QJsonObject obj;
     obj["deviceToken"] = deviceToken;
@@ -314,10 +302,7 @@ void YACServerNetwork::appUserStoreMessage(const QString &appId,
                                            CallbackFunction successCallback,
                                            CallbackFunction errorCallback)
 {
-    QMap<QByteArray, QByteArray> rawHeader;
-    rawHeader["YACAPP-AppId"] = appId.toLatin1();
-    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
-    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    MACRO_RAW_HEADER();
 
     QJsonObject obj;
     obj["id"] = id;
@@ -345,10 +330,7 @@ void YACServerNetwork::appUserUpdateProfile(const QString &appId,
                                             CallbackFunction successCallback,
                                             CallbackFunction errorCallback)
 {
-    QMap<QByteArray, QByteArray> rawHeader;
-    rawHeader["YACAPP-AppId"] = appId.toLatin1();
-    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
-    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    MACRO_RAW_HEADER();
 
     QJsonObject obj;
     obj["fstname"] = fstname;
@@ -387,10 +369,7 @@ void YACServerNetwork::appUserFetchMessageUpdates(const QString &appId,
                                                   JSONCallbackFunction jsonSuccessCallback,
                                                   CallbackFunction errorCallback)
 {
-    QMap<QByteArray, QByteArray> rawHeader;
-    rawHeader["YACAPP-AppId"] = appId.toLatin1();
-    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
-    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    MACRO_RAW_HEADER();
 
     QUrlQuery query;
     QString help(updatesSince.toString(Qt::ISODate));
@@ -452,10 +431,7 @@ void YACServerNetwork::appUserFetchImage(const QString &appId,
     QUrlQuery query;
     query.addQueryItem("imageType", imageType);
     query.addQueryItem("imageId", imageId);
-    QMap<QByteArray, QByteArray> rawHeader;
-    rawHeader["YACAPP-AppId"] = appId.toLatin1();
-    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
-    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    MACRO_RAW_HEADER();
     yacappServerGet("/fetchImage",
                     query,
                     defaultReplyHandler,
@@ -477,10 +453,7 @@ void YACServerNetwork::appUserInsertAppointment(const QString &appId,
                                                 JSONCallbackFunction jsonSuccessCallback,
                                                 CallbackFunction errorCallback)
 {
-    QMap<QByteArray, QByteArray> rawHeader;
-    rawHeader["YACAPP-AppId"] = appId.toLatin1();
-    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
-    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    MACRO_RAW_HEADER();
 
     QJsonObject obj;
     obj["appointment_group_id"] = appointment_group_id;
@@ -518,10 +491,7 @@ void YACServerNetwork::appUserFetchAppointments(const QString &appId,
                                                 CallbackFunction errorCallback)
 {
     QUrlQuery query;
-    QMap<QByteArray, QByteArray> rawHeader;
-    rawHeader["YACAPP-AppId"] = appId.toLatin1();
-    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
-    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    MACRO_RAW_HEADER();
     yacappServerGet(methodNames.fetchAppointments,
                     query,
                     defaultReplyHandler,
@@ -538,10 +508,7 @@ void YACServerNetwork::appUserDeleteAppointment(const QString &appId,
                                                 CallbackFunction successCallback,
                                                 CallbackFunction errorCallback)
 {
-    QMap<QByteArray, QByteArray> rawHeader;
-    rawHeader["YACAPP-AppId"] = appId.toLatin1();
-    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
-    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    MACRO_RAW_HEADER();
     QJsonObject obj;
     obj[tableFields.id] = id;
     yacappServerPost(methodNames.deleteAppointment,
@@ -560,10 +527,7 @@ void YACServerNetwork::appUserFetchRightGroups(const QString &appId,
                                                CallbackFunction errorCallback)
 {
     QUrlQuery query;
-    QMap<QByteArray, QByteArray> rawHeader;
-    rawHeader["YACAPP-AppId"] = appId.toLatin1();
-    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
-    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    MACRO_RAW_HEADER();
     yacappServerGet(methodNames.fetchRightGroups,
                     query,
                     defaultReplyHandler,
@@ -571,4 +535,26 @@ void YACServerNetwork::appUserFetchRightGroups(const QString &appId,
                     0,
                     jsonSuccessCallback,
                     errorCallback);
+}
+
+void YACServerNetwork::appUserInsertRightGroup(const QString &appId,
+                                               const QString &loginEMail,
+                                               const QString &loginToken,
+                                               const QString &name,
+                                               JSONCallbackFunction jsonSuccessCallback,
+                                               CallbackFunction errorCallback)
+{
+    MACRO_RAW_HEADER();
+
+    QJsonObject obj;
+    MACRO_JSON_SET(obj, name);
+
+    yacappServerPost(methodNames.insertRightGroup,
+                     obj,
+                     defaultReplyHandler,
+                     rawHeader,
+                     0,
+                     jsonSuccessCallback,
+                     errorCallback);
+
 }

@@ -27,7 +27,8 @@ protected:
         CallbackFunction successCallback;
         JSONCallbackFunction jsonSuccessCallback;
         CallbackFunction errorCallback;
-        SRunningRequest():handlerFunction(0), successCallback(0), jsonSuccessCallback(0), errorCallback(0) {}
+        NetworkInterface *networkInterface;
+        SRunningRequest():handlerFunction(0), successCallback(0), jsonSuccessCallback(0), errorCallback(0), networkInterface(0) {}
     };
     friend void defaultReplyHandler(QNetworkReply *finishedReply, QByteArray &allData, NetworkInterface::SRunningRequest &rr);
 
@@ -37,6 +38,7 @@ public:
     explicit NetworkInterface(QNetworkAccessManager &manager, Constants &constants, QObject *parent = nullptr);
 
 signals:
+    void missingRight(int rightNumber);
 
 public slots:
     void replyFinished(QNetworkReply *reply);

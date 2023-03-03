@@ -128,10 +128,7 @@ void YACServerBaseNetwork::yacappServerAppUserGetJSONReply(const QString &method
                                                            JSONCallbackFunction jsonSuccessCallback,
                                                            CallbackFunction errorCallback)
 {
-    QMap<QByteArray, QByteArray> rawHeader;
-    rawHeader["YACAPP-AppId"] = appId.toLatin1();
-    rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
-    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    MACRO_RAW_HEADER();
 
     yacappServerGet(method,
                     query,

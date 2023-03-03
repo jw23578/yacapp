@@ -13,5 +13,5 @@ Rectangle
         anchors.bottom: parent.bottom
         text: qsTr("Close")
         onClicked: parent.closeClicked()
-    }
+    }    
 }
