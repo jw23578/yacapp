@@ -670,3 +670,24 @@ void YACServerNetwork::appUserFetchSpace(const QString &appId, const QString &lo
                     jsonSuccessCallback,
                     errorCallback);
 }
+
+void YACServerNetwork::appUserRequestSpaceAccess(const QString &appId,
+                                                 const QString &loginEMail,
+                                                 const QString &loginToken,
+                                                 const QString &space_id,
+                                                 CallbackFunction successCallback,
+                                                 CallbackFunction errorCallback)
+{
+    MACRO_RAW_HEADER();
+
+    QJsonObject obj;
+    MACRO_JSON_SET(obj, space_id);
+    yacappServerPost(methodNames.requestSpaceAccess,
+                     obj,
+                     defaultReplyHandler,
+                     rawHeader,
+                     successCallback,
+                     0,
+                     errorCallback);
+
+}

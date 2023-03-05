@@ -221,6 +221,13 @@ public:
                            const QString &id,
                            JSONCallbackFunction jsonSuccessCallback,
                            CallbackFunction errorCallback);
+
+    void appUserRequestSpaceAccess(const QString &appId,
+                                   const QString &loginEMail,
+                                   const QString &loginToken,
+                                   const QString &space_id,
+                                   CallbackFunction successCallback,
+                                   CallbackFunction errorCallback);
 };
 
 #endif // YACSERVERNETWORK_H

@@ -1,0 +1,13 @@
+2023-03-05
+- Direkt nach dem Login wurde das Profilbild nicht geladen, erst wenn man das Profil geschlossen und wieder geöffnet hat. Jetzt sofort nach Login
+
+- Direkt nach dem Login werden jetzt auch die Nachrichten Updates geladen, das ist sonst nur dann passiert wenn jemand eine Nachricht geschrieben hatte.
+
+- Bereiche, Rechtegruppe, Termine und Terminvorlagen sind jetzt einer App zugeordnet, das hatte ich vorher einfach vergessen
+
+- Wenn man Owner eines Bereichs ist, dann wird das jetzt angezeigt in der Bereichsübersicht, entsprechend kann man den Bereich nicht verlassen
+
+- Einen Bereich zu löschen wird nur noch angeboten, wenn man auch der Owner dieses Bereichs ist
+
+- Man kann jetzt den Zugang zu einem Bereich per Admin beantragen. Das wird dann auch angezeigt. Bisher kann aber niemand die Anträge bearbeiten.
+

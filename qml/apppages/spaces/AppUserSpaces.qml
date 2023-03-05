@@ -44,6 +44,11 @@ AppUserBasePage
                 anchors.fill: parent
                 onClicked:
                 {
+                    if (space.creater_id != yacApp.appUserConfig.id)
+                    {
+                        return
+                    }
+
                     yacApp.appUserFetchSpace(space.id,
                                              function(message){
                                                  console.log(yacApp.currentFetchedIds)
@@ -55,10 +60,26 @@ AppUserBasePage
                                              function(message){})
                 }
             }
+            YACText
+            {
+                anchors.left: parent.left
+                anchors.bottom: parent.bottom
+                text: qsTr("You are the owner of this Space")
+                visible: space.creater_id == yacApp.appUserConfig.id
+            }
+            YACText
+            {
+                anchors.left: parent.left
+                anchors.bottom: parent.bottom
+                text: qsTr("Requested, not yet granted")
+                visible: space.requested
+            }
+
             YACButton
             {
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
+                visible: space.creater_id != yacApp.appUserConfig.id && !space.requested
                 text: space.member ? qsTr("Leave") :
                                      space.denied ? qsTr("Request again, you were denied") :
                                                     qsTr("Request Membership")
@@ -78,7 +99,7 @@ AppUserBasePage
                         yacApp.notYetImplemented()
                         return
                     }
-                    appUserRequestSpace.show(space.id, space.name)
+                    appUserRequestSpace.show(space)
                 }
             }
 
@@ -87,6 +108,7 @@ AppUserBasePage
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
                 text: qsTr("Delete")
+                visible: space.creater_id == yacApp.appUserConfig.id
                 onClicked:
                 {
                     yacApp.yesNoQuestion(qsTr("Delete Space \"") + space.name + "\"", null,

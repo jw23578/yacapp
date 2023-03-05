@@ -543,7 +543,9 @@ void YACAPP::appUserLogin(const QString &loginEMail,
         appUserConfig()->setSurname(surname);
         appUserConfig()->setVisibleName(visible_name);
         appUserConfig()->setId(object[tableFields.id].toString());
+        appUserConfig()->setProfileImageId(object[tableFields.image_id].toString());
         saveState();
+        fetchMessageUpdates();
         successCallback.call(QJSValueList());
     },
     [errorCallback](const QString &message) mutable
@@ -956,9 +958,9 @@ void YACAPP::appUserFetchSpaces(QJSValue successCallback, QJSValue errorCallback
         for (size_t i(0); i < spaces.size(); ++i)
         {
             QJsonObject space(spaces[i].toObject());
-            GroupObject *rg(new GroupObject);
-            rg->fromJSON(space);
-            spacesModel.append(rg);
+            SpaceObject *so(new SpaceObject);
+            so->fromJSON(space);
+            spacesModel.append(so);
         }
         successCallback.call(QJSValueList());
     },
@@ -989,17 +991,17 @@ void YACAPP::appUserInsertOrUpdateSpace(const QString &id,
         QJsonObject space(object["space"].toObject());
         if (id.size())
         {
-            GroupObject *rg(spacesModel.getById(id));
-            if (rg)
+            SpaceObject *so(spacesModel.getById(id));
+            if (so)
             {
-                rg->fromJSON(space);
+                so->fromJSON(space);
             }
         }
         else
         {
-            GroupObject *rg(new GroupObject);
-            rg->fromJSON(space);
-            spacesModel.append(rg);
+            SpaceObject *so(new SpaceObject);
+            so->fromJSON(space);
+            spacesModel.append(so);
         }
         successCallback.call(QJSValueList());
     },
@@ -1053,6 +1055,23 @@ void YACAPP::appUserFetchSpace(const QString &id, QJSValue successCallback, QJSV
     }
     );
 
+}
+
+void YACAPP::appUserRequestSpaceAccess(const QString space_id, QJSValue successCallback, QJSValue errorCallback)
+{
+    network.appUserRequestSpaceAccess(globalConfig()->projectID(),
+                              appUserConfig()->loginEMail(),
+                              appUserConfig()->loginToken(),
+                              space_id,
+                              [successCallback](const QString &message) mutable
+    {
+        successCallback.call(QJSValueList() << message);
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
 }
 
 void YACAPP::fetchMyProfile(QJSValue successCallback,
@@ -1112,30 +1131,32 @@ void YACAPP::fetchMessageUpdates()
                               false));
             if (localStorage->insertMessage(*mo))
             {
-                if (!knownProfilesModel.incUnreadMessages(senderId))
+                if (senderId != appUserConfig()->id())
                 {
-                    network.appUserFetchProfile(globalConfig()->projectID(),
-                                                appUserConfig()->loginEMail(),
-                                                appUserConfig()->loginToken(),
-                                                senderId,
-                                                [this](const QJsonDocument &jsonDoc) mutable
+                    if (!knownProfilesModel.incUnreadMessages(senderId))
                     {
-                        QJsonObject profile(jsonDoc.object());
-                        ProfileObject *po(new ProfileObject);
-                        po->setId(profile[tableFields.id].toString());
-                        po->setVisibleName(profile[tableFields.visible_name].toString());
-                        po->setProfileImageId(profile[tableFields.image_id].toString());
-                        if (knownProfilesModel.append(po))
+                        network.appUserFetchProfile(globalConfig()->projectID(),
+                                                    appUserConfig()->loginEMail(),
+                                                    appUserConfig()->loginToken(),
+                                                    senderId,
+                                                    [this](const QJsonDocument &jsonDoc) mutable
                         {
-                            localStorage->upsertKnownContact(*po);
-                            knownProfilesModel.incUnreadMessages(po->id());
-                        }
-                    },
-                    [](const QString &message) mutable
-                    {
-                        Q_UNUSED(message);
-                    });
-                    // fetch Profile and incUnreadMessage
+                            QJsonObject profile(jsonDoc.object());
+                            ProfileObject *po(new ProfileObject);
+                            po->setId(profile[tableFields.id].toString());
+                            po->setVisibleName(profile[tableFields.visible_name].toString());
+                            po->setProfileImageId(profile[tableFields.image_id].toString());
+                            if (knownProfilesModel.append(po))
+                            {
+                                localStorage->upsertKnownContact(*po);
+                                knownProfilesModel.incUnreadMessages(po->id());
+                            }
+                        },
+                        [](const QString &message) mutable
+                        {
+                            Q_UNUSED(message);
+                        });
+                    }
                 }
                 if (messagesModel.profileId() == senderId)
                 {

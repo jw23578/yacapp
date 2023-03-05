@@ -73,7 +73,7 @@ Rectangle
                 radiusTopRight: !other && !theColumn.model.prevSameTime
                 radiusBottomLeft: !other && !theColumn.model.nextSameTime
                 color: other ? Qt.darker("lightgrey", 1.3) : "lightgrey"
-                property bool other: message.senderId != ""
+                property bool other: message.senderId != yacApp.appUserConfig.id
                 width: Math.max(contentText.contentWidth, messageDateTime.contentWidth, theColumn.model.message.qmlWidth, theColumn.model.nextQMLWidth, theColumn.model.prevQMLWidth) + radius
                 height: messageColumn.height
                 x: other ? 0 : theColumn.width - width

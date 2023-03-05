@@ -22,6 +22,7 @@
 #include <QTimer>
 #include "yacAppAndServer/tablefields.h"
 #include "dataobjects/groupobject.h"
+#include "dataobjects/spaceobject.h"
 #include "dataobjects/multipurposeobject.h"
 
 class Configurator;
@@ -86,7 +87,7 @@ class YACAPP : public QObject
     TemplatedDataModel<GroupObject> rightGroupsModel;
     TemplatedDataModel<MultiPurposeObject> allRightsModel;
 
-    TemplatedDataModel<GroupObject> spacesModel;
+    TemplatedDataModel<SpaceObject> spacesModel;
 
     void cleanUpKnownFile();
 
@@ -221,6 +222,9 @@ public:
     Q_INVOKABLE void appUserFetchSpace(const QString &id,
                                        QJSValue successCallback,
                                        QJSValue errorCallback);
+    Q_INVOKABLE void appUserRequestSpaceAccess(const QString space_id,
+                                               QJSValue successCallback,
+                                               QJSValue errorCallback);
 
 
     Q_INVOKABLE void fetchMessageUpdates();

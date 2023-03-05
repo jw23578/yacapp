@@ -4,10 +4,10 @@ import ".."
 
 AppUserBasePage
 {
-    function show(id, name)
+    property var space: null
+    function show(theSpace)
     {
-        space_id = id
-        theName.text = name
+        space = theSpace
         visible = true
     }
 
@@ -18,6 +18,7 @@ AppUserBasePage
         YACText
         {
             id: theName
+            text: space.name
         }
         YACLineEditWithHeader
         {
@@ -42,7 +43,20 @@ AppUserBasePage
         {
             width: parent.width
             text: qsTr("Request by Admin")
-            onClicked: yacApp.notYetImplemented()
+            onClicked:
+            {
+                yacApp.appUserRequestSpaceAccess(space.id
+                                                 , function(message)
+                                                 {
+                                                     yacApp.goodMessage(qsTr("Space access requested, Space owner is informed"), null, null)
+                                                     space.requested = true
+                                                     closeClicked()
+                                                 }
+                                                 , function(message)
+                                                 {
+                                                     yacApp.badMessage(qsTr("Could not request Space-Access, please try again later"), null, null)
+                                                 })
+            }
         }
     }
 }

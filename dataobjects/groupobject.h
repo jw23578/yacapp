@@ -11,11 +11,6 @@ class GroupObject : public DataObjectInterface
 
     YACAPPPROPERTY(QString, id, Id, "");
     YACAPPPROPERTY(QString, name, Name, "");
-    YACAPPPROPERTY(QString, access_code, access_code, "");
-    YACAPPPROPERTY(bool, automatic, Automatic, false);
-    YACAPPPROPERTY(bool, member, member, false);
-    YACAPPPROPERTY(bool, requested, requested, false);
-    YACAPPPROPERTY(bool, denied, denied, false);
 public:
     explicit GroupObject(QObject *parent = nullptr);
 

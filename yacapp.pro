@@ -40,6 +40,7 @@ SOURCES += \
         dataobjects/messageobject.cpp \
         dataobjects/multipurposeobject.cpp \
         dataobjects/profileobject.cpp \
+        dataobjects/spaceobject.cpp \
         firebase2qt.cpp \
         helper.cpp \
         localstorage/localstorage.cpp \
@@ -103,6 +104,7 @@ HEADERS += \
   dataobjects/messageobject.h \
   dataobjects/multipurposeobject.h \
   dataobjects/profileobject.h \
+  dataobjects/spaceobject.h \
   firebase2qt.h \
   helper.h \
   localstorage/localstorage.h \
@@ -130,6 +132,7 @@ DISTFILES += \
   android/gradlew.bat \
   android/res/values/libs.xml \
   android/settings.gradle \
+  changelog.txt \
   deployToJW78.sh
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

@@ -93,12 +93,14 @@ int main(int argc, char *argv[])
             break;
         }
     }
+    QString customWriteablePath(getAppParam(app, "customWriteablePath="));
     if (app.arguments().contains("ServerIsLocalhost"))
     {
         YACServerBaseNetwork::yacappServerUrl = "http://127.0.0.1:23578";
+        customWriteablePath = "/home/jw78/MyYacApps/LocalYACAPPConfig";
     }
     Helper helper;
-    Constants constants(getAppParam(app, "customWriteablePath="));
+    Constants constants(customWriteablePath);
     QNetworkAccessManager manager;
     YACExtServerNetwork network(manager
                                 , constants);
