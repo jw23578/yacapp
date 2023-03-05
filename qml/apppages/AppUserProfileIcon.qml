@@ -2,6 +2,7 @@ import QtQuick 2.15
 import "../items"
 import "appointments"
 import "rights"
+import "spaces"
 import com.yacapp.appuserconfig 1.0
 
 Item
@@ -246,7 +247,41 @@ Item
                 anchors.centerIn: parent
                 text: qsTr("Rights")
             }
-        }    }
+        }
+        Rectangle
+        {
+            radius: Constants.radius
+            width: parent.width
+            height: width
+            color: "cyan"
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    if (!yacApp.appUserConfig.loggedIn)
+                    {
+                        yacApp.badMessage(qsTr("Please login first."), null, null);
+                        return
+                    }
+                    yacApp.appUserFetchSpaces(function(message)
+                    {
+                        profileLoader.sourceComponent = spacesComponent
+                    },
+                    function(message)
+                    {
+                        yacApp.badMessage(qsTr("could not load spaces, please try again later. ") + message, null, null)
+                    }
+                    )
+                }
+            }
+            YACText
+            {
+                anchors.centerIn: parent
+                text: qsTr("Spaces")
+            }
+        }
+    }
     Connections
     {
         target: yacApp.appUserConfig
@@ -304,6 +339,14 @@ Item
     {
         id: rightgroupsComponent
         AppUserRightGroups
+        {
+            onCloseClicked: profileLoader.sourceComponent = null
+        }
+    }
+    Component
+    {
+        id: spacesComponent
+        AppUserSpaces
         {
             onCloseClicked: profileLoader.sourceComponent = null
         }

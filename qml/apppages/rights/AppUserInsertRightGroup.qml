@@ -7,45 +7,76 @@ AppUserBasePage
 {
     id: thePage
     signal rightgroupSaved();
+    property string id: ""
+    function show(id, name, automatic)
+    {
+        thePage.id = id
+        theName.text = name
+        theAutomatic.currentIndex = automatic ? 1 : 0
+        if (id != "")
+        {
+            theMultiSelectItem.previousSelected.clear()
+            for (var i = 0; i < yacApp.currentFetchedIds.length; ++i)
+            {
+                theMultiSelectItem.previousSelected.add(yacApp.currentFetchedIds[i])
+            }
+        }
+        thePage.visible = true
+    }
+
     YACPageColumn
     {
+        id: theColumn
+        centerVertical: false
         YACLineEditWithHeader
         {
             id: theName
             headerText: qsTr("Name")
         }
-        MultiSelectItem
+        YACComboBoxWithHeader
         {
-            previousSelected: new Set(["1", "2", "3"])
-            width: parent.width
-            height: thePage.height - theName.height * 2
-            model: AllRightsModel
-            innerDelegateComponent: theInner
-            Component
+            id: theAutomatic
+            headerText: qsTr("Automatism")
+            model: [qsTr("Do not add new Users automatically"), qsTr("Add new User automatically to this Rightgroup")]
+        }
+
+    }
+    MultiSelectItem
+    {
+        id: theMultiSelectItem
+        width: theColumn.width
+        anchors.top: theColumn.bottom
+        anchors.bottom: buttonRow.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        model: thePage.visible ? AllRightsModel : null
+        innerDelegateComponent: theInner
+        Component
+        {
+            id: theInner
+            Rectangle
             {
-                id: theInner
-                Rectangle
+                property var dataObject: null
+                YACText
                 {
-                    property var dataObject: null
-                    YACText
-                    {
-                        anchors.centerIn: parent
-                        text: dataObject.caption
-                    }
+                    anchors.fill: parent
+                    anchors.margins: Constants.defaultMargin
+                    text: dataObject.caption
                 }
             }
         }
     }
-    YACButton
+    leftText: qsTr("Save")
+    onLeftClicked:
     {
-        text: qsTr("Save")
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        onClicked:
+        if (theName.displayText == "")
         {
-            yacApp.appUserInsertRightGroup(theName.displayText,
-                                           function(message){rightgroupSaved()},
-                                           function(message){console.log(message)})
+            yacApp.badMessage(qsTr("Please insert Name first"), theName, null)
+            return
         }
+        yacApp.appUserInsertOrUpdateRightGroup(thePage.id,
+                                                          theName.displayText,
+                                                          theAutomatic.currentIndex == 1,
+                                                          function(message){rightgroupSaved()},
+                                                          function(message){console.log(message)})
     }
 }

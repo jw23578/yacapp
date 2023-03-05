@@ -47,6 +47,7 @@ class YACAPP : public QObject
     YACAPPPROPERTY(QString, globalProjectConfigFilename, GlobalProjectConfigFilename, "");
     YACAPPPROPERTY(GlobalProjectConfig*, globalConfig, GlobalConfig, new GlobalProjectConfig(true));
     YACAPPPROPERTY(QStringList, knownFiles, KnownFiles, QStringList())
+    YACAPPPROPERTY(QStringList, currentFetchedIds, CurrentFetchedId, QStringList());
     QMap<QString, ParsedConfig*> fileName2ParsedConfig;
     void addKnownFile(QString const &filename);
 
@@ -85,6 +86,7 @@ class YACAPP : public QObject
     TemplatedDataModel<GroupObject> rightGroupsModel;
     TemplatedDataModel<MultiPurposeObject> allRightsModel;
 
+    TemplatedDataModel<GroupObject> spacesModel;
 
     void cleanUpKnownFile();
 
@@ -192,10 +194,34 @@ public:
                                               QJSValue errorCallback);
 
     Q_INVOKABLE void appUserFetchRightGroups(QJSValue successCallback,
-                                              QJSValue errorCallback);
-    Q_INVOKABLE void appUserInsertRightGroup(const QString &name,
+                                             QJSValue errorCallback);
+    Q_INVOKABLE void appUserInsertOrUpdateRightGroup(const QString &id,
+                                                     const QString &name,
+                                                     const bool automatic,
+                                                     QJSValue successCallback,
+                                                     QJSValue errorCallback);
+    Q_INVOKABLE void appUserDeleteRightGroup(const QString &id,
                                              QJSValue successCallback,
                                              QJSValue errorCallback);
+    Q_INVOKABLE void appUserFetchRightGroup(const QString &id,
+                                            QJSValue successCallback,
+                                            QJSValue errorCallback);
+
+    Q_INVOKABLE void appUserFetchSpaces(QJSValue successCallback,
+                                        QJSValue errorCallback);
+    Q_INVOKABLE void appUserInsertOrUpdateSpace(const QString &id,
+                                                const QString &name,
+                                                const QString &access_code,
+                                                const bool automatic,
+                                                QJSValue successCallback,
+                                                QJSValue errorCallback);
+    Q_INVOKABLE void appUserDeleteSpace(const QString &id,
+                                        QJSValue successCallback,
+                                        QJSValue errorCallback);
+    Q_INVOKABLE void appUserFetchSpace(const QString &id,
+                                       QJSValue successCallback,
+                                       QJSValue errorCallback);
+
 
     Q_INVOKABLE void fetchMessageUpdates();
 
@@ -220,6 +246,7 @@ signals:
     void goodMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
     void yesNoQuestion(const QString &question, QJSValue itemToFocus, QJSValue yesCallback, QJSValue noCallback);
     void pickDateTime(const QDateTime dateTime, const QJSValue okCallback);
+    void notYetImplemented();
 
 private slots:
     void deviceTokenChanged(QString deviceToken);

@@ -11,7 +11,7 @@ AppUserBasePage
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.bottom: closeButton.top
+        anchors.bottom: buttonRow.top
         anchors.margins: Constants.defaultMargin
         reuseItems: true
         model: RightGroupsModel
@@ -34,31 +34,64 @@ AppUserBasePage
                 {
                     text: rightgroup.name
                 }
+                YACText
+                {
+                    text: rightgroup.automatic ? qsTr("New Users are automatically added to this Group") : qsTr("No Users will be automatically added")
+                }
             }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    yacApp.appUserFetchRightGroup(rightgroup.id,
+                                                  function(message){
+                                                      console.log(yacApp.currentFetchedIds)
+                                                      appUserInsertRightGroup.show(rightgroup.id,
+                                                                                   rightgroup.name,
+                                                                                   rightgroup.automatic)
+                                                  },
+                                                  function(message){})
+                }
+            }
+            YACButton
+            {
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                text: qsTr("Delete")
+                onClicked:
+                {
+                    yacApp.yesNoQuestion(qsTr("Delete Rightgroup \"") + rightgroup.name + "\"", null,
+                                         function()
+                                         {
+                                             yacApp.appUserDeleteRightGroup(rightgroup.id, function(message){},
+                                             function(message)
+                                             {
+                                                 yacApp.badMessage(message, null, null)
+                                             })
+                                         },
+                                         function()
+                                         {
+                                         })
+
+                }
+            }
+
         }
 
     }
 
-    YACButton
+    leftText: qsTr("Add Rightgroup")
+    onLeftClicked: appUserInsertRightGroup.show("", "", false)
+
+    AppUserInsertRightGroup
     {
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        text: qsTr("Add Rightgroup")
-        onClicked: theLoader.sourceComponent = insertRightGroupComponent
-    }
-    Component
-    {
-        id: insertRightGroupComponent
-        AppUserInsertRightGroup
-        {
-            onCloseClicked: theLoader.sourceComponent = null
-            onRightgroupSaved: theLoader.sourceComponent = null
-        }
-    }
-    Loader
-    {
+        id: appUserInsertRightGroup
         anchors.fill: parent
-        id: theLoader
+        visible: false
+        onCloseClicked: appUserInsertRightGroup.visible = false
+        onRightgroupSaved: appUserInsertRightGroup.visible = false
     }
+
 
 }

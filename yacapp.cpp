@@ -26,7 +26,8 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
       messagesModel(engine),
       appointmentsModel(engine),
       rightGroupsModel(engine, "RightGroupsModel", "rightgroup"),
-      allRightsModel(engine, "AllRightsModel", "rightmpo")
+      allRightsModel(engine, "AllRightsModel", "rightmpo"),
+      spacesModel(engine, "SpacesModel", "space")
 {
     for (const auto &rn: Rights::allRightNumberObjects)
     {
@@ -838,9 +839,9 @@ void YACAPP::appUserDeleteAppointment(const QString &id,
 void YACAPP::appUserFetchRightGroups(QJSValue successCallback, QJSValue errorCallback)
 {
     network.appUserFetchRightGroups(globalConfig()->projectID(),
-                                     appUserConfig()->loginEMail(),
-                                     appUserConfig()->loginToken(),
-                                     [this, successCallback](const QJsonDocument &jsonDoc) mutable
+                                    appUserConfig()->loginEMail(),
+                                    appUserConfig()->loginToken(),
+                                    [this, successCallback](const QJsonDocument &jsonDoc) mutable
     {
         rightGroupsModel.clear();
         QJsonObject object(jsonDoc.object());
@@ -861,26 +862,197 @@ void YACAPP::appUserFetchRightGroups(QJSValue successCallback, QJSValue errorCal
     );
 }
 
-void YACAPP::appUserInsertRightGroup(const QString &name, QJSValue successCallback, QJSValue errorCallback)
+void YACAPP::appUserInsertOrUpdateRightGroup(const QString &id, const QString &name, const bool automatic, QJSValue successCallback, QJSValue errorCallback)
 {
-    network.appUserInsertRightGroup(globalConfig()->projectID(),
+    network.appUserInsertOrUpdateRightGroup(globalConfig()->projectID(),
+                                            appUserConfig()->loginEMail(),
+                                            appUserConfig()->loginToken(),
+                                            id,
+                                            name,
+                                            automatic,
+                                            [this, id, successCallback](const QJsonDocument &jsonDoc) mutable
+    {
+        QJsonObject object(jsonDoc.object());
+        QJsonObject rightgroup(object["rightgroup"].toObject());
+        if (id.size())
+        {
+            GroupObject *rg(rightGroupsModel.getById(id));
+            if (rg)
+            {
+                rg->fromJSON(rightgroup);
+            }
+        }
+        else
+        {
+            GroupObject *rg(new GroupObject);
+            rg->fromJSON(rightgroup);
+            rightGroupsModel.append(rg);
+        }
+        successCallback.call(QJSValueList());
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+}
+
+void YACAPP::appUserDeleteRightGroup(const QString &id, QJSValue successCallback, QJSValue errorCallback)
+{
+    network.appUserDeleteRightGroup(globalConfig()->projectID(),
                                     appUserConfig()->loginEMail(),
                                     appUserConfig()->loginToken(),
-                                    name,
-                                    [this, successCallback](const QJsonDocument &jsonDoc) mutable
-   {
-       QJsonObject object(jsonDoc.object());
-       QJsonObject rightgroup(object["rightgroup"].toObject());
-       GroupObject *rg(new GroupObject);
-       rg->fromJSON(rightgroup);
-       rightGroupsModel.append(rg);
-       successCallback.call(QJSValueList());
-   },
-   [errorCallback](const QString &message) mutable
-   {
-       errorCallback.call(QJSValueList() << message);
-   }
-   );
+                                    id,
+                                    [this, id, successCallback](const QString &message) mutable
+    {
+        rightGroupsModel.deleteById(id);
+        successCallback.call(QJSValueList() << message);
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+}
+
+void YACAPP::appUserFetchRightGroup(const QString &id,
+                                    QJSValue successCallback,
+                                    QJSValue errorCallback)
+{
+    network.appUserFetchRightGroup(globalConfig()->projectID(),
+                                   appUserConfig()->loginEMail(),
+                                   appUserConfig()->loginToken(),
+                                   id,
+                                   [this, successCallback](const QJsonDocument &jsonDoc) mutable
+    {
+        QJsonObject object(jsonDoc.object());
+        QJsonObject rightgroup(object["rightgroup"].toObject());
+        QJsonArray rightNumbers(rightgroup["rightNumbers"].toArray());
+        m_currentFetchedIds.clear();
+        for (int i(0); i < rightNumbers.size(); ++i)
+        {
+            m_currentFetchedIds.push_back(rightNumbers[i].toString());
+        }
+        emit currentFetchedIdsChanged();
+        successCallback.call(QJSValueList());
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+}
+
+void YACAPP::appUserFetchSpaces(QJSValue successCallback, QJSValue errorCallback)
+{
+    network.appUserFetchSpaces(globalConfig()->projectID(),
+                               appUserConfig()->loginEMail(),
+                               appUserConfig()->loginToken(),
+                               [this, successCallback](const QJsonDocument &jsonDoc) mutable
+    {
+        spacesModel.clear();
+        QJsonObject object(jsonDoc.object());
+        QJsonArray spaces(object["spaces"].toArray());
+        for (size_t i(0); i < spaces.size(); ++i)
+        {
+            QJsonObject space(spaces[i].toObject());
+            GroupObject *rg(new GroupObject);
+            rg->fromJSON(space);
+            spacesModel.append(rg);
+        }
+        successCallback.call(QJSValueList());
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+}
+
+void YACAPP::appUserInsertOrUpdateSpace(const QString &id,
+                                        const QString &name,
+                                        const QString &access_code,
+                                        const bool automatic,
+                                        QJSValue successCallback,
+                                        QJSValue errorCallback)
+{
+    network.appUserInsertOrUpdateSpace(globalConfig()->projectID(),
+                                       appUserConfig()->loginEMail(),
+                                       appUserConfig()->loginToken(),
+                                       id,
+                                       name,
+                                       access_code,
+                                       automatic,
+                                       [this, id, successCallback](const QJsonDocument &jsonDoc) mutable
+    {
+        QJsonObject object(jsonDoc.object());
+        QJsonObject space(object["space"].toObject());
+        if (id.size())
+        {
+            GroupObject *rg(spacesModel.getById(id));
+            if (rg)
+            {
+                rg->fromJSON(space);
+            }
+        }
+        else
+        {
+            GroupObject *rg(new GroupObject);
+            rg->fromJSON(space);
+            spacesModel.append(rg);
+        }
+        successCallback.call(QJSValueList());
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+}
+
+void YACAPP::appUserDeleteSpace(const QString &id, QJSValue successCallback, QJSValue errorCallback)
+{
+    network.appUserDeleteSpace(globalConfig()->projectID(),
+                               appUserConfig()->loginEMail(),
+                               appUserConfig()->loginToken(),
+                               id,
+                               [this, id, successCallback](const QString &message) mutable
+    {
+        spacesModel.deleteById(id);
+        successCallback.call(QJSValueList() << message);
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+}
+
+void YACAPP::appUserFetchSpace(const QString &id, QJSValue successCallback, QJSValue errorCallback)
+{
+    network.appUserFetchSpace(globalConfig()->projectID(),
+                              appUserConfig()->loginEMail(),
+                              appUserConfig()->loginToken(),
+                              id,
+                              [this, successCallback](const QJsonDocument &jsonDoc) mutable
+    {
+        QJsonObject object(jsonDoc.object());
+        QJsonObject space(object["space"].toObject());
+        QJsonArray member(space["member"].toArray());
+        m_currentFetchedIds.clear();
+        for (int i(0); i < member.size(); ++i)
+        {
+            m_currentFetchedIds.push_back(member[i].toString());
+        }
+        emit currentFetchedIdsChanged();
+        successCallback.call(QJSValueList());
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+
 }
 
 void YACAPP::fetchMyProfile(QJSValue successCallback,

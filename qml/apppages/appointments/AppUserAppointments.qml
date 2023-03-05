@@ -20,7 +20,7 @@ AppUserBasePage
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.bottom: closeButton.top
+        anchors.bottom: buttonRow.top
         anchors.margins: Constants.defaultMargin
         reuseItems: true
         model: AppointmentsModel
@@ -93,13 +93,8 @@ AppUserBasePage
 
     }
 
-    YACButton
-    {
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        text: qsTr("Add Appointment")
-        onClicked: insertAppointmentsLoader.sourceComponent = insertAppointmentsComponent
-    }
+    leftText: qsTr("Add Appointment")
+    onLeftClicked: insertAppointmentsLoader.sourceComponent = insertAppointmentsComponent
 
     Loader
     {

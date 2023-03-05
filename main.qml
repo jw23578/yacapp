@@ -227,6 +227,10 @@ ApplicationWindow
         {
             dateTimePicker.show(dateTime, okCallback)
         }
+        function onNotYetImplemented()
+        {
+            badMessage.show(qsTr("Not yet implemented"), null)
+        }
     }
 
     Component.onCompleted:

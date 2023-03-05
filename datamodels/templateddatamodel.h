@@ -22,6 +22,9 @@ public:
                        const QString &modelName,
                        const QString &objectName,
                        typename DataModelInterface<T>::DirectionType const direction = DataModelInterface<T>::forward);
+
+    void deleteById(const QString &id);
+    T *getById(const QString &id);
 };
 
 #include "templateddatamodel.cpp"

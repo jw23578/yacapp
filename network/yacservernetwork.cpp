@@ -537,19 +537,25 @@ void YACServerNetwork::appUserFetchRightGroups(const QString &appId,
                     errorCallback);
 }
 
-void YACServerNetwork::appUserInsertRightGroup(const QString &appId,
-                                               const QString &loginEMail,
-                                               const QString &loginToken,
-                                               const QString &name,
-                                               JSONCallbackFunction jsonSuccessCallback,
-                                               CallbackFunction errorCallback)
+void YACServerNetwork::appUserInsertOrUpdateRightGroup(const QString &appId,
+                                                       const QString &loginEMail,
+                                                       const QString &loginToken,
+                                                       const QString &id,
+                                                       const QString &name,
+                                                       const bool automatic,
+                                                       JSONCallbackFunction jsonSuccessCallback,
+                                                       CallbackFunction errorCallback)
 {
     MACRO_RAW_HEADER();
 
     QJsonObject obj;
     MACRO_JSON_SET(obj, name);
-
-    yacappServerPost(methodNames.insertRightGroup,
+    MACRO_JSON_SET(obj, automatic);
+    if (id.size())
+    {
+        MACRO_JSON_SET(obj, id);
+    }
+    yacappServerPost(id.size() ? methodNames.updateRightGroup : methodNames.insertRightGroup,
                      obj,
                      defaultReplyHandler,
                      rawHeader,
@@ -557,4 +563,110 @@ void YACServerNetwork::appUserInsertRightGroup(const QString &appId,
                      jsonSuccessCallback,
                      errorCallback);
 
+}
+
+void YACServerNetwork::appUserDeleteRightGroup(const QString &appId, const QString &loginEMail, const QString &loginToken, const QString &id, CallbackFunction successCallback, CallbackFunction errorCallback)
+{
+    MACRO_RAW_HEADER();
+
+    QJsonObject obj;
+    MACRO_JSON_SET(obj, id);
+    yacappServerPost(methodNames.deleteRightGroup,
+                     obj,
+                     defaultReplyHandler,
+                     rawHeader,
+                     successCallback,
+                     0,
+                     errorCallback);
+}
+
+void YACServerNetwork::appUserFetchRightGroup(const QString &appId,
+                                              const QString &loginEMail,
+                                              const QString &loginToken,
+                                              const QString &id,
+                                              JSONCallbackFunction jsonSuccessCallback,
+                                              CallbackFunction errorCallback)
+{
+    QUrlQuery query;
+    query.addQueryItem("id", id);
+    MACRO_RAW_HEADER();
+    yacappServerGet(methodNames.fetchRightGroup,
+                    query,
+                    defaultReplyHandler,
+                    rawHeader,
+                    0,
+                    jsonSuccessCallback,
+                    errorCallback);
+
+}
+
+void YACServerNetwork::appUserFetchSpaces(const QString &appId, const QString &loginEMail, const QString &loginToken, JSONCallbackFunction jsonSuccessCallback, CallbackFunction errorCallback)
+{
+    QUrlQuery query;
+    MACRO_RAW_HEADER();
+    yacappServerGet(methodNames.fetchSpaces,
+                    query,
+                    defaultReplyHandler,
+                    rawHeader,
+                    0,
+                    jsonSuccessCallback,
+                    errorCallback);
+}
+
+void YACServerNetwork::appUserInsertOrUpdateSpace(const QString &appId,
+                                                  const QString &loginEMail,
+                                                  const QString &loginToken,
+                                                  const QString &id,
+                                                  const QString &name,
+                                                  const QString &access_code,
+                                                  const bool automatic,
+                                                  JSONCallbackFunction jsonSuccessCallback,
+                                                  CallbackFunction errorCallback)
+{
+    MACRO_RAW_HEADER();
+
+    QJsonObject obj;
+    MACRO_JSON_SET(obj, name);
+    MACRO_JSON_SET(obj, access_code);
+    MACRO_JSON_SET(obj, automatic);
+    if (id.size())
+    {
+        MACRO_JSON_SET(obj, id);
+    }
+    yacappServerPost(id.size() ? methodNames.updateSpace : methodNames.insertSpace,
+                     obj,
+                     defaultReplyHandler,
+                     rawHeader,
+                     0,
+                     jsonSuccessCallback,
+                     errorCallback);
+}
+
+void YACServerNetwork::appUserDeleteSpace(const QString &appId, const QString &loginEMail, const QString &loginToken, const QString &id, CallbackFunction successCallback, CallbackFunction errorCallback)
+{
+    MACRO_RAW_HEADER();
+
+    QJsonObject obj;
+    MACRO_JSON_SET(obj, id);
+    yacappServerPost(methodNames.deleteSpace,
+                     obj,
+                     defaultReplyHandler,
+                     rawHeader,
+                     successCallback,
+                     0,
+                     errorCallback);
+}
+
+void YACServerNetwork::appUserFetchSpace(const QString &appId, const QString &loginEMail, const QString &loginToken, const QString &id, JSONCallbackFunction jsonSuccessCallback, CallbackFunction errorCallback)
+{
+    QUrlQuery query;
+    query.addQueryItem("id", id);
+    MACRO_RAW_HEADER();
+    yacappServerGet(methodNames.fetchSpace,
+                    query,
+                    defaultReplyHandler,
+                    rawHeader,
+                    0,
+                    jsonSuccessCallback,
+                    errorCallback);
 }

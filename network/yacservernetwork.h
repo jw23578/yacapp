@@ -169,12 +169,58 @@ public:
                                  JSONCallbackFunction jsonSuccessCallback,
                                  CallbackFunction errorCallback);
 
-    void appUserInsertRightGroup(const QString &appId,
+    void appUserInsertOrUpdateRightGroup(const QString &appId,
+                                         const QString &loginEMail,
+                                         const QString &loginToken,
+                                         const QString &id,
+                                         const QString &name,
+                                         const bool automatic,
+                                         JSONCallbackFunction jsonSuccessCallback,
+                                         CallbackFunction errorCallback);
+
+    void appUserDeleteRightGroup(const QString &appId,
                                  const QString &loginEMail,
                                  const QString &loginToken,
-                                 const QString &name,
-                                 JSONCallbackFunction jsonSuccessCallback,
+                                 const QString &id,
+                                 CallbackFunction successCallback,
                                  CallbackFunction errorCallback);
+
+    void appUserFetchRightGroup(const QString &appId,
+                                const QString &loginEMail,
+                                const QString &loginToken,
+                                const QString &id,
+                                JSONCallbackFunction jsonSuccessCallback,
+                                CallbackFunction errorCallback);
+
+    void appUserFetchSpaces(const QString &appId,
+                            const QString &loginEMail,
+                            const QString &loginToken,
+                            JSONCallbackFunction jsonSuccessCallback,
+                            CallbackFunction errorCallback);
+
+    void appUserInsertOrUpdateSpace(const QString &appId,
+                                    const QString &loginEMail,
+                                    const QString &loginToken,
+                                    const QString &id,
+                                    const QString &name,
+                                    const QString &access_code,
+                                    const bool automatic,
+                                    JSONCallbackFunction jsonSuccessCallback,
+                                    CallbackFunction errorCallback);
+
+    void appUserDeleteSpace(const QString &appId,
+                            const QString &loginEMail,
+                            const QString &loginToken,
+                            const QString &id,
+                            CallbackFunction successCallback,
+                            CallbackFunction errorCallback);
+
+    void appUserFetchSpace(const QString &appId,
+                           const QString &loginEMail,
+                           const QString &loginToken,
+                           const QString &id,
+                           JSONCallbackFunction jsonSuccessCallback,
+                           CallbackFunction errorCallback);
 };
 
 #endif // YACSERVERNETWORK_H

@@ -70,5 +70,8 @@
         <file>qml/apppages/rights/AppUserRightGroups.qml</file>
         <file>qml/apppages/rights/AppUserInsertRightGroup.qml</file>
         <file>qml/MultiSelectItem.qml</file>
+        <file>qml/apppages/spaces/AppUserSpaces.qml</file>
+        <file>qml/apppages/spaces/AppUserInsertSpace.qml</file>
+        <file>qml/apppages/spaces/AppUserRequestSpace.qml</file>
     </qresource>
 </RCC>

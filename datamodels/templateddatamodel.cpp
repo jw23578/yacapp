@@ -69,6 +69,36 @@ TemplatedDataModel<T>::TemplatedDataModel(QQmlApplicationEngine &engine,
 }
 
 template<class T>
+void TemplatedDataModel<T>::deleteById(const QString &id)
+{
+    for (size_t i(0); i < objects.size(); ++i)
+    {
+        T *object(objects[i]);
+        if (object->id() == id)
+        {
+            DataModelInterface<T>::beginRemoveRows(QModelIndex(), i, i);
+            objects.erase(objects.begin() + i);
+            DataModelInterface<T>::endRemoveRows();
+            delete object;
+
+        }
+    }
+}
+
+template<class T>
+T *TemplatedDataModel<T>::getById(const QString &id)
+{
+    for (auto &o: objects)
+    {
+        if (o->id() == id)
+        {
+            return o;
+        }
+    }
+    return 0;
+}
+
+template<class T>
 void TemplatedDataModel<T>::internalClear()
 {
     for (auto o : objects)

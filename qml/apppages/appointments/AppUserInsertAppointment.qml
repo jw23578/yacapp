@@ -9,7 +9,7 @@ AppUserBasePage
     property date theEndDateTime: Helper.createDateTime2(Helper.currentDateTime(), 8, 0)
     Flickable
     {
-        anchors.bottom: parent.closeButton.top
+        anchors.bottom: parent.buttonRow.top
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
@@ -50,23 +50,18 @@ AppUserBasePage
             }
         }
     }
-    YACButton
+    leftText: qsTr("Save")
+    onLeftClicked:
     {
-        text: qsTr("Save")
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        onClicked:
-        {
-            var appointment_group_id = ""
-            var appointment_template_id = ""
-            yacApp.appUserInsertAppointment(appointment_group_id,
-                                            appointment_template_id,
-                                            theCaption.displayText,
-                                            theStartDateTime,
-                                            theEndDateTime,
-                                            visible_for_everybody.currentIndex == 1,
-                                            function(message){appointmentSaved()},
-                                            function(message){console.log(message)})
-        }
+        var appointment_group_id = ""
+        var appointment_template_id = ""
+        yacApp.appUserInsertAppointment(appointment_group_id,
+                                        appointment_template_id,
+                                        theCaption.displayText,
+                                        theStartDateTime,
+                                        theEndDateTime,
+                                        visible_for_everybody.currentIndex == 1,
+                                        function(message){appointmentSaved()},
+                                        function(message){console.log(message)})
     }
 }

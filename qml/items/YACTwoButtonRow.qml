@@ -15,11 +15,13 @@ Item
         id: leftButton
         onClicked: parent.leftClicked()
         anchors.left: parent.left
+        visible: text != ""
     }
     YACButton
     {
         id: rightButton
         onClicked: parent.rightClicked()
         anchors.right: parent.right
+        visible: text != ""
     }
 }

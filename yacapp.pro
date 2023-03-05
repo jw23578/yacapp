@@ -1,4 +1,4 @@
-QT += quick widgets network webview sql multimedia
+QT += quick widgets network webview sql multimedia svg
 
 DEFINES += YACAPPApp
 

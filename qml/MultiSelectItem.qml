@@ -30,7 +30,6 @@ Rectangle
             id: theDelegate
             width: theListView.width
             height: 100
-            color: "green"
             property bool selected: theMultiSelectItem.previousSelected.has(dataObject.id)
             Item
             {

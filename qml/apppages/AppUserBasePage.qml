@@ -4,14 +4,22 @@ import "../items"
 Rectangle
 {
     anchors.fill: parent
-    property alias closeButton: theCloseButton
+    property alias buttonRow: theButtonRow
     signal closeClicked();
-    YACButton
+    signal leftClicked();
+    property alias leftText: theButtonRow.leftText
+    MouseArea
     {
-        id: theCloseButton
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        text: qsTr("Close")
-        onClicked: parent.closeClicked()
-    }    
+        anchors.fill: parent
+    }
+    YACTwoButtonRow
+    {
+        id: theButtonRow
+        rightText: qsTr("Close")
+        onRightClicked:
+        {
+            closeClicked()
+        }
+        onLeftClicked: parent.leftClicked()
+    }
 }
