@@ -107,6 +107,7 @@ public:
                               const QString &profileFilename,
                               const bool searching_exactly_allowed,
                               const bool searching_fuzzy_allowed,
+                              const QString &password,
                               CallbackFunction successCallback,
                               CallbackFunction errorCallback);
 

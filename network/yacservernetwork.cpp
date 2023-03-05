@@ -327,6 +327,7 @@ void YACServerNetwork::appUserUpdateProfile(const QString &appId,
                                             const QString &profileFilename,
                                             const bool searching_exactly_allowed,
                                             const bool searching_fuzzy_allowed,
+                                            const QString &password,
                                             CallbackFunction successCallback,
                                             CallbackFunction errorCallback)
 {
@@ -338,6 +339,7 @@ void YACServerNetwork::appUserUpdateProfile(const QString &appId,
     obj["visible_name"] = visible_name;
     obj["searching_exactly_allowed"] = searching_exactly_allowed;
     obj["searching_fuzzy_allowed"] = searching_fuzzy_allowed;
+    MACRO_JSON_SET(obj, password);
     if (profileFilename.size())
     {
         QFile file(profileFilename);

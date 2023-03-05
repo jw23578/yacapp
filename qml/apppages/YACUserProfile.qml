@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import "../items"
+import "qrc:/EMailPasswordFunctions.js" as EMailPasswordFunctions
 
 FocusScope
 {
@@ -93,50 +94,28 @@ FocusScope
                     }
                 }
             }
+            YACLineEditWithHeader
+            {
+                id: theNewPassword
+                headerText: qsTr("New Password")
+                echoMode: TextInput.Password
+            }
 
             YACButton
             {
                 text: qsTr("Save")
                 width: parent.width
-                onClicked:
+                function saveProfile(imageFilename)
                 {
                     var searchingExactlyAllowed = searchOption.currentIndex == 1
                     var searchingFuzzyAllowed = searchOption.currentIndex == 2
-                    if (theProfilePage.imageChanged)
-                    {
-                        theProfilePage.imageChanged = false;
-                        console.log("image changed")
-                        originalSizeProfileImage.grabToImage(function(result)
-                        {
-                            console.log("grabbed")
-                            var filename = yacApp.getNewProfileImageFilename();
-                            console.log(filename)
-                            console.log("hello")
-                            result.saveToFile(filename)
-                            yacApp.appUserUpdateProfile(fstname.displayText,
-                                                        surname.displayText,
-                                                        visible_name.displayText,
-                                                        filename,
-                                                        searchingExactlyAllowed,
-                                                        searchingFuzzyAllowed,
-                                                        function(message)
-                                                        {
-                                                            yacApp.goodMessage(qsTr("Profile saved"), null, null);
-                                                            closeClicked()
-                                                        },
-                                                        function(message){
-                                                            yacApp.badMessage(qsTr("Could not save Profile, please try again"), null, null)
-                                                        })
-                        }
-                        )
-                        return;
-                    }
                     yacApp.appUserUpdateProfile(fstname.displayText,
                                                 surname.displayText,
                                                 visible_name.displayText,
-                                                "",
+                                                imageFilename,
                                                 searchingExactlyAllowed,
                                                 searchingFuzzyAllowed,
+                                                theNewPassword.text,
                                                 function(message)
                                                 {
                                                     yacApp.goodMessage(qsTr("Profile saved"), null, null);
@@ -145,6 +124,30 @@ FocusScope
                                                 function(message){
                                                     yacApp.badMessage(qsTr("Could not save Profile, please try again"), null, null)
                                                 })
+                }
+
+                onClicked:
+                {
+                    if (theNewPassword.text != "")
+                    {
+                        if (!EMailPasswordFunctions.checkPassword(Helper, yacApp, theNewPassword.text, theNewPassword))
+                        {
+                            return;
+                        }
+                    }
+                    if (theProfilePage.imageChanged)
+                    {
+                        theProfilePage.imageChanged = false;
+                        originalSizeProfileImage.grabToImage(function(result)
+                        {
+                            var filename = yacApp.getNewProfileImageFilename();
+                            result.saveToFile(filename)
+                            saveProfile(filename)
+                        }
+                        )
+                        return;
+                    }
+                    saveProfile("")
                 }
             }
             YACButton

@@ -11,3 +11,4 @@
 
 - Man kann jetzt den Zugang zu einem Bereich per Admin beantragen. Das wird dann auch angezeigt. Bisher kann aber niemand die Anträge bearbeiten.
 
+- Im Profil kann jetzt ein neues Passwort gesetzt werden. Da man leicht per Code-Request einloggen kann, wenn man sein Passwort vergessen hat, verzichten wir hier auf die doppelte Eingabe des Passworts

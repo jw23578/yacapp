@@ -681,6 +681,7 @@ void YACAPP::appUserUpdateProfile(const QString &fstname,
                                   const QString &profileFilename,
                                   const bool searching_exactly_allowed,
                                   const bool searching_fuzzy_allowed,
+                                  const QString &password,
                                   QJSValue successCallback,
                                   QJSValue errorCallback)
 {
@@ -699,6 +700,7 @@ void YACAPP::appUserUpdateProfile(const QString &fstname,
                                  profileFilename,
                                  searching_exactly_allowed,
                                  searching_fuzzy_allowed,
+                                 password,
                                  [successCallback](const QString &message) mutable
     {
         Q_UNUSED(message);
