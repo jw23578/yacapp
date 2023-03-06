@@ -29,6 +29,11 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
       allRightsModel(engine, "AllRightsModel", "rightmpo"),
       spacesModel(engine, "SpacesModel", "space")
 {
+    m_moodModel.push_back(tr("Perfect"));
+    m_moodModel.push_back(tr("Better"));
+    m_moodModel.push_back(tr("Neutral"));
+    m_moodModel.push_back(tr("Worse"));
+    m_moodModel.push_back(tr("Bad"));
     for (const auto &rn: Rights::allRightNumberObjects)
     {
         MultiPurposeObject *mpo(new MultiPurposeObject);
@@ -612,7 +617,7 @@ void YACAPP::appUserGetWorktimeState(QJSValue successCallback,
 {
     if (!appUserConfig()->loginToken().size())
     {
-        errorCallback.call(QJSValueList() << tr("please login first"));
+        errorCallback.call(QJSValueList() << tr("Please login first"));
         return;
     }
     network.appUserGetWorktimeState(globalConfig()->projectID(),
@@ -645,7 +650,7 @@ void YACAPP::appUserInsertWorktime(int worktimeType,
 {
     if (!appUserConfig()->loginToken().size())
     {
-        errorCallback.call(QJSValueList() << tr("please login first"));
+        errorCallback.call(QJSValueList() << tr("Please login first"));
         return;
     }
     network.appUserInsertWorktime(globalConfig()->projectID(),
@@ -727,7 +732,7 @@ void YACAPP::appUserSearchProfiles(const QString &needle,
     }
     if (!appUserConfig()->loginToken().size())
     {
-        errorCallback.call(QJSValueList() << tr("please login first"));
+        errorCallback.call(QJSValueList() << tr("Please login first"));
         return;
     }
     network.appUserSearchProfiles(globalConfig()->projectID(),
@@ -1184,7 +1189,7 @@ void YACAPP::loadMessages(const QString &contactId)
 void YACAPP::sendMessage(const QString &profileId, const QString &content)
 {
     MessageObject *mo(new MessageObject(QUuid::createUuid().toString(QUuid::WithoutBraces),
-                                        "",
+                                        appUserConfig()->id(),
                                         profileId,
                                         QDateTime::currentDateTime(),
                                         QDateTime::currentDateTime(),

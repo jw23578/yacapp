@@ -1,3 +1,18 @@
+2023-03-06
+- Frisch versendete Nachrichten werden auf der richtigen, also eigenen, Seite angezeigt.
+
+- Die Stimmungsoptionen bei den Dienstzeiten werden jetzt von einem Model aus der App geladen, können so also relativ leicht geändert werden.
+
+- Deutsche Texte bei den Dienstzeiten erstellt.
+
+- Vernünftigen DatePicker gebaut (bis auf schickes Layout)
+
+- TimePicker gebaut (ist nur das Wheel aus dem alten Date+Timepicker) weiß noch nicht, ob das so bleiben soll.
+
+- DatePicker und TimePicker im Anlegen eines Termins eingebaut
+
+
+
 2023-03-05
 - Direkt nach dem Login wurde das Profilbild nicht geladen, erst wenn man das Profil geschlossen und wieder geöffnet hat. Jetzt sofort nach Login
 

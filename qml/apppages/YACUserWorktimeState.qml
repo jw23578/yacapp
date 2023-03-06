@@ -114,35 +114,15 @@ Rectangle
             {
                 text: userMoodPage.worktimeType == 1 ? qsTr("How is your Mood today?") : qsTr("How is your Mood now?")
             }
-            YACButton
+            Repeater
             {
-                text: qsTr("Perfect")
-                width: parent.width
-                onClicked: userMoodPage.goMood(1)
-            }
-            YACButton
-            {
-                text: qsTr("2")
-                width: parent.width
-                onClicked: userMoodPage.goMood(2)
-            }
-            YACButton
-            {
-                text: qsTr("3")
-                width: parent.width
-                onClicked: userMoodPage.goMood(3)
-            }
-            YACButton
-            {
-                text: qsTr("4")
-                width: parent.width
-                onClicked: userMoodPage.goMood(4)
-            }
-            YACButton
-            {
-                text: qsTr("Bad")
-                width: parent.width
-                onClicked: userMoodPage.goMood(5)
+                model: yacApp.moodModel
+                YACButton
+                {
+                    text: modelData
+                    width: parent.width
+                    onClicked: userMoodPage.goMood(index + 1)
+                }
             }
             YACButton
             {
@@ -173,35 +153,15 @@ Rectangle
             {
                 text: qsTr("How was your Day?")
             }
-            YACButton
+            Repeater
             {
-                text: qsTr("Perfect")
-                width: parent.width
-                onClicked: dayRatingPage.goDayRating(1)
-            }
-            YACButton
-            {
-                text: qsTr("2")
-                width: parent.width
-                onClicked: dayRatingPage.goDayRating(2)
-            }
-            YACButton
-            {
-                text: qsTr("3")
-                width: parent.width
-                onClicked: dayRatingPage.goDayRating(3)
-            }
-            YACButton
-            {
-                text: qsTr("4")
-                width: parent.width
-                onClicked: dayRatingPage.goDayRating(4)
-            }
-            YACButton
-            {
-                text: qsTr("Bad")
-                width: parent.width
-                onClicked: dayRatingPage.goDayRating(5)
+                model: yacApp.moodModel
+                YACButton
+                {
+                    text: modelData
+                    width: parent.width
+                    onClicked: dayRatingPage.goDayRating(index + 1)
+                }
             }
             YACButton
             {

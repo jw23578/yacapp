@@ -49,6 +49,7 @@ class YACAPP : public QObject
     YACAPPPROPERTY(GlobalProjectConfig*, globalConfig, GlobalConfig, new GlobalProjectConfig(true));
     YACAPPPROPERTY(QStringList, knownFiles, KnownFiles, QStringList())
     YACAPPPROPERTY(QStringList, currentFetchedIds, CurrentFetchedId, QStringList());
+    YACAPPPROPERTY(QStringList, moodModel, MoodModel, QStringList());
     QMap<QString, ParsedConfig*> fileName2ParsedConfig;
     void addKnownFile(QString const &filename);
 
@@ -251,6 +252,8 @@ signals:
     void goodMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
     void yesNoQuestion(const QString &question, QJSValue itemToFocus, QJSValue yesCallback, QJSValue noCallback);
     void pickDateTime(const QDateTime dateTime, const QJSValue okCallback);
+    void pickDate(const QDateTime date, const QJSValue okCallback);
+    void pickTime(const QDateTime time, const QJSValue okCallback);
     void notYetImplemented();
 
 private slots:

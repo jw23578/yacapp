@@ -147,6 +147,16 @@ ApplicationWindow
         visible: false
         id: dateTimePicker
     }
+    DialogDatePicker
+    {
+        visible: false
+        id: datePicker
+    }
+    DialogTimePicker
+    {
+        visible: false
+        id: timePicker
+    }
 
     YACBadMessageForm
     {
@@ -227,6 +237,15 @@ ApplicationWindow
         {
             dateTimePicker.show(dateTime, okCallback)
         }
+        function onPickDate(date, okCallback)
+        {
+            datePicker.show(date, okCallback)
+        }
+        function onPickTime(time, okCallback)
+        {
+            timePicker.show(time, okCallback)
+        }
+
         function onNotYetImplemented()
         {
             badMessage.show(qsTr("Not yet implemented"), null)

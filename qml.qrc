@@ -73,5 +73,8 @@
         <file>qml/apppages/spaces/AppUserSpaces.qml</file>
         <file>qml/apppages/spaces/AppUserInsertSpace.qml</file>
         <file>qml/apppages/spaces/AppUserRequestSpace.qml</file>
+        <file>qml/dialogs/DialogDatePicker.qml</file>
+        <file>qml/items/YACTextClickable.qml</file>
+        <file>qml/dialogs/DialogTimePicker.qml</file>
     </qresource>
 </RCC>

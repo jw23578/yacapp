@@ -55,6 +55,16 @@ QDateTime Helper::currentDateTime() const
     return QDateTime::currentDateTime();
 }
 
+QString Helper::getDayName(int day) const
+{
+    return QLocale::system().dayName(day);
+}
+
+QString Helper::getShortDayName(int day) const
+{
+    return QLocale::system().dayName(day, QLocale::ShortFormat);
+}
+
 QDateTime Helper::createDateTime(const int year, const int month, const int day, const int hour, const int minute) const
 {
     QDateTime result(QDate(year, month, day), QTime(hour, minute, 0, 0));
@@ -91,9 +101,34 @@ int Helper::getDay(const QDateTime &dt) const
     return dt.date().day();
 }
 
+int Helper::getDayOfWeek(const QDateTime &dt) const
+{
+    return dt.date().dayOfWeek();
+}
+
+QDateTime Helper::incDays(const QDateTime &dt, qint64 days) const
+{
+    return dt.addDays(days);
+}
+
+QDateTime Helper::incMonths(const QDateTime &dt, int months) const
+{
+    return dt.addMonths(months);
+}
+
+QDateTime Helper::incYears(const QDateTime &dt, int years) const
+{
+    return dt.addYears(years);
+}
+
 bool Helper::sameDay(const QDateTime &a, const QDateTime &b) const
 {
     return a.date() == b.date();
+}
+
+QDateTime Helper::firstInMonth(const QDateTime &dt) const
+{
+    return QDateTime(QDate(dt.date().year(), dt.date().month(), 1), QTime());
 }
 
 QString Helper::getMonthNameLong(int month) const
@@ -101,9 +136,19 @@ QString Helper::getMonthNameLong(int month) const
     return QLocale::system().monthName(month);
 }
 
+QString Helper::getMonthNameLongFromDate(const QDateTime &dt) const
+{
+    return getMonthNameLong(dt.date().month());
+}
+
 int Helper::getDaysInMonth(int year, int month) const
 {
     return QDate(year, month, 1).daysInMonth();
+}
+
+int Helper::getDaysInMonthFromDate(const QDateTime &dt) const
+{
+    return getDaysInMonth(dt.date().year(), dt.date().month());
 }
 
 
