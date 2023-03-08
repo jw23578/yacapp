@@ -73,6 +73,14 @@ public:
                                JSONCallbackFunction jsonSuccessCallback,
                                CallbackFunction  errorCallback);
 
+    void appUserFetchWorktimes(const QString &appId,
+                               const QString &loginEMail,
+                               const QString &loginToken,
+                               const QDateTime &since,
+                               const QDateTime &until,
+                               JSONCallbackFunction successCallback,
+                               CallbackFunction  errorCallback);
+
     void appUserSearchProfiles(const QString &appId,
                                const QString &loginEMail,
                                const QString &loginToken,

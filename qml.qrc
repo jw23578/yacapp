@@ -49,7 +49,6 @@
         <file>qml/apppages/AppUserProfileIcon.qml</file>
         <file>qml/apppages/YACUserProfile.qml</file>
         <file>qml/apppages/YACUserMessages.qml</file>
-        <file>qml/apppages/YACUserWorktimeState.qml</file>
         <file>qml/apppages/YACUserSearchProfiles.qml</file>
         <file>qml/apppages/YACUserKnownProfiles.qml</file>
         <file>qml/items/YACTextEdit.qml</file>
@@ -76,5 +75,7 @@
         <file>qml/dialogs/DialogDatePicker.qml</file>
         <file>qml/items/YACTextClickable.qml</file>
         <file>qml/dialogs/DialogTimePicker.qml</file>
+        <file>qml/apppages/worktimes/YACUserWorktimeState.qml</file>
+        <file>qml/apppages/worktimes/AppUserWorktimeOverview.qml</file>
     </qresource>
 </RCC>

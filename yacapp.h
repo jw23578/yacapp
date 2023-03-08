@@ -164,6 +164,10 @@ public:
                                            int dayRating,
                                            QJSValue successCallback,
                                            QJSValue errorCallback);
+    Q_INVOKABLE void appUserFetchWorktimes(const QDateTime &since,
+                                           const QDateTime &until,
+                                           QJSValue successCallback,
+                                           QJSValue errorCallback);
 
     Q_INVOKABLE void appUserUpdateProfile(const QString &fstname,
                                           const QString &surname,

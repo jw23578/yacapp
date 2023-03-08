@@ -41,6 +41,7 @@ public:
     Q_INVOKABLE bool sameDay(const QDateTime &a, const QDateTime &b) const;
 
     Q_INVOKABLE QDateTime firstInMonth(const QDateTime &dt) const;
+    Q_INVOKABLE QDateTime lastInMonth(const QDateTime &dt) const;
     Q_INVOKABLE QString getMonthNameLong(int month) const;
     Q_INVOKABLE QString getMonthNameLongFromDate(const QDateTime &dt) const;
     Q_INVOKABLE int getDaysInMonth(int year, int month) const;

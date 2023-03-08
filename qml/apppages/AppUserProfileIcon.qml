@@ -3,6 +3,7 @@ import "../items"
 import "appointments"
 import "rights"
 import "spaces"
+import "worktimes"
 import com.yacapp.appuserconfig 1.0
 
 Item

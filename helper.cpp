@@ -131,6 +131,11 @@ QDateTime Helper::firstInMonth(const QDateTime &dt) const
     return QDateTime(QDate(dt.date().year(), dt.date().month(), 1), QTime());
 }
 
+QDateTime Helper::lastInMonth(const QDateTime &dt) const
+{
+    return QDateTime(QDate(dt.date().year(), dt.date().month() + 1, 1).addDays(-1), QTime());
+}
+
 QString Helper::getMonthNameLong(int month) const
 {
     return QLocale::system().monthName(month);

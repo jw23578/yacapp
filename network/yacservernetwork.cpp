@@ -212,7 +212,7 @@ void YACServerNetwork::appUserGetWorktimeState(const QString &appId,
 {
     const QUrlQuery query;
     MACRO_RAW_HEADER();
-    yacappServerGet("/getWorktimeState",
+    yacappServerGet(methodNames.getWorktimeState,
                     query,
                     defaultReplyHandler,
                     rawHeader,
@@ -249,6 +249,27 @@ void YACServerNetwork::appUserInsertWorktime(const QString &appId,
                      errorCallback);
 
 
+}
+
+void YACServerNetwork::appUserFetchWorktimes(const QString &appId,
+                                             const QString &loginEMail,
+                                             const QString &loginToken,
+                                             const QDateTime &since,
+                                             const QDateTime &until,
+                                             JSONCallbackFunction successCallback,
+                                             CallbackFunction errorCallback)
+{
+    QUrlQuery query;
+    query.addQueryItem("sinceISO", since.toString(Qt::ISODate));
+    query.addQueryItem("untilISO", until.toString(Qt::ISODate));
+    MACRO_RAW_HEADER();
+    yacappServerGet(methodNames.fetchWorktimes,
+                    query,
+                    defaultReplyHandler,
+                    rawHeader,
+                    0,
+                    successCallback,
+                    errorCallback);
 }
 
 void YACServerNetwork::appUserSearchProfiles(const QString &appId,

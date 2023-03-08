@@ -680,6 +680,26 @@ void YACAPP::appUserInsertWorktime(int worktimeType,
 
 }
 
+void YACAPP::appUserFetchWorktimes(const QDateTime &since,
+                                   const QDateTime &until,
+                                   QJSValue successCallback,
+                                   QJSValue errorCallback)
+{
+    network.appUserFetchWorktimes(globalConfig()->projectID(),
+                                  appUserConfig()->loginEMail(),
+                                  appUserConfig()->loginToken(),
+                                  since,
+                                  until,
+                                  [successCallback](const QJsonDocument &jsonDoc) mutable
+    {
+        successCallback.call(QJSValueList());
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    });
+}
+
 void YACAPP::appUserUpdateProfile(const QString &fstname,
                                   const QString &surname,
                                   const QString &visible_name,
@@ -1067,10 +1087,10 @@ void YACAPP::appUserFetchSpace(const QString &id, QJSValue successCallback, QJSV
 void YACAPP::appUserRequestSpaceAccess(const QString space_id, QJSValue successCallback, QJSValue errorCallback)
 {
     network.appUserRequestSpaceAccess(globalConfig()->projectID(),
-                              appUserConfig()->loginEMail(),
-                              appUserConfig()->loginToken(),
-                              space_id,
-                              [successCallback](const QString &message) mutable
+                                      appUserConfig()->loginEMail(),
+                                      appUserConfig()->loginToken(),
+                                      space_id,
+                                      [successCallback](const QString &message) mutable
     {
         successCallback.call(QJSValueList() << message);
     },

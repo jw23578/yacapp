@@ -1,5 +1,5 @@
 import QtQuick 2.15
-import "../items"
+import "../../items"
 
 Rectangle
 {
@@ -169,6 +169,48 @@ Rectangle
                 width: parent.width
                 onClicked: dayRatingPage.visible = false
             }
+        }
+    }
+    YACButton
+    {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        text: qsTr("Overview")
+        onClicked: showOverview()
+    }
+    function showOverview()
+    {
+        overviewLoader.since = Helper.firstInMonth(Helper.currentDateTime())
+        overviewLoader.until = Helper.lastInMonth(Helper.currentDateTime())
+        yacApp.appUserFetchWorktimes(overviewLoader.since,
+                                     overviewLoader.until,
+                                     function(message)
+                                     {
+
+                                         overviewLoader.sourceComponent = theAppUserWorktimeOverviewComponent
+                                     },
+                                     function(message){})
+    }
+    Component
+    {
+        id: theAppUserWorktimeOverviewComponent
+        AppUserWorktimeOverview
+        {
+            id: theAppUserWorktimeOverview
+            onCloseClicked: overviewLoader.sourceComponent = null
+        }
+    }
+
+    Loader
+    {
+        id: overviewLoader
+        anchors.fill: parent
+        property date since: new Date()
+        property date until: new Date()
+        onLoaded:
+        {
+            item.since = since
+            item.until = until
         }
     }
 
