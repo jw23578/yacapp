@@ -156,4 +156,9 @@ int Helper::getDaysInMonthFromDate(const QDateTime &dt) const
     return getDaysInMonth(dt.date().year(), dt.date().month());
 }
 
+int Helper::minutesBetween(const QDateTime &a, const QDateTime &b) const
+{
+    return b.toSecsSinceEpoch() / 60 - a.toSecsSinceEpoch() / 60;
+}
+
 

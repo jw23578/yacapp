@@ -20,20 +20,31 @@ QVariant DataModelInterface<T>::customData(int row, int role) const
 
 template <class T>
 DataModelInterface<T>::DataModelInterface(QQmlApplicationEngine &engine,
-                                       const QString &modelName,
-                                       const QString &objectName,
-                                       const DirectionType direction)
-    : QAbstractItemModel{&engine},
-      modelName(modelName),
-      objectName(objectName),
-      direction(direction)
+                                          const QString &modelName,
+                                          const QString &objectName,
+                                          const DirectionType direction):
+    QAbstractItemModel{&engine},
+    modelName(modelName),
+    objectName(objectName),
+    direction(direction)
 {
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
     if (first)
     {
         first = false;
         qmlRegisterType<DataObjectInterface>("DataObjectInterface", 1, 0, "DataObjectInterface");
     }
     engine.rootContext()->setContextProperty(modelName, QVariant::fromValue(this));
+}
+
+template<class T>
+DataModelInterface<T>::DataModelInterface(const QString &objectName,
+                                          const DirectionType direction):
+    QAbstractItemModel(0),
+    objectName(objectName),
+    direction(direction)
+{
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
 template <class T>

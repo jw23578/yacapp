@@ -238,9 +238,9 @@ void YACServerNetwork::appUserInsertWorktime(const QString &appId,
     obj["worktimeType"] = worktimeType;
     obj["userMood"] = userMood;
     obj["dayRating"] = dayRating;
-    obj["ts"] = ts.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+    obj["ts"] = ts.toTimeSpec(Qt::LocalTime).toString(Qt::ISODate);
 
-    yacappServerPost("/insertWorktime",
+    yacappServerPost(methodNames.insertWorktime,
                      obj,
                      defaultReplyHandler,
                      rawHeader,
@@ -270,6 +270,31 @@ void YACServerNetwork::appUserFetchWorktimes(const QString &appId,
                     0,
                     successCallback,
                     errorCallback);
+}
+
+void YACServerNetwork::appUserInsertWorktimeBeginEnd(const QString &appId,
+                                                     const QString &loginEMail,
+                                                     const QString &loginToken,
+                                                     const int worktimeType,
+                                                     const QDateTime begin,
+                                                     const QDateTime end,
+                                                     CallbackFunction successCallback,
+                                                     CallbackFunction errorCallback)
+{
+    MACRO_RAW_HEADER();
+
+    QJsonObject obj;
+    obj["worktimeType"] = worktimeType;
+    obj["beginISO"] = begin.toTimeSpec(Qt::LocalTime).toString(Qt::ISODate);
+    obj["endISO"] = end.toTimeSpec(Qt::LocalTime).toString(Qt::ISODate);;
+
+    yacappServerPost(methodNames.insertWorktimeBeginEnd,
+                     obj,
+                     defaultReplyHandler,
+                     rawHeader,
+                     successCallback,
+                     0,
+                     errorCallback);
 }
 
 void YACServerNetwork::appUserSearchProfiles(const QString &appId,

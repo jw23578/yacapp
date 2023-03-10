@@ -27,7 +27,8 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
       appointmentsModel(engine),
       rightGroupsModel(engine, "RightGroupsModel", "rightgroup"),
       allRightsModel(engine, "AllRightsModel", "rightmpo"),
-      spacesModel(engine, "SpacesModel", "space")
+      spacesModel(engine, "SpacesModel", "space"),
+      worktimeMainsModel(engine, "WorktimesModel", "worktime")
 {
     m_moodModel.push_back(tr("Perfect"));
     m_moodModel.push_back(tr("Better"));
@@ -163,6 +164,8 @@ void YACAPP::leaveApp()
     m_knownFiles.clear();
     setGlobalConfig(new GlobalProjectConfig(true));
     saveState();
+
+    // TODO: clear all Models (am besten irgendwie zentral)
 }
 
 void YACAPP::saveState()
@@ -680,6 +683,34 @@ void YACAPP::appUserInsertWorktime(int worktimeType,
 
 }
 
+void YACAPP::appUserInsertWorktimeBeginEnd(const int worktimeType,
+                                           const QDateTime begin,
+                                           const QDateTime end,
+                                           QJSValue successCallback,
+                                           QJSValue errorCallback)
+{
+    if (!appUserConfig()->loginToken().size())
+    {
+        errorCallback.call(QJSValueList() << tr("Please login first"));
+        return;
+    }
+    network.appUserInsertWorktimeBeginEnd(globalConfig()->projectID(),
+                                          appUserConfig()->loginEMail(),
+                                          appUserConfig()->loginToken(),
+                                          worktimeType,
+                                          begin,
+                                          end,
+                                          [successCallback](const QString &message) mutable
+    {
+        successCallback.call(QJSValueList() << message);
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+}
+
 void YACAPP::appUserFetchWorktimes(const QDateTime &since,
                                    const QDateTime &until,
                                    QJSValue successCallback,
@@ -690,8 +721,67 @@ void YACAPP::appUserFetchWorktimes(const QDateTime &since,
                                   appUserConfig()->loginToken(),
                                   since,
                                   until,
-                                  [successCallback](const QJsonDocument &jsonDoc) mutable
+                                  [successCallback, this](const QJsonDocument &jsonDoc) mutable
     {
+        QJsonObject object(jsonDoc.object());
+        worktimeMainsModel.clear();
+        QJsonArray worktimes(object["worktimes"].toArray());
+        WorktimeMainObject *activeMainObject(0);
+        QDateTime currentWorkStart;
+        QDateTime currentPauseStart;
+        for (int i(0); i < worktimes.size(); ++i)
+        {
+            WorktimeObject *wo(new WorktimeObject);
+            QJsonObject worktime(worktimes[i].toObject());
+            wo->fromJSON(worktime);
+            if (wo->type() == WorktimeObject::WorkEndType)
+            {
+                activeMainObject->setend_ts(wo->ts());
+                int minutes(helper.minutesBetween(currentWorkStart, wo->ts()));
+                activeMainObject->setbrutto_work_minutes(minutes);
+                minutes -= activeMainObject->brutto_pause_minutes();
+                if (minutes > 60 * 9)
+                {
+                    if (activeMainObject->netto_pause_minutes() < 45)
+                    {
+                        minutes -= std::min(minutes - 60 * 9, 45 - activeMainObject->netto_pause_minutes());
+                    }
+                }
+                else
+                {
+                    if (minutes > 60 * 6)
+                    {
+                        if (activeMainObject->netto_pause_minutes() < 30)
+                        {
+                            minutes -= std::min(minutes - 60 * 6, 30 - activeMainObject->netto_pause_minutes());
+                        }
+                    }
+
+                }
+                activeMainObject->setnetto_work_minutes(minutes);
+            }
+            if (wo->type() == WorktimeObject::PauseStartType)
+            {
+                currentPauseStart = wo->ts();
+            }
+            if (wo->type() == WorktimeObject::PauseEndType)
+            {
+                int minutes(helper.minutesBetween(currentPauseStart, wo->ts()));
+                activeMainObject->setbrutto_pause_minutes(activeMainObject->brutto_pause_minutes() + minutes);
+                if (minutes >= 15)
+                {
+                    activeMainObject->setnetto_pause_minutes(activeMainObject->netto_pause_minutes() + minutes);
+                }
+            }
+            if (wo->type() == WorktimeObject::WorkStartType)
+            {
+                activeMainObject = new WorktimeMainObject;
+                activeMainObject->setbegin_ts(wo->ts());
+                worktimeMainsModel.append(activeMainObject);
+                currentWorkStart = wo->ts();
+            }
+            activeMainObject->subentries.append(wo);
+        }
         successCallback.call(QJSValueList());
     },
     [errorCallback](const QString &message) mutable

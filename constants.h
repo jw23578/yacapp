@@ -22,7 +22,10 @@ class Constants : public QObject
     YACAPPPROPERTY(int, shadowSamples, ShadowSamples, 9)
     YACAPPPROPERTY(bool, topLevelFormActive, TopLevelFormActive, true);
     YACAPPPROPERTY(bool, profileOpen, ProfileOpen, false);
-    YACAPPPROPERTY(double, defaultWidthFactor, DefaultWidthFactor, 3.0 / 4.0)
+    YACAPPPROPERTY(double, defaultWidthFactor, DefaultWidthFactor, 6.0 / 7.0)
+
+    YACAPPPROPERTY(int, fastAnimationDuration, FastAnimationDuration, 200)
+    YACAPPPROPERTY(int, slowAnimationDuration, SlowAnimationDuration, 400)
 
     YACAPPPROPERTY(double, defaultMargin, DefaultMargin, 0);
 

@@ -81,6 +81,15 @@ public:
                                JSONCallbackFunction successCallback,
                                CallbackFunction  errorCallback);
 
+    void appUserInsertWorktimeBeginEnd(const QString &appId,
+                                       const QString &loginEMail,
+                                       const QString &loginToken,
+                                       const int worktimeType,
+                                       const QDateTime begin,
+                                       const QDateTime end,
+                                       CallbackFunction successCallback,
+                                       CallbackFunction  errorCallback);
+
     void appUserSearchProfiles(const QString &appId,
                                const QString &loginEMail,
                                const QString &loginToken,

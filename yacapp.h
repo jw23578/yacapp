@@ -24,6 +24,8 @@
 #include "dataobjects/groupobject.h"
 #include "dataobjects/spaceobject.h"
 #include "dataobjects/multipurposeobject.h"
+#include "dataobjects/worktimeobject.h"
+#include "dataobjects/worktimemainobject.h"
 
 class Configurator;
 
@@ -89,6 +91,8 @@ class YACAPP : public QObject
     TemplatedDataModel<MultiPurposeObject> allRightsModel;
 
     TemplatedDataModel<SpaceObject> spacesModel;
+
+    TemplatedDataModel<WorktimeMainObject> worktimeMainsModel;
 
     void cleanUpKnownFile();
 
@@ -164,6 +168,11 @@ public:
                                            int dayRating,
                                            QJSValue successCallback,
                                            QJSValue errorCallback);
+    Q_INVOKABLE void appUserInsertWorktimeBeginEnd(const int worktimeType,
+                                                   const QDateTime begin,
+                                                   const QDateTime end,
+                                                   QJSValue successCallback,
+                                                   QJSValue errorCallback);
     Q_INVOKABLE void appUserFetchWorktimes(const QDateTime &since,
                                            const QDateTime &until,
                                            QJSValue successCallback,

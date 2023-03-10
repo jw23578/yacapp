@@ -41,6 +41,8 @@ SOURCES += \
         dataobjects/multipurposeobject.cpp \
         dataobjects/profileobject.cpp \
         dataobjects/spaceobject.cpp \
+        dataobjects/worktimemainobject.cpp \
+        dataobjects/worktimeobject.cpp \
         firebase2qt.cpp \
         helper.cpp \
         localstorage/localstorage.cpp \
@@ -105,6 +107,8 @@ HEADERS += \
   dataobjects/multipurposeobject.h \
   dataobjects/profileobject.h \
   dataobjects/spaceobject.h \
+  dataobjects/worktimemainobject.h \
+  dataobjects/worktimeobject.h \
   firebase2qt.h \
   helper.h \
   localstorage/localstorage.h \

@@ -41,6 +41,12 @@ QString getAppParam(const QGuiApplication &app, const QString &param)
 
 int main(int argc, char *argv[])
 {
+    QDateTime begin(QDateTime::currentDateTime());
+    QString b1 = begin.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+    QString b2 = begin.toTimeSpec(Qt::LocalTime).toString(Qt::ISODate);
+    QString b3 = begin.toTimeSpec(Qt::TimeZone).toString(Qt::ISODate);
+    QString b4 = begin.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+//    return 0;
     std::srand(std::time(nullptr));
     QtWebView::initialize();
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)

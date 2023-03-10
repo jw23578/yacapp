@@ -45,37 +45,37 @@
 <context>
     <name>AppUserInsertAppointment</name>
     <message>
-        <location filename="qml/apppages/appointments/AppUserInsertAppointment.qml" line="21"/>
+        <location filename="qml/apppages/appointments/AppUserInsertAppointment.qml" line="22"/>
         <source>Caption</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/appointments/AppUserInsertAppointment.qml" line="26"/>
-        <source>Beginn</source>
+        <location filename="qml/apppages/appointments/AppUserInsertAppointment.qml" line="30"/>
+        <source>Begin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/appointments/AppUserInsertAppointment.qml" line="37"/>
-        <source>Ende</source>
+        <location filename="qml/apppages/appointments/AppUserInsertAppointment.qml" line="56"/>
+        <source>End</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/appointments/AppUserInsertAppointment.qml" line="48"/>
+        <location filename="qml/apppages/appointments/AppUserInsertAppointment.qml" line="79"/>
         <source>Visibility</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/appointments/AppUserInsertAppointment.qml" line="49"/>
+        <location filename="qml/apppages/appointments/AppUserInsertAppointment.qml" line="80"/>
         <source>Only for me</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/appointments/AppUserInsertAppointment.qml" line="49"/>
+        <location filename="qml/apppages/appointments/AppUserInsertAppointment.qml" line="80"/>
         <source>For everybody</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/appointments/AppUserInsertAppointment.qml" line="53"/>
+        <location filename="qml/apppages/appointments/AppUserInsertAppointment.qml" line="84"/>
         <source>Save</source>
         <translation type="unfinished">Speichern</translation>
     </message>
@@ -154,71 +154,71 @@
 <context>
     <name>AppUserProfileIcon</name>
     <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="93"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="94"/>
         <source>Language</source>
         <translation type="unfinished">Sprache</translation>
     </message>
     <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="121"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="122"/>
         <source>Could not fetch Profile, please try again later.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="130"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="131"/>
         <source>Profile</source>
         <translation type="unfinished">Profil</translation>
     </message>
     <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="147"/>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="173"/>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="198"/>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="231"/>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="264"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="148"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="174"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="199"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="232"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="265"/>
         <source>Please login first.</source>
         <translation type="unfinished">Bitte erst Einloggen.</translation>
     </message>
     <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="156"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="157"/>
         <source>Messages</source>
         <translation type="unfinished">Nachrichten</translation>
     </message>
     <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="182"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="183"/>
         <source>Worktime</source>
         <translation type="unfinished">Dienstzeit</translation>
     </message>
     <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="207"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="208"/>
         <source>could not load appointments, please try again later. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="215"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="216"/>
         <source>Appointments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="240"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="241"/>
         <source>could not load rightgroups, please try again later. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="248"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="249"/>
         <source>Rights</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="273"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="274"/>
         <source>could not load spaces, please try again later. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="281"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="282"/>
         <source>Spaces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="76"/>
+        <location filename="qml/apppages/AppUserProfileIcon.qml" line="77"/>
         <source>Close</source>
         <translation type="unfinished">Schließen</translation>
     </message>
@@ -338,6 +338,19 @@
     </message>
 </context>
 <context>
+    <name>AppUserWorktimeOverview</name>
+    <message>
+        <location filename="qml/apppages/worktimes/AppUserWorktimeOverview.qml" line="17"/>
+        <source>Since</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/apppages/worktimes/AppUserWorktimeOverview.qml" line="26"/>
+        <source>Until</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConfiguratorDeployPage</name>
     <message>
         <location filename="qml/editor/ConfiguratorDeployPage.qml" line="24"/>
@@ -387,7 +400,7 @@
     <message>
         <location filename="qml/editor/ConfiguratorDeployPage.qml" line="92"/>
         <source>Please login first</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bitte erst einloggen</translation>
     </message>
     <message>
         <location filename="qml/editor/ConfiguratorDeployPage.qml" line="98"/>
@@ -830,6 +843,34 @@
     </message>
 </context>
 <context>
+    <name>DialogDatePicker</name>
+    <message>
+        <location filename="qml/dialogs/DialogDatePicker.qml" line="45"/>
+        <source>Yesterday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/dialogs/DialogDatePicker.qml" line="53"/>
+        <source>Today</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/dialogs/DialogDatePicker.qml" line="61"/>
+        <source>Tomorrow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/dialogs/DialogDatePicker.qml" line="207"/>
+        <source>Abort</source>
+        <translation type="unfinished">Abbrechen</translation>
+    </message>
+    <message>
+        <location filename="qml/dialogs/DialogDatePicker.qml" line="209"/>
+        <source>Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DialogDateTimePicker</name>
     <message>
         <location filename="qml/dialogs/DialogDateTimePicker.qml" line="48"/>
@@ -838,6 +879,19 @@
     </message>
     <message>
         <location filename="qml/dialogs/DialogDateTimePicker.qml" line="50"/>
+        <source>Abort</source>
+        <translation type="unfinished">Abbrechen</translation>
+    </message>
+</context>
+<context>
+    <name>DialogTimePicker</name>
+    <message>
+        <location filename="qml/dialogs/DialogTimePicker.qml" line="35"/>
+        <source>Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/dialogs/DialogTimePicker.qml" line="41"/>
         <source>Abort</source>
         <translation type="unfinished">Abbrechen</translation>
     </message>
@@ -924,41 +978,74 @@
     </message>
 </context>
 <context>
+    <name>WorktimeObject</name>
+    <message>
+        <location filename="dataobjects/worktimeobject.cpp" line="24"/>
+        <source>Workstart</source>
+        <translation>Dienstbeginn</translation>
+    </message>
+    <message>
+        <location filename="dataobjects/worktimeobject.cpp" line="25"/>
+        <source>Workend</source>
+        <translation>Dienstende</translation>
+    </message>
+    <message>
+        <location filename="dataobjects/worktimeobject.cpp" line="26"/>
+        <source>Pausestart</source>
+        <translation>Pausebeginn</translation>
+    </message>
+    <message>
+        <location filename="dataobjects/worktimeobject.cpp" line="27"/>
+        <source>Pauseend</source>
+        <translation>Pauseende</translation>
+    </message>
+    <message>
+        <location filename="dataobjects/worktimeobject.cpp" line="28"/>
+        <source>Offsiteworkstart</source>
+        <translation>Dienstgangbeginn</translation>
+    </message>
+    <message>
+        <location filename="dataobjects/worktimeobject.cpp" line="29"/>
+        <source>Offsiteworkend</source>
+        <translation>Dienstgangende</translation>
+    </message>
+</context>
+<context>
     <name>YACAPP</name>
     <message>
-        <location filename="yacapp.cpp" line="32"/>
+        <location filename="yacapp.cpp" line="33"/>
         <source>Perfect</source>
         <translation>Bestens</translation>
     </message>
     <message>
-        <location filename="yacapp.cpp" line="33"/>
+        <location filename="yacapp.cpp" line="34"/>
         <source>Better</source>
         <translation>Besser</translation>
     </message>
     <message>
-        <location filename="yacapp.cpp" line="34"/>
+        <location filename="yacapp.cpp" line="35"/>
         <source>Neutral</source>
         <translation>Neutral</translation>
     </message>
     <message>
-        <location filename="yacapp.cpp" line="35"/>
+        <location filename="yacapp.cpp" line="36"/>
         <source>Worse</source>
         <translation>Schlechter</translation>
     </message>
     <message>
-        <location filename="yacapp.cpp" line="36"/>
+        <location filename="yacapp.cpp" line="37"/>
         <source>Bad</source>
         <translation>Schlecht</translation>
     </message>
     <message>
-        <location filename="yacapp.cpp" line="246"/>
+        <location filename="yacapp.cpp" line="249"/>
         <source>You are not allowed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="yacapp.cpp" line="620"/>
-        <location filename="yacapp.cpp" line="653"/>
-        <location filename="yacapp.cpp" line="735"/>
+        <location filename="yacapp.cpp" line="623"/>
+        <location filename="yacapp.cpp" line="656"/>
+        <location filename="yacapp.cpp" line="768"/>
         <source>Please login first</source>
         <oldsource>please login first</oldsource>
         <translation>Bitte erst einloggen</translation>
@@ -1394,7 +1481,7 @@
 <context>
     <name>YACUserWorktimeState</name>
     <message>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="19"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="19"/>
         <source>End work
 Since: </source>
         <oldsource>End work</oldsource>
@@ -1402,65 +1489,70 @@ Since: </source>
 Seit: </translation>
     </message>
     <message>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="19"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="19"/>
         <source>Start work</source>
         <translation>Dienstbeginn</translation>
     </message>
     <message>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="27"/>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="78"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="27"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="78"/>
         <source>Please end your Pause first</source>
         <translation>Bitte beenden Sie erst die Pause</translation>
     </message>
     <message>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="32"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="32"/>
         <source>Please end your offSiteWork first</source>
         <translation>Bitte beenden Sie erst den Dienstgang</translation>
     </message>
     <message>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="48"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="48"/>
         <source>End Pause
 since </source>
         <translation>Pauseende
 seit: </translation>
     </message>
     <message>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="48"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="48"/>
         <source>Start Pause</source>
         <translation>Pausebeginn</translation>
     </message>
     <message>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="52"/>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="73"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="52"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="73"/>
         <source>Please start your Work first</source>
         <translation>Bitte erst den Dienst beginnen</translation>
     </message>
     <message>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="68"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="68"/>
         <source>End OffsiteWork
 since </source>
         <translation>Dienstgangende
 Seit: </translation>
     </message>
     <message>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="68"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="68"/>
         <source>Start OffsiteWork</source>
         <translation>Dienstgangbeginn</translation>
     </message>
     <message>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="92"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="92"/>
         <source>Close</source>
         <translation>Schließen</translation>
     </message>
     <message>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="115"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="115"/>
         <source>How is your Mood today?</source>
         <translation>Wie ist deine Stimmung Heute?</translation>
     </message>
     <message>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="115"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="115"/>
         <source>How is your Mood now?</source>
         <translation>Wie ist deine Stimmung jetzt?</translation>
+    </message>
+    <message>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="178"/>
+        <source>Overview</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Perfect</source>
@@ -1471,13 +1563,13 @@ Seit: </translation>
         <translation type="obsolete">Schlecht</translation>
     </message>
     <message>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="129"/>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="168"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="129"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="168"/>
         <source>Abort</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="qml/apppages/YACUserWorktimeState.qml" line="154"/>
+        <location filename="qml/apppages/worktimes/YACUserWorktimeState.qml" line="154"/>
         <source>How was your Day?</source>
         <translation>Wie war dein Tag?</translation>
     </message>
@@ -1503,7 +1595,7 @@ Seit: </translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="main.qml" line="232"/>
+        <location filename="main.qml" line="251"/>
         <source>Not yet implemented</source>
         <translation type="unfinished"></translation>
     </message>

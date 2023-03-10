@@ -1,7 +1,8 @@
 import QtQuick 2.15
 import "../../items"
+import ".."
 
-Rectangle
+AppUserBasePage
 {
     id: worktimePage
     color: "green"
@@ -9,7 +10,6 @@ Rectangle
     property bool workStarted: !isNaN(yacApp.appUserConfig.workStart)
     property bool pauseStarted: !isNaN(yacApp.appUserConfig.pauseStart)
     property bool offSiteWorkStarted: !isNaN(yacApp.appUserConfig.offSiteWorkStart)
-    signal closeClicked();
     YACPageColumn
     {
         YACButton
@@ -85,12 +85,6 @@ Rectangle
                 }
                 yacApp.appUserInsertWorktime(worktimeType, 0, 0, function(message){}, function(message){})
             }
-        }
-        YACButton
-        {
-            width: parent.width
-            text: qsTr("Close")
-            onClicked: worktimePage.closeClicked()
         }
     }
     Rectangle
@@ -213,6 +207,14 @@ Rectangle
             item.until = until
         }
     }
+    AppUserInsertWorktimeBeginEnd
+    {
+        id: beginEnd
+        visible: false
+        onCloseClicked: visible = false
+    }
+    leftText: qsTr("Add Begin/End")
+    onLeftClicked: beginEnd.visible = true
 
     Component.onCompleted:
     {

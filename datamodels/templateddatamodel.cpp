@@ -69,6 +69,15 @@ TemplatedDataModel<T>::TemplatedDataModel(QQmlApplicationEngine &engine,
 }
 
 template<class T>
+TemplatedDataModel<T>::TemplatedDataModel(const QString &objectName,
+                                          const typename DataModelInterface<T>::DirectionType direction):
+    DataModelInterface<T>(objectName,
+                          direction)
+{
+
+}
+
+template<class T>
 void TemplatedDataModel<T>::deleteById(const QString &id)
 {
     for (size_t i(0); i < objects.size(); ++i)

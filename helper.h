@@ -47,6 +47,8 @@ public:
     Q_INVOKABLE int getDaysInMonth(int year, int month) const;
     Q_INVOKABLE int getDaysInMonthFromDate(const QDateTime &dt) const;
 
+    Q_INVOKABLE int minutesBetween(const QDateTime &a, const QDateTime &b) const;
+
 signals:
 
 };

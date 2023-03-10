@@ -40,6 +40,8 @@ public:
                                 const QString &modelName,
                                 const QString &objectName,
                                 DirectionType const direction);
+    explicit DataModelInterface(const QString &objectName,
+                                DirectionType const direction);
 
     QModelIndex index(int row, int column, const QModelIndex &parent) const override;
     QModelIndex parent(const QModelIndex &child) const override;
