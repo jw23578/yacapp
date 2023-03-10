@@ -10,6 +10,7 @@ Item
     property color baseColor: "lightgrey"
     width: theText.contentWidth + theText.contentHeight * 2
     height: theRectangle.height
+    property double captionStartX: theRectangle.x + theRectangle.radius
     YACRectangle
     {
         id: theRectangle

@@ -24,16 +24,16 @@ FocusScope
         YACText
         {
             id: header
+            x: button.captionStartX
             width: parent.width
             visible: theScope.showColumn
         }
         Rectangle
         {
-            x: header.height
             width: parent.width - x
-            height: button.height + 4
-            border.color: "black"
-            border.width: 1
+            height: button.height
+//            border.color: "black"
+//            border.width: 1
             visible: theScope.showColumn
             YACButton
             {
