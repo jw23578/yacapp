@@ -793,6 +793,28 @@ void YACAPP::appUserFetchWorktimes(const QDateTime &since,
     });
 }
 
+void YACAPP::appUserDeleteWorktime(const QString &id, QJSValue successCallback, QJSValue errorCallback)
+{
+    if (!appUserConfig()->loginToken().size())
+    {
+        errorCallback.call(QJSValueList() << tr("Please login first"));
+        return;
+    }
+    network.appUserDeleteWorktime(globalConfig()->projectID(),
+                                          appUserConfig()->loginEMail(),
+                                          appUserConfig()->loginToken(),
+                                          id,
+                                          [successCallback](const QString &message) mutable
+    {
+        successCallback.call(QJSValueList() << message);
+    },
+    [errorCallback](const QString &message) mutable
+    {
+        errorCallback.call(QJSValueList() << message);
+    }
+    );
+}
+
 void YACAPP::appUserUpdateProfile(const QString &fstname,
                                   const QString &surname,
                                   const QString &visible_name,

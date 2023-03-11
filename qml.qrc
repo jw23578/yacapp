@@ -81,5 +81,7 @@
         <file>qml/items/YACDateTimeButton.qml</file>
         <file>qml/items/YACDateButton.qml</file>
         <file>qml/items/YACTimeButton.qml</file>
+        <file>qml/items/YACTumbler.qml</file>
+        <file>qml/items/YACTimeClock.qml</file>
     </qresource>
 </RCC>

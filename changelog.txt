@@ -1,3 +1,26 @@
+2023-03-11
+- Dienst/Pause/Dienstgangzeiten können jetzt auch nachträglich eingefügt werden
+Beim Einfügen wird serverseitig geprüft, ob das auch wirklich geht.
+
+- Es gibt eine Arbeitszeitenübersicht
+Hier können auch Dienst/Pause/Dienstgangzeiten eingetragen werden, das wird aber (noch) nicht sofort in der Übersicht angezeigt.
+
+- In der Arbeitszeienübersicht werden die nötigen Pausen automatisch abgezogen und als "Automatische Pause" (kurz AP) dargestellt.
+
+- Für jeden Arbeitszeitbeginn - Ende abschnitt gibt es eine Kachel, die man ausklappen kann und dann werden darin alle einzelnen Ereignisse angezeigt, so dass die Berechnung nachvollzogen werden kann.
+
+- Drei neue Buttons YACDateButton, YACTimeButton, YACDateTimeButton.
+Damit muss die Date-/TimePickerLogik nicht jedesmal individuell gebaut werden.
+Außerdem ist sichergestellt, dass die Anzeige immer gleich aussieht.
+Und es ist natürlich weniger Code bei der Verwendung
+
+- Dienstzeiteneinträge können in der Übersicht jetzt auch gelöscht werden.
+In der ausgeklappten Ansicht sind "Delete"-Buttons die dann immer den ganzen Bereich zwischen Beginn/Ende eines Typs löschen.
+Aktuell wird die Ansicht noch nicht sofort aktualisiert, man muss erst raus und wieder rein
+
+
+
+
 2023-03-06
 - Frisch versendete Nachrichten werden auf der richtigen, also eigenen, Seite angezeigt.
 

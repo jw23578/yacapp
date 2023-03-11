@@ -297,6 +297,28 @@ void YACServerNetwork::appUserInsertWorktimeBeginEnd(const QString &appId,
                      errorCallback);
 }
 
+void YACServerNetwork::appUserDeleteWorktime(const QString &appId,
+                                             const QString &loginEMail,
+                                             const QString &loginToken,
+                                             const QString &id,
+                                             CallbackFunction successCallback,
+                                             CallbackFunction errorCallback)
+{
+    MACRO_RAW_HEADER();
+
+    QJsonObject obj;
+    obj["id"] = id;
+
+    yacappServerPost(methodNames.deleteWorktime,
+                     obj,
+                     defaultReplyHandler,
+                     rawHeader,
+                     successCallback,
+                     0,
+                     errorCallback);
+
+}
+
 void YACServerNetwork::appUserSearchProfiles(const QString &appId,
                                              const QString &loginEMail,
                                              const QString &loginToken,

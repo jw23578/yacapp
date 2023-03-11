@@ -178,6 +178,11 @@ public:
                                            QJSValue successCallback,
                                            QJSValue errorCallback);
 
+    Q_INVOKABLE void appUserDeleteWorktime(const QString &id,
+                                           QJSValue successCallback,
+                                           QJSValue errorCallback);
+
+
     Q_INVOKABLE void appUserUpdateProfile(const QString &fstname,
                                           const QString &surname,
                                           const QString &visible_name,

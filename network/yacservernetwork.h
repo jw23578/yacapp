@@ -90,6 +90,13 @@ public:
                                        CallbackFunction successCallback,
                                        CallbackFunction  errorCallback);
 
+    void appUserDeleteWorktime(const QString &appId,
+                               const QString &loginEMail,
+                               const QString &loginToken,
+                               const QString &id,
+                               CallbackFunction successCallback,
+                               CallbackFunction errorCallback);
+
     void appUserSearchProfiles(const QString &appId,
                                const QString &loginEMail,
                                const QString &loginToken,

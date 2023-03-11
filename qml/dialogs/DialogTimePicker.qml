@@ -22,13 +22,27 @@ Rectangle
         timeWheel.set(Helper.getHour(dateTime), Helper.getMinute(dateTime))
     }
 
-    YACTimeWheel
+    SwipeView
     {
-        id: timeWheel
-        width: Math.min(parent.width * 8 / 10, parent.height / 2 * 8 / 10)
+        width: parent.width * 8 / 10
         height: width
         anchors.centerIn: parent
+        clip: true
+        Rectangle
+        {
+            color: "green"
+        }
+
+        YACTimeWheel
+        {
+            id: timeWheel
+        }
+        YACTimeClock
+        {
+            id: timeClock
+        }
     }
+
 
     YACTwoButtonRow
     {

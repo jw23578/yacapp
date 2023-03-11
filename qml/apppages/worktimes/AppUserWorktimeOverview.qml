@@ -49,6 +49,11 @@ AppUserBasePage
             clip: true
 
             color: "yellow"
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: theRepeater.model = theRepeater.model == 0 ? worktime.getSubentries() : 0
+            }
             Column
             {
                 id: theColumn
@@ -89,28 +94,39 @@ AppUserBasePage
                 {
                     id: theRepeater
                     model: 0
-                    Row
+                    Item
                     {
-                        Item
+                        width: parent.width
+                        height: entryRow.height
+                        Row
                         {
-                            width: entryTypeText.height * (entry.type < 3 ? 1 : entry.type < 5 ? 3 : 2)
-                            height: entryTypeText.height
-                        }
+                            id: entryRow
+                            Item
+                            {
+                                width: entryTypeText.height * (entry.type < 3 ? 1 : entry.type < 5 ? 3 : 2)
+                                height: entryTypeText.height
+                            }
 
-                        YACText
+                            YACText
+                            {
+                                id: entryTypeText
+                                text: entry.getTypeString() + " " + Helper.formatDateTime(entry.ts) + " " + entry.type
+                            }
+                            height: 20
+                        }
+                        YACButton
                         {
-                            id: entryTypeText
-                            text: entry.getTypeString() + " " + Helper.formatDateTime(entry.ts)
+                            anchors.right: parent.right
+                            anchors.top: parent.top
+                            text: qsTr("Delete")
+                            visible: entry.type == 1 || entry.type == 3 || entry.type == 5
+                            onClicked:
+                            {
+                                yacApp.appUserDeleteWorktime(entry.id, function(message){}, function(message){})
+                            }
                         }
-
-                        height: 20
                     }
                 }
-            }
-            MouseArea
-            {
-                anchors.fill: parent
-                onClicked: theRepeater.model = theRepeater.model == 0 ? worktime.getSubentries() : 0
             }
         }
     }

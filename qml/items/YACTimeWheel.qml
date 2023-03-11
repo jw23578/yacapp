@@ -22,26 +22,20 @@ Item
             text: qsTr("Hour")
             anchors.horizontalCenter: parent.horizontalCenter
         }
-        Tumbler
+        YACTumbler
         {
+            visibleItemCount: 7
             width: parent.width
             id: theHourTumbler
             height: timeWheel.height - hourText.height
             model: 24
             delegate: Item
             {
-                Rectangle
+                opacity: 1.0 - Math.abs(Tumbler.displacement) / (theHourTumbler.visibleItemCount / 2)
+                YACText
                 {
-                    anchors.fill: parent
-                    anchors.margins: 1
-                    border.width: 1
-                    border.color: "black"
-                    color: theHourTumbler.currentIndex == index ? Constants.goodColor : "white"
-                    YACText
-                    {
-                        anchors.centerIn: parent
-                        text: index
-                    }
+                    anchors.centerIn: parent
+                    text: index
                 }
                 MouseArea
                 {
@@ -62,7 +56,7 @@ Item
             text: qsTr("Minute")
             anchors.horizontalCenter: parent.horizontalCenter
         }
-        Tumbler
+        YACTumbler
         {
             id: theMinuteTumbler
             width: parent.width
@@ -70,18 +64,11 @@ Item
             model: 12
             delegate: Item
             {
-                Rectangle
+                opacity: 1.0 - Math.abs(Tumbler.displacement) / (theMinuteTumbler.visibleItemCount / 2)
+                YACText
                 {
-                    anchors.fill: parent
-                    anchors.margins: 1
-                    border.width: 1
-                    border.color: "black"
-                    color: theMinuteTumbler.currentIndex == index ? Constants.goodColor : "white"
-                    YACText
-                    {
-                        anchors.centerIn: parent
-                        text: index * 5
-                    }
+                    anchors.centerIn: parent
+                    text: index * 5
                 }
                 MouseArea
                 {
