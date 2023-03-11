@@ -21,57 +21,17 @@ AppUserBasePage
                 id: theCaption
                 headerText: qsTr("Caption")
             }
-            Row
+            YACDateTimeButton
             {
-                YACButtonWithHeader
-                {
-                    width: theColumn.width / 2
-                    id: startDateButton
-                    headerText: qsTr("Begin")
-                    text: Helper.formatDate(theStartDateTime)
-                    onClicked: yacApp.pickDate(theStartDateTime,
-                                               function(selectedDate)
-                                               {
-                                                   theStartDateTime = selectedDate
-                                               })
-                }
-                YACButtonWithHeader
-                {
-                    width: theColumn.width / 2
-                    id: startTimeButton
-                    text: Helper.formatTime(theStartDateTime)
-                    onClicked: yacApp.pickTime(theStartDateTime,
-                                                   function(selectedDate)
-                                                   {
-                                                       theStartDateTime = selectedDate
-                                                   })
-                }
+                datetime: theStartDateTime
+                headerText: qsTr("Begin")
+                buttonWidth: parent.width
             }
-            Row
+            YACDateTimeButton
             {
-                YACButtonWithHeader
-                {
-                    width: theColumn.width / 2
-                    id: endDateButton
-                    headerText: qsTr("End")
-                    text: Helper.formatDate(theEndDateTime)
-                    onClicked: yacApp.pickDate(theEndDateTime,
-                                                   function(selectedDate)
-                                                   {
-                                                       theEndDateTime = selectedDate
-                                                   })
-                }
-                YACButtonWithHeader
-                {
-                    width: theColumn.width / 2
-                    id: endTimeButton
-                    text: Helper.formatTime(theEndDateTime)
-                    onClicked: yacApp.pickTime(theEndDateTime,
-                                                   function(selectedDate)
-                                                   {
-                                                       theEndDateTime = selectedDate
-                                                   })
-                }
+                datetime: theEndDateTime
+                headerText: qsTr("End")
+                buttonWidth: parent.width
             }
             YACComboBoxWithHeader
             {
