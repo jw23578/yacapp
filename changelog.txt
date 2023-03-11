@@ -18,6 +18,8 @@ Und es ist natürlich weniger Code bei der Verwendung
 In der ausgeklappten Ansicht sind "Delete"-Buttons die dann immer den ganzen Bereich zwischen Beginn/Ende eines Typs löschen.
 Aktuell wird die Ansicht noch nicht sofort aktualisiert, man muss erst raus und wieder rein
 
+- Im Timepicker kann jetzt zwischen einer "Uhranzeige" und einer "Wheelanzeige" gewechselt werden.
+
 
 
 

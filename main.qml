@@ -146,32 +146,39 @@ ApplicationWindow
     {
         visible: false
         id: dateTimePicker
+        onVisibleChanged: topLevelVisible()
     }
     DialogDatePicker
     {
         visible: false
         id: datePicker
+        onVisibleChanged: topLevelVisible()
     }
     DialogTimePicker
     {
         visible: false
         id: timePicker
+        onVisibleChanged: topLevelVisible()
+    }
+    function topLevelVisible()
+    {
+        Constants.topLevelFormActive = badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible || timePicker.visible || datePicker.visible || dateTimePicker.visible
     }
 
     YACBadMessageForm
     {
         id: badMessage
-        onVisibleChanged: Constants.topLevelFormActive = badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible
+        onVisibleChanged: topLevelVisible()
     }
     YACGoodMessageForm
     {
         id: goodMessage
-        onVisibleChanged: Constants.topLevelFormActive = badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible
+        onVisibleChanged: topLevelVisible()
     }
     YACYesNoQuestionForm
     {
         id: yesNoQuestion
-        onVisibleChanged: Constants.topLevelFormActive = badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible
+        onVisibleChanged: topLevelVisible()
     }
 
     function checkForAppUpdate()

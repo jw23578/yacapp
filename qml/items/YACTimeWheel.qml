@@ -4,12 +4,16 @@ import QtQuick.Controls 2.15
 Item
 {
     id: timeWheel
+    property date theTime: new Date()
     property alias hour: theHourTumbler.currentIndex
     property int minute: theMinuteTumbler.currentIndex * 5
-    function set(hour, minute)
+    onHourChanged: theTime = Helper.setHour(theTime, hour)
+    onMinuteChanged: theTime = Helper.setMinute(theTime, minute)
+    function set(datetime)
     {
-        theHourTumbler.currentIndex = hour
-        theMinuteTumbler.currentIndex = minute / 5
+        timeWheel.theTime = datetime
+        theHourTumbler.currentIndex = Helper.getHour(datetime)
+        theMinuteTumbler.currentIndex = Helper.getMinute(datetime) / 5
     }
 
     Column

@@ -33,6 +33,8 @@ public:
     Q_INVOKABLE int getMonth(const QDateTime &dt) const;
     Q_INVOKABLE int getDay(const QDateTime &dt) const;
     Q_INVOKABLE int getDayOfWeek(const QDateTime &dt) const;
+    Q_INVOKABLE QDateTime setHour(const QDateTime &dt, int hour) const;
+    Q_INVOKABLE QDateTime setMinute(const QDateTime &dt, int minute) const;
 
     Q_INVOKABLE QDateTime incDays(const QDateTime &dt, qint64 days) const;
     Q_INVOKABLE QDateTime incMonths(const QDateTime &dt, int months) const;

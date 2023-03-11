@@ -106,6 +106,16 @@ int Helper::getDayOfWeek(const QDateTime &dt) const
     return dt.date().dayOfWeek();
 }
 
+QDateTime Helper::setHour(QDateTime const &dt, int hour) const
+{
+    return QDateTime(dt.date(), QTime(hour, dt.time().minute(), dt.time().second()));
+}
+
+QDateTime Helper::setMinute(const QDateTime &dt, int minute) const
+{
+    return QDateTime(dt.date(), QTime(dt.time().hour(), minute, dt.time().second()));
+}
+
 QDateTime Helper::incDays(const QDateTime &dt, qint64 days) const
 {
     return dt.addDays(days);

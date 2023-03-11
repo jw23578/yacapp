@@ -7,39 +7,62 @@ Rectangle
 {
     id: timePicker
     anchors.fill: parent
+    property date theDateTime: new Date()
 
     property var okCallback: null
-    property int year: 0
-    property int month: 0
-    property int day: 0
     function show(dateTime, okCallback)
     {
         visible = true
         timePicker.okCallback = okCallback
-        timePicker.year = Helper.getYear(dateTime)
-        timePicker.month = Helper.getMonth(dateTime)
-        timePicker.day = Helper.getDay(dateTime)
-        timeWheel.set(Helper.getHour(dateTime), Helper.getMinute(dateTime))
+        timePicker.theDateTime = dateTime
+        timeWheel.set(dateTime)
+        timeClock.set(dateTime)
+    }
+    Row
+    {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: theSwipeView.top
+        YACButton
+        {
+            text: qsTr("Clock")
+            onClicked:
+            {
+                timeClock.hourItemVisible = true
+                theSwipeView.setCurrentIndex(0)
+            }
+        }
+        YACButton
+        {
+            text: qsTr("Wheel")
+            onClicked: theSwipeView.setCurrentIndex(1)
+        }
     }
 
     SwipeView
     {
+        id: theSwipeView
         width: parent.width * 8 / 10
         height: width
         anchors.centerIn: parent
         clip: true
-        Rectangle
-        {
-            color: "green"
-        }
-
-        YACTimeWheel
-        {
-            id: timeWheel
-        }
+        interactive: false
         YACTimeClock
         {
             id: timeClock
+            onTheTimeChanged:
+            {
+                timePicker.theDateTime = theTime
+                timeWheel.set(theTime)
+            }
+        }
+        YACTimeWheel
+        {
+            id: timeWheel
+            onTheTimeChanged:
+            {
+                timePicker.theDateTime = theTime
+                timeClock.set(theTime)
+            }
         }
     }
 
@@ -50,7 +73,7 @@ Rectangle
         onLeftClicked:
         {
             timePicker.visible = false
-            okCallback(Helper.createDateTime(timePicker.year, timePicker.month, timePicker.day, timeWheel.hour, timeWheel.minute))
+            okCallback(timePicker.theDateTime)
         }
         rightText: qsTr("Abort")
         onRightClicked: timePicker.visible = false
