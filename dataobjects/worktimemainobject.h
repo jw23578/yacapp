@@ -17,6 +17,8 @@ class WorktimeMainObject : public DataObjectInterface
 
     YACAPPPROPERTY(int, netto_work_minutes, netto_work_minutes, 0);
     YACAPPPROPERTY(int, netto_pause_minutes, netto_pause_minutes, 0);
+
+    YACAPPPROPERTY(int, autopause_minutes, autopause_minutes, 0);
 public:
     explicit WorktimeMainObject(QObject *parent = nullptr);
     TemplatedDataModel<WorktimeObject> subentries;

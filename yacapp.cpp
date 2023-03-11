@@ -740,11 +740,12 @@ void YACAPP::appUserFetchWorktimes(const QDateTime &since,
                 int minutes(helper.minutesBetween(currentWorkStart, wo->ts()));
                 activeMainObject->setbrutto_work_minutes(minutes);
                 minutes -= activeMainObject->brutto_pause_minutes();
+                int autopauseMinutes(0);
                 if (minutes > 60 * 9)
                 {
                     if (activeMainObject->netto_pause_minutes() < 45)
                     {
-                        minutes -= std::min(minutes - 60 * 9, 45 - activeMainObject->netto_pause_minutes());
+                        autopauseMinutes = std::min(minutes - 60 * 9, 45 - activeMainObject->netto_pause_minutes());
                     }
                 }
                 else
@@ -753,11 +754,13 @@ void YACAPP::appUserFetchWorktimes(const QDateTime &since,
                     {
                         if (activeMainObject->netto_pause_minutes() < 30)
                         {
-                            minutes -= std::min(minutes - 60 * 6, 30 - activeMainObject->netto_pause_minutes());
+                            autopauseMinutes = std::min(minutes - 60 * 6, 30 - activeMainObject->netto_pause_minutes());
                         }
                     }
 
                 }
+                minutes -= autopauseMinutes;
+                activeMainObject->setautopause_minutes(autopauseMinutes);
                 activeMainObject->setnetto_work_minutes(minutes);
             }
             if (wo->type() == WorktimeObject::PauseStartType)

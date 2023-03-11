@@ -19,7 +19,6 @@ FocusScope
                 duration: 200
             }
         }
-
         width: parent.width
         YACText
         {

@@ -81,7 +81,7 @@ AppUserBasePage
                 {
                     YACText
                     {
-                        text: qsTr("Netto D: ") + worktime.netto_work_minutes + qsTr(" P: ") + worktime.netto_pause_minutes
+                        text: qsTr("Netto D: ") + worktime.netto_work_minutes + qsTr(" P: ") + worktime.netto_pause_minutes + qsTr(" AP: ") + worktime.autopause_minutes
                     }
                 }
 
@@ -114,4 +114,12 @@ AppUserBasePage
             }
         }
     }
+    AppUserInsertWorktimeBeginEnd
+    {
+        id: beginEnd
+        visible: false
+        onCloseClicked: visible = false
+    }
+    leftText: qsTr("Add Begin/End")
+    onLeftClicked: beginEnd.visible = true
 }
