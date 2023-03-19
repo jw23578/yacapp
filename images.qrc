@@ -2,5 +2,7 @@
     <qresource prefix="/images">
         <file>images/checkbox-passive-svgrepo-com.svg</file>
         <file>images/checkbox-active-svgrepo-com.svg</file>
+        <file>images/appointments_menue_icon.svg</file>
+        <file>images/menue_move_icon.svg</file>
     </qresource>
 </RCC>

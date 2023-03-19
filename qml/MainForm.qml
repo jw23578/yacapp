@@ -6,6 +6,12 @@ import com.yacapp.parsedconfig 1.0
 import com.yacapp.menueconfig 1.0
 import "items"
 import "apppages"
+import "menue"
+import "apppages/appointments"
+import "apppages/worktimes"
+import "apppages/rights"
+import "apppages/spaces"
+import "apppages/news"
 
 
 Item
@@ -13,6 +19,7 @@ Item
     id: theItem
     anchors.fill: parent
     focus: true
+    property var currentOpenedLoader: null
     property ParsedConfig config: yacApp.mainConfig
     signal currentItemChanged(ParsedConfig config)
     function openFilename(filename)
@@ -29,41 +36,174 @@ Item
         id: menueSwitchPause
         onStopped: theRealMenue.theMenue = yacApp.getMenueConfig(theStackView.currentItem.config.menueFilename)
     }
-    Column
+    Item
     {
+        id: contentItem
         width: parent.width
-        id: mainForm
-        YACHeader
+        height: parent.height - theSuperMenue.smallElemHeight
+        Column
         {
-            id: header
             width: parent.width
-        }
-        StackView
-        {
-            id: theStackView
-            initialItem:
-                SuperForm
+            id: mainForm
+            YACHeader
             {
-                config: theItem.config
-                stackView: theStackView
-                theMenue: theRealMenue
+                id: header
+                width: parent.width
             }
-            height: theItem.height - header.height - footer.height
-            width: parent.width
-            onCurrentItemChanged: {
-                header.headerConfig = currentItem.config.header
-                footer.footerConfig = currentItem.config.footer
-                theItem.currentItemChanged(currentItem.config)
-                menueSwitchPause.start()
+            StackView
+            {
+                id: theStackView
+                initialItem:
+                    SuperForm
+                {
+                    config: theItem.config
+                    stackView: theStackView
+                    theMenue: theRealMenue
+                }
+                height: contentItem.height - header.height - footer.height
+                width: parent.width
+                onCurrentItemChanged: {
+                    header.headerConfig = currentItem.config.header
+                    footer.footerConfig = currentItem.config.footer
+                    theItem.currentItemChanged(currentItem.config)
+                    menueSwitchPause.start()
+                }
+            }
+
+            YACFooter
+            {
+                id: footer
+                minimumHeight: theRealMenue.openCloseButtonHeight
+            }
+        }
+        BasePageLoader
+        {
+            id: newsPageLoader
+            parentSuperMenue: theSuperMenue
+            parentCurrentOpenedLoader: currentOpenedLoader
+            onOpened: currentOpenedLoader = newsPageLoader
+            theComponent: Component
+            {
+                NewsPage
+                {
+                }
+            }
+        }
+        BasePageLoader
+        {
+            id: knownProfilesLoader
+            loginNeeded: true
+            parentSuperMenue: theSuperMenue
+            parentCurrentOpenedLoader: currentOpenedLoader
+            onOpened: currentOpenedLoader = knownProfilesLoader
+            theComponent: Component
+            {
+                YACUserKnownProfiles
+                {
+                }
             }
         }
 
-        YACFooter
+        BasePageLoader
         {
-            id: footer
-            minimumHeight: theRealMenue.openCloseButtonHeight
+            id: appointmensLoader
+            loginNeeded: true
+            parentSuperMenue: theSuperMenue
+            parentCurrentOpenedLoader: currentOpenedLoader
+            onOpened: currentOpenedLoader = appointmensLoader
+            theComponent: Component
+            {
+                AppUserAppointments
+                {
+                }
+            }
+        }
+        BasePageLoader
+        {
+            id: tokenLoginLoader
+            parentSuperMenue: theSuperMenue
+            parentCurrentOpenedLoader: currentOpenedLoader
+            onOpened: currentOpenedLoader = tokenLoginLoader
+            theComponent: Component
+            {
+                id: tokenLogin
+                YACUserTokenLogin
+                {
+                }
+            }
+        }
+        BasePageLoader
+        {
+            id: registerVerifyLoginLoader
+            parentSuperMenue: theSuperMenue
+            parentCurrentOpenedLoader: currentOpenedLoader
+            onOpened: currentOpenedLoader = registerVerifyLoginLoader
+            theComponent: Component
+            {
+                YACUserRegisterVerifyLogin
+                {
+                }
+            }
+        }
+        BasePageLoader
+        {
+            id: worktimeLoader
+            loginNeeded: true
+            parentSuperMenue: theSuperMenue
+            parentCurrentOpenedLoader: currentOpenedLoader
+            onOpened: currentOpenedLoader = worktimeLoader
+            theComponent: Component
+            {
+                YACUserWorktimeState
+                {
+                }
+            }
+        }
+        BasePageLoader
+        {
+            id: rightgroupsLoader
+            loginNeeded: true
+            parentSuperMenue: theSuperMenue
+            parentCurrentOpenedLoader: currentOpenedLoader
+            onOpened: currentOpenedLoader = rightgroupsLoader
+            theComponent: Component
+            {
+                AppUserRightGroups
+                {
+                }
+            }
+        }
+        BasePageLoader
+        {
+            id: spacesLoader
+            loginNeeded: true
+            parentSuperMenue: theSuperMenue
+            parentCurrentOpenedLoader: currentOpenedLoader
+            onOpened: currentOpenedLoader = spacesLoader
+            theComponent: Component
+            {
+                AppUserSpaces
+                {
+                }
+            }
+        }
+
+        BasePageLoader
+        {
+            id: profileLoader
+            loginNeeded: true
+            parentSuperMenue: theSuperMenue
+            parentCurrentOpenedLoader: currentOpenedLoader
+            onOpened: currentOpenedLoader = profileLoader
+            theComponent: Component
+            {
+                YACUserProfile
+                {
+                }
+            }
         }
     }
+
     YACDefaultMenue
     {
         id: theRealMenue
@@ -89,11 +229,67 @@ Item
         }
     }
 
+    SuperMenue
+    {
+        id: theSuperMenue
+        onMenueOpened: currentOpenedLoader.close()
+        onOpenCustomMenue:
+        {
+            theRealMenue.toggle()
+        }
+        onOpenNews: newsPageLoader.open()
+        onOpenMessages: knownProfilesLoader.open()
+        onOpenWorkTime: worktimeLoader.open()
+        onOpenAppointments: {
+            if (!yacApp.appUserConfig.loggedIn)
+            {
+                yacApp.badMessage(qsTr("Please login first."), null, null);
+                return
+            }
+            yacApp.appUserFetchAppointments(function(message)
+            {
+                appointmensLoader.open()
+            },
+            function(message)
+            {
+                yacApp.badMessage(qsTr("could not load appointments, please try again later. ") + message, null, null)
+            }
+            )
+        }
+        onOpenProfile: {
+            if (yacApp.appUserConfig.loginToken == "")
+            {
+                tokenLoginLoader.open()
+            }
+            else
+            {
+                yacApp.fetchMyProfile(function(message) {
+                    profileLoader.open()
+                },
+                function(message)
+                {
+                    yacApp.badMessage(qsTr("Could not fetch Profile, please try again later."), null, null);
+                }
+                )
+            }
+        }
+        onOpenRights: rightgroupsLoader.open()
+        onOpenSpaces: spacesLoader.open()
+    }
+
+
     Loader
     {
         id: appUserProfileLoader
         anchors.fill: parent
         active: yacApp.globalConfig.appUserEnabled
         source: "qrc:/qml/apppages/AppUserProfileIcon.qml"
+    }
+
+    MultiMenueButton
+    {
+        id: theMultiMenueButton
+        anchors.left: parent.left
+        y: parent.height - theSuperMenue.smallElemHeight
     }
 }

@@ -13,8 +13,21 @@ Item
     property bool isClosed: true
     property bool menueOpen: !isClosed
     property alias openCloseButtonHeight: openCloseButton.height
+    function toggle()
+    {
+        if (isClosed)
+        {
+            open()
+        }
+        else
+        {
+            close()
+        }
+    }
+
     function open()
     {
+        console.log("hello2")
         isClosed = false
         if (once)
         {

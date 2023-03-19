@@ -83,5 +83,12 @@
         <file>qml/items/YACTimeButton.qml</file>
         <file>qml/items/YACTumbler.qml</file>
         <file>qml/items/YACTimeClock.qml</file>
+        <file>MenueTest.qml</file>
+        <file>qml/menue/SuperMenue.qml</file>
+        <file>qml/menue/SuperMenueElem.qml</file>
+        <file>qml/menue/MultiMenueButton.qml</file>
+        <file>qml/menue/MultiMenueItem.qml</file>
+        <file>qml/apppages/news/NewsPage.qml</file>
+        <file>qml/apppages/BasePageLoader.qml</file>
     </qresource>
 </RCC>

@@ -5,6 +5,8 @@
 #include <QString>
 #include <QColor>
 #include "yacappmacros.h"
+#include "designoptions/mainmenueconfig.h"
+#include "designoptions/newspageconfig.h"
 
 class Constants : public QObject
 {
@@ -12,16 +14,21 @@ class Constants : public QObject
     QString writeablePath;
     QString writeablePathWidthAppId;
     const QString theCachePath;
+    YACAPPPROPERTY(int, appTotalWidth, AppTotalWidth, 0)
+    YACAPPPROPERTY(int, appTotalHeight, AppTotalheight, 0)
+
     YACAPPPROPERTY(QString, allAppsBaseUrl, AllAppsBaseUrl, "https://www.jw78.de/yacapp/")
     YACAPPPROPERTY(bool, isDesktop, IsDesktop, false);
     YACAPPPROPERTY(bool, isConfigurator, IsConfigurator, false);
     YACAPPPROPERTY(bool, shadowActive, ShadowActive, true);
     YACAPPPROPERTY(int, radius, Radius, 21);
-    YACAPPPROPERTY(int, shadowHorizontalOffset, ShadowHorizontalOffset, 5);
+    YACAPPPROPERTY(int, shadowHorizontalOffset, ShadowHorizontalOffset, 0); // 5);
     YACAPPPROPERTY(int, shadowVerticalOffset, ShadowVerticalOffset, 5);
     YACAPPPROPERTY(int, shadowSamples, ShadowSamples, 9)
     YACAPPPROPERTY(bool, topLevelFormActive, TopLevelFormActive, true);
     YACAPPPROPERTY(bool, profileOpen, ProfileOpen, false);
+    YACAPPPROPERTY(bool, superMenueOpen, SuperMenueOpen, false);
+    YACAPPPROPERTY(bool, superMenueClicked, SuperMenueClicked, false);
     YACAPPPROPERTY(double, defaultWidthFactor, DefaultWidthFactor, 6.0 / 7.0)
 
     YACAPPPROPERTY(int, fastAnimationDuration, FastAnimationDuration, 200)
@@ -38,6 +45,9 @@ class Constants : public QObject
 
     YACAPPPROPERTY(QColor, goodColor, GoodColor, "#A9CEA5");
     YACAPPPROPERTY(QColor, badColor, BadColor, "#F09494");
+
+    YACAPPPROPERTY(MainMenueConfig*, mainMenueConfig, MainMenueConfig, new MainMenueConfig);
+    YACAPPPROPERTY(NewsPageConfig*, newsPageConfig, NewsPageConfig, new NewsPageConfig);
 public:
     Constants() {}
     Constants(const QString &customWriteablePath);

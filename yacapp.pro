@@ -43,6 +43,8 @@ SOURCES += \
         dataobjects/spaceobject.cpp \
         dataobjects/worktimemainobject.cpp \
         dataobjects/worktimeobject.cpp \
+        designoptions/mainmenueconfig.cpp \
+        designoptions/newspageconfig.cpp \
         firebase2qt.cpp \
         helper.cpp \
         localstorage/localstorage.cpp \
@@ -109,6 +111,8 @@ HEADERS += \
   dataobjects/spaceobject.h \
   dataobjects/worktimemainobject.h \
   dataobjects/worktimeobject.h \
+  designoptions/mainmenueconfig.h \
+  designoptions/newspageconfig.h \
   firebase2qt.h \
   helper.h \
   localstorage/localstorage.h \

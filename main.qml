@@ -6,12 +6,13 @@ import "qml"
 import "qml/items"
 import "qml/apppages"
 import "qml/dialogs"
+import "qml/menue"
 
 ApplicationWindow
 {
     visible: true
-    width: 480
-    height: 640
+    width: 430
+    height: 932
     title: qsTr("Hello World")
 
     Item
@@ -19,6 +20,7 @@ ApplicationWindow
         id: theDefaultSetItem
         Text
         {
+            font.pointSize: 9
             id: theDefaultTextAndFont
             Component.onCompleted:
             {
@@ -162,7 +164,7 @@ ApplicationWindow
     }
     function topLevelVisible()
     {
-        Constants.topLevelFormActive = badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible || timePicker.visible || datePicker.visible || dateTimePicker.visible
+        Constants.topLevelFormActive = Constants.superMenueOpen ||  Constants.superMenueClicked || badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible || timePicker.visible || datePicker.visible || dateTimePicker.visible
     }
 
     YACBadMessageForm
@@ -275,5 +277,10 @@ ApplicationWindow
         //        console.log(yacApp.mainConfig.content.items.length)
         //        console.log(yacApp.mainConfig.content.items[1].height)
         checkForAppUpdate()
+        Constants.appTotalWidth = width
+        console.log(width)
+        Constants.appTotalHeight = height
+        console.log(height)
+        console.log("total")
     }
 }

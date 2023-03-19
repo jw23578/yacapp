@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="30" viewBox="0 0 30 30">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rechteck_37" data-name="Rechteck 37" width="30" height="30" transform="translate(354 403)" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="Gruppe_maskieren_2" data-name="Gruppe maskieren 2" transform="translate(-354 -403)" clip-path="url(#clip-path)">
+    <g id="Layer_2" data-name="Layer 2" transform="translate(354 403)">
+      <g id="invisible_box" data-name="invisible box">
+        <rect id="Rechteck_36" data-name="Rechteck 36" width="30" height="30" fill="none"/>
+      </g>
+      <g id="Q3_icons" data-name="Q3 icons">
+        <g id="Gruppe_9" data-name="Gruppe 9">
+          <path id="Pfad_19" data-name="Pfad 19" d="M26.25,13.75H3.75a1.25,1.25,0,0,0,0,2.5h22.5a1.25,1.25,0,0,0,0-2.5Z" fill="#fff"/>
+          <path id="Pfad_20" data-name="Pfad 20" d="M3.75,11.25h22.5a1.25,1.25,0,0,0,0-2.5H3.75a1.25,1.25,0,0,0,0,2.5Z" fill="#fff"/>
+          <path id="Pfad_21" data-name="Pfad 21" d="M26.25,18.75H3.75a1.25,1.25,0,0,0,0,2.5h22.5a1.25,1.25,0,0,0,0-2.5Z" fill="#fff"/>
+          <path id="Pfad_22" data-name="Pfad 22" d="M15,2.5,11.25,6.25h7.5Z" fill="#fff"/>
+          <path id="Pfad_23" data-name="Pfad 23" d="M15,27.5l3.75-3.75h-7.5Z" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

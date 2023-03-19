@@ -177,7 +177,7 @@ Item
         {
             anchors.fill: parent
             url: itemConfig.url
-            visible: !theMenue.menueOpen && !Constants.topLevelFormActive && !Constants.profileOpen
+            visible: !theMenue.menueOpen && !Constants.topLevelFormActive && !Constants.profileOpen && !Constants.superMenueOpen && !Constants.superMenueClicked
         }
     }
 
