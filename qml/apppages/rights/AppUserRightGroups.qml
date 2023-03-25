@@ -49,6 +49,11 @@ AppUserBasePage
                 {
                     text: rightgroup.automatic ? qsTr("New Users are automatically added to this Group") : qsTr("No Users will be automatically added")
                 }
+                YACText
+                {
+                    text: qsTr("You are the owner of this Rightgroup")
+                    visible: rightgroup.creater_id == yacApp.appUserConfig.id
+                }
             }
             MouseArea
             {

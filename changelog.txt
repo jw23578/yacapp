@@ -31,6 +31,8 @@ Das erzwingt bei allen Dataobjects ein Assign und dafür hätte ich gerne eine b
 
 - Rechtegruppen haben jetzt auch einen Accesscode, Idee ist, dass man sich selbst in so eine Gruppe eintragen kann, wenn man den Accesscode kennt
 
+- Bei einer Rechtegruppe wird jetzt auch angezeigt, wenn man der Owner dieser Gruppe ist
+
 2023-03-23
 - Die Font PointSize kann jetzt mit Buttons +/- verstellt werden, das geht besser als mit der Eingabe, weil da auch mal 1 oder 0 steht und dann nix mehr angezeigt wird.
 
