@@ -4,6 +4,7 @@
 #include <QObject>
 #include "yacappmacros.h"
 #include "configinterface.h"
+#include "constants.h"
 
 class GlobalProjectConfig : public ConfigInterface
 {
@@ -31,10 +32,10 @@ class GlobalProjectConfig : public ConfigInterface
 
     void setConfig(QJsonValue const &config) override;
     QJsonObject getConfig() override;
-    QByteArray getConfigAsString();
+    QByteArray getConfigAsString(Constants &constants);
 
-    void init(const QString &jsonConfigFile);
-    void save(const QString &jsonConfigFile);
+    void init(const QString &jsonConfigFile, Constants &constants);
+    void save(const QString &jsonConfigFile, Constants &constants);
 signals:
 
 };

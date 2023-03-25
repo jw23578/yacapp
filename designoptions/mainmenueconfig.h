@@ -4,8 +4,9 @@
 #include <QObject>
 #include "yacappmacros.h"
 #include <QColor>
+#include <configmodels/configinterface.h>
 
-class MainMenueConfig : public QObject
+class MainMenueConfig : public ConfigInterface
 {
     Q_OBJECT
     YACAPPPROPERTY(double, smallElemHeightFactor, SmallElemHeightFactor, 79.0 / 932.0)
@@ -22,6 +23,8 @@ class MainMenueConfig : public QObject
 public:
     explicit MainMenueConfig(QObject *parent = nullptr);
 
+    void setConfig(const QJsonValue &config) override;
+    QJsonObject getConfig() override;
 signals:
 
 };

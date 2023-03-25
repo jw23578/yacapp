@@ -6,14 +6,40 @@
 #define colorFromJSON(name, uppercasename) \
     set##uppercasename(config[#name].toString());
 
+#define colorFromJSONIfExists(name, uppercasename) \
+    if (o.contains(#name)) \
+    { \
+        set##uppercasename(o[#name].toString()); \
+    }
+
 #define stringFromJSON(name, uppercasename) \
     set##uppercasename(config[#name].toString());
 
 #define doubleFromJSON(name, uppercasename) \
     set##uppercasename(config[#name].toDouble());
 
+#define doubleFromJSONIfExists(name, uppercasename) \
+    if (o.contains(#name)) \
+    { \
+        double value(o[#name].toDouble()); \
+        if (value > 0) \
+        { \
+            set##uppercasename(value); \
+        } \
+    }
+
 #define intFromJSON(name, uppercasename) \
     set##uppercasename(config[#name].toInt());
+
+#define intFromJSONIfExists(name, uppercasename) \
+    if (o.contains(#name)) \
+    { \
+        int value(o[#name].toInt()); \
+        if (value > 0) \
+        { \
+            set##uppercasename(value); \
+        } \
+    }
 
 #define boolFromJSON(name, uppercasename) \
     set##uppercasename(config[#name].toBool());

@@ -15,7 +15,6 @@ ParsedConfig::~ParsedConfig()
     delete m_menue;
     delete m_content;
     delete m_header;
-    delete m_footer;
     delete m_splashscreen;
 }
 
@@ -35,7 +34,6 @@ bool ParsedConfig::init(const QString &jsonConfigFile)
     background()->setConfig(config["background"]);
     content()->setConfig(config["content"]);
     header()->setConfig(config["header"]);
-    footer()->setConfig(config["footer"]);
     splashscreen()->setConfig(config["splashscreen"]);
     return true;
 }
@@ -46,7 +44,6 @@ void ParsedConfig::save(const QString &jsonConfigFile)
     stringToJSON(menueFilename);
     config["background"] = background()->getConfig();
     config["header"] = header()->getConfig();
-    config["footer"] = footer()->getConfig();
     config["content"] = content()->getConfig();
     config["splashscreen"] = splashscreen()->getConfig();
 

@@ -5,6 +5,7 @@ import "../../items"
 AppUserBasePage
 {
     id: thePage
+    showCloseButton: true
     property date begin: new Date()
     property date end: new Date()
     YACPageColumn

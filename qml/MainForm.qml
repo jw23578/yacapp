@@ -31,6 +31,94 @@ Item
                           })
     }
 
+    YACDefaultMenue
+    {
+        z: 1
+        id: theRealMenue
+        visible: theMenue.type === "" || theMenue.type === "default"
+        stackView: theStackView
+        theMenue: yacApp.getMenueConfig(config.menueFilename)
+    }
+    SuperMenue
+    {
+        z: 1
+        id: theSuperMenue
+        onMenueOpened:
+        {
+            theRealMenue.close()
+            currentOpenedLoader.close()
+        }
+        onOpenCustomMenue:
+        {
+            if (currentOpenedLoader != null)
+            {
+                currentOpenedLoader.close()
+            }
+
+            theRealMenue.toggle()
+        }
+        onOpenNews:
+        {
+            theRealMenue.close()
+            newsPageLoader.open()
+        }
+        onOpenMessages:
+        {
+            theRealMenue.close()
+            knownProfilesLoader.open()
+        }
+        onOpenWorkTime:
+        {
+            theRealMenue.close()
+            worktimeLoader.open()
+        }
+        onOpenAppointments: {
+            theRealMenue.close()
+            if (!yacApp.appUserConfig.loggedIn)
+            {
+                yacApp.badMessage(qsTr("Please login first."), null, null);
+                return
+            }
+            yacApp.appUserFetchAppointments(function(message)
+            {
+                appointmensLoader.open()
+            },
+            function(message)
+            {
+                yacApp.badMessage(qsTr("could not load appointments, please try again later. ") + message, null, null)
+            }
+            )
+        }
+        onOpenProfile: {
+            theRealMenue.close()
+            if (yacApp.appUserConfig.loginToken == "")
+            {
+                tokenLoginLoader.open()
+            }
+            else
+            {
+                yacApp.fetchMyProfile(function(message) {
+                    profileLoader.open()
+                },
+                function(message)
+                {
+                    yacApp.badMessage(qsTr("Could not fetch Profile, please try again later."), null, null);
+                }
+                )
+            }
+        }
+        onOpenRights:
+        {
+            theRealMenue.close()
+            rightgroupsLoader.open()
+        }
+        onOpenSpaces:
+        {
+            theRealMenue.close()
+            spacesLoader.open()
+        }
+    }
+
     PauseAnimation {
         duration: 200
         id: menueSwitchPause
@@ -60,20 +148,13 @@ Item
                     stackView: theStackView
                     theMenue: theRealMenue
                 }
-                height: contentItem.height - header.height - footer.height
+                height: contentItem.height - header.height
                 width: parent.width
                 onCurrentItemChanged: {
                     header.headerConfig = currentItem.config.header
-                    footer.footerConfig = currentItem.config.footer
                     theItem.currentItemChanged(currentItem.config)
                     menueSwitchPause.start()
                 }
-            }
-
-            YACFooter
-            {
-                id: footer
-                minimumHeight: theRealMenue.openCloseButtonHeight
             }
         }
         BasePageLoader
@@ -204,14 +285,6 @@ Item
         }
     }
 
-    YACDefaultMenue
-    {
-        id: theRealMenue
-        visible: theMenue.type === "" || theMenue.type === "default"
-        stackView: theStackView
-        theMenue: yacApp.getMenueConfig(config.menueFilename)
-    }
-
     YACImage
     {
         anchors.top: parent.top
@@ -229,67 +302,11 @@ Item
         }
     }
 
-    SuperMenue
-    {
-        id: theSuperMenue
-        onMenueOpened: currentOpenedLoader.close()
-        onOpenCustomMenue:
-        {
-            theRealMenue.toggle()
-        }
-        onOpenNews: newsPageLoader.open()
-        onOpenMessages: knownProfilesLoader.open()
-        onOpenWorkTime: worktimeLoader.open()
-        onOpenAppointments: {
-            if (!yacApp.appUserConfig.loggedIn)
-            {
-                yacApp.badMessage(qsTr("Please login first."), null, null);
-                return
-            }
-            yacApp.appUserFetchAppointments(function(message)
-            {
-                appointmensLoader.open()
-            },
-            function(message)
-            {
-                yacApp.badMessage(qsTr("could not load appointments, please try again later. ") + message, null, null)
-            }
-            )
-        }
-        onOpenProfile: {
-            if (yacApp.appUserConfig.loginToken == "")
-            {
-                tokenLoginLoader.open()
-            }
-            else
-            {
-                yacApp.fetchMyProfile(function(message) {
-                    profileLoader.open()
-                },
-                function(message)
-                {
-                    yacApp.badMessage(qsTr("Could not fetch Profile, please try again later."), null, null);
-                }
-                )
-            }
-        }
-        onOpenRights: rightgroupsLoader.open()
-        onOpenSpaces: spacesLoader.open()
-    }
-
-
     Loader
     {
         id: appUserProfileLoader
         anchors.fill: parent
         active: yacApp.globalConfig.appUserEnabled
         source: "qrc:/qml/apppages/AppUserProfileIcon.qml"
-    }
-
-    MultiMenueButton
-    {
-        id: theMultiMenueButton
-        anchors.left: parent.left
-        y: parent.height - theSuperMenue.smallElemHeight
     }
 }

@@ -4,6 +4,17 @@ import ".."
 
 AppUserBasePage
 {
+    multiMenueButton.visible: true
+    multiMenueButton.model: [{caption: qsTr("Add Rightgroup")}]
+    multiMenueButton.onClicked:
+    {
+        console.log("caption: " + caption)
+        if (caption == qsTr("Add Rightgroup"))
+        {
+            appUserInsertRightGroup.show("", "", false)
+        }
+    }
+    multiMenueButton.hide: appUserInsertRightGroup.visible
     ListView
     {
         id: theListview
@@ -80,9 +91,6 @@ AppUserBasePage
         }
 
     }
-
-    leftText: qsTr("Add Rightgroup")
-    onLeftClicked: appUserInsertRightGroup.show("", "", false)
 
     AppUserInsertRightGroup
     {

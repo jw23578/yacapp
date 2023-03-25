@@ -4,6 +4,17 @@ import ".."
 
 AppUserBasePage
 {
+    multiMenueButton.visible: true
+    multiMenueButton.model: [{caption: qsTr("Add Space")}]
+    multiMenueButton.onClicked:
+    {
+        console.log("caption: " + caption)
+        if (caption == qsTr("Add Space"))
+        {
+            appUserInsertSpace.show("", "", "", false)
+        }
+    }
+    multiMenueButton.hide: appUserRequestSpace.visible || appUserInsertSpace.visible
     ListView
     {
         id: theListview
@@ -130,9 +141,6 @@ AppUserBasePage
         }
 
     }
-
-    leftText: qsTr("Add Space")
-    onLeftClicked: appUserInsertSpace.show("", "", "", false)
 
     AppUserInsertSpace
     {

@@ -1,3 +1,37 @@
+2023-03-25
+- Es gibt jetzt einen "Integer-" und einen "Doubleeditor"
+
+- Die Anzahl der Elemente im Supermenü die unten in der App angezeigt werden sollen kann konfiguriert werden
+
+- Die Farbe der Elemente im Supermenü die unten in der App angezeigt werden sollen kann konfiguriert werden
+
+- Die Höhe der Elemente im Supermenü die unten in der App angezeigt werden sollen kann konfiguriert werden
+
+- Der Dsignconfigurator kann jetzt auch in der App aufgerufen werden
+
+2023-03-23
+- Die Font PointSize kann jetzt mit Buttons +/- verstellt werden, das geht besser als mit der Eingabe, weil da auch mal 1 oder 0 steht und dann nix mehr angezeigt wird.
+
+2023-03-22
+- Im Configurator funktioniert das neue Supermenü jetzt
+
+- Wenn das AppMenü geöfffnet wird, dann wird jetzt die Page die durch das Supermenü geöffnet wurde wieder geschlossen
+
+- Im Header wird jetzt auch der richtige Font eingesetzt
+
+- Das AppMenü wird geschlossen, wenn was im Supermenü angeklickt wird
+
+- Den Footer habe ich wieder entfernt, da liegt ja das Supermenü
+
+- Die Font PointSize kann jetzt im Configurator ausprobiert werden, aber wird noch nicht gespeichert und für die App deployed
+
+- Die Font PointSize wird jetzt auch in der App-Konfiguration gespeichert und entsprechend verteilt.
+
+2023-03-21
+- Urbanist Font eingebunden
+
+- Viele Design und Layout Änderungen, das ist immer noch Work in Progress
+
 2023-03-11
 - Dienst/Pause/Dienstgangzeiten können jetzt auch nachträglich eingefügt werden
 Beim Einfügen wird serverseitig geprüft, ob das auch wirklich geht.

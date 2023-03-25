@@ -12,11 +12,13 @@ Window {
     visible: true
     title: qsTr("YAC-App Designer")
 
+    DefaultsSetter {}
+
     Loader
     {
         id: mainFormLoader
-        width: 480
-        height: 640
+        width: 430
+        height: 932
     }
 
     Component
@@ -25,16 +27,9 @@ Window {
         MainForm
         {
             id: mainForm
-            width: 480
-            height: 640
+            width: 430
+            height: 932
             config: yacApp.mainConfig
-//            onCurrentItemChanged:
-//            {
-//                if (config != null && editorFormLoader.item != null)
-//                {
-//                    editorFormLoader.item.config = config
-//                }
-//            }
             clip: true
         }
     }
@@ -95,15 +90,21 @@ Window {
                     width: parent.width
                     YACButton
                     {
-                        width: parent.width / 2 - 1
+                        width: parent.width / 3 - 1
                         text: theSwipeView.currentIndex == 0 ? qsTr("Page Editor visible") : qsTr("Show Page Editor")
                         onClicked: theSwipeView.currentIndex = 0
                     }
                     YACButton
                     {
-                        width: parent.width / 2 - 1
-                        text: theSwipeView.currentIndex == 1 ? qsTr("Menue Editor visible") : qsTr("Menue Page Editor")
+                        width: parent.width / 3 - 1
+                        text: theSwipeView.currentIndex == 1 ? qsTr("Menue Editor visible") : qsTr("Show Page Editor")
                         onClicked: theSwipeView.currentIndex = 1
+                    }
+                    YACButton
+                    {
+                        width: parent.width / 3 - 1
+                        text: theSwipeView.currentIndex == 2 ? qsTr("Design Editor visible") : qsTr("Show Design Editor")
+                        onClicked: theSwipeView.currentIndex = 2
                     }
                 }
                 Item
@@ -148,6 +149,10 @@ Window {
                 {
                     id: menueEditor
                     config: yacApp.getMenueConfig(yacApp.mainConfig.menueFilename)
+                }
+                ConfiguratorDesignEditor
+                {
+                    id: designEditor
                 }
             }
 
@@ -214,5 +219,10 @@ Window {
             dialogAddFile.okCallback = okCallback
             dialogAddFile.open()
         }
+    }
+    Component.onCompleted:
+    {
+        Constants.appTotalWidth = mainFormLoader.width
+        Constants.appTotalHeight = mainFormLoader.height
     }
 }

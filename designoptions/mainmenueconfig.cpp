@@ -1,8 +1,25 @@
 #include "mainmenueconfig.h"
 #include <QQmlEngine>
+#include <QJsonObject>
 
 MainMenueConfig::MainMenueConfig(QObject *parent)
-    : QObject{parent}
+    : ConfigInterface{parent}
 {
-    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
+}
+
+void MainMenueConfig::setConfig(const QJsonValue &config)
+{
+    QJsonObject o(config.toObject());
+    doubleFromJSONIfExists(smallElemCount, SmallElemCount);
+    doubleFromJSONIfExists(smallElemHeightFactor, SmallElemHeightFactor);
+    colorFromJSONIfExists(smallElemColor, SmallElemColor);
+}
+
+QJsonObject MainMenueConfig::getConfig()
+{
+    QJsonObject config;
+    doubleToJSON(smallElemCount);
+    doubleToJSON(smallElemHeightFactor);
+    colorToJSON(smallElemColor);
+    return config;
 }

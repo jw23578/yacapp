@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/urbanist/Urbanist-BlackItalic.ttf</file>
+        <file>fonts/urbanist/Urbanist-ExtraBoldItalic.ttf</file>
+        <file>fonts/urbanist/Urbanist-BoldItalic.ttf</file>
+        <file>fonts/urbanist/Urbanist-SemiBoldItalic.ttf</file>
+        <file>fonts/urbanist/Urbanist-MediumItalic.ttf</file>
+        <file>fonts/urbanist/Urbanist-Italic.ttf</file>
+        <file>fonts/urbanist/Urbanist-LightItalic.ttf</file>
+        <file>fonts/urbanist/Urbanist-ExtraLightItalic.ttf</file>
+        <file>fonts/urbanist/Urbanist-ThinItalic.ttf</file>
+        <file>fonts/urbanist/Urbanist-Black.ttf</file>
+        <file>fonts/urbanist/Urbanist-ExtraBold.ttf</file>
+        <file>fonts/urbanist/Urbanist-Bold.ttf</file>
+        <file>fonts/urbanist/Urbanist-SemiBold.ttf</file>
+        <file>fonts/urbanist/Urbanist-Regular.ttf</file>
+        <file>fonts/urbanist/Urbanist-Medium.ttf</file>
+        <file>fonts/urbanist/Urbanist-Light.ttf</file>
+        <file>fonts/urbanist/Urbanist-ExtraLight.ttf</file>
+        <file>fonts/urbanist/Urbanist-Thin.ttf</file>
+    </qresource>
+</RCC>

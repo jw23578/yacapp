@@ -8,7 +8,6 @@
 #include "menueconfig.h"
 #include "contentconfig.h"
 #include "headerconfig.h"
-#include "footerconfig.h"
 #include "splashscreenconfig.h"
 
 class ParsedConfig : public QObject
@@ -18,7 +17,6 @@ class ParsedConfig : public QObject
     YACAPPREADONLYPROPERTY(MenueConfig*, menue, new MenueConfig());
     YACAPPREADONLYPROPERTY(ContentConfig*, content, new ContentConfig());
     YACAPPREADONLYPROPERTY(HeaderConfig*, header, new HeaderConfig());
-    YACAPPREADONLYPROPERTY(FooterConfig*, footer, new FooterConfig());
     YACAPPREADONLYPROPERTY(SplashscreenConfig*, splashscreen, new SplashscreenConfig());
     YACAPPPROPERTY(QString, menueFilename, MenueFilename, "");
 

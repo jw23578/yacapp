@@ -2,6 +2,7 @@ import QtQuick 2.15
 import "../items"
 import "rights"
 import "spaces"
+import "../editor"
 import com.yacapp.appuserconfig 1.0
 
 Item
@@ -92,7 +93,23 @@ Item
                 text: qsTr("Language")
             }
         }
-
+        Rectangle
+        {
+            radius: Constants.radius
+            width: parent.width
+            height: width
+            color: "cyan"
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: profileLoader.sourceComponent = designEditorComponent
+            }
+            YACText
+            {
+                anchors.centerIn: parent
+                text: qsTr("Design")
+            }
+        }
      }
     Connections
     {
@@ -105,8 +122,14 @@ Item
             }
         }
     }
-
-
+    Component
+    {
+        id: designEditorComponent
+        ConfiguratorDesignEditor
+        {
+            onCloseClicked: profileLoader.sourceComponent = null
+        }
+    }
     Component
     {
         id: selectLanguageComponent

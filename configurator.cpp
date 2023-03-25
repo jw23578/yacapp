@@ -91,7 +91,7 @@ void Configurator::save()
 void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCallback, QJSValue badCallback)
 {
     GlobalProjectConfig gpc(true);
-    gpc.init(globalProjectConfigFilename);
+    gpc.init(globalProjectConfigFilename, yacApp.constants);
     if (!deployConfigs[gpc.projectID()])
     {
         deployConfigs[gpc.projectID()] = new ProjectData;
@@ -138,7 +138,7 @@ void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCall
                                   gpc.logoUrl(),
                                   gpc.projectColorName(),
                                   gpc.isTemplateApp(),
-                                  gpc.getConfigAsString(),
+                                  gpc.getConfigAsString(yacApp.constants),
                                   appPackage.toBase64(),
                                   [goodCallback](const QString &message) mutable
     {
@@ -260,7 +260,7 @@ void Configurator::createNewProject(const QString &projectName,
     gpc.setMainFormFilename("mainform.json");
     QString projectFileName(QUrl(projectFolder).path() + "/projectFile.yacapp");
     gpc.formFiles.append("mainform.json");
-    gpc.save(projectFileName);
+    gpc.save(projectFileName, yacApp.constants);
 
     QString mainformFileName(QUrl(projectFolder).path() + "/mainform.json");
 

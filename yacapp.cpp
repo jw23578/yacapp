@@ -109,7 +109,9 @@ void YACAPP::init(QString projectFilename)
     {
         return;
     }
-    globalConfig()->init(projectFilename);
+
+    globalConfig()->init(projectFilename, constants);
+
     for (int i(0); i < globalConfig()->formFiles.size(); ++i)
     {
         getConfig(globalConfig()->formFiles[i]);
@@ -314,7 +316,6 @@ void YACAPP::loadAppConfig()
 void YACAPP::saveAppConfig()
 {
     QJsonObject config;
-
     config["appUserConfig"] = appUserConfig()->getConfig();
     QString help(serverNow().toString(Qt::ISODate));
     config["serverNowISO"] = serverNow().toString(Qt::ISODate);
@@ -374,7 +375,7 @@ void YACAPP::loadNewProject(const QString &projectFilename)
 
 void YACAPP::saveCurrentProject()
 {
-    globalConfig()->save(globalProjectConfigFilename());
+    globalConfig()->save(globalProjectConfigFilename(), constants);
     {
         QMap<QString, ParsedConfig*>::iterator it(fileName2ParsedConfig.begin());
         while (it != fileName2ParsedConfig.end())

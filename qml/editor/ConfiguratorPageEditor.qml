@@ -438,23 +438,6 @@ Rectangle
                         }
                     }
                 }
-                EditorSection
-                {
-                    sectionCaption: qsTr("Footer")
-                    YACLineEditWithHeader
-                    {
-                        headerText: qsTr("Height per thousand")
-                        doubleEdit: true
-                        text: config.footer.heightPerThousand
-                        onDisplayTextChanged: config.footer.heightPerThousand = text
-                    }
-                    YACColorDialogWithHeader
-                    {
-                        headerText: qsTr("Color")
-                        color: config.footer.color
-                        onColorChanged: config.footer.color = color
-                    }
-                }
             }
         }
     }

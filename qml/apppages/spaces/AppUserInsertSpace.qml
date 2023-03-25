@@ -6,6 +6,7 @@ import "../.."
 AppUserBasePage
 {
     id: thePage
+    showCloseButton: true
     signal spaceSaved();
     property string id: ""
     function show(id, name, access_code, automatic)

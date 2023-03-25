@@ -4,6 +4,18 @@ import ".."
 
 AppUserBasePage
 {
+    multiMenueButton.visible: true
+    multiMenueButton.model: [{caption: qsTr("Add Appointment")}]
+    multiMenueButton.onClicked:
+    {
+        console.log("caption: " + caption)
+        if (caption == qsTr("Add Appointment"))
+        {
+            insertAppointmentsLoader.sourceComponent = insertAppointmentsComponent
+        }
+    }
+    multiMenueButton.hide: insertAppointmentsLoader.sourceComponent != null
+
     Component
     {
         id: insertAppointmentsComponent
@@ -92,9 +104,6 @@ AppUserBasePage
         }
 
     }
-
-    leftText: qsTr("Add Appointment")
-    onLeftClicked: insertAppointmentsLoader.sourceComponent = insertAppointmentsComponent
 
     Loader
     {

@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>qml/SuperForm.qml</file>
-        <file>qml/YACFooter.qml</file>
         <file>qml/YACHeader.qml</file>
         <file>qml/MainForm.qml</file>
         <file>mainDesignMode.qml</file>
@@ -90,5 +89,10 @@
         <file>qml/menue/MultiMenueItem.qml</file>
         <file>qml/apppages/news/NewsPage.qml</file>
         <file>qml/apppages/BasePageLoader.qml</file>
+        <file>JSConstants.js</file>
+        <file>qml/editor/ConfiguratorDesignEditor.qml</file>
+        <file>qml/DefaultsSetter.qml</file>
+        <file>qml/items/YACIntEdit.qml</file>
+        <file>qml/items/YACDoubleEdit.qml</file>
     </qresource>
 </RCC>

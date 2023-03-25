@@ -10,6 +10,23 @@ AppUserBasePage
     property bool workStarted: !isNaN(yacApp.appUserConfig.workStart)
     property bool pauseStarted: !isNaN(yacApp.appUserConfig.pauseStart)
     property bool offSiteWorkStarted: !isNaN(yacApp.appUserConfig.offSiteWorkStart)
+
+    multiMenueButton.visible: true
+    multiMenueButton.model: [{caption: qsTr("Add Begin/End")},
+        {caption: qsTr("Overview")}]
+    multiMenueButton.onClicked:
+    {
+        if (caption == qsTr("Add Begin/End"))
+        {
+            beginEnd.visible = true
+        }
+        if (caption == qsTr("Overview"))
+        {
+            showOverview()
+        }
+    }
+    multiMenueButton.hide: overviewLoader.sourceComponent != null || beginEnd.visible
+
     YACPageColumn
     {
         YACButton
@@ -165,13 +182,7 @@ AppUserBasePage
             }
         }
     }
-    YACButton
-    {
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        text: qsTr("Overview")
-        onClicked: showOverview()
-    }
+
     function showOverview()
     {
         overviewLoader.since = Helper.firstInMonth(Helper.currentDateTime())
@@ -213,8 +224,7 @@ AppUserBasePage
         visible: false
         onCloseClicked: visible = false
     }
-    leftText: qsTr("Add Begin/End")
-    onLeftClicked: beginEnd.visible = true
+
 
     Component.onCompleted:
     {

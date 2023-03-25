@@ -16,20 +16,26 @@ GlobalProjectConfig::GlobalProjectConfig(bool noProjectId,
     setProjectID(QUuid::createUuid().toString(QUuid::WithoutBraces));
 }
 
-void GlobalProjectConfig::init(QString const &jsonConfigFile)
+void GlobalProjectConfig::init(QString const &jsonConfigFile,
+                               Constants &constants)
 {
     QFile jsonFile(jsonConfigFile);
     jsonFile.open(QIODevice::ReadOnly);
     QByteArray fileData(jsonFile.readAll());
-    setConfig(QJsonDocument::fromJson(fileData)["global"]);
+    QJsonDocument document(QJsonDocument::fromJson(fileData));
+    setConfig(document["global"]);
+
+    constants.globalDesignConfig()->setConfig(document["globalDesignConfig"]);
+    constants.mainMenueConfig()->setConfig(document["mainMenueConfig"]);
 }
 
-void GlobalProjectConfig::save(const QString &jsonConfigFile)
+void GlobalProjectConfig::save(const QString &jsonConfigFile,
+                               Constants &constants)
 {
     setVersion(version() + 1);
     QFile jsonFile(jsonConfigFile);
     jsonFile.open(QIODevice::WriteOnly);
-    jsonFile.write(getConfigAsString());
+    jsonFile.write(getConfigAsString(constants));
 }
 
 void GlobalProjectConfig::setConfig(const QJsonValue &config)
@@ -92,9 +98,12 @@ QJsonObject GlobalProjectConfig::getConfig()
     return config;
 }
 
-QByteArray GlobalProjectConfig::getConfigAsString()
+QByteArray GlobalProjectConfig::getConfigAsString(Constants &constants)
 {
     QJsonObject config;
     config["global"] = getConfig();
+    config["globalDesignConfig"] = constants.globalDesignConfig()->getConfig();
+    config["mainMenueConfig"] = constants.mainMenueConfig()->getConfig();
+
     return QJsonDocument(config).toJson();
 }

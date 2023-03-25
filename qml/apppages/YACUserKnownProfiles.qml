@@ -1,31 +1,32 @@
 import QtQuick 2.15
 import "../items"
 
-Rectangle
+AppUserBasePage
 {
-    anchors.fill: parent
-
-    signal closeClicked()
-
     property var currentProfile: null
 
-    YACButton
+    multiMenueButton.visible: true
+    multiMenueButton.model: [{caption: qsTr("Add Contact")},
+        {caption: qsTr("Fetch")}]
+    multiMenueButton.onClicked:
     {
-        id: addButton
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width * Constants.defaultWidthFactor
-        text: qsTr("Add Contact")
-        onClicked: theLoader.sourceComponent = searchProfiles
+        console.log("caption: " + caption)
+        if (caption == qsTr("Add Contact"))
+        {
+            theLoader.sourceComponent = searchProfiles
+        }
+        if (caption == qsTr("Fetch"))
+        {
+            yacApp.fetchMessageUpdates()
+        }
     }
+    multiMenueButton.hide: theLoader.sourceComponent != null
 
     ListView
     {
         id: listView
         clip: true
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: addButton.bottom
-        anchors.bottom: closeButton.top
+        anchors.fill: parent
         model: KnownProfilesModel
         delegate: Row
         {
@@ -79,22 +80,6 @@ Rectangle
         displaced: Transition {
             NumberAnimation { properties: "x,y"; duration: 300 }
         }
-    }
-    YACButton
-    {
-        id: closeButton
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        text: qsTr("Close")
-        onClicked: closeClicked()
-    }
-    YACButton
-    {
-        id: fetchButton
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        text: qsTr("Fetch")
-        onClicked: yacApp.fetchMessageUpdates()
     }
 
     Loader

@@ -36,6 +36,11 @@ Loader
     }
     function open()
     {
+        if (y == 0)
+        {
+            return
+        }
+
         if (loginNeeded)
         {
             if (!yacApp.appUserConfig.loggedIn)
@@ -54,6 +59,10 @@ Loader
         width =  parent.width
         y = 0
         opened()
+        if (status == Loader.Ready)
+        {
+            item.multiMenueButton.moveIn()
+        }
     }
 
     function close()
@@ -61,7 +70,11 @@ Loader
         x = theItem.width / 2
         width = 0
         y = -height
+        if (status == Loader.Ready)
+        {
+            item.multiMenueButton.moveOut()
+        }
     }
-
+    onLoaded: item.multiMenueButton.moveIn()
     onSourceComponentChanged: Constants.superMenueClicked = sourceComponent != null
 }

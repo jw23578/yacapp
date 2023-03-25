@@ -181,4 +181,8 @@ Item
             }
         }
     }
+    Component.onCompleted:
+    {
+        console.log("theMenu.smallElemHeight: " + theMenu.smallElemHeight)
+    }
 }

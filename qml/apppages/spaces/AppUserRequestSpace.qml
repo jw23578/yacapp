@@ -4,6 +4,7 @@ import ".."
 
 AppUserBasePage
 {
+    showCloseButton: true
     property var space: null
     function show(theSpace)
     {

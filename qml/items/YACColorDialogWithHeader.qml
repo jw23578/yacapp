@@ -29,7 +29,7 @@ Column
         id: input
         color: colorDialog.color
         width: parent.width - x
-        height: header.height
+        height: header.height * 2
         MouseArea
         {
             anchors.fill: parent

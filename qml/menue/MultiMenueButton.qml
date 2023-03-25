@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import "../items"
 
 Item
 {
@@ -13,6 +14,16 @@ Item
     property bool positionLeft: true
     property bool behaviorsActive: false
     property alias model: theItemsRepeater.model
+    signal clicked(string caption)
+
+    property bool hide: false
+    onHideChanged: hide ? opacity = 0 : opacity = 1
+    Behavior on opacity
+    {
+        NumberAnimation {
+            duration: theMultiMenueButton.aniDuration
+        }
+    }
 
     PauseAnimation {
         id: showAni
@@ -24,8 +35,13 @@ Item
         }
     }
 
-    Component.onCompleted: {
+    function moveIn()
+    {
         showAni.start()
+    }
+    function moveOut()
+    {
+        openCloseButton.x = theMultiMenueButton.positionLeft ? -width : theMultiMenueButton.width + width
     }
 
     function open()
@@ -33,7 +49,7 @@ Item
         isOpen = true
         openCloseButton.width = inactiveButtonSize
         openCloseButton.x = (positionLeft ? inactiveButtonSize * 0.25 : theMultiMenueButton.width - inactiveButtonSize - inactiveButtonSize * 0.25) + (activeButtonSize - inactiveButtonSize) * 0.75
-        openCloseButton.y = activeButtonSize / 2// -inactiveButtonSize -inactiveButtonSize * 0.25
+        openCloseButton.y = 0 // activeButtonSize / 2 // -inactiveButtonSize -inactiveButtonSize * 0.25
 
         for (var i = 0; i < theItemsRepeater.count; ++i)
         {
@@ -67,7 +83,6 @@ Item
     Repeater
     {
         id: theItemsRepeater
-        model: 7
         MultiMenueItem
         {
             anchors.centerIn: openCloseButton
@@ -75,6 +90,11 @@ Item
             maxPosition: theItemsRepeater.count
             activeButtonSize: theMultiMenueButton.activeButtonSize
             inactiveButtonSize: theMultiMenueButton.inactiveButtonSize
+            caption: modelData.caption
+            onClicked: {
+                theMultiMenueButton.close()
+                theMultiMenueButton.clicked(caption)
+            }
         }
     }
     Rectangle
@@ -85,13 +105,13 @@ Item
         radius: width / 2
         width: activeButtonSize
         height: width
-        color: "white"
-        border.width: 1
-        border.color: "grey"
-        Text
+        color: Constants.multiMenueConfig.color
+        YACImage
         {
             anchors.centerIn: parent
-            text: "+"
+            width: parent.width * 0.7
+            height: width
+            source: theMultiMenueButton.isOpen ? "qrc:/images/images/close_menue_icon.svg" : "qrc:/images/images/menue_move_icon.svg"
         }
         Behavior on width {
             enabled: theMultiMenueButton.behaviorsActive

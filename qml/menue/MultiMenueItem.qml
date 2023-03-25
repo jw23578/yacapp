@@ -1,11 +1,14 @@
 import QtQuick 2.15
+import "../items"
 
 Item
 {
     id: theMultiMenueItem
     width: 0
     height: 0
+    signal clicked(string caption)
     property alias color: menueOption1.color
+    property alias caption: theCaption.text
     property double activeButtonSize: 0
     property double inactiveButtonSize: 0
     property double myActiveSize: activeButtonSize * 0.8
@@ -53,7 +56,7 @@ Item
             {
                 target: theTextRectangle
                 property: "width"
-                to: activeButtonSize * 1.5
+                to: activeButtonSize * 2
                 duration: aniDuration
             }
         }
@@ -124,8 +127,19 @@ Item
         width: inactiveButtonSize
         height: inactiveButtonSize
         radius: height / 2
-        border.width: 1
-        border.color: "grey"
+        color: Constants.multiMenueConfig.itemColor
+        clip: true
+        YACText
+        {
+            id: theCaption
+            anchors.centerIn: parent
+            color: Constants.multiMenueConfig.fontColor
+        }
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked: theMultiMenueItem.clicked(theCaption.text)
+        }
     }
     Rectangle
     {
@@ -139,9 +153,14 @@ Item
         {
             anchors.centerIn: parent
             text: "T"
+            color: Constants.multiMenueConfig.fontColor
         }
-        border.width: 1
-        border.color: "grey"
+        color: Constants.multiMenueConfig.itemColor
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked: theMultiMenueItem.clicked(theCaption.text)
+        }
     }
 
 

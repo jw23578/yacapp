@@ -7,6 +7,8 @@
 #include "yacappmacros.h"
 #include "designoptions/mainmenueconfig.h"
 #include "designoptions/newspageconfig.h"
+#include "designoptions/multimenueconfig.h"
+#include "designoptions/globaldesignconfig.h"
 
 class Constants : public QObject
 {
@@ -46,8 +48,10 @@ class Constants : public QObject
     YACAPPPROPERTY(QColor, goodColor, GoodColor, "#A9CEA5");
     YACAPPPROPERTY(QColor, badColor, BadColor, "#F09494");
 
+    YACAPPPROPERTY(GlobalDesignConfig*, globalDesignConfig, GlobalDesignConfig, new GlobalDesignConfig);
     YACAPPPROPERTY(MainMenueConfig*, mainMenueConfig, MainMenueConfig, new MainMenueConfig);
     YACAPPPROPERTY(NewsPageConfig*, newsPageConfig, NewsPageConfig, new NewsPageConfig);
+    YACAPPPROPERTY(MultiMenueConfig*, multiMenueConfig, MultiMenueConfig, new MultiMenueConfig);
 public:
     Constants() {}
     Constants(const QString &customWriteablePath);
@@ -58,6 +62,7 @@ public:
     const QString getDBFilename(QString appId);
     const QString getAppConfigFilename(QString appId);
     const QString getCachePath() const;
+
 
 };
 

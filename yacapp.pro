@@ -19,7 +19,6 @@ SOURCES += \
         configmodels/configinterface.cpp \
         configmodels/contentconfig.cpp \
         configmodels/contentitem.cpp \
-        configmodels/footerconfig.cpp \
         configmodels/globalprojectconfig.cpp \
         configmodels/headerconfig.cpp \
         configmodels/menueconfig.cpp \
@@ -43,7 +42,9 @@ SOURCES += \
         dataobjects/spaceobject.cpp \
         dataobjects/worktimemainobject.cpp \
         dataobjects/worktimeobject.cpp \
+        designoptions/globaldesignconfig.cpp \
         designoptions/mainmenueconfig.cpp \
+        designoptions/multimenueconfig.cpp \
         designoptions/newspageconfig.cpp \
         firebase2qt.cpp \
         helper.cpp \
@@ -60,6 +61,7 @@ SOURCES += \
         yacapp.cpp
 
 RESOURCES += qml.qrc \
+  fonts.qrc \
   images.qrc
 
 TRANSLATIONS += \
@@ -84,7 +86,6 @@ HEADERS += \
   configmodels/configinterface.h \
   configmodels/contentconfig.h \
   configmodels/contentitem.h \
-  configmodels/footerconfig.h \
   configmodels/globalprojectconfig.h \
   configmodels/headerconfig.h \
   configmodels/menueconfig.h \
@@ -111,7 +112,9 @@ HEADERS += \
   dataobjects/spaceobject.h \
   dataobjects/worktimemainobject.h \
   dataobjects/worktimeobject.h \
+  designoptions/globaldesignconfig.h \
   designoptions/mainmenueconfig.h \
+  designoptions/multimenueconfig.h \
   designoptions/newspageconfig.h \
   firebase2qt.h \
   helper.h \

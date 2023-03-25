@@ -4,6 +4,7 @@ import ".."
 
 AppUserBasePage
 {
+    showCloseButton: true
     signal appointmentSaved();
     property date theStartDateTime: Helper.createDateTime2(Helper.currentDateTime(), 8, 0)
     property date theEndDateTime: Helper.createDateTime2(Helper.currentDateTime(), 8, 0)

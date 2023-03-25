@@ -4,6 +4,7 @@ import "../../items"
 
 AppUserBasePage
 {
+    showCloseButton: true
     property date since: new Date()
     property date until: new Date()
     id: theOverviewPage

@@ -5,6 +5,7 @@ import "../.."
 
 AppUserBasePage
 {
+    showCloseButton: true
     id: thePage
     signal rightgroupSaved();
     property string id: ""

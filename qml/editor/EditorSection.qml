@@ -73,14 +73,6 @@ Item
                 font.bold: true
                 id: theSectionCaption
                 width: parent.width
-                MouseArea
-                {
-                    anchors.fill: parent
-                    onClicked:
-                    {
-                        sectionColumn.toggle()
-                    }
-                }
             }
             Text
             {
@@ -93,6 +85,14 @@ Item
                     NumberAnimation {
                         duration: 200
                     }
+                }
+            }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    sectionColumn.toggle()
                 }
             }
         }

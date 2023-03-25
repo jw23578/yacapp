@@ -15,23 +15,7 @@ ApplicationWindow
     height: 932
     title: qsTr("Hello World")
 
-    Item
-    {
-        id: theDefaultSetItem
-        Text
-        {
-            font.pointSize: 9
-            id: theDefaultTextAndFont
-            Component.onCompleted:
-            {
-                Constants.defaultFontPixelSize = font.pixelSize
-            }
-        }
-        Component.onCompleted:
-        {
-            Constants.defaultMargin = parent.width / 20
-        }
-    }
+    DefaultsSetter {}
 
     //    onActiveFocusItemChanged:
     //    {
@@ -278,9 +262,6 @@ ApplicationWindow
         //        console.log(yacApp.mainConfig.content.items[1].height)
         checkForAppUpdate()
         Constants.appTotalWidth = width
-        console.log(width)
         Constants.appTotalHeight = height
-        console.log(height)
-        console.log("total")
     }
 }

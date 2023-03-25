@@ -3,6 +3,15 @@ import QtQuick 2.15
 FocusScope
 {
     id: theScope
+    function intValue()
+    {
+        if (text == "")
+        {
+            return 0
+        }
+        return parseInt(text)
+    }
+
     property bool showColumn: true
     property alias echoMode: inputItem.echoMode
     property alias color: theRectangle.color
