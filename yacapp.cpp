@@ -994,7 +994,7 @@ void YACAPP::appUserFetchRightGroups(QJSValue successCallback, QJSValue errorCal
         for (size_t i(0); i < rightgroups.size(); ++i)
         {
             QJsonObject rightgroup(rightgroups[i].toObject());
-            GroupObject *rg(new GroupObject);
+            RightGroupObject *rg(new RightGroupObject);
             rg->fromJSON(rightgroup);
             rightGroupsModel.append(rg);
         }
@@ -1007,7 +1007,7 @@ void YACAPP::appUserFetchRightGroups(QJSValue successCallback, QJSValue errorCal
     );
 }
 
-void YACAPP::appUserInsertOrUpdateRightGroup(const QString &id, const QString &name, const bool automatic, QJSValue successCallback, QJSValue errorCallback)
+void YACAPP::appUserInsertOrUpdateRightGroup(const QString &id, const QString &name, const bool automatic, const QString access_code, QJSValue successCallback, QJSValue errorCallback)
 {
     network.appUserInsertOrUpdateRightGroup(globalConfig()->projectID(),
                                             appUserConfig()->loginEMail(),
@@ -1015,24 +1015,14 @@ void YACAPP::appUserInsertOrUpdateRightGroup(const QString &id, const QString &n
                                             id,
                                             name,
                                             automatic,
+                                            access_code,
                                             [this, id, successCallback](const QJsonDocument &jsonDoc) mutable
     {
         QJsonObject object(jsonDoc.object());
         QJsonObject rightgroup(object["rightgroup"].toObject());
-        if (id.size())
-        {
-            GroupObject *rg(rightGroupsModel.getById(id));
-            if (rg)
-            {
-                rg->fromJSON(rightgroup);
-            }
-        }
-        else
-        {
-            GroupObject *rg(new GroupObject);
-            rg->fromJSON(rightgroup);
-            rightGroupsModel.append(rg);
-        }
+        RightGroupObject *rg(new RightGroupObject);
+        rg->fromJSON(rightgroup);
+        rightGroupsModel.append(rg);
         successCallback.call(QJSValueList());
     },
     [errorCallback](const QString &message) mutable

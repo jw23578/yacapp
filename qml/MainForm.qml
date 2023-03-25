@@ -114,7 +114,12 @@ Item
         onOpenSpaces:
         {
             theRealMenue.close()
-            spacesLoader.open()
+            yacApp.appUserFetchSpaces(function(message) {
+                spacesLoader.open()
+            },
+            function(message) {
+                yacApp.badMessage(qsTr("Could not load Spaces, please try again later. ") + message, null, null)
+            })
         }
     }
 

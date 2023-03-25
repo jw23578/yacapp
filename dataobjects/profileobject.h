@@ -18,6 +18,8 @@ public:
     ProfileObject(const ProfileObject &other);
 
     void incUnreadMessages();
+
+    void assign(const ProfileObject &other);
 };
 
 #endif // PROFILEOBJECT_H

@@ -200,6 +200,7 @@ public:
                                          const QString &id,
                                          const QString &name,
                                          const bool automatic,
+                                         const QString &access_code,
                                          JSONCallbackFunction jsonSuccessCallback,
                                          CallbackFunction errorCallback);
 

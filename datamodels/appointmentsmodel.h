@@ -6,9 +6,6 @@
 
 class AppointmentsModel : public TemplatedDataModel<AppointmentObject>
 {
-protected:    
-    bool canAppend(AppointmentObject *object) const override;
-
 public:
     AppointmentsModel(QQmlApplicationEngine &engine);
 

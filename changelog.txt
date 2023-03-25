@@ -24,6 +24,13 @@ Ab jetzt werden nur noch neue Termine eingetragen
 
 - Der Multibuttoon war, wenn er angeklickt wurde nicht über dem Menü, korrigiert
 
+- Spaces werden jetzt wieder geladen, wenn die Spaces aufgerufen werden
+
+- Das TemplatedataModel überprüft jetzt, ob neue Elemente angehängt werden dürfen oder nicht.
+Das erzwingt bei allen Dataobjects ein Assign und dafür hätte ich gerne eine bessere Implementierung, als dass ich das jedesmal machen muss
+
+- Rechtegruppen haben jetzt auch einen Accesscode, Idee ist, dass man sich selbst in so eine Gruppe eintragen kann, wenn man den Accesscode kennt
+
 2023-03-23
 - Die Font PointSize kann jetzt mit Buttons +/- verstellt werden, das geht besser als mit der Eingabe, weil da auch mal 1 oder 0 steht und dann nix mehr angezeigt wird.
 

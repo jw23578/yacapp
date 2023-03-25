@@ -22,3 +22,14 @@ QString MessageObject::base64()
 {
     return QByteArray(content().toUtf8()).toBase64();
 }
+
+void MessageObject::assign(const MessageObject &other)
+{
+    setId(other.id());
+    setSenderId(other.senderId());
+    setReceiverId(other.receiverId());
+    setSent(other.sent());
+    setReceived(other.received());
+    setContent(other.content());
+    setRead(other.read());
+}

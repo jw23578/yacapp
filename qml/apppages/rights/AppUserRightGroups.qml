@@ -11,7 +11,7 @@ AppUserBasePage
         console.log("caption: " + caption)
         if (caption == qsTr("Add Rightgroup"))
         {
-            appUserInsertRightGroup.show("", "", false)
+            appUserInsertRightGroup.show(null)
         }
     }
     multiMenueButton.hide: appUserInsertRightGroup.visible
@@ -53,17 +53,7 @@ AppUserBasePage
             MouseArea
             {
                 anchors.fill: parent
-                onClicked:
-                {
-                    yacApp.appUserFetchRightGroup(rightgroup.id,
-                                                  function(message){
-                                                      console.log(yacApp.currentFetchedIds)
-                                                      appUserInsertRightGroup.show(rightgroup.id,
-                                                                                   rightgroup.name,
-                                                                                   rightgroup.automatic)
-                                                  },
-                                                  function(message){})
-                }
+                onClicked: appUserInsertRightGroup.show(rightgroup)
             }
             YACButton
             {
@@ -94,6 +84,7 @@ AppUserBasePage
 
     AppUserInsertRightGroup
     {
+        z: 1
         id: appUserInsertRightGroup
         anchors.fill: parent
         visible: false

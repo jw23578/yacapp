@@ -9,6 +9,7 @@
 class WorktimeMainObject : public DataObjectInterface
 {
     Q_OBJECT
+    YACAPPPROPERTY(QString, id, Id, "");
     YACAPPPROPERTY(QDateTime, begin_ts, begin_ts, QDateTime());
     YACAPPPROPERTY(QDateTime, end_ts, end_ts, QDateTime());
 
@@ -24,6 +25,8 @@ public:
     TemplatedDataModel<WorktimeObject> subentries;
 
     Q_INVOKABLE QAbstractItemModel *getSubentries();
+
+    void assign(const WorktimeMainObject &other);
 };
 
 #endif // WORKTIMEMAINOBJECT_H

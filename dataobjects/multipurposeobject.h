@@ -11,6 +11,8 @@ class MultiPurposeObject : public DataObjectInterface
     YACAPPPROPERTY(QString, caption, Caption, "");
 public:
     explicit MultiPurposeObject(QObject *parent = nullptr);
+
+    void assign(const MultiPurposeObject &other);
 };
 
 #endif // MULTIPURPOSEOBJECT_H

@@ -27,6 +27,8 @@ public:
 
     QString base64();
 
+    void assign(const MessageObject &other);
+
 signals:
 
 };

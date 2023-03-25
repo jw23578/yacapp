@@ -23,6 +23,7 @@
 #include "yacAppAndServer/tablefields.h"
 #include "dataobjects/groupobject.h"
 #include "dataobjects/spaceobject.h"
+#include "dataobjects/rightgroupobject.h"
 #include "dataobjects/multipurposeobject.h"
 #include "dataobjects/worktimeobject.h"
 #include "dataobjects/worktimemainobject.h"
@@ -87,7 +88,7 @@ class YACAPP : public QObject
 
     AppointmentsModel appointmentsModel;
 
-    TemplatedDataModel<GroupObject> rightGroupsModel;
+    TemplatedDataModel<RightGroupObject> rightGroupsModel;
     TemplatedDataModel<MultiPurposeObject> allRightsModel;
 
     TemplatedDataModel<SpaceObject> spacesModel;
@@ -219,6 +220,7 @@ public:
     Q_INVOKABLE void appUserInsertOrUpdateRightGroup(const QString &id,
                                                      const QString &name,
                                                      const bool automatic,
+                                                     const QString access_code,
                                                      QJSValue successCallback,
                                                      QJSValue errorCallback);
     Q_INVOKABLE void appUserDeleteRightGroup(const QString &id,

@@ -9,10 +9,17 @@ WorktimeObject::WorktimeObject(QObject *parent)
 
 void WorktimeObject::fromJSON(QJsonObject &o)
 {
-    setid(o[tableFields.id].toString());
+    setId(o[tableFields.id].toString());
     QString tsString(o[tableFields.ts].toString());
-    setts(QDateTime::fromString(tsString, Qt::DateFormat::ISODateWithMs));
-    settype(o[tableFields.type].toString().toInt());
+    setTs(QDateTime::fromString(tsString, Qt::DateFormat::ISODateWithMs));
+    setType(o[tableFields.type].toString().toInt());
+}
+
+void WorktimeObject::assign(const WorktimeObject &other)
+{
+    setId(other.id());
+    setTs(other.ts());
+    setType(other.type());
 }
 
 QString WorktimeObject::getTypeString() const

@@ -5,21 +5,30 @@ import "../.."
 
 AppUserBasePage
 {
+    multiMenueButton.visible: false
     showCloseButton: true
     id: thePage
     signal rightgroupSaved();
-    property string id: ""
-    function show(id, name, automatic)
+    property string rightGroupID: ""
+    function show(rightgroup)
     {
-        thePage.id = id
-        theName.text = name
-        theAutomatic.currentIndex = automatic ? 1 : 0
-        if (id != "")
+        thePage.rightGroupID = ""
+        theName.text = ""
+        theAccessCode.text = ""
+        theAutomatic.currentIndex = 0
+        if (rightgroup != null)
         {
-            theMultiSelectItem.previousSelected.clear()
-            for (var i = 0; i < yacApp.currentFetchedIds.length; ++i)
+            thePage.rightGroupID = rightgroup.id
+            theName.text = rightgroup.name
+            theAccessCode.text = rightgroup.access_code
+            theAutomatic.currentIndex = rightgroup.automatic ? 1 : 0
+            if (thePage.rightGroupID != "")
             {
-                theMultiSelectItem.previousSelected.add(yacApp.currentFetchedIds[i])
+                theMultiSelectItem.previousSelected.clear()
+                for (var i = 0; i < yacApp.currentFetchedIds.length; ++i)
+                {
+                    theMultiSelectItem.previousSelected.add(yacApp.currentFetchedIds[i])
+                }
             }
         }
         thePage.visible = true
@@ -28,12 +37,18 @@ AppUserBasePage
     YACPageColumn
     {
         id: theColumn
-        centerVertical: false
+        centerVertical: true
         YACLineEditWithHeader
         {
             id: theName
             headerText: qsTr("RightGroup-Name")
         }
+        YACLineEditWithHeader
+        {
+            id: theAccessCode
+            headerText: qsTr("Accesscode")
+        }
+
         YACComboBoxWithHeader
         {
             id: theAutomatic
@@ -74,10 +89,11 @@ AppUserBasePage
             yacApp.badMessage(qsTr("Please insert Name first"), theName, null)
             return
         }
-        yacApp.appUserInsertOrUpdateRightGroup(thePage.id,
-                                                          theName.displayText,
-                                                          theAutomatic.currentIndex == 1,
-                                                          function(message){rightgroupSaved()},
-                                                          function(message){console.log(message)})
+        yacApp.appUserInsertOrUpdateRightGroup(thePage.rightGroupID,
+                                               theName.displayText,
+                                               theAutomatic.currentIndex == 1,
+                                               theAccessCode.text,
+                                               function(message){rightgroupSaved()},
+                                               function(message){console.log(message)})
     }
 }

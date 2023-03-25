@@ -1,11 +1,5 @@
 #include "profilesmodel.h"
 
-bool ProfilesModel::canAppend(ProfileObject *object) const
-{
-    auto it(id2object.find(object->id()));
-    return it == id2object.end();
-}
-
 void ProfilesModel::internalAppend(ProfileObject *object)
 {
     TemplatedDataModel<ProfileObject>::internalAppend(object);

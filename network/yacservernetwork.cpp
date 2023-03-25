@@ -613,6 +613,7 @@ void YACServerNetwork::appUserInsertOrUpdateRightGroup(const QString &appId,
                                                        const QString &id,
                                                        const QString &name,
                                                        const bool automatic,
+                                                       const QString &access_code,
                                                        JSONCallbackFunction jsonSuccessCallback,
                                                        CallbackFunction errorCallback)
 {
@@ -621,6 +622,7 @@ void YACServerNetwork::appUserInsertOrUpdateRightGroup(const QString &appId,
     QJsonObject obj;
     MACRO_JSON_SET(obj, name);
     MACRO_JSON_SET(obj, automatic);
+    MACRO_JSON_SET(obj, access_code);
     if (id.size())
     {
         MACRO_JSON_SET(obj, id);

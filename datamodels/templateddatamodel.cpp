@@ -15,6 +15,14 @@ T *TemplatedDataModel<T>::getObject(size_t index) const
 template<class T>
 bool TemplatedDataModel<T>::canAppend(T *object) const
 {
+    for (const auto &o: objects)
+    {
+        if (o->id() == object->id())
+        {
+            o->assign(*object);
+            return false;
+        }
+    }
     Q_UNUSED(object);
     return true;
 }

@@ -1,10 +1,10 @@
-#ifndef SPACEOBJECT_H
-#define SPACEOBJECT_H
+#ifndef RIGHTGROUPOBJECT_H
+#define RIGHTGROUPOBJECT_H
 
 #include "dataobjectinterface.h"
 #include "yacAppAndServer/tablefields.h"
 
-class SpaceObject : public DataObjectInterface
+class RightGroupObject : public DataObjectInterface
 {
     Q_OBJECT
     TableFields tableFields;
@@ -14,14 +14,10 @@ class SpaceObject : public DataObjectInterface
     YACAPPPROPERTY(QString, name, Name, "");
     YACAPPPROPERTY(QString, access_code, access_code, "");
     YACAPPPROPERTY(bool, automatic, Automatic, false);
-    YACAPPPROPERTY(bool, member, member, false);
-    YACAPPPROPERTY(bool, requested, requested, false);
-    YACAPPPROPERTY(bool, denied, denied, false);
 public:
-    explicit SpaceObject(QObject *parent = nullptr);
+    explicit RightGroupObject(QObject *parent = nullptr);
     void fromJSON(QJsonObject &o);
-
-    void assign(const SpaceObject &other);
+    void assign(const RightGroupObject &other);
 };
 
-#endif // SPACEOBJECT_H
+#endif // RIGHTGROUPOBJECT_H

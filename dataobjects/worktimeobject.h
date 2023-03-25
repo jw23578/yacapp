@@ -10,9 +10,9 @@ class WorktimeObject : public DataObjectInterface
     Q_OBJECT
     TableFields tableFields;
 
-    YACAPPPROPERTY(QString, id, id, "");
-    YACAPPPROPERTY(QDateTime, ts, ts, QDateTime());
-    YACAPPPROPERTY(int, type, type, 0);
+    YACAPPPROPERTY(QString, id, Id, "");
+    YACAPPPROPERTY(QDateTime, ts, Ts, QDateTime());
+    YACAPPPROPERTY(int, type, Type, 0);
 public:
     explicit WorktimeObject(QObject *parent = nullptr);
 
@@ -28,6 +28,8 @@ public:
     };
 
     void fromJSON(QJsonObject &o);
+
+    void assign(const WorktimeObject &other);
 
     Q_INVOKABLE QString getTypeString() const;
 };
