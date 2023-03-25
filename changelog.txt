@@ -15,6 +15,10 @@
 
 - Nach dem Login/Registrieren wird jetzt direkt die gewünschte Seite aufgerufen
 
+- Beim Logout wird jetzt die Profilseite geschlossen
+
+- Nach Login -> Logout wurde beim erneuten Login direkt die Passworteingabe angezeigt und das Passwort war noch eingetragen
+
 2023-03-23
 - Die Font PointSize kann jetzt mit Buttons +/- verstellt werden, das geht besser als mit der Eingabe, weil da auch mal 1 oder 0 steht und dann nix mehr angezeigt wird.
 

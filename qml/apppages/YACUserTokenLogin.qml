@@ -112,15 +112,16 @@ AppUserBasePage
                         yacApp.appUserVerify(login.displayText,
                                              token.displayText,
                                              function(message) {
-                                                 console.log(message)
+                                                 token.text = ""
                                                  if (tokenButton.text == qsTr("Login"))
                                                  {
                                                      yacApp.goodMessage(qsTr("You are logged in. Have fun!"), null, null)
-                                                     loginSuccessful();
-                                                     return
+                                                 } else
+                                                 {
+                                                    yacApp.goodMessage(qsTr("Verification successful, you are logged in. Have fun!"), null, null)
                                                  }
-                                                 yacApp.goodMessage(qsTr("Verification successful, you are logged in. Have fun!"), null, null)
                                                  loginSuccessful();
+                                                 theSwipeView.setCurrentIndex(0)
 
                                              },
                                              function(message) {
@@ -166,8 +167,10 @@ AppUserBasePage
                         yacApp.appUserLogin(login.displayText,
                                             password.text,
                                             function(message) {
+                                                password.text = ""
                                                 yacApp.goodMessage(qsTr("Login successful, have fun!"), null, null)
-                                                loginSuccessful()
+                                                loginSuccessful();
+                                                theSwipeView.setCurrentIndex(0)
                                             },
                                             function(message) {
                                                 yacApp.badMessage(qsTr(message), null, null)

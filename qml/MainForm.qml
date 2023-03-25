@@ -280,6 +280,7 @@ Item
             {
                 YACUserProfile
                 {
+                    onLogout: profileLoader.close()
                 }
             }
         }

@@ -32,7 +32,7 @@ AppUserBasePage
         YACLineEditWithHeader
         {
             id: theName
-            headerText: qsTr("Name")
+            headerText: qsTr("RightGroup-Name")
         }
         YACComboBoxWithHeader
         {

@@ -40,7 +40,7 @@ AppUserBasePage
         YACLineEditWithHeader
         {
             id: theName
-            headerText: qsTr("Name")
+            headerText: qsTr("Space-Name")
         }
         YACLineEditWithHeader
         {

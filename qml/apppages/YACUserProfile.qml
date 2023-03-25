@@ -6,6 +6,7 @@ AppUserBasePage
 {
 
     id: theProfilePage
+    signal logout()
     multiMenueButton.visible: true
     multiMenueButton.model: [{caption: qsTr("Logout")},
         {caption: qsTr("Change Profileimage")}]
@@ -15,6 +16,7 @@ AppUserBasePage
         if (caption == qsTr("Logout"))
         {
             yacApp.appUserLogout()
+            theProfilePage.logout()
         }
         if (caption == qsTr("Change Profileimage"))
         {
