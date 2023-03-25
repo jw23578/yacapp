@@ -7,7 +7,7 @@
 class AppointmentsModel : public TemplatedDataModel<AppointmentObject>
 {
 protected:    
-    void internalAppend(AppointmentObject *object)  override;
+    bool canAppend(AppointmentObject *object) const override;
 
 public:
     AppointmentsModel(QQmlApplicationEngine &engine);

@@ -12,7 +12,6 @@ Item
     property bool once: true
     property bool isClosed: true
     property bool menueOpen: !isClosed
-    property alias openCloseButtonHeight: openCloseButton.height
     function toggle()
     {
         if (isClosed)
@@ -23,6 +22,12 @@ Item
         {
             close()
         }
+    }
+    YACButton
+    {
+        id: sizeButton
+        visible: false
+        text: "+"
     }
 
     function open()
@@ -37,10 +42,10 @@ Item
             openYAni.to = buttonColumn.y
             openWidthAni.to = buttonColumn.width
             openHeightAni.to = buttonColumn.height
-            buttonColumn.x = openCloseButton.x
-            buttonColumn.y = openCloseButton.y
-            buttonColumn.width = openCloseButton.width
-            buttonColumn.height = openCloseButton.height
+            buttonColumn.width = sizeButton.width
+            buttonColumn.height = sizeButton.height
+            buttonColumn.x = -sizeButton.width
+            buttonColumn.y = parent.height
         }
         buttonColumn.visible = true
         openAni.start()
@@ -101,7 +106,7 @@ Item
             property: "x"
             duration: 200
             easing.type: Easing.InOutQuad
-            to: openCloseButton.x
+            to: -sizeButton.width
         }
         NumberAnimation
         {
@@ -110,7 +115,7 @@ Item
             property: "y"
             duration: 200
             easing.type: Easing.InOutQuad
-            to: openCloseButton.y
+            to: parent.height
         }
         NumberAnimation
         {
@@ -119,7 +124,7 @@ Item
             property: "width"
             duration: 200
             easing.type: Easing.InOutQuad
-            to: openCloseButton.width
+            to: sizeButton.width
         }
         NumberAnimation
         {
@@ -128,7 +133,7 @@ Item
             property: "height"
             duration: 200
             easing.type: Easing.InOutQuad
-            to: openCloseButton.height
+            to: sizeButton.height
         }
     }
 
@@ -153,24 +158,5 @@ Item
                 }
             }
         }
-    }
-    YACButton
-    {
-        id: openCloseButton
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        text: "M"
-        onClicked:
-        {
-            if (isClosed)
-            {
-                defaultMenue.open()
-            }
-            else
-            {
-                defaultMenue.close()
-            }
-        }
-
     }
 }

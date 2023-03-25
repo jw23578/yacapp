@@ -19,6 +19,11 @@
 
 - Nach Login -> Logout wurde beim erneuten Login direkt die Passworteingabe angezeigt und das Passwort war noch eingetragen
 
+- Bei jedem Klick auf "Termine"/"Appointments" wurden die Termine neu geladen und alle noch mal in die Liste eingetragen.
+Ab jetzt werden nur noch neue Termine eingetragen
+
+- Der Multibuttoon war, wenn er angeklickt wurde nicht über dem Menü, korrigiert
+
 2023-03-23
 - Die Font PointSize kann jetzt mit Buttons +/- verstellt werden, das geht besser als mit der Eingabe, weil da auch mal 1 oder 0 steht und dann nix mehr angezeigt wird.
 

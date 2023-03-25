@@ -1,6 +1,6 @@
 #include "appointmentsmodel.h"
 
-void AppointmentsModel::internalAppend(AppointmentObject *object)
+bool AppointmentsModel::canAppend(AppointmentObject *object) const
 {
     for (size_t i(0); i < size(); ++i)
     {
@@ -8,11 +8,10 @@ void AppointmentsModel::internalAppend(AppointmentObject *object)
         if (o.appointment_group_id() == object->appointment_group_id())
         {
             o.assign(*object);
-            delete object;
-            return;
+            return false;
         }
     }
-    TemplatedDataModel<AppointmentObject>::internalAppend(object);
+    return true;
 }
 
 AppointmentsModel::AppointmentsModel(QQmlApplicationEngine &engine):

@@ -41,7 +41,7 @@ Item
     }
     SuperMenue
     {
-        z: 1
+        z: currentOpenedLoader == null ? 1 : 0
         id: theSuperMenue
         onPleaseRegisterOrLogin:
         {
@@ -103,7 +103,13 @@ Item
         onOpenRights:
         {
             theRealMenue.close()
-            rightgroupsLoader.open()
+            yacApp.appUserFetchRightGroups(function(message) {
+                rightgroupsLoader.open()
+            },
+            function(message) {
+                yacApp.badMessage(qsTr("Could not load Rightgroups, please try again later. ") + message, null, null)
+            })
+
         }
         onOpenSpaces:
         {
@@ -119,6 +125,7 @@ Item
     }
     Item
     {
+        z: 0
         id: contentItem
         width: parent.width
         height: parent.height - theSuperMenue.smallElemHeight
@@ -148,6 +155,22 @@ Item
                     theItem.currentItemChanged(currentItem.config)
                     menueSwitchPause.start()
                 }
+            }
+        }
+        YACImage
+        {
+            anchors.top: parent.top
+            anchors.topMargin: parent.height * yacApp.globalConfig.logoOffsetYPerThousand / 1000.0
+            anchors.left: parent.left
+            anchors.leftMargin: parent.width * yacApp.globalConfig.logoOffsetXPerThousand / 1000.0
+            visible: source != ""
+            source: yacApp.globalConfig.logoUrl
+            width: parent.width * yacApp.globalConfig.logoWidthPerThousand / 1000.0
+            height: parent.height * yacApp.globalConfig.logoHeightPerThousand / 1000.0
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: theStackView.pop(null)
             }
         }
         BasePageLoader
@@ -286,22 +309,6 @@ Item
         }
     }
 
-    YACImage
-    {
-        anchors.top: parent.top
-        anchors.topMargin: parent.height * yacApp.globalConfig.logoOffsetYPerThousand / 1000.0
-        anchors.left: parent.left
-        anchors.leftMargin: parent.width * yacApp.globalConfig.logoOffsetXPerThousand / 1000.0
-        visible: source != ""
-        source: yacApp.globalConfig.logoUrl
-        width: parent.width * yacApp.globalConfig.logoWidthPerThousand / 1000.0
-        height: parent.height * yacApp.globalConfig.logoHeightPerThousand / 1000.0
-        MouseArea
-        {
-            anchors.fill: parent
-            onClicked: theStackView.pop(null)
-        }
-    }
 
     Loader
     {
