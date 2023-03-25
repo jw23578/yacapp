@@ -41,7 +41,7 @@ Item
     }
     SuperMenue
     {
-        z: currentOpenedLoader == null ? 1 : 0
+        z: currentOpenedLoader == null || Constants.superMenueOpen ? 1 : 0
         id: theSuperMenue
         onPleaseRegisterOrLogin:
         {
@@ -51,7 +51,10 @@ Item
         onMenueOpened:
         {
             theRealMenue.close()
-            currentOpenedLoader.close()
+            if (currentOpenedLoader != null)
+            {
+                currentOpenedLoader.close()
+            }
         }
         onOpenCustomMenue:
         {

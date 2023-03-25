@@ -33,7 +33,7 @@ AppUserBasePage
         {
             width: parent.width
             height: theNewsPage.height * Constants.newsPageConfig.topRightItemHeightFactor
-            color: Constants.newsPageConfig.messagesColor
+            color: SpaceRequestsModel.count ? "red" : Constants.newsPageConfig.messagesColor
         }
     }
     ListView

@@ -14,7 +14,7 @@ public:
     ExtTemplatedDataModel(QQmlApplicationEngine &engine,
                           const QString &modelName,
                           const QString &objectName,
-                          typename DataModelInterface<T>::DirectionType const direction);
+                          typename TemplatedDataModelInterface<T>::DirectionType const direction);
 
     T *findById(const QString &id);
 };

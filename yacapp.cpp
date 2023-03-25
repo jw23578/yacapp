@@ -28,6 +28,7 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
       rightGroupsModel(engine, "RightGroupsModel", "rightgroup"),
       allRightsModel(engine, "AllRightsModel", "rightmpo"),
       spacesModel(engine, "SpacesModel", "space"),
+      spaceRequestsModel(engine, "SpaceRequestsModel", "spaceRequest"),
       worktimeMainsModel(engine, "WorktimesModel", "worktime")
 {
     m_moodModel.push_back(tr("Perfect"));
@@ -1248,6 +1249,15 @@ void YACAPP::fetchMessageUpdates()
         QString sni(jsonDoc["serverNowISO"].toString());
         setServerNow(QDateTime::fromString(sni, "yyyy-MM-ddThh:mm:ssZ"));
         saveState();
+        QJsonArray spaceRequests(object["spaceRequests"].toArray());
+        for (int i(0); i < spaceRequests.size(); ++i)
+        {
+            const QJsonObject spaceRequest(spaceRequests[i].toObject());
+            SpaceRequestObject *sro(new SpaceRequestObject);
+            sro->fromJSON(spaceRequest);
+            spaceRequestsModel.append(sro);
+        }
+
         QJsonArray messages(object["messages"].toArray());
         for (int i(0); i < messages.size(); ++i)
         {

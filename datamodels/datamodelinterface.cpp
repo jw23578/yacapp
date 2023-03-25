@@ -1,5 +1,6 @@
 #include "datamodelinterface.h"
 #include <QQmlContext>
+#include "dataobjects/dataobjectinterface.h"
 
 template <class T>
 bool DataModelInterface<T>::first(true);
@@ -23,7 +24,7 @@ DataModelInterface<T>::DataModelInterface(QQmlApplicationEngine &engine,
                                           const QString &modelName,
                                           const QString &objectName,
                                           const DirectionType direction):
-    QAbstractItemModel{&engine},
+    DataModelQObjectInterface{&engine},
     modelName(modelName),
     objectName(objectName),
     direction(direction)
@@ -40,7 +41,7 @@ DataModelInterface<T>::DataModelInterface(QQmlApplicationEngine &engine,
 template<class T>
 DataModelInterface<T>::DataModelInterface(const QString &objectName,
                                           const DirectionType direction):
-    QAbstractItemModel(0),
+    DataModelQObjectInterface(0),
     objectName(objectName),
     direction(direction)
 {
@@ -126,6 +127,7 @@ bool DataModelInterface<T>::append(T *object)
     }
     internalAppend(object);
     endInsertRows();
+    setCount(size());
     return true;
 }
 

@@ -12,7 +12,6 @@
 #include "helper.h"
 #include <QJSValue>
 #include "datamodels/templateddatamodel.h"
-#include "dataobjects/profileobject.h"
 #include "datamodels/profilesmodel.h"
 #include "datamodels/appointmentsmodel.h"
 #include "localstorage/localstorage.h"
@@ -27,6 +26,8 @@
 #include "dataobjects/multipurposeobject.h"
 #include "dataobjects/worktimeobject.h"
 #include "dataobjects/worktimemainobject.h"
+#include "dataobjects/profileobject.h"
+#include "dataobjects/spacerequestobject.h"
 
 class Configurator;
 
@@ -92,6 +93,7 @@ class YACAPP : public QObject
     TemplatedDataModel<MultiPurposeObject> allRightsModel;
 
     TemplatedDataModel<SpaceObject> spacesModel;
+    TemplatedDataModel<SpaceRequestObject> spaceRequestsModel;
 
     TemplatedDataModel<WorktimeMainObject> worktimeMainsModel;
 

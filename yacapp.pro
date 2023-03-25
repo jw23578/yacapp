@@ -30,6 +30,7 @@ SOURCES += \
         constants.cpp \
         datamodels/appointmentsmodel.cpp \
         datamodels/asyncimageresponse.cpp \
+        datamodels/datamodelqobjectinterface.cpp \
         datamodels/messagesmodel.cpp \
         datamodels/objectdatamodel.cpp \
         datamodels/profilesmodel.cpp \
@@ -41,6 +42,7 @@ SOURCES += \
         dataobjects/profileobject.cpp \
         dataobjects/rightgroupobject.cpp \
         dataobjects/spaceobject.cpp \
+        dataobjects/spacerequestobject.cpp \
         dataobjects/worktimemainobject.cpp \
         dataobjects/worktimeobject.cpp \
         designoptions/globaldesignconfig.cpp \
@@ -99,6 +101,7 @@ HEADERS += \
   datamodels/appointmentsmodel.h \
   datamodels/asyncimageresponse.h \
   datamodels/datamodelinterface.h \
+  datamodels/datamodelqobjectinterface.h \
   datamodels/exttemplateddatamodel.h \
   datamodels/messagesmodel.h \
   datamodels/objectdatamodel.h \
@@ -112,6 +115,7 @@ HEADERS += \
   dataobjects/profileobject.h \
   dataobjects/rightgroupobject.h \
   dataobjects/spaceobject.h \
+  dataobjects/spacerequestobject.h \
   dataobjects/worktimemainobject.h \
   dataobjects/worktimeobject.h \
   designoptions/globaldesignconfig.h \

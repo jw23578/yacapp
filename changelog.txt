@@ -33,6 +33,14 @@ Das erzwingt bei allen Dataobjects ein Assign und dafür hätte ich gerne eine b
 
 - Bei einer Rechtegruppe wird jetzt auch angezeigt, wenn man der Owner dieser Gruppe ist
 
+- Server: Die Statusabfrage bzgl. Nachrichten (das andere die Nachricht empfangen/gelesen haben) wird jetzt in einer Query abgefragt, statt in 2
+
+- Server: Bei Abfrage der Nachrichten werden jetzt auch Space-Anfragen mit abgerufen (werden in der App aber noch nicht angezeigt)
+
+- Intern: Datamodels habe jetzt noch eine Interface-Abstraktion mehr in der die Anzahl der Elemente als Property eingeführt ist
+
+- Wenn es Spacerequests gibt, dann wird eine Kachel (rechts oben) auf der Newsseite jetzt Rot
+
 2023-03-23
 - Die Font PointSize kann jetzt mit Buttons +/- verstellt werden, das geht besser als mit der Eingabe, weil da auch mal 1 oder 0 steht und dann nix mehr angezeigt wird.
 

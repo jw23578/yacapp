@@ -3,10 +3,10 @@
 
 #include <QAbstractItemModel>
 #include <QQmlApplicationEngine>
-#include "dataobjects/dataobjectinterface.h"
+#include "datamodelqobjectinterface.h"
 
 template <class T>
-class DataModelInterface : public QAbstractItemModel
+class DataModelInterface : public DataModelQObjectInterface
 {
 public:
     enum DirectionType
