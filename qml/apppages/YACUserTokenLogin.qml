@@ -4,18 +4,19 @@ import "../items"
 import "qrc:/EMailPasswordFunctions.js" as EMailPasswordFunctions
 
 
-Rectangle
+AppUserBasePage
 {
     id: theTokenLogin
     anchors.fill: parent
-    signal closeClicked()
+    showCloseButton: true
+    signal loginSuccessful()
     SwipeView
     {
         id: theSwipeView
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.bottom: closeButton.top
+        anchors.bottom: buttonRow.top
         Rectangle
         {
             id: helloView
@@ -115,9 +116,12 @@ Rectangle
                                                  if (tokenButton.text == qsTr("Login"))
                                                  {
                                                      yacApp.goodMessage(qsTr("You are logged in. Have fun!"), null, null)
+                                                     loginSuccessful();
                                                      return
                                                  }
                                                  yacApp.goodMessage(qsTr("Verification successful, you are logged in. Have fun!"), null, null)
+                                                 loginSuccessful();
+
                                              },
                                              function(message) {
                                                  yacApp.badMessage(message, verifyToken, null)
@@ -163,7 +167,7 @@ Rectangle
                                             password.text,
                                             function(message) {
                                                 yacApp.goodMessage(qsTr("Login successful, have fun!"), null, null)
-                                                closeClicked()
+                                                loginSuccessful()
                                             },
                                             function(message) {
                                                 yacApp.badMessage(qsTr(message), null, null)
@@ -197,14 +201,5 @@ Rectangle
                 }
             }
         }
-    }
-    YACButton
-    {
-        id: closeButton
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width * Constants.defaultWidthFactor
-        text: qsTr("Close")
-        onClicked: theTokenLogin.closeClicked()
     }
 }

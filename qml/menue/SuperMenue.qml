@@ -15,6 +15,7 @@ Item
     signal openMessages()
     signal menueOpened()
     signal menueClosed()
+    signal pleaseRegisterOrLogin(string wantedCaption)
     function actionSwitch(caption)
     {
         switch (caption)
@@ -31,21 +32,29 @@ Item
     }
 
     property var menueItems: [{caption: qsTr("Menue"),
-            iconUrl: ""},
+            iconUrl: "",
+            loginNeeded: false},
         {caption: qsTr("News"),
-            iconUrl: ""},
+            iconUrl: "",
+            loginNeeded: true},
         {caption: qsTr("Worktime"),
-            iconUrl: "qrc:/images/images/appointments_menue_icon.svg"},
+            iconUrl: "qrc:/images/images/appointments_menue_icon.svg",
+            loginNeeded: true},
         {caption: qsTr("Appointments"),
-            iconUrl: ""},
+            iconUrl: "",
+            loginNeeded: true},
         {caption: qsTr("Spaces"),
-            iconUrl: ""},
+            iconUrl: "",
+            loginNeeded: true},
         {caption: qsTr("Rights"),
-            iconUrl: ""},
+            iconUrl: "",
+            loginNeeded: true},
         {caption: qsTr("Profile"),
-            iconUrl: ""},
+            iconUrl: "",
+            loginNeeded: true},
         {caption: qsTr("Message"),
-            iconUrl: ""}
+            iconUrl: "",
+            loginNeeded: true}
     ]
     property int animationDuration: 400
     property int animationSlowdown: 30
@@ -151,7 +160,14 @@ Item
                     animationDuration: theMenu.animationDuration
                     animationSlowdown: theMenu.animationSlowdown * 0
                     animactionVelocity: theMenu.animactionVelocity
-                    onClicked: actionSwitch(modelData.caption)
+                    onClicked: {
+                        if (modelData.loginNeeded && !yacApp.appUserConfig.loggedIn)
+                        {
+                            theMenu.pleaseRegisterOrLogin(modelData.caption)
+                            return
+                        }
+                        actionSwitch(modelData.caption)
+                    }
                     iconUrl: modelData.iconUrl
                 }
             }

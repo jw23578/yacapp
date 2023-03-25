@@ -7,7 +7,13 @@
 
 - Die Höhe der Elemente im Supermenü die unten in der App angezeigt werden sollen kann konfiguriert werden
 
-- Der Dsignconfigurator kann jetzt auch in der App aufgerufen werden
+- Der Deignconfigurator kann jetzt auch in der App aufgerufen werden
+
+- Das Supermenü verarbeitet jetzt selbst, ob man eingeloggt sein muss oder nicht
+
+- Das Formular zum Anmelden/Registrieren mit Token ist jetzt auch eine BasePage
+
+- Nach dem Login/Registrieren wird jetzt direkt die gewünschte Seite aufgerufen
 
 2023-03-23
 - Die Font PointSize kann jetzt mit Buttons +/- verstellt werden, das geht besser als mit der Eingabe, weil da auch mal 1 oder 0 steht und dann nix mehr angezeigt wird.

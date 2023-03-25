@@ -43,6 +43,11 @@ Item
     {
         z: 1
         id: theSuperMenue
+        onPleaseRegisterOrLogin:
+        {
+            tokenLoginLoader.wantedCaption = wantedCaption
+            tokenLoginLoader.open()
+        }
         onMenueOpened:
         {
             theRealMenue.close()
@@ -74,11 +79,6 @@ Item
         }
         onOpenAppointments: {
             theRealMenue.close()
-            if (!yacApp.appUserConfig.loggedIn)
-            {
-                yacApp.badMessage(qsTr("Please login first."), null, null);
-                return
-            }
             yacApp.appUserFetchAppointments(function(message)
             {
                 appointmensLoader.open()
@@ -91,21 +91,14 @@ Item
         }
         onOpenProfile: {
             theRealMenue.close()
-            if (yacApp.appUserConfig.loginToken == "")
+            yacApp.fetchMyProfile(function(message) {
+                profileLoader.open()
+            },
+            function(message)
             {
-                tokenLoginLoader.open()
+                yacApp.badMessage(qsTr("Could not fetch Profile, please try again later."), null, null);
             }
-            else
-            {
-                yacApp.fetchMyProfile(function(message) {
-                    profileLoader.open()
-                },
-                function(message)
-                {
-                    yacApp.badMessage(qsTr("Could not fetch Profile, please try again later."), null, null);
-                }
-                )
-            }
+            )
         }
         onOpenRights:
         {
@@ -205,11 +198,18 @@ Item
             parentSuperMenue: theSuperMenue
             parentCurrentOpenedLoader: currentOpenedLoader
             onOpened: currentOpenedLoader = tokenLoginLoader
+            property string wantedCaption: ""
             theComponent: Component
             {
                 id: tokenLogin
                 YACUserTokenLogin
                 {
+                    onCloseClicked: tokenLoginLoader.close()
+                    onLoginSuccessful:
+                    {
+                        tokenLoginLoader.close()
+                        theSuperMenue.actionSwitch(tokenLoginLoader.wantedCaption)
+                    }
                 }
             }
         }
