@@ -12,6 +12,7 @@ import "apppages/worktimes"
 import "apppages/rights"
 import "apppages/spaces"
 import "apppages/news"
+import "apppages/profile"
 
 
 Item
@@ -245,19 +246,6 @@ Item
                         tokenLoginLoader.close()
                         theSuperMenue.actionSwitch(tokenLoginLoader.wantedCaption)
                     }
-                }
-            }
-        }
-        BasePageLoader
-        {
-            id: registerVerifyLoginLoader
-            parentSuperMenue: theSuperMenue
-            parentCurrentOpenedLoader: currentOpenedLoader
-            onOpened: currentOpenedLoader = registerVerifyLoginLoader
-            theComponent: Component
-            {
-                YACUserRegisterVerifyLogin
-                {
                 }
             }
         }
