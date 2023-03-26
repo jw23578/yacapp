@@ -142,6 +142,7 @@ AppUserBasePage
     AppUserInsertSpace
     {
         id: appUserInsertSpace
+        z: 1
         anchors.fill: parent
         visible: false
         onCloseClicked: appUserInsertSpace.visible = false
@@ -149,6 +150,7 @@ AppUserBasePage
     }
     AppUserRequestSpace
     {
+        z: 1
         id: appUserRequestSpace
         visible: false
         onCloseClicked: visible = false

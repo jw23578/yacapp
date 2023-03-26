@@ -5,6 +5,14 @@ Wenn die Anträge nicht möglich sind, dann soll der Space nur per Code betreten
 - In den News werden die Spacerequests jetzt als Extra Kacheln und mit Namen des Requesters und dessen Bild angezeigt.
 Zulassen kann man noch nicht.
 
+- Von den News kann man jetzt direkt zum Profil springen.
+
+- Wenn das Profilbild geändert wird, dann wurde diese Info nicht sofort in der App verteilt.
+
+- Bei einer Rechtegruppe kann jetzt angegeben werden, ob ein Access-Request erlaubt ist
+
+- Bei einer Rechtegruppe kann jetzt eingestellt werden, ob diese für Nichtmitglieder sichtbar ist.
+
 2023-03-25
 - Es gibt jetzt einen "Integer-" und einen "Doubleeditor"
 

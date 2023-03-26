@@ -132,7 +132,7 @@ public:
                               const bool searching_exactly_allowed,
                               const bool searching_fuzzy_allowed,
                               const QString &password,
-                              CallbackFunction successCallback,
+                              JSONCallbackFunction successCallback,
                               CallbackFunction errorCallback);
 
     void appUserFetchMessageUpdates(const QString &appId,
@@ -201,6 +201,8 @@ public:
                                          const QString &name,
                                          const bool automatic,
                                          const QString &access_code,
+                                         const bool request_allowed,
+                                         const bool visible_for_non_members,
                                          JSONCallbackFunction jsonSuccessCallback,
                                          CallbackFunction errorCallback);
 

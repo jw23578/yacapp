@@ -18,6 +18,8 @@ AppUserBasePage
             theName.text = rightgroup.name
             theAccessCode.text = rightgroup.access_code
             theAutomatic.currentIndex = rightgroup.automatic ? 1 : 0
+            theRequestAllowed.currentIndex = rightgroup.request_allowed ? 1 : 0
+            theVisibleForNonMembers.currentIndex = rightgroup.visible_for_non_members ? 1 : 0
             if (thePage.rightGroupID != "")
             {
                 theMultiSelectItem.previousSelected.clear()
@@ -33,6 +35,8 @@ AppUserBasePage
             theName.text = ""
             theAccessCode.text = ""
             theAutomatic.currentIndex = 0
+            theRequestAllowed.currentIndex = 0
+            theVisibleForNonMembers.currentIndex = 0
         }
 
         thePage.visible = true
@@ -59,7 +63,18 @@ AppUserBasePage
             headerText: qsTr("Automatism")
             model: [qsTr("Do not add new Users automatically"), qsTr("Add new User automatically to this Rightgroup")]
         }
-
+        YACComboBoxWithHeader
+        {
+            id: theRequestAllowed
+            headerText: qsTr("Request allowed")
+            model: [qsTr("Access-Request by others not allowed"), qsTr("Access-Request by others allowed")]
+        }
+        YACComboBoxWithHeader
+        {
+            id: theVisibleForNonMembers
+            headerText: qsTr("Visibility")
+            model: [qsTr("Not visible for non-members"), qsTr("Visible for non-members")]
+        }
     }
     MultiSelectItem
     {
@@ -97,6 +112,8 @@ AppUserBasePage
                                                theName.displayText,
                                                theAutomatic.currentIndex == 1,
                                                theAccessCode.text,
+                                               theRequestAllowed.currentIndex == 1,
+                                               theVisibleForNonMembers.currentIndex == 1,
                                                function(message){rightgroupSaved()},
                                                function(message){console.log(message)})
     }

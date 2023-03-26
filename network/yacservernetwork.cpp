@@ -396,7 +396,7 @@ void YACServerNetwork::appUserUpdateProfile(const QString &appId,
                                             const bool searching_exactly_allowed,
                                             const bool searching_fuzzy_allowed,
                                             const QString &password,
-                                            CallbackFunction successCallback,
+                                            JSONCallbackFunction successCallback,
                                             CallbackFunction errorCallback)
 {
     MACRO_RAW_HEADER();
@@ -427,8 +427,8 @@ void YACServerNetwork::appUserUpdateProfile(const QString &appId,
                      obj,
                      defaultReplyHandler,
                      rawHeader,
-                     successCallback,
                      0,
+                     successCallback,
                      errorCallback);
 }
 
@@ -614,6 +614,8 @@ void YACServerNetwork::appUserInsertOrUpdateRightGroup(const QString &appId,
                                                        const QString &name,
                                                        const bool automatic,
                                                        const QString &access_code,
+                                                       const bool request_allowed,
+                                                       const bool visible_for_non_members,
                                                        JSONCallbackFunction jsonSuccessCallback,
                                                        CallbackFunction errorCallback)
 {
@@ -623,6 +625,8 @@ void YACServerNetwork::appUserInsertOrUpdateRightGroup(const QString &appId,
     MACRO_JSON_SET(obj, name);
     MACRO_JSON_SET(obj, automatic);
     MACRO_JSON_SET(obj, access_code);
+    MACRO_JSON_SET(obj, request_allowed);
+    MACRO_JSON_SET(obj, visible_for_non_members);
     if (id.size())
     {
         MACRO_JSON_SET(obj, id);

@@ -6,5 +6,7 @@
         <file>images/menue_move_icon.svg</file>
         <file>images/burger_menue_icon.svg</file>
         <file>images/close_menue_icon.svg</file>
+        <file>images/person_icon.svg</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

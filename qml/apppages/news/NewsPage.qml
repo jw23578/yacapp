@@ -6,6 +6,7 @@ import "../../items"
 AppUserBasePage
 {
     id: theNewsPage
+    signal profileClicked()
     YACImage
     {
         id: topImage
@@ -23,6 +24,32 @@ AppUserBasePage
         width: parent.width * Constants.newsPageConfig.topRightItemWidthFactor
         anchors.top: parent.top
         anchors.right: parent.right
+        Rectangle
+        {
+            width: parent.width
+            height: theNewsPage.height * Constants.newsPageConfig.topRightItemHeightFactor
+            color: "#9E9A9A"
+            YACImage
+            {
+                id: noProfilePic
+                visible: !yacApp.appUserConfig.loggedIn || yacApp.appUserConfig.profileImageId == ""
+                anchors.centerIn: parent
+                source: "qrc:/images/images/person_icon.svg"
+            }
+            YACRoundedImage
+            {
+                width: height
+                height: parent.height * 2 / 3
+                anchors.centerIn: parent
+                visible: !noProfilePic.visible
+                source: "image://async/profileImage/" + yacApp.appUserConfig.profileImageId
+            }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: theNewsPage.profileClicked()
+            }
+        }
         Rectangle
         {
             width: parent.width

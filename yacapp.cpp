@@ -854,9 +854,14 @@ void YACAPP::appUserUpdateProfile(const QString &fstname,
                                  searching_exactly_allowed,
                                  searching_fuzzy_allowed,
                                  password,
-                                 [successCallback](const QString &message) mutable
+                                 [this, successCallback](const QJsonDocument &jsonDoc) mutable
     {
-        Q_UNUSED(message);
+        QJsonObject object(jsonDoc.object());
+        QString image_id(object[tableFields.image_id].toString());
+        if (image_id.size())
+        {
+            appUserConfig()->setProfileImageId(image_id);
+        }
         successCallback.call(QJSValueList());
     },
     [errorCallback](const QString &message) mutable
@@ -1019,7 +1024,10 @@ void YACAPP::appUserFetchRightGroups(QJSValue successCallback, QJSValue errorCal
     );
 }
 
-void YACAPP::appUserInsertOrUpdateRightGroup(const QString &id, const QString &name, const bool automatic, const QString access_code, QJSValue successCallback, QJSValue errorCallback)
+void YACAPP::appUserInsertOrUpdateRightGroup(const QString &id, const QString &name, const bool automatic, const QString access_code,
+                                             const bool request_allowed,
+                                             const bool visible_for_non_members,
+                                             QJSValue successCallback, QJSValue errorCallback)
 {
     network.appUserInsertOrUpdateRightGroup(globalConfig()->projectID(),
                                             appUserConfig()->loginEMail(),
@@ -1028,6 +1036,8 @@ void YACAPP::appUserInsertOrUpdateRightGroup(const QString &id, const QString &n
                                             name,
                                             automatic,
                                             access_code,
+                                            request_allowed,
+                                            visible_for_non_members,
                                             [this, id, successCallback](const QJsonDocument &jsonDoc) mutable
     {
         QJsonObject object(jsonDoc.object());

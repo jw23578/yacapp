@@ -11,6 +11,7 @@ Item
     visible: !Constants.topLevelFormActive
     function fetchMessages()
     {
+        return
         console.log("fetch messages")
         yacApp.fetchMessageUpdates()
     }
@@ -34,7 +35,7 @@ Item
     Rectangle
     {
         visible: !Constants.profileOpen
-        anchors.top: parent.top
+        anchors.top: parent.verticalCenter
         anchors.right: parent.right
         width: parent.width / 8
         height: width

@@ -229,6 +229,8 @@ public:
                                                      const QString &name,
                                                      const bool automatic,
                                                      const QString access_code,
+                                                     const bool request_allowed,
+                                                     const bool visible_for_non_members,
                                                      QJSValue successCallback,
                                                      QJSValue errorCallback);
     Q_INVOKABLE void appUserDeleteRightGroup(const QString &id,

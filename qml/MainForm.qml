@@ -39,6 +39,19 @@ Item
         stackView: theStackView
         theMenue: yacApp.getMenueConfig(config.menueFilename)
     }
+    function goProfile()
+    {
+        theRealMenue.close()
+        yacApp.fetchMyProfile(function(message) {
+            profileLoader.open()
+        },
+        function(message)
+        {
+            yacApp.badMessage(qsTr("Could not fetch Profile, please try again later."), null, null);
+        }
+        )
+    }
+
     SuperMenue
     {
         z: currentOpenedLoader == null || Constants.superMenueOpen ? 1 : 0
@@ -92,17 +105,7 @@ Item
             }
             )
         }
-        onOpenProfile: {
-            theRealMenue.close()
-            yacApp.fetchMyProfile(function(message) {
-                profileLoader.open()
-            },
-            function(message)
-            {
-                yacApp.badMessage(qsTr("Could not fetch Profile, please try again later."), null, null);
-            }
-            )
-        }
+        onOpenProfile: goProfile()
         onOpenRights:
         {
             theRealMenue.close()
@@ -191,6 +194,7 @@ Item
             {
                 NewsPage
                 {
+                    onProfileClicked: goProfile()
                 }
             }
         }

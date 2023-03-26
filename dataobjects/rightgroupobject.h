@@ -14,6 +14,8 @@ class RightGroupObject : public DataObjectInterface
     YACAPPPROPERTY(QString, name, Name, "");
     YACAPPPROPERTY(QString, access_code, access_code, "");
     YACAPPPROPERTY(bool, automatic, Automatic, false);
+    YACAPPPROPERTY(bool, request_allowed, request_allowed, false);
+    YACAPPPROPERTY(bool, visible_for_non_members, visible_for_non_members, false);
 public:
     explicit RightGroupObject(QObject *parent = nullptr);
     void fromJSON(QJsonObject &o);
