@@ -39,6 +39,7 @@ SOURCES += \
         dataobjects/groupobject.cpp \
         dataobjects/messageobject.cpp \
         dataobjects/multipurposeobject.cpp \
+        dataobjects/newsobject.cpp \
         dataobjects/profileobject.cpp \
         dataobjects/rightgroupobject.cpp \
         dataobjects/spaceobject.cpp \
@@ -112,6 +113,7 @@ HEADERS += \
   dataobjects/groupobject.h \
   dataobjects/messageobject.h \
   dataobjects/multipurposeobject.h \
+  dataobjects/newsobject.h \
   dataobjects/profileobject.h \
   dataobjects/rightgroupobject.h \
   dataobjects/spaceobject.h \

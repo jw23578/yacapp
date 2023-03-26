@@ -29,7 +29,8 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
       allRightsModel(engine, "AllRightsModel", "rightmpo"),
       spacesModel(engine, "SpacesModel", "space"),
       spaceRequestsModel(engine, "SpaceRequestsModel", "spaceRequest"),
-      worktimeMainsModel(engine, "WorktimesModel", "worktime")
+      worktimeMainsModel(engine, "WorktimesModel", "worktime"),
+      newsModel(engine, "NewsModel", "news")
 {
     m_moodModel.push_back(tr("Perfect"));
     m_moodModel.push_back(tr("Better"));
@@ -132,6 +133,16 @@ void YACAPP::init(QString projectFilename)
         knownProfilesModel.clear();
         localStorage->loadKnownContacts([this](DataObjectInterface *o){knownProfilesModel.append(dynamic_cast<ProfileObject*>(o));});
     }
+}
+
+QString YACAPP::getProfileVisibleName(const QString &id)
+{
+    return knownProfilesModel.getById(id).visibleName();
+}
+
+QString YACAPP::getProfileImageId(const QString &id)
+{
+    return knownProfilesModel.getById(id).profileImageId();
 }
 
 void YACAPP::logout()
@@ -1257,7 +1268,35 @@ void YACAPP::fetchMessageUpdates()
             const QJsonObject spaceRequest(spaceRequests[i].toObject());
             SpaceRequestObject *sro(new SpaceRequestObject);
             sro->fromJSON(spaceRequest);
+            NewsObject *no(new NewsObject);
+            sro->to(*no);
+            QString appuserId(sro->appuser_id());
             spaceRequestsModel.append(sro);
+            newsModel.append(no);
+
+            if (!knownProfilesModel.contains(appuserId))
+            {
+                network.appUserFetchProfile(globalConfig()->projectID(),
+                                            appUserConfig()->loginEMail(),
+                                            appUserConfig()->loginToken(),
+                                            appuserId,
+                                            [this](const QJsonDocument &jsonDoc) mutable
+                {
+                    QJsonObject profile(jsonDoc.object());
+                    ProfileObject *po(new ProfileObject);
+                    po->setId(profile[tableFields.id].toString());
+                    po->setVisibleName(profile[tableFields.visible_name].toString());
+                    po->setProfileImageId(profile[tableFields.image_id].toString());
+                    if (knownProfilesModel.append(po))
+                    {
+                        localStorage->upsertKnownContact(*po);
+                    }
+                },
+                [](const QString &message) mutable
+                {
+                    Q_UNUSED(message);
+                });
+            }
         }
 
         QJsonArray messages(object["messages"].toArray());

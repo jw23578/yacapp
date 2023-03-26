@@ -36,6 +36,50 @@ AppUserBasePage
             color: SpaceRequestsModel.count ? "red" : Constants.newsPageConfig.messagesColor
         }
     }
+    Component
+    {
+        id: spaceRequestDelegateComponent
+        Item
+        {
+            property var news: null
+            anchors.fill: parent
+            Column
+            {
+                width: parent.width
+                YACText
+                {
+                    text: news.caption
+                }
+                Row
+                {
+                    YACRoundedImage
+                    {
+                        height: theText.height
+                        width: height
+                        source: "image://async/profileImage/" + yacApp.getProfileImageId(news.spaceRequesterId)
+                    }
+
+                    YACText
+                    {
+                        id: theText
+                        text: "by " + yacApp.getProfileVisibleName(news.spaceRequesterId)
+                    }
+                }
+            }
+
+        }
+    }
+    Component
+    {
+        id: dummyDelegateComponent
+        YACText
+        {
+            property int index: o
+            anchors.centerIn: parent
+            text: "News #" + index
+        }
+    }
+
     ListView
     {
         id: theListview
@@ -43,7 +87,7 @@ AppUserBasePage
         anchors.top: topImage.bottom
         anchors.bottom: parent.bottom
         width: parent.width
-        model: 10
+        model: NewsModel
         property double itemSpacing: theNewsPage.height * Constants.newsPageConfig.contentItemSpacing
         delegate: Item
         {
@@ -55,6 +99,13 @@ AppUserBasePage
                 anchors.centerIn: parent
                 height: parent.height - theListview.itemSpacing
                 width: theNewsPage.width * Constants.newsPageConfig.contentItemWidthFactor
+                Loader
+                {
+                    anchors.fill: parent
+                    property int specialModelIndex: index < SpaceRequestsModel.count ? index : index - SpaceRequestsModel.count
+                    sourceComponent: news.type == "spaceRequest" ? spaceRequestDelegateComponent : dummyDelegateComponent
+                    onLoaded: item.news = news
+                }
             }
             YACDropShadow
             {

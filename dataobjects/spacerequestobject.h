@@ -3,6 +3,7 @@
 
 #include "dataobjectinterface.h"
 #include "yacAppAndServer/tablefields.h"
+#include "newsobject.h"
 
 class SpaceRequestObject : public DataObjectInterface
 {
@@ -18,6 +19,7 @@ public:
 
     void fromJSON(const QJsonObject &o);
     void assign(const SpaceRequestObject &other);
+    void to(NewsObject &no);
 };
 
 #endif // SPACEREQUESTOBJECT_H

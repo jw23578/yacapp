@@ -28,6 +28,7 @@
 #include "dataobjects/worktimemainobject.h"
 #include "dataobjects/profileobject.h"
 #include "dataobjects/spacerequestobject.h"
+#include "dataobjects/newsobject.h"
 
 class Configurator;
 
@@ -97,6 +98,8 @@ class YACAPP : public QObject
 
     TemplatedDataModel<WorktimeMainObject> worktimeMainsModel;
 
+    TemplatedDataModel<NewsObject> newsModel;
+
     void cleanUpKnownFile();
 
     void loadAppConfig();
@@ -111,6 +114,9 @@ public:
                     , CustomServerNetwork &customServerNetwork
                     , QObject *parent = nullptr);
     void init(QString projectFilename);
+
+    Q_INVOKABLE QString getProfileVisibleName(const QString &id);
+    Q_INVOKABLE QString getProfileImageId(const QString &id);
 
     Q_INVOKABLE void logout();
     Q_INVOKABLE void leaveApp();

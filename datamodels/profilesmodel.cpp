@@ -67,7 +67,7 @@ ProfileObject &ProfilesModel::getById(const QString &id)
     auto it(id2object.find(id));
     if (it != id2object.end())
     {
-            return *it->second;
+        return *it->second;
     }
     return emptyProfile;
 }

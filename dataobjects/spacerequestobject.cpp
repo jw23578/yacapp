@@ -22,3 +22,12 @@ void SpaceRequestObject::assign(const SpaceRequestObject &other)
     setSpace_id(other.space_id());
     setAppuser_id(other.appuser_id());
 }
+
+void SpaceRequestObject::to(NewsObject &no)
+{
+    no.setId(id());
+    no.setType("spaceRequest");
+    no.setCaption(QString("Request for ") + name());
+    no.setSpaceId(space_id());
+    no.setSpaceRequesterId(appuser_id());
+}
