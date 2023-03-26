@@ -692,6 +692,7 @@ void YACServerNetwork::appUserInsertOrUpdateSpace(const QString &appId,
                                                   const QString &name,
                                                   const QString &access_code,
                                                   const bool automatic,
+                                                  const bool request_allowed,
                                                   JSONCallbackFunction jsonSuccessCallback,
                                                   CallbackFunction errorCallback)
 {
@@ -701,6 +702,7 @@ void YACServerNetwork::appUserInsertOrUpdateSpace(const QString &appId,
     MACRO_JSON_SET(obj, name);
     MACRO_JSON_SET(obj, access_code);
     MACRO_JSON_SET(obj, automatic);
+    MACRO_JSON_SET(obj, request_allowed);
     if (id.size())
     {
         MACRO_JSON_SET(obj, id);

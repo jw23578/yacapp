@@ -12,10 +12,6 @@ AppUserBasePage
     property string rightGroupID: ""
     function show(rightgroup)
     {
-        thePage.rightGroupID = ""
-        theName.text = ""
-        theAccessCode.text = ""
-        theAutomatic.currentIndex = 0
         if (rightgroup != null)
         {
             thePage.rightGroupID = rightgroup.id
@@ -31,6 +27,14 @@ AppUserBasePage
                 }
             }
         }
+        else
+        {
+            thePage.rightGroupID = ""
+            theName.text = ""
+            theAccessCode.text = ""
+            theAutomatic.currentIndex = 0
+        }
+
         thePage.visible = true
     }
 

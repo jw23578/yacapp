@@ -238,6 +238,7 @@ public:
                                                 const QString &name,
                                                 const QString &access_code,
                                                 const bool automatic,
+                                                const bool request_allowed,
                                                 QJSValue successCallback,
                                                 QJSValue errorCallback);
     Q_INVOKABLE void appUserDeleteSpace(const QString &id,

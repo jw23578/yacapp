@@ -12,8 +12,9 @@ class SpaceObject : public DataObjectInterface
     YACAPPPROPERTY(QString, id, Id, "");
     YACAPPPROPERTY(QString, creater_id, creater_id, "");
     YACAPPPROPERTY(QString, name, Name, "");
-    YACAPPPROPERTY(QString, access_code, access_code, "");
+    YACAPPPROPERTY(QString, access_code, access_code, "");    
     YACAPPPROPERTY(bool, automatic, Automatic, false);
+    YACAPPPROPERTY(bool, request_allowed, Request_allowed, false);
     YACAPPPROPERTY(bool, member, member, false);
     YACAPPPROPERTY(bool, requested, requested, false);
     YACAPPPROPERTY(bool, denied, denied, false);

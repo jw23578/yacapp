@@ -231,6 +231,7 @@ public:
                                     const QString &name,
                                     const QString &access_code,
                                     const bool automatic,
+                                    const bool request_allowed,
                                     JSONCallbackFunction jsonSuccessCallback,
                                     CallbackFunction errorCallback);
 

@@ -11,7 +11,7 @@ AppUserBasePage
         console.log("caption: " + caption)
         if (caption == qsTr("Add Space"))
         {
-            appUserInsertSpace.show("", "", "", false)
+            appUserInsertSpace.show(null)
         }
     }
     multiMenueButton.hide: appUserRequestSpace.visible || appUserInsertSpace.visible
@@ -63,10 +63,7 @@ AppUserBasePage
                     yacApp.appUserFetchSpace(space.id,
                                              function(message){
                                                  console.log(yacApp.currentFetchedIds)
-                                                 appUserInsertSpace.show(space.id,
-                                                                         space.name,
-                                                                         space.access_code,
-                                                                         space.automatic)
+                                                 appUserInsertSpace.show(space)
                                              },
                                              function(message){})
                 }

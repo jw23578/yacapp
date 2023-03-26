@@ -8,13 +8,26 @@ AppUserBasePage
     id: thePage
     showCloseButton: true
     signal spaceSaved();
-    property string id: ""
-    function show(id, name, access_code, automatic)
+    property string spaceID: ""
+    function show(space)
     {
-        thePage.id = id
-        theName.text = name
-        theAccesscode.text = access_code
-        theAutomatic.currentIndex = automatic ? 1 : 0
+        if (space != null)
+        {
+            thePage.spaceID = space.id
+            theName.text = space.name
+            theAccesscode.text = space.access_code
+            theAutomatic.currentIndex = space.automatic ? 1 : 0
+            theRequestAllowed.currentIndex = space.request_allowed ? 1 : 0
+        }
+        else
+        {
+            thePage.spaceID = ""
+            theName.text = ""
+            theAccesscode.text = ""
+            theAutomatic.currentIndex = 0
+            theRequestAllowed.currentIndex = 0
+        }
+
         thePage.visible = true
     }
 
@@ -27,11 +40,14 @@ AppUserBasePage
             return
         }
 
-        yacApp.appUserInsertOrUpdateSpace(thePage.id,
+        yacApp.appUserInsertOrUpdateSpace(thePage.spaceID,
                                           theName.displayText,
                                           theAccesscode.displayText,
                                           theAutomatic.currentIndex == 1,
-                                          function(message){spaceSaved()},
+                                          theRequestAllowed.currentIndex == 1,
+                                          function(message){
+                                              spaceSaved()
+                                          },
                                           function(message){console.log(message)})
     }
     YACPageColumn
@@ -54,28 +70,11 @@ AppUserBasePage
             headerText: qsTr("Automatism")
             model: [qsTr("Do not add new Users automatically"), qsTr("Add new User automatically to this Space")]
         }
-
-        //        MultiSelectItem
-        //        {
-        //            id: theMultiSelectItem
-        //            previousSelected: new Set(["1", "2", "3"])
-        //            width: parent.width
-        //            height: thePage.height - theName.height * 2
-        //            model: thePage.visible ? AllRightsModel : null
-        //            innerDelegateComponent: theInner
-        //            Component
-        //            {
-        //                id: theInner
-        //                Rectangle
-        //                {
-        //                    property var dataObject: null
-        //                    YACText
-        //                    {
-        //                        anchors.centerIn: parent
-        //                        text: dataObject.caption
-        //                    }
-        //                }
-        //            }
-        //        }
+        YACComboBoxWithHeader
+        {
+            id: theRequestAllowed
+            headerText: qsTr("Request allowed")
+            model: [qsTr("Access-Request by others not allowed"), qsTr("Access-Request by others allowed")]
+        }
     }
 }

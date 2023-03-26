@@ -1,3 +1,9 @@
+2023-03-26
+- Bei einem Space kann jetzt angegeben werden, ob Zutrittsanfragen zugelassen werden. (Ich glaube, dass das nervig sein kann, wenn da alle immer wieder nachfragen)
+Wenn die Anträge nicht möglich sind, dann soll der Space nur per Code betreten werden oder man wird halt vom Admin hinzugefügt.
+
+
+
 2023-03-25
 - Es gibt jetzt einen "Integer-" und einen "Doubleeditor"
 

@@ -1109,6 +1109,7 @@ void YACAPP::appUserInsertOrUpdateSpace(const QString &id,
                                         const QString &name,
                                         const QString &access_code,
                                         const bool automatic,
+                                        const bool request_allowed,
                                         QJSValue successCallback,
                                         QJSValue errorCallback)
 {
@@ -1119,6 +1120,7 @@ void YACAPP::appUserInsertOrUpdateSpace(const QString &id,
                                        name,
                                        access_code,
                                        automatic,
+                                       request_allowed,
                                        [this, id, successCallback](const QJsonDocument &jsonDoc) mutable
     {
         QJsonObject object(jsonDoc.object());

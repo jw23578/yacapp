@@ -150,6 +150,7 @@ DISTFILES += \
   android/res/values/libs.xml \
   android/settings.gradle \
   changelog.txt \
+  currentWork.txt \
   deployToJW78.sh
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

@@ -18,6 +18,7 @@ void SpaceObject::fromJSON(QJsonObject &o)
     setmember(o["member"].toString() == "t");
     setrequested(o["requested"].toString() == "t");
     setdenied(o["denied"].toString() == "t");
+    setRequest_allowed(o[tableFields.request_allowed].toString() == "t");
 }
 
 void SpaceObject::assign(const SpaceObject &other)
@@ -30,4 +31,5 @@ void SpaceObject::assign(const SpaceObject &other)
     setmember(other.member());
     setrequested(other.requested());
     setdenied(other.denied());
+    setRequest_allowed(other.request_allowed());
 }
