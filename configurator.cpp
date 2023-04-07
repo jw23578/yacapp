@@ -8,6 +8,7 @@
 #include <QJsonArray>
 #include "configmodels/globalprojectconfig.h"
 #include "configmodels/parsedconfig.h"
+#include "configmodels/appimagesitem.h"
 
 #ifndef Q_OS_ANDROID
 #include "helper.h"
@@ -291,5 +292,14 @@ void Configurator::addMenueFile(QString fileUrl)
     }
     yacApp.getMenueConfig(fileUrl);
     yacApp.globalConfig()->menueFiles.append(fileUrl);
+}
+
+void Configurator::addImageFile(QString fileUrl)
+{
+    qDebug() << __FILE__ << " " << fileUrl;
+    AppImagesItem *aii(new AppImagesItem);
+    aii->setFileUrl(fileUrl);
+    aii->setId(fileUrl);
+    yacApp.globalConfig()->getappImages().append(aii);
 }
 

@@ -97,14 +97,20 @@
     void set##uppercasename(type n){if (m_##name == n) return; m_##name = n;} \
     private:
 
-#define YACAPPREADONLYPROPERTY(type, name, defaultvalue) \
+#define YACAPP_READONLY_PROPERTY(type, name, defaultValue) \
     private: \
-    type m_##name = {defaultvalue}; \
+    type m_##name = {defaultValue}; \
     public: \
-    Q_PROPERTY(type name READ name NOTIFY name##Changed) \
+    Q_PROPERTY(type name READ name) \
     type name() const {return m_##name;} \
-    Q_SIGNAL \
-    void name##Changed(); \
+    private:
+
+#define YACAPP_MODEL_DECLARATION(type, name) \
+    private: \
+    type m_##name; \
+    public: \
+    Q_INVOKABLE QAbstractItemModel *name() {return &m_##name;} \
+    type &get##name() {return m_##name;} \
     private:
 
 #define YACAPPPROPERTY(type, name, uppercasename, defaultvalue) \

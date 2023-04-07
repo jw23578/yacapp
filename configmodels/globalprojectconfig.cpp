@@ -7,7 +7,8 @@
 
 GlobalProjectConfig::GlobalProjectConfig(bool noProjectId,
                                          QObject *parent)
-    : ConfigInterface(parent)
+    : ConfigInterface(parent),
+    m_appImages("image")
 {
     if (noProjectId)
     {

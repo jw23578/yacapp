@@ -109,6 +109,12 @@ Rectangle
             onClicked: deployPage.visible = false
             width: parent.width
         }
+        YACButton
+        {
+            text: qsTr("APP-Images")
+            onClicked: appImages.visible = true
+            width: parent.width
+        }
     }
     ProgressPage
     {
@@ -118,6 +124,11 @@ Rectangle
     {
         visible: false
         id: registerVerifyPage
+    }
+    ConfiguratorAppImagesPage
+    {
+        id: appImages
+        visible: false
     }
 
     onVisibleChanged:

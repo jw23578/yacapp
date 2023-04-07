@@ -70,9 +70,12 @@ public:
     Q_INVOKABLE void addFormFile(QString fileUrl);
     Q_INVOKABLE void addMenueFile(QString fileUrl);
 
+    Q_INVOKABLE void addImageFile(QString fileUrl);
+
 signals:
 
     void addFileSignal(const QJSValue okCallback);
+    void addImageSignal(const QJSValue okCallback);
 };
 
 #endif // CONFIGURATOR_H

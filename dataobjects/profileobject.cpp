@@ -1,4 +1,5 @@
 #include "profileobject.h"
+#include <QJsonObject>
 
 ProfileObject::ProfileObject(QObject *parent)
     : DataObjectInterface{parent}
@@ -18,6 +19,14 @@ void ProfileObject::incUnreadMessages()
 {
     setUnreadMessages(unreadMessages() + 1);
     setLastAddedMessage(QDateTime::currentDateTime());
+}
+
+void ProfileObject::fromJSON(const QJsonObject &object)
+{
+    setId(object[tableFields.id].toString());
+    setVisibleName(object[tableFields.visible_name].toString());
+    setProfileImageId(object[tableFields.image_id].toString());
+
 }
 
 void ProfileObject::assign(const ProfileObject &other)

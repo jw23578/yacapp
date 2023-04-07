@@ -9,6 +9,7 @@
 #include "designoptions/newspageconfig.h"
 #include "designoptions/multimenueconfig.h"
 #include "designoptions/globaldesignconfig.h"
+#include <QDateTime>
 
 class Constants : public QObject
 {
@@ -18,6 +19,8 @@ class Constants : public QObject
     const QString theCachePath;
     YACAPPPROPERTY(int, appTotalWidth, AppTotalWidth, 0)
     YACAPPPROPERTY(int, appTotalHeight, AppTotalheight, 0)
+
+    YACAPPPROPERTY(QDateTime, timePointPostgreSqlNull, TimePointPostgreSqlNull, QDateTime(QDate(1900, 1, 1), QTime(12, 0, 0)));
 
     YACAPPPROPERTY(QString, allAppsBaseUrl, AllAppsBaseUrl, "https://www.jw78.de/yacapp/")
     YACAPPPROPERTY(bool, isDesktop, IsDesktop, false);

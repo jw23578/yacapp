@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import "../../items"
 import ".."
+import "../profile"
 
 AppUserBasePage
 {
@@ -37,9 +38,23 @@ AppUserBasePage
         {
             color: index % 2 ? "silver" : "lightgrey"
             width: parent.width
-            height: 100
+            height: theColumn.height
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                    yacApp.appUserFetchRightGroupRights(rightgroup.id,
+                                                        function(message)
+                                                        {
+                                                            appUserInsertRightGroup.show(rightgroup)
+                                                        }, function(message)
+                                                        {
+                                                            yacApp.badMessage(message, null, null)
+                                                        })
+            }
             Column
             {
+                id: theColumn
                 width: parent.width
                 YACText
                 {
@@ -54,37 +69,81 @@ AppUserBasePage
                     text: qsTr("You are the owner of this Rightgroup")
                     visible: rightgroup.creater_id == yacApp.appUserConfig.id
                 }
-            }
-            MouseArea
-            {
-                anchors.fill: parent
-                onClicked: appUserInsertRightGroup.show(rightgroup)
-            }
-            YACButton
-            {
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                text: qsTr("Delete")
-                onClicked:
+                Row
                 {
-                    yacApp.yesNoQuestion(qsTr("Delete Rightgroup \"") + rightgroup.name + "\"", null,
-                                         function()
-                                         {
-                                             yacApp.appUserDeleteRightGroup(rightgroup.id, function(message){},
-                                             function(message)
-                                             {
-                                                 yacApp.badMessage(message, null, null)
-                                             })
-                                         },
-                                         function()
-                                         {
-                                         })
+                    YACButton
+                    {
+                        z: 1
+                        text: qsTr("Edit Member")
+                        onClicked:
+                        {
+                            yacApp.appUserFetchRightGroupMember(rightgroup.id,
+                                                                function(message)
+                                                                {
+                                                                    theAppUserProfileList.right_group_id = rightgroup.id
+                                                                    theAppUserProfileList.show()
 
+                                                                },
+                                                                function(message)
+                                                                {
+                                                                }
+                                                                )
+                        }
+
+                    }
+                    YACButton
+                    {
+                        text: qsTr("Delete")
+                        onClicked:
+                        {
+                            console.log("hello hjsdfhsdlkjfhlkjsahlka")
+                            yacApp.yesNoQuestion(qsTr("Delete Rightgroup \"") + rightgroup.name + "\"", null,
+                                                 function()
+                                                 {
+                                                     yacApp.appUserDeleteRightGroup(rightgroup.id, function(message){},
+                                                     function(message)
+                                                     {
+                                                         yacApp.badMessage(message, null, null)
+                                                     })
+                                                 },
+                                                 function()
+                                                 {
+                                                 })
+
+                        }
+                    }
                 }
             }
-
         }
 
+    }
+
+
+    AppUserProfileList
+    {
+        z: 1
+        property string right_group_id: ""
+        id: theAppUserProfileList
+        visible: false
+        emptyText: qsTr("No Member yet")
+        onCloseClicked:
+        {
+            for (var i = 0; i < newSelected.length; ++i)
+            {
+                yacApp.appUserInsertOrUpdateRightGroup2AppUser("",
+                                                               right_group_id,
+                                                               newSelected[i],
+                                                               new Date(),
+                                                               new Date(),
+                                                               yacApp.appUserConfig.id,
+                                                               Constants.timePointPostgreSqlNull,
+                                                               "",
+                                                               function(message){},
+                                                               function(message){})
+            }
+
+            visible = false
+        }
     }
 
     AppUserInsertRightGroup

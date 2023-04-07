@@ -22,7 +22,6 @@
 #include "yacAppAndServer/tablefields.h"
 #include "dataobjects/groupobject.h"
 #include "dataobjects/spaceobject.h"
-#include "dataobjects/rightgroupobject.h"
 #include "dataobjects/multipurposeobject.h"
 #include "dataobjects/worktimeobject.h"
 #include "dataobjects/worktimemainobject.h"
@@ -30,10 +29,18 @@
 #include "dataobjects/spacerequestobject.h"
 #include "dataobjects/newsobject.h"
 
+#include "orm-mapper/orm2qjson.h"
+#include "orm_implementions/t0021_right_group.h"
+#include "orm_implementions/t0022_right_group2appuser.h"
+#include "orm_implementions/t0023_right2rightgroup.h"
+#include "orm_implementions/yacormfactory.h"
+
 class Configurator;
 
 class YACAPP : public QObject
 {
+    YACORMFactory factory;
+    ORM2QJson orm2json;
     TableFields tableFields;
     QTimer timer;
     QTranslator translator;
@@ -85,12 +92,13 @@ class YACAPP : public QObject
 
     ProfilesModel searchProfilesModel;
     ProfilesModel knownProfilesModel;
+    ProfilesModel selectedProfilesModel;
 
     MessagesModel messagesModel;
 
     AppointmentsModel appointmentsModel;
 
-    TemplatedDataModel<RightGroupObject> rightGroupsModel;
+    TemplatedDataModel<YACBaseObject> rightGroupsModel;
     TemplatedDataModel<MultiPurposeObject> allRightsModel;
 
     TemplatedDataModel<SpaceObject> spacesModel;
@@ -104,6 +112,34 @@ class YACAPP : public QObject
 
     void loadAppConfig();
     void saveAppConfig();
+
+    template <class T>
+    void appUserFetchORM(const QString ormName,
+                         const std::map<QString, QString> &needles,
+                         T &modelToAdd,
+                         QJSValue successCallback,
+                         QJSValue errorCallback)
+    {
+        network.appUserFetchORM(globalConfig()->projectID(),
+                                appUserConfig()->loginEMail(),
+                                appUserConfig()->loginToken(),
+                                ormName, needles,
+                                [this, ormName, &modelToAdd, successCallback](const QJsonDocument &jsonDoc) mutable
+        {
+            modelToAdd.clear();
+            QJsonObject jsonObject(jsonDoc.object());
+            QJsonArray array(jsonObject[ormName].toArray());
+            for (int i(0); i < array.size(); ++i)
+            {
+                modelToAdd.append(orm2json.fromJson(array[i].toObject(), factory));
+            }
+            successCallback.call(QJSValueList());
+        },
+        [errorCallback](const QString &message) mutable
+        {
+            errorCallback.call(QJSValueList() << message);
+        });
+    }
 
 public:
     Firebase2Qt firebase2qt;
@@ -236,9 +272,24 @@ public:
     Q_INVOKABLE void appUserDeleteRightGroup(const QString &id,
                                              QJSValue successCallback,
                                              QJSValue errorCallback);
-    Q_INVOKABLE void appUserFetchRightGroup(const QString &id,
-                                            QJSValue successCallback,
-                                            QJSValue errorCallback);
+    Q_INVOKABLE void appUserFetchRightGroupRights(const QString &id,
+                                                  QJSValue successCallback,
+                                                  QJSValue errorCallback);
+    Q_INVOKABLE void appUserFetchRightGroupMember(const QString &right_group_id,
+                                                  QJSValue successCallback,
+                                                  QJSValue errorCallback);
+
+    Q_INVOKABLE void appUserInsertOrUpdateRightGroup2AppUser(const QString &id,
+                                                             const QString &right_group_id,
+                                                             const QString &appuser_id,
+                                                             const QDateTime &requested_datetime,
+                                                             const QDateTime &approved_datetime,
+                                                             const QString &approved_appuser_id,
+                                                             const QDateTime &denied_datetime,
+                                                             const QString &denied_appuser_id,
+                                                             QJSValue successCallback,
+                                                             QJSValue errorCallback);
+
 
     Q_INVOKABLE void appUserFetchSpaces(QJSValue successCallback,
                                         QJSValue errorCallback);
@@ -266,6 +317,9 @@ public:
     Q_INVOKABLE void sendMessage(const QString &profileId, const QString &content);
     Q_INVOKABLE void addProfileToKnownProfiles(const QString &id);
     Q_INVOKABLE void removeProfileFromKnownProfiles(const QString &id);
+
+    Q_INVOKABLE void addProfileToSelectedProfiles(const QString &id);
+    Q_INVOKABLE void removeFromSelectedProfiles(const QString &id);
 
     Q_INVOKABLE void switchLanguage(const QString &language);
 

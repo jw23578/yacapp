@@ -204,6 +204,50 @@ void YACServerNetwork::appUserUpdatePassword(const QString &loginEMail,
 
 }
 
+void YACServerNetwork::appUserFetchORM(const QString &appId,
+                                       const QString &loginEMail,
+                                       const QString &loginToken,
+                                       const QString &ormName,
+                                       const std::map<QString, QString> &needles,
+                                       JSONCallbackFunction successCallback,
+                                       CallbackFunction errorCallback)
+{
+    QUrlQuery query;
+    for (const auto &n: needles)
+    {
+        query.addQueryItem(n.first, n.second);
+    }
+    MACRO_RAW_HEADER();
+    yacappServerGet(ormName,
+                    query,
+                    defaultReplyHandler,
+                    rawHeader,
+                    0,
+                    successCallback,
+                    errorCallback);
+}
+
+void YACServerNetwork::appUserPostORM(const QString &appId,
+                                      const QString &loginEMail,
+                                      const QString &loginToken,
+                                      const YACBaseObject &object,
+                                      JSONCallbackFunction successCallback,
+                                      CallbackFunction errorCallback)
+{
+    MACRO_RAW_HEADER();
+
+    QJsonObject obj;
+    orm2json.toJson(object, obj);
+
+    yacappServerPost(object.getORMName(),
+                     obj,
+                     defaultReplyHandler,
+                     rawHeader,
+                     0,
+                     successCallback,
+                     errorCallback);
+}
+
 void YACServerNetwork::appUserGetWorktimeState(const QString &appId,
                                                const QString &loginEMail,
                                                const QString &loginToken,
@@ -590,55 +634,23 @@ void YACServerNetwork::appUserDeleteAppointment(const QString &appId,
                      errorCallback);
 }
 
-void YACServerNetwork::appUserFetchRightGroups(const QString &appId,
-                                               const QString &loginEMail,
-                                               const QString &loginToken,
-                                               JSONCallbackFunction jsonSuccessCallback,
-                                               CallbackFunction errorCallback)
+void YACServerNetwork::appUserFetchRightGroupMember(const QString &appId,
+                                                    const QString &loginEMail,
+                                                    const QString &loginToken,
+                                                    const QString &right_group_id,
+                                                    JSONCallbackFunction jsonSuccessCallback,
+                                                    CallbackFunction errorCallback)
 {
     QUrlQuery query;
+    query.addQueryItem("right_group_id", right_group_id);
     MACRO_RAW_HEADER();
-    yacappServerGet(methodNames.fetchRightGroups,
+    yacappServerGet(methodNames.fetchRightGroupMember,
                     query,
                     defaultReplyHandler,
                     rawHeader,
                     0,
                     jsonSuccessCallback,
                     errorCallback);
-}
-
-void YACServerNetwork::appUserInsertOrUpdateRightGroup(const QString &appId,
-                                                       const QString &loginEMail,
-                                                       const QString &loginToken,
-                                                       const QString &id,
-                                                       const QString &name,
-                                                       const bool automatic,
-                                                       const QString &access_code,
-                                                       const bool request_allowed,
-                                                       const bool visible_for_non_members,
-                                                       JSONCallbackFunction jsonSuccessCallback,
-                                                       CallbackFunction errorCallback)
-{
-    MACRO_RAW_HEADER();
-
-    QJsonObject obj;
-    MACRO_JSON_SET(obj, name);
-    MACRO_JSON_SET(obj, automatic);
-    MACRO_JSON_SET(obj, access_code);
-    MACRO_JSON_SET(obj, request_allowed);
-    MACRO_JSON_SET(obj, visible_for_non_members);
-    if (id.size())
-    {
-        MACRO_JSON_SET(obj, id);
-    }
-    yacappServerPost(id.size() ? methodNames.updateRightGroup : methodNames.insertRightGroup,
-                     obj,
-                     defaultReplyHandler,
-                     rawHeader,
-                     0,
-                     jsonSuccessCallback,
-                     errorCallback);
-
 }
 
 void YACServerNetwork::appUserDeleteRightGroup(const QString &appId, const QString &loginEMail, const QString &loginToken, const QString &id, CallbackFunction successCallback, CallbackFunction errorCallback)
@@ -654,26 +666,6 @@ void YACServerNetwork::appUserDeleteRightGroup(const QString &appId, const QStri
                      successCallback,
                      0,
                      errorCallback);
-}
-
-void YACServerNetwork::appUserFetchRightGroup(const QString &appId,
-                                              const QString &loginEMail,
-                                              const QString &loginToken,
-                                              const QString &id,
-                                              JSONCallbackFunction jsonSuccessCallback,
-                                              CallbackFunction errorCallback)
-{
-    QUrlQuery query;
-    query.addQueryItem("id", id);
-    MACRO_RAW_HEADER();
-    yacappServerGet(methodNames.fetchRightGroup,
-                    query,
-                    defaultReplyHandler,
-                    rawHeader,
-                    0,
-                    jsonSuccessCallback,
-                    errorCallback);
-
 }
 
 void YACServerNetwork::appUserFetchSpaces(const QString &appId, const QString &loginEMail, const QString &loginToken, JSONCallbackFunction jsonSuccessCallback, CallbackFunction errorCallback)

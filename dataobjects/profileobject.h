@@ -19,6 +19,7 @@ public:
 
     void incUnreadMessages();
 
+    void fromJSON(const QJsonObject &object);
     void assign(const ProfileObject &other);
 };
 

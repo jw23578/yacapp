@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Dialogs 1.0
 import "qml"
 import "qrc:/qml/items"
 import "qml/editor"
@@ -181,6 +182,15 @@ Window {
     {
         id: dialogAddFile
     }
+    FileDialog
+    {
+        id: theImageFileDialog
+        selectFolder: false
+        selectMultiple: true
+        nameFilters: [ "Image files (*.jpg *.png)", "All files (*)" ]
+        property var okCallback: null
+        onAccepted: okCallback(fileUrls)
+    }
 
     YACBadMessageForm
     {
@@ -219,10 +229,21 @@ Window {
             dialogAddFile.okCallback = okCallback
             dialogAddFile.open()
         }
+        function onAddImageSignal(okCallback)
+        {
+            theImageFileDialog.okCallback = okCallback
+            theImageFileDialog.open()
+        }
     }
     Component.onCompleted:
     {
         Constants.appTotalWidth = mainFormLoader.width
         Constants.appTotalHeight = mainFormLoader.height
+    }
+
+    ConfiguratorAppImagesPage
+    {
+        id: appImages
+        visible: true
     }
 }

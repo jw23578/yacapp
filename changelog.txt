@@ -1,3 +1,8 @@
+2023-03-27
+- Die AppUserProfileList gibt jetzt eine Liste mit neu ausgewählten und mit neu entfernten ProfileIDs aus
+
+- Kontakte können jetzt einer Rechtegruppe hinzugefügt werden
+
 2023-03-26
 - Bei einem Space kann jetzt angegeben werden, ob Zutrittsanfragen zugelassen werden. (Ich glaube, dass das nervig sein kann, wenn da alle immer wieder nachfragen)
 Wenn die Anträge nicht möglich sind, dann soll der Space nur per Code betreten werden oder man wird halt vom Admin hinzugefügt.
@@ -12,6 +17,8 @@ Zulassen kann man noch nicht.
 - Bei einer Rechtegruppe kann jetzt angegeben werden, ob ein Access-Request erlaubt ist
 
 - Bei einer Rechtegruppe kann jetzt eingestellt werden, ob diese für Nichtmitglieder sichtbar ist.
+
+- Zu einer Rechtegruppe können jetzt Mitglieder gesucht werden, die werden aber noch nicht gespeichert
 
 2023-03-25
 - Es gibt jetzt einen "Integer-" und einen "Doubleeditor"

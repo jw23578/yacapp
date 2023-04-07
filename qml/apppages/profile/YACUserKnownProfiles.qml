@@ -1,5 +1,7 @@
 import QtQuick 2.15
-import "../items"
+import "../../items"
+import ".."
+import "../messages"
 
 AppUserBasePage
 {
@@ -101,6 +103,7 @@ AppUserBasePage
         {
             onProfileSelected:
             {
+                yacApp.addProfileToKnownProfiles(id)
                 console.log("id: " + id)
                 theLoader.sourceComponent = null
             }

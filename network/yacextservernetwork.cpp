@@ -2,6 +2,8 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QUrlQuery>
+#include "orm_implementions/t0002_apps.h"
+#include "orm-mapper/orm2qjson.h"
 
 YACExtServerNetwork::YACExtServerNetwork(QNetworkAccessManager &manager
                                          , Constants &constants)
@@ -124,15 +126,22 @@ void YACExtServerNetwork::yacappServerUploadApp(const QString &loginEMail,
                                                 CallbackFunction successCallback,
                                                 CallbackFunction errorCallback)
 {
+    t0002_apps app;
+    app.setid(app_id);
+    app.setapp_name(app_name);
+    app.setapp_version(app_version);
+    app.setapp_logo_url(app_logo_url);
+    app.setapp_color_name(app_color_name);
+    app.setis_template_app(is_template_app);
+    app.setyacpck_base64(0);
+    app.settransfer_yacpck_base64(yacpck_base64);
+    app.setjson_yacapp(json_yacapp);
+
+
     QJsonObject obj;
-    obj["app_id"] = app_id;
-    obj["app_name"] = app_name;
-    obj["app_version"] = app_version;
-    obj["app_logo_url"] = app_logo_url;
-    obj["app_color_name"] = app_color_name;
-    obj["is_template_app"] = is_template_app;
-    obj["json_yacapp"] = json_yacapp;
-    obj["yacpck_base64"] = yacpck_base64;
+    ORM2QJson orm2json;
+    orm2json.toJson(app, obj);
+
     QMap<QByteArray, QByteArray> rawHeader;
     rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
     rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();

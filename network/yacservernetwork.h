@@ -4,10 +4,13 @@
 #include "yacserverbasenetwork.h"
 #include "yacAppAndServer/yacappservermethodnames.h"
 #include "yacAppAndServer/tablefields.h"
+#include "orm/ormobjectinterface.h"
+#include "orm-mapper/orm2qjson.h"
 
 class YACServerNetwork: public YACServerBaseNetwork
 {
     Q_OBJECT
+    ORM2QJson orm2json;
     TableFields tableFields;
     YACAPPServerMethodNames methodNames;
 public:
@@ -46,6 +49,7 @@ public:
                                   JSONCallbackFunction successCallback,
                                   CallbackFunction  errorCallback);
 
+
     void appUserRequestPasswordUpdate(const QString &loginEMail,
                                       const QString &appId,
                                       CallbackFunction successCallback,
@@ -57,6 +61,21 @@ public:
                                const QString &appId,
                                CallbackFunction successCallback,
                                CallbackFunction errorCallback);
+
+    void appUserFetchORM(const QString &appId,
+                         const QString &loginEMail,
+                         const QString &loginToken,
+                         const QString &ormName,
+                         const std::map<QString, QString> &needles,
+                         JSONCallbackFunction successCallback,
+                         CallbackFunction  errorCallback);
+
+    void appUserPostORM(const QString &appId,
+                        const QString &loginEMail,
+                        const QString &loginToken,
+                        const YACBaseObject &object,
+                        JSONCallbackFunction successCallback,
+                        CallbackFunction  errorCallback);
 
     void appUserGetWorktimeState(const QString &appId,
                                  const QString &loginEMail,
@@ -188,23 +207,12 @@ public:
                                   CallbackFunction successCallback,
                                   CallbackFunction errorCallback);
 
-    void appUserFetchRightGroups(const QString &appId,
-                                 const QString &loginEMail,
-                                 const QString &loginToken,
-                                 JSONCallbackFunction jsonSuccessCallback,
-                                 CallbackFunction errorCallback);
-
-    void appUserInsertOrUpdateRightGroup(const QString &appId,
-                                         const QString &loginEMail,
-                                         const QString &loginToken,
-                                         const QString &id,
-                                         const QString &name,
-                                         const bool automatic,
-                                         const QString &access_code,
-                                         const bool request_allowed,
-                                         const bool visible_for_non_members,
-                                         JSONCallbackFunction jsonSuccessCallback,
-                                         CallbackFunction errorCallback);
+    void appUserFetchRightGroupMember(const QString &appId,
+                                      const QString &loginEMail,
+                                      const QString &loginToken,
+                                      const QString &right_group_id,
+                                      JSONCallbackFunction jsonSuccessCallback,
+                                      CallbackFunction errorCallback);
 
     void appUserDeleteRightGroup(const QString &appId,
                                  const QString &loginEMail,
@@ -212,13 +220,6 @@ public:
                                  const QString &id,
                                  CallbackFunction successCallback,
                                  CallbackFunction errorCallback);
-
-    void appUserFetchRightGroup(const QString &appId,
-                                const QString &loginEMail,
-                                const QString &loginToken,
-                                const QString &id,
-                                JSONCallbackFunction jsonSuccessCallback,
-                                CallbackFunction errorCallback);
 
     void appUserFetchSpaces(const QString &appId,
                             const QString &loginEMail,

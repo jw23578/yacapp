@@ -11,6 +11,7 @@
 #include "configmodels/globalprojectconfig.h"
 #include "configuratormodels/recentproject.h"
 #include "configmodels/appuserconfig.h"
+#include "configmodels/appimagesitem.h"
 #include "projectdata.h"
 #include "constants.h"
 #include <QtWebView>
@@ -18,7 +19,6 @@
 #include "datamodels/messagesmodel.h"
 #include "localstorage/localstorage.h"
 
-#include "datamodels/templateddatamodel.h"
 #include "dataobjects/profileobject.h"
 #include "dataobjects/messageobject.h"
 
@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
     QString b2 = begin.toTimeSpec(Qt::LocalTime).toString(Qt::ISODate);
     QString b3 = begin.toTimeSpec(Qt::TimeZone).toString(Qt::ISODate);
     QString b4 = begin.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+
 //    return 0;
     std::srand(std::time(nullptr));
     QtWebView::initialize();
@@ -63,6 +64,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<ParsedConfig>("com.yacapp.parsedconfig", 1, 0, "ParsedConfig");
     qmlRegisterType<BackgroundConfig>("com.yacapp.backgroundconfig", 1, 0, "BackgroundConfig");
     qmlRegisterType<MenueConfig>("com.yacapp.menueconfig", 1, 0, "MenueConfig");
+    qmlRegisterType<AppImagesItem>("com.yacapp.appimagesitem", 1, 0, "AppImagesItem");
     qmlRegisterType<MenueItem>("com.yacapp.menueitem", 1, 0, "MenueItem");
     qmlRegisterType<ContentConfig>("com.yacapp.contentconfig", 1, 0, "ContentConfig");
     qmlRegisterType<ContentItem>("com.yacapp.contentitem", 1, 0, "ContentItem");
@@ -71,6 +73,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<ProjectData>("com.yacapp.projectdata", 1, 0, "ProjectData");
     qRegisterMetaType<YACAPP*>("YACAPP");
     qRegisterMetaType<GlobalProjectConfig*>("GlobalProjectConfig");
+    qRegisterMetaType<AppImagesItem*>("AppImagesItem");
     qRegisterMetaType<ParsedConfig*>("ParsedConfig");
     qRegisterMetaType<BackgroundConfig*>("BackgroundConfig");
     qRegisterMetaType<MenueConfig*>("MenueConfig");
@@ -107,6 +110,7 @@ int main(int argc, char *argv[])
     }
     Helper helper;
     Constants constants(customWriteablePath);
+
     QNetworkAccessManager manager;
     YACExtServerNetwork network(manager
                                 , constants);

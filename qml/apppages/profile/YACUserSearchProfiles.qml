@@ -1,5 +1,5 @@
 import QtQuick 2.15
-import "../items"
+import "../../items"
 
 Rectangle
 {
@@ -60,7 +60,6 @@ Rectangle
                 anchors.fill: parent
                 onClicked:
                 {
-                    yacApp.addProfileToKnownProfiles(profile.id)
                     profileSelected(profile.id)
                 }
             }

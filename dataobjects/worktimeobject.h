@@ -2,13 +2,11 @@
 #define WORKTIMEOBJECT_H
 
 #include "dataobjectinterface.h"
-#include "yacAppAndServer/tablefields.h"
 #include <QDateTime>
 
 class WorktimeObject : public DataObjectInterface
 {
     Q_OBJECT
-    TableFields tableFields;
 
     YACAPPPROPERTY(QString, id, Id, "");
     YACAPPPROPERTY(QDateTime, ts, Ts, QDateTime());

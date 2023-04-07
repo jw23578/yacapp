@@ -10,10 +10,12 @@ include(qzxing/src/QZXing.pri)
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+DEFINES += ORMQTTypes
 include("yacAppAndServer/yacAppAndServer.pri")
 
 
 SOURCES += \
+        configmodels/appimagesitem.cpp \
         configmodels/appuserconfig.cpp \
         configmodels/backgroundconfig.cpp \
         configmodels/configinterface.cpp \
@@ -41,7 +43,6 @@ SOURCES += \
         dataobjects/multipurposeobject.cpp \
         dataobjects/newsobject.cpp \
         dataobjects/profileobject.cpp \
-        dataobjects/rightgroupobject.cpp \
         dataobjects/spaceobject.cpp \
         dataobjects/spacerequestobject.cpp \
         dataobjects/worktimemainobject.cpp \
@@ -61,6 +62,7 @@ SOURCES += \
         network/yacextservernetwork.cpp \
         network/yacserverbasenetwork.cpp \
         network/yacservernetwork.cpp \
+        orm-mapper/orm2qjson.cpp \
         projectdata.cpp \
         yacapp.cpp
 
@@ -85,6 +87,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+  configmodels/appimagesitem.h \
   configmodels/appuserconfig.h \
   configmodels/backgroundconfig.h \
   configmodels/configinterface.h \
@@ -115,7 +118,6 @@ HEADERS += \
   dataobjects/multipurposeobject.h \
   dataobjects/newsobject.h \
   dataobjects/profileobject.h \
-  dataobjects/rightgroupobject.h \
   dataobjects/spaceobject.h \
   dataobjects/spacerequestobject.h \
   dataobjects/worktimemainobject.h \
@@ -134,6 +136,7 @@ HEADERS += \
   network/yacextservernetwork.h \
   network/yacserverbasenetwork.h \
   network/yacservernetwork.h \
+  orm-mapper/orm2qjson.h \
   projectdata.h \
   yacapp.h \
   yacappmacros.h

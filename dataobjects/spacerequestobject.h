@@ -2,13 +2,11 @@
 #define SPACEREQUESTOBJECT_H
 
 #include "dataobjectinterface.h"
-#include "yacAppAndServer/tablefields.h"
 #include "newsobject.h"
 
 class SpaceRequestObject : public DataObjectInterface
 {
     Q_OBJECT
-    TableFields tableFields;
 
     YACAPPPROPERTY(QString, id, Id, "");
     YACAPPPROPERTY(QString, space_id, Space_id, "");

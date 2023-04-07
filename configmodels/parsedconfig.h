@@ -13,11 +13,11 @@
 class ParsedConfig : public QObject
 {
     Q_OBJECT
-    YACAPPREADONLYPROPERTY(BackgroundConfig*, background, new BackgroundConfig())
-    YACAPPREADONLYPROPERTY(MenueConfig*, menue, new MenueConfig());
-    YACAPPREADONLYPROPERTY(ContentConfig*, content, new ContentConfig());
-    YACAPPREADONLYPROPERTY(HeaderConfig*, header, new HeaderConfig());
-    YACAPPREADONLYPROPERTY(SplashscreenConfig*, splashscreen, new SplashscreenConfig());
+    YACAPP_READONLY_PROPERTY(BackgroundConfig*, background, new BackgroundConfig())
+    YACAPP_READONLY_PROPERTY(MenueConfig*, menue, new MenueConfig());
+    YACAPP_READONLY_PROPERTY(ContentConfig*, content, new ContentConfig());
+    YACAPP_READONLY_PROPERTY(HeaderConfig*, header, new HeaderConfig());
+    YACAPP_READONLY_PROPERTY(SplashscreenConfig*, splashscreen, new SplashscreenConfig());
     YACAPPPROPERTY(QString, menueFilename, MenueFilename, "");
 
 public:

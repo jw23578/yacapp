@@ -5,6 +5,10 @@
 #include "yacappmacros.h"
 #include "configinterface.h"
 #include "constants.h"
+#include "appimagesitem.h"
+#include <QQmlListProperty>
+#include "datamodels/templateddatamodel.h"
+
 
 class GlobalProjectConfig : public ConfigInterface
 {
@@ -23,6 +27,9 @@ class GlobalProjectConfig : public ConfigInterface
     YACAPPPROPERTY(double, logoHeightPerThousand, LogoHeightPerThousand, 0)
     YACAPPPROPERTY(double, logoOffsetXPerThousand, LogoOffsetXPerThousand, 0)
     YACAPPPROPERTY(double, logoOffsetYPerThousand, LogoOffsetYPerThousand, 0)
+
+//YACOBJECTLISTPROPERTY(MenueItem, item, Item, MenueConfig)
+    YACAPP_MODEL_DECLARATION(TemplatedDataModel<AppImagesItem>, appImages);
     public:
     explicit GlobalProjectConfig(bool noProjectId = true,
                                  QObject *parent = nullptr);

@@ -2,6 +2,7 @@ import QtQuick 2.15
 import "../../items"
 import ".."
 import "../.."
+import "../profile"
 
 AppUserBasePage
 {
@@ -96,6 +97,7 @@ AppUserBasePage
                     anchors.fill: parent
                     anchors.margins: Constants.defaultMargin
                     text: dataObject.caption
+                    verticalAlignment: Text.AlignVCenter
                 }
             }
         }

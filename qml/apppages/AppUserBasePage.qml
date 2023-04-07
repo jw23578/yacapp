@@ -26,13 +26,11 @@ Rectangle
 
     YACTwoButtonRow
     {
+        z: 1
         id: theButtonRow
         visible: false
         rightText: qsTr("Close")
-        onRightClicked:
-        {
-            closeClicked()
-        }
+        onRightClicked: parent.closeClicked()
         onLeftClicked: parent.leftClicked()
     }
 }

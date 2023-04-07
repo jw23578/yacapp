@@ -9,6 +9,10 @@
     rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1(); \
     rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
 
+
+#define MACRO_JSON_SET_DATETIME(obj, nameValue) \
+    obj[#nameValue] = nameValue.toString(Qt::ISODate);
+
 #define MACRO_JSON_SET(obj, nameValue) \
     obj[#nameValue] = nameValue;
 
