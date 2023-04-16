@@ -16,7 +16,7 @@ public:
     explicit RecentProject(QObject *parent = nullptr);
 
     void setConfig(const QJsonValue &config) override;
-    QJsonObject getConfig() override;
+    QJsonObject getConfig() const override;
 };
 
 #endif // RECENTPROJECT_H

@@ -21,8 +21,8 @@ class ContentConfig : public ConfigInterface
 public:
     explicit ContentConfig(QObject *parent = nullptr);
 
-    void setConfig(QJsonValue const &config);
-    QJsonObject getConfig();
+    void setConfig(QJsonValue const &config) override;
+    QJsonObject getConfig() const override;
 
     Q_INVOKABLE void addItem(int index);
     Q_INVOKABLE void removeItem(int index);

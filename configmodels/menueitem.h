@@ -14,9 +14,9 @@ class MenueItem : public ConfigInterface
 public:
     explicit MenueItem(QObject *parent = nullptr);
 
-    void setConfig(QJsonValue const &config);
+    void setConfig(QJsonValue const &config) override;
 
-    QJsonObject getConfig();
+    QJsonObject getConfig() const override;
 signals:
 
 };

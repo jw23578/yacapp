@@ -15,7 +15,6 @@ public:
     ProfilesModel(QQmlApplicationEngine &engine,
                   const QString &modelName);
 
-    void removeById(const QString &id);
     ProfileObject *getCopyById(const QString &id) const;
     bool incUnreadMessages(const QString &id);
 

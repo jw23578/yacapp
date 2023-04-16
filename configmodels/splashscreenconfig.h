@@ -13,8 +13,8 @@ class SplashscreenConfig : public ConfigInterface
     public:
     explicit SplashscreenConfig(QObject *parent = nullptr);
 
-    void setConfig(QJsonValue const &config);
-    QJsonObject getConfig();
+    void setConfig(QJsonValue const &config) override;
+    QJsonObject getConfig() const override;
 
 signals:
 

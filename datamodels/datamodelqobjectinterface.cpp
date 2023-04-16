@@ -5,3 +5,9 @@ DataModelQObjectInterface::DataModelQObjectInterface(QObject *parent)
 {
 
 }
+
+void DataModelQObjectInterface::deleteById(const QString &id)
+{
+    internalDeleteById(id);
+    setCount(size());
+}

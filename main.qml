@@ -262,6 +262,8 @@ ApplicationWindow
         //        console.log(yacApp.mainConfig.content.items[1].height)
         checkForAppUpdate()
         Constants.appTotalWidth = width
+        Constants.designWidthFactor = width / 430.0
         Constants.appTotalHeight = height
+        Constants.designHeightFactor = height / 932
     }
 }

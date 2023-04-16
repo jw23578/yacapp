@@ -21,7 +21,8 @@ QQuickImageResponse *AsyncImageProvider::requestImageResponse(const QString &id,
         // FIXME Error Logging?
         return new AsyncImageResponse("");
     }
-    if (parts[0] == "profileImage")
+    QString imageType(parts[0]);
+    if (imageType == "profileImage" || imageType == "appImage")
     {
         if (parts[1].size() == 0)
         {
@@ -35,7 +36,7 @@ QQuickImageResponse *AsyncImageProvider::requestImageResponse(const QString &id,
             return new AsyncImageResponse(cacheFileName);
         }
         AsyncImageResponse *air(new AsyncImageResponse);
-        yacApp.addFileToFetch("profileImage",
+        yacApp.addFileToFetch(imageType,
                               uuid,
                               air,
                               cacheFileName);

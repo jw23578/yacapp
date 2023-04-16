@@ -14,7 +14,7 @@ void MenueItem::setConfig(const QJsonValue &config)
     stringFromJSON(target, Target)
 }
 
-QJsonObject MenueItem::getConfig()
+QJsonObject MenueItem::getConfig() const
 {
     QJsonObject config;
     toJSON(caption);

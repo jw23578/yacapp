@@ -15,12 +15,49 @@ Rectangle
         property int imageWidth: width - 2
         property int imageHeight: imageWidth * 100 / 266
         spacing: 1
+        add: Transition {
+            NumberAnimation
+            {
+                properties: "opacity"
+                from: 0
+                to: 1
+            }
+        }
+        remove: Transition {
+            NumberAnimation
+            {
+                properties: "opacity"
+                from: 1
+                to: 0
+            }
+        }
+        displaced: Transition {
+            NumberAnimation
+            {
+                properties: "y"
+            }
+        }
+
         delegate: Rectangle
         {
             width: imagesListView.imageWidth + 2
             height: imagesListView.imageHeight + 2
             border.color: "black"
             border.width: 1
+            YACImage
+            {
+                anchors.centerIn: parent
+                width: imagesListView.imageWidth
+                height: imagesListView.imageHeight
+                source: image.fileUrl
+            }
+            YACButton
+            {
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                text: qsTr("Delete")
+                onClicked: yacApp.globalConfig.appImages().deleteById(image.id)
+            }
         }
     }
     Column
@@ -38,7 +75,15 @@ Rectangle
                 }
 
             })
-
+        }
+        YACButton
+        {
+            text: qsTr("Close")
+            onClicked:
+            {
+                yacApp.saveCurrentProject()
+                appImages.visible = false
+            }
         }
     }
 

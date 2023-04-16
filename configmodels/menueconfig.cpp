@@ -36,7 +36,7 @@ void MenueConfig::setConfig(const QJsonValue &config)
     setItemCount(m_items.length());
 }
 
-QJsonObject MenueConfig::getConfig()
+QJsonObject MenueConfig::getConfig() const
 {
     QJsonObject config;
     stringToJSON(type);

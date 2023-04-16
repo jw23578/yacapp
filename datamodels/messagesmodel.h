@@ -23,9 +23,6 @@ protected:
 
 public:
     MessagesModel(QQmlApplicationEngine &engine);
-
-    Q_INVOKABLE MessageObject *at(int index) const;
-
 };
 
 #endif // MESSAGESMODEL_H

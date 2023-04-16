@@ -119,6 +119,7 @@ void YACExtServerNetwork::yacappServerUploadApp(const QString &loginEMail,
                                                 const QString &app_name,
                                                 const int app_version,
                                                 const QString &app_logo_url,
+                                                const QString &app_info_url,
                                                 const QString &app_color_name,
                                                 const bool is_template_app,
                                                 const QString &json_yacapp,
@@ -131,6 +132,7 @@ void YACExtServerNetwork::yacappServerUploadApp(const QString &loginEMail,
     app.setapp_name(app_name);
     app.setapp_version(app_version);
     app.setapp_logo_url(app_logo_url);
+    app.setapp_info_url(app_info_url);
     app.setapp_color_name(app_color_name);
     app.setis_template_app(is_template_app);
     app.setyacpck_base64(0);

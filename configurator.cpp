@@ -9,6 +9,7 @@
 #include "configmodels/globalprojectconfig.h"
 #include "configmodels/parsedconfig.h"
 #include "configmodels/appimagesitem.h"
+#include "orm_implementions/t0027_app_images.h"
 
 #ifndef Q_OS_ANDROID
 #include "helper.h"
@@ -91,16 +92,16 @@ void Configurator::save()
 
 void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCallback, QJSValue badCallback)
 {
-    GlobalProjectConfig gpc(true);
-    gpc.init(globalProjectConfigFilename, yacApp.constants);
-    if (!deployConfigs[gpc.projectID()])
+    GlobalProjectConfig *gpc(new GlobalProjectConfig(true));
+    gpc->init(globalProjectConfigFilename, yacApp.constants);
+    if (!deployConfigs[gpc->projectID()])
     {
-        deployConfigs[gpc.projectID()] = new ProjectData;
+        deployConfigs[gpc->projectID()] = new ProjectData;
     }
-    ProjectData &pd(*deployConfigs[gpc.projectID()]);
-    pd.setProjectID(gpc.projectID());
-    pd.setProjectName(gpc.projectName());
-    pd.setLogoUrl(gpc.logoUrl());
+    ProjectData &pd(*deployConfigs[gpc->projectID()]);
+    pd.setProjectID(gpc->projectID());
+    pd.setProjectName(gpc->projectName());
+    pd.setLogoUrl(gpc->logoUrl());
     pd.setDeployBaseDirectory("");
 
     save();
@@ -112,19 +113,20 @@ void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCall
     baseName.remove(" ");
 
     QByteArray appPackage;
-    for (int i(0); i < gpc.formFiles.size(); ++i)
+    for (int i(0); i < gpc->formFiles.size(); ++i)
     {
-        appPackage += gpc.formFiles[i].toUtf8();
+        appPackage += gpc->formFiles[i].toUtf8();
         appPackage += '\0';
-        QFile file(path + gpc.formFiles[i]);
+        QFile file(path + gpc->formFiles[i]);
         file.open(QIODevice::ReadOnly);
         appPackage += file.readAll();
         appPackage += '\0';
     }
-    for (int i(0); i < gpc.menueFiles.size(); ++i)
+
+    for (int i(0); i < gpc->menueFiles.size(); ++i)
     {
-        appPackage += gpc.menueFiles[i].toUtf8() + '\0';
-        QFile file(path + gpc.menueFiles[i]);
+        appPackage += gpc->menueFiles[i].toUtf8() + '\0';
+        QFile file(path + gpc->menueFiles[i]);
         file.open(QIODevice::ReadOnly);
         appPackage += file.readAll();
         appPackage += '\0';
@@ -132,37 +134,52 @@ void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCall
     appPackage = qCompress(appPackage);
 
     network.yacappServerUploadApp(pd.deployUser(),
-                                  pd.yacappServerLoginToken(),
-                                  gpc.projectID(),
-                                  gpc.projectName(),
-                                  gpc.version(),
-                                  gpc.logoUrl(),
-                                  gpc.projectColorName(),
-                                  gpc.isTemplateApp(),
-                                  gpc.getConfigAsString(yacApp.constants),
-                                  appPackage.toBase64(),
-                                  [goodCallback](const QString &message) mutable
-    {
-        Q_UNUSED(message);
-        goodCallback.call();
-    },
-    [this, badCallback](const QString &message) mutable
-    {
-        if (message == "not logged in")
+        pd.yacappServerLoginToken(),
+        gpc->projectID(),
+        gpc->projectName(),
+        gpc->version(),
+        gpc->logoUrl(),
+        gpc->appInfoUrl(),
+        gpc->projectColorName(),
+        gpc->isTemplateApp(),
+        gpc->getConfigAsString(yacApp.constants),
+        appPackage.toBase64(),
+        [goodCallback, this, &gpc, &pd](const QString &message) mutable
         {
-            activeProjectData()->setYacappServerLoginToken("");
-        }
-        badCallback.call(QJSValueList() << message);
-    });
-}
-
-void Configurator::deployToYACAPPServer(QString globalProjectConfigFilename,
-                                        QJSValue goodCallback,
-                                        QJSValue badCallback)
-{
-    Q_UNUSED(goodCallback);
-    Q_UNUSED(badCallback);
-    qDebug() << __FILE__ << ": " << __LINE__ << globalProjectConfigFilename;
+            Q_UNUSED(message);
+            auto &aiModel(gpc->getappImages());
+            for (size_t i(0); i < aiModel.size(); ++i)
+            {
+                const AppImagesItem &aii(aiModel.get(i));
+                QString fileName(QUrl(aii.fileUrl()).toLocalFile());
+                QFile file(fileName);
+                if (file.open(QFile::ReadOnly))
+                {
+                    QByteArray imageData(file.readAll().toBase64());
+                    t0027_app_images t0027;
+                    t0027.setposition(i);
+                    t0027.setapp_id(gpc->projectID());
+                    t0027.settransfer_image_base64(imageData);
+                    network.appUserPostORM(gpc->projectID(),
+                        pd.deployUser(),
+                        pd.yacappServerLoginToken(),
+                        t0027,
+                        [](const QJsonDocument &document){},
+                        [](const QString &message){});
+                }
+            }
+            goodCallback.call();
+            delete gpc;
+        },
+        [this, badCallback, gpc](const QString &message) mutable
+        {
+            delete gpc;
+            if (message == "not logged in")
+            {
+                activeProjectData()->setYacappServerLoginToken("");
+            }
+            badCallback.call(QJSValueList() << message);
+        });
 }
 
 void Configurator::setProjectData(const QString &projectID)
@@ -181,34 +198,34 @@ void Configurator::yacserverLogin(const QString &loginEMail
                                   , QJSValue badCallback)
 {
     network.yacappServerLoginUser(loginEMail, password,
-                                  [this, loginEMail, password, projectID, goodCallback](const QString &loginToken) mutable
-    {
-        ProjectData &pd(*deployConfigs[projectID]);
-        pd.setYacappServerLoginToken(loginToken);
-        pd.setDeployUser(loginEMail);
-        pd.setDeployPassword(password);
-        save();
-        goodCallback.call(QJSValueList());
-    },
-    [badCallback](const QString &message) mutable
-    {
-        badCallback.call(QJSValueList() << message);
-    }
-    );
+        [this, loginEMail, password, projectID, goodCallback](const QString &loginToken) mutable
+        {
+            ProjectData &pd(*deployConfigs[projectID]);
+            pd.setYacappServerLoginToken(loginToken);
+            pd.setDeployUser(loginEMail);
+            pd.setDeployPassword(password);
+            save();
+            goodCallback.call(QJSValueList());
+        },
+        [badCallback](const QString &message) mutable
+        {
+            badCallback.call(QJSValueList() << message);
+        }
+        );
 }
 
 void Configurator::yacserverUserLoggedIn(const QString &loginEMail, const QString &loginToken, const QString &projectID)
 {
     network.yacappServerUserLoggedIn(loginEMail, loginToken,
-                                     [this, projectID](const QString &loginToken){
-        deployConfigs[projectID]->setYacappServerLoginToken(loginToken);
-    },
-    [this, projectID](const QString &message)
-    {
-        Q_UNUSED(message);
-        deployConfigs[projectID]->setYacappServerLoginToken("");
-    }
-    );
+        [this, projectID](const QString &loginToken){
+            deployConfigs[projectID]->setYacappServerLoginToken(loginToken);
+        },
+        [this, projectID](const QString &message)
+        {
+            Q_UNUSED(message);
+            deployConfigs[projectID]->setYacappServerLoginToken("");
+        }
+        );
 }
 
 void Configurator::yacserverRegister(const QString &loginEMail,
@@ -217,16 +234,16 @@ void Configurator::yacserverRegister(const QString &loginEMail,
                                      QJSValue badCallback)
 {
     network.yacappServerRegisterUser(loginEMail, password,
-                                     [goodCallback](const QString &message) mutable
-    {
-        goodCallback.call(QJSValueList() << message);
-    },
-    [badCallback](const QString &message) mutable
-    {
-        Q_UNUSED(message);
-        badCallback.call(QJSValueList() << message);
-    }
-    );
+        [goodCallback](const QString &message) mutable
+        {
+            goodCallback.call(QJSValueList() << message);
+        },
+        [badCallback](const QString &message) mutable
+        {
+            Q_UNUSED(message);
+            badCallback.call(QJSValueList() << message);
+        }
+        );
 }
 
 void Configurator::yacserverVerify(const QString &loginEMail
@@ -235,16 +252,16 @@ void Configurator::yacserverVerify(const QString &loginEMail
                                    , QJSValue badCallback)
 {
     network.yacappServerVerifyUser(loginEMail, verifyToken,
-                                   [goodCallback](const QString &message) mutable
-    {
-        Q_UNUSED(message);
-        goodCallback.call(QJSValueList());
-    },
-    [badCallback](const QString &message) mutable
-    {
-        badCallback.call(QJSValueList() << message);
-    }
-    );
+        [goodCallback](const QString &message) mutable
+        {
+            Q_UNUSED(message);
+            goodCallback.call(QJSValueList());
+        },
+        [badCallback](const QString &message) mutable
+        {
+            badCallback.call(QJSValueList() << message);
+        }
+        );
 
 }
 

@@ -8,6 +8,7 @@ Rectangle
 {
     id: designEditor
     signal closeClicked()
+    property GlobalProjectConfig global: null
     Column
     {
         anchors.top: parent.top
@@ -32,6 +33,12 @@ Rectangle
                     {
                         id: columnItems
                         width: parent.width
+                        YACLineEditWithHeader
+                        {
+                            headerText: qsTr("APP-Info-Url")
+                            text: global.appInfoUrl
+                            onDisplayTextChanged: global.appInfoUrl = text
+                        }
                         YACText
                         {
                             text: qsTr("Font PointSize")

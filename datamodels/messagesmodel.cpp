@@ -21,7 +21,7 @@ QVariant MessagesModel::customData(int row, int role) const
         {
             return true;
         }
-        return getObject(row)->sent().date() != previousObject(row)->sent().date();
+        return get(row).sent().date() != previousObject(row)->sent().date();
     }
     if (role == NextQMLWidth)
     {
@@ -29,11 +29,11 @@ QVariant MessagesModel::customData(int row, int role) const
         {
             return 0;
         }
-        if (!sameTime(*getObject(row), *getObject(row + 1)))
+        if (!sameTime(get(row), get(row + 1)))
         {
             return 0;
         }
-        return getObject(row + 1)->qmlWidth();
+        return get(row + 1).qmlWidth();
     }
     if (role == NextSameTime)
     {
@@ -41,7 +41,7 @@ QVariant MessagesModel::customData(int row, int role) const
         {
             return false;
         }
-        return sameTime(*getObject(row), *getObject(row + 1));
+        return sameTime(get(row), get(row + 1));
     }
     if (role == PrevQMLWidth)
     {
@@ -49,11 +49,11 @@ QVariant MessagesModel::customData(int row, int role) const
         {
             return 0;
         }
-        if (!sameTime(*getObject(row), *getObject(row - 1)))
+        if (!sameTime(get(row), get(row - 1)))
         {
             return 0;
         }
-        return getObject(row - 1)->qmlWidth();
+        return get(row - 1).qmlWidth();
     }
     if (role == PrevSameTime)
     {
@@ -61,7 +61,7 @@ QVariant MessagesModel::customData(int row, int role) const
         {
             return false;
         }
-        return sameTime(*getObject(row), *getObject(row - 1));
+        return sameTime(get(row), get(row - 1));
     }
     return QVariant();
 }
@@ -81,9 +81,4 @@ MessagesModel::MessagesModel(QQmlApplicationEngine &engine):
     TemplatedDataModel<MessageObject>(engine, "MessagesModel", "message", TemplatedDataModel<MessageObject>::reverse)
 {
 
-}
-
-MessageObject *MessagesModel::at(int index) const
-{
-    return getObject(index);
 }

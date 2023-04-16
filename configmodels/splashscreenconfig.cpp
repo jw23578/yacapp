@@ -18,7 +18,7 @@ void SplashscreenConfig::setConfig(const QJsonValue &config)
     setSecondsDuration(config["secondsDuration"].toInt());
 }
 
-QJsonObject SplashscreenConfig::getConfig()
+QJsonObject SplashscreenConfig::getConfig() const
 {
     QJsonObject config;
     if (changed(imageFilename()) || changed(secondsDuration()))

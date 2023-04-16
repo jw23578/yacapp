@@ -30,7 +30,6 @@ SOURCES += \
         configurator.cpp \
         configuratormodels/recentproject.cpp \
         constants.cpp \
-        datamodels/appointmentsmodel.cpp \
         datamodels/asyncimageresponse.cpp \
         datamodels/datamodelqobjectinterface.cpp \
         datamodels/messagesmodel.cpp \
@@ -102,7 +101,6 @@ HEADERS += \
   configurator.h \
   configuratormodels/recentproject.h \
   constants.h \
-  datamodels/appointmentsmodel.h \
   datamodels/asyncimageresponse.h \
   datamodels/datamodelinterface.h \
   datamodels/datamodelqobjectinterface.h \

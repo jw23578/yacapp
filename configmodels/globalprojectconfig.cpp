@@ -41,8 +41,16 @@ void GlobalProjectConfig::save(const QString &jsonConfigFile,
 
 void GlobalProjectConfig::setConfig(const QJsonValue &config)
 {
+    QJsonArray appImagesArray(config["appImages"].toArray());
+    for (int i(0); i < appImagesArray.size(); ++i)
+    {
+        AppImagesItem *aii(new AppImagesItem);
+        aii->setConfig(appImagesArray[i]);
+        getappImages().append(aii);
+    }
     intFromJSON(version, Version);
     stringFromJSON(logoUrl, LogoUrl);
+    stringFromJSON(appInfoUrl, AppInfoUrl);
     doubleFromJSON(logoWidthPerThousand, LogoWidthPerThousand);
     doubleFromJSON(logoHeightPerThousand, LogoHeightPerThousand);
     doubleFromJSON(logoOffsetXPerThousand, LogoOffsetXPerThousand);
@@ -77,11 +85,12 @@ void GlobalProjectConfig::setConfig(const QJsonValue &config)
     }
 }
 
-QJsonObject GlobalProjectConfig::getConfig()
+QJsonObject GlobalProjectConfig::getConfig() const
 {
     QJsonObject config;
     intToJSON(version);
     stringToJSON(logoUrl);
+    stringToJSON(appInfoUrl);
     doubleToJSON(logoWidthPerThousand);
     doubleToJSON(logoHeightPerThousand);
     doubleToJSON(logoOffsetXPerThousand);
@@ -96,6 +105,15 @@ QJsonObject GlobalProjectConfig::getConfig()
     boolToJSON(appUserEnabled);
     boolToJSON(appUserMessagesEnabled);
     boolToJSON(appUserWorktimeEnabled);
+
+    QJsonArray appImagesArray;
+    for (size_t i(0); i < m_appImages.count(); ++i)
+    {
+        const AppImagesItem &aii(m_appImages.get(i));
+        appImagesArray.push_back(aii.getConfig());
+    }
+    config["appImages"] = appImagesArray;
+
     return config;
 }
 

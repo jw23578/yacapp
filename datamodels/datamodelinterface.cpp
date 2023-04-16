@@ -93,7 +93,7 @@ QVariant DataModelInterface<T>::data(const QModelIndex &index, int role) const
     {
         return QVariant();
     }
-    return QVariant::fromValue<QObject *>(getObject(static_cast<size_t>(row)));
+    return QVariant::fromValue<QObject *>(internalGetObject(static_cast<size_t>(row)));
 
 }
 
@@ -132,9 +132,9 @@ bool DataModelInterface<T>::append(T *object)
 }
 
 template<class T>
-void DataModelInterface<T>::remove(T *object)
+void DataModelInterface<T>::removeByIndex(const size_t index)
 {
-    internalRemove(object);
+    internalRemoveByIndex(index);
 }
 
 template<class T>
@@ -148,7 +148,13 @@ void DataModelInterface<T>::clear()
 template<class T>
 const T &DataModelInterface<T>::get(size_t index) const
 {
-    return *getObject(index);
+    return *internalGetObject(index);
+}
+
+template<class T>
+const T &DataModelInterface<T>::operator[](const size_t index) const
+{
+    return internalGetObject(index);
 }
 
 template<class T>
@@ -157,8 +163,8 @@ size_t DataModelInterface<T>::oneBubbleSort(bool withSwapUpdates, compareFunctio
     size_t swapped(0);
     for (size_t i(0); i < size() - 1; ++i)
     {
-        T *a(getObject(i));
-        T *b(getObject(i + 1));
+        T *a(internalGetObject(i));
+        T *b(internalGetObject(i + 1));
         if (cf(*a, *b))
         {
             swap(i, i + 1, withSwapUpdates);

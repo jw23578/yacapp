@@ -32,7 +32,7 @@ void ContentConfig::setConfig(const QJsonValue &config)
     setItemCount(m_items.length());
 }
 
-QJsonObject ContentConfig::getConfig()
+QJsonObject ContentConfig::getConfig() const
 {
     QJsonObject config;
     stringToJSON(type);

@@ -9,7 +9,7 @@ class ObjectDataModel : public DataModelInterface<DataObjectInterface>
 
 protected:
     size_t size() const override;
-    DataObjectInterface *getObject(size_t index) const  override;
+    DataObjectInterface *internalGetObject(size_t index) const  override;
     void internalAppend(DataObjectInterface *object)  override;
     DataObjectInterface *previousObject(int index) const override;
 

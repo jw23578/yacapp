@@ -7,50 +7,39 @@ size_t TemplatedDataModel<T>::size() const
 }
 
 template<class T>
-T *TemplatedDataModel<T>::getObject(size_t index) const
+T *TemplatedDataModel<T>::internalGetObject(size_t index) const
 {
-    return objects[index];
+    return objects.getByIndex(index);
 }
 
 template<class T>
 bool TemplatedDataModel<T>::canAppend(T *object) const
 {
-    for (const auto &o: objects)
+    T *alreadyAdded(objects.getById(object->id()));
+    if (alreadyAdded)
     {
-        if (o->id() == object->id())
-        {
-            o->assign(*object);
-            return false;
-        }
+        alreadyAdded->assign(*object);
+        return false;
     }
-    Q_UNUSED(object);
     return true;
 }
 
 template<class T>
-void TemplatedDataModel<T>::internalRemove(T *object)
+void TemplatedDataModel<T>::internalRemoveByIndex(const size_t index)
 {
-    auto it(objects.begin());
-    size_t index(0);
-    while (it != objects.end())
+    if (index >= objects.size())
     {
-        if (*it == object)
-        {
-            DataModelInterface<T>::beginRemoveRows(QModelIndex(), index, index);
-            objects.erase(it);
-            DataModelInterface<T>::endRemoveRows();
-            delete object;
-            return;
-        }
-        ++it;
-        ++index;
+        return;
     }
+    DataModelInterface<T>::beginRemoveRows(QModelIndex(), index, index);
+    objects.deleteByIndex(index);
+    DataModelInterface<T>::endRemoveRows();
 }
 
 template<class T>
 void TemplatedDataModel<T>::internalAppend(T *object)
 {
-    objects.push_back(object);
+    objects.add(object->id(), object);
 }
 
 template<class T>
@@ -60,7 +49,7 @@ T *TemplatedDataModel<T>::previousObject(int index) const
     {
         return 0;
     }
-    return objects[index - 1];
+    return objects.getByIndex(index - 1);
 }
 
 template <class T>
@@ -71,7 +60,8 @@ TemplatedDataModel<T>::TemplatedDataModel(QQmlApplicationEngine &engine,
     DataModelInterface<T>(engine,
                           modelName,
                           objectName,
-                          direction)
+                          direction),
+    objects(true)
 {
 
 }
@@ -81,47 +71,32 @@ TemplatedDataModel<T>::TemplatedDataModel(const QString &objectName,
                                           const typename DataModelInterface<T>::DirectionType direction):
     DataModelInterface<T>(objectName,
                           direction)
+  ,
+    objects(true)
 {
 
-}
-
-template<class T>
-void TemplatedDataModel<T>::deleteById(const QString &id)
-{
-    for (size_t i(0); i < objects.size(); ++i)
-    {
-        T *object(objects[i]);
-        if (object->id() == id)
-        {
-            DataModelInterface<T>::beginRemoveRows(QModelIndex(), i, i);
-            objects.erase(objects.begin() + i);
-            DataModelInterface<T>::endRemoveRows();
-            delete object;
-
-        }
-    }
 }
 
 template<class T>
 T *TemplatedDataModel<T>::getById(const QString &id)
 {
-    for (auto &o: objects)
+    return objects.getById(id);
+}
+
+template<class T>
+void TemplatedDataModel<T>::removeById(const QString &id)
+{
+    size_t index(objects.indexById(id));
+    if (index >= objects.size())
     {
-        if (o->id() == id)
-        {
-            return o;
-        }
+        return;
     }
-    return 0;
+    this->removeByIndex(index);
 }
 
 template<class T>
 void TemplatedDataModel<T>::internalClear()
 {
-    for (auto o : objects)
-    {
-        delete o;
-    }
     objects.clear();
 }
 
@@ -138,11 +113,22 @@ void TemplatedDataModel<T>::swap(size_t i1,
     {
         DataModelInterface<T>::beginMoveRows(QModelIndex(), i2, i2, QModelIndex(), i1);
     }
-    T *a(objects[i1]);
-    objects[i1] = objects[i2];
-    objects[i2] = a;
+    objects.swap(i1, i2);
     if (update)
     {
         DataModelInterface<T>::endMoveRows();
     }
+}
+
+template<class T>
+void TemplatedDataModel<T>::internalDeleteById(const QString &id)
+{
+    size_t index(objects.indexById(id));
+    if (index == -1)
+    {
+        return;
+    }
+    DataModelInterface<T>::beginRemoveRows(QModelIndex(), index, index);
+    objects.deleteByIndex(index);
+    DataModelInterface<T>::endRemoveRows();
 }

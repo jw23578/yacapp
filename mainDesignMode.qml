@@ -154,6 +154,7 @@ Window {
                 ConfiguratorDesignEditor
                 {
                     id: designEditor
+                    global: yacApp.globalConfig
                 }
             }
 
@@ -241,9 +242,9 @@ Window {
         Constants.appTotalHeight = mainFormLoader.height
     }
 
-    ConfiguratorAppImagesPage
-    {
-        id: appImages
-        visible: true
-    }
+//    ConfiguratorAppImagesPage
+//    {
+//        id: appImages
+//        visible: true
+//    }
 }

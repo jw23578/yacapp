@@ -11,7 +11,7 @@ public:
     explicit GlobalDesignConfig(QObject *parent = nullptr);
 
     void setConfig(const QJsonValue &config) override;
-    QJsonObject getConfig() override;
+    QJsonObject getConfig() const override;
 };
 
 #endif // GLOBALDESIGNCONFIG_H

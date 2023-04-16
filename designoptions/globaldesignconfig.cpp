@@ -21,7 +21,7 @@ void GlobalDesignConfig::setConfig(const QJsonValue &config)
     }
 }
 
-QJsonObject GlobalDesignConfig::getConfig()
+QJsonObject GlobalDesignConfig::getConfig() const
 {
     QJsonObject config;
     intToJSON(defaultFontPointSize);

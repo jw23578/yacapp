@@ -13,13 +13,13 @@
 #include <QJSValue>
 #include "datamodels/templateddatamodel.h"
 #include "datamodels/profilesmodel.h"
-#include "datamodels/appointmentsmodel.h"
 #include "localstorage/localstorage.h"
 #include "datamodels/messagesmodel.h"
 #include "firebase2qt.h"
 #include <QTranslator>
 #include <QTimer>
 #include "yacAppAndServer/tablefields.h"
+#include "dataobjects/appointmentobject.h"
 #include "dataobjects/groupobject.h"
 #include "dataobjects/spaceobject.h"
 #include "dataobjects/multipurposeobject.h"
@@ -96,7 +96,7 @@ class YACAPP : public QObject
 
     MessagesModel messagesModel;
 
-    AppointmentsModel appointmentsModel;
+    TemplatedDataModel<AppointmentObject> appointmentsModel;
 
     TemplatedDataModel<YACBaseObject> rightGroupsModel;
     TemplatedDataModel<MultiPurposeObject> allRightsModel;

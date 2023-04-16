@@ -29,7 +29,7 @@ void ContentItem::setConfig(const QJsonValue &config)
     stringFromJSON(flipableFilename2, FlipableFilename2);
 }
 
-QJsonObject ContentItem::getConfig()
+QJsonObject ContentItem::getConfig() const
 {
     QJsonObject config;
     stringToJSON(filename);

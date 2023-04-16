@@ -22,17 +22,6 @@ ProfilesModel::ProfilesModel(QQmlApplicationEngine &engine,
 
 }
 
-void ProfilesModel::removeById(const QString &id)
-{
-    auto it(id2object.find(id));
-    if (it == id2object.end())
-    {
-        return;
-    }
-    remove(it->second);
-    id2object.erase(it);
-}
-
 ProfileObject *ProfilesModel::getCopyById(const QString &id) const
 {
     auto it(id2object.find(id));

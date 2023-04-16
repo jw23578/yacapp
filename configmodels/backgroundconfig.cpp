@@ -18,7 +18,7 @@ void BackgroundConfig::setConfig(const QJsonValue &config)
     stringFromJSON(imageFilename, ImageFilename)
 }
 
-QJsonObject BackgroundConfig::getConfig()
+QJsonObject BackgroundConfig::getConfig() const
 {
     QJsonObject config;
     if (changed(color()) || changed(imageFilename()))

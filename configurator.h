@@ -36,12 +36,8 @@ public:
     Q_INVOKABLE void save();
 
     Q_INVOKABLE void deploy(QString globalProjectConfigFilename,
-                                          QJSValue goodCallback,
-                                          QJSValue badCallback);
-
-    Q_INVOKABLE void deployToYACAPPServer(QString globalProjectConfigFilename,
-                                          QJSValue goodCallback,
-                                          QJSValue badCallback);
+                            QJSValue goodCallback,
+                            QJSValue badCallback);
 
     Q_INVOKABLE void setProjectData(const QString &projectID);
 

@@ -19,6 +19,8 @@ class Constants : public QObject
     const QString theCachePath;
     YACAPPPROPERTY(int, appTotalWidth, AppTotalWidth, 0)
     YACAPPPROPERTY(int, appTotalHeight, AppTotalheight, 0)
+    YACAPPPROPERTY(double, designWidthFactor, DesignWidthFactor, 0)
+    YACAPPPROPERTY(double, designHeightFactor, DesignHeightFactor, 0)
 
     YACAPPPROPERTY(QDateTime, timePointPostgreSqlNull, TimePointPostgreSqlNull, QDateTime(QDate(1900, 1, 1), QTime(12, 0, 0)));
 
@@ -65,8 +67,6 @@ public:
     const QString getDBFilename(QString appId);
     const QString getAppConfigFilename(QString appId);
     const QString getCachePath() const;
-
-
 };
 
 #endif // CONSTANTS_H

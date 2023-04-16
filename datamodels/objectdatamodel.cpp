@@ -17,7 +17,7 @@ size_t ObjectDataModel::size() const
     return objects.size();
 }
 
-DataObjectInterface *ObjectDataModel::getObject(size_t index) const
+DataObjectInterface *ObjectDataModel::internalGetObject(size_t index) const
 {
     return objects[static_cast<size_t>(index)];
 }

@@ -8,32 +8,32 @@ ConfigInterface::ConfigInterface(QObject *parent)
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
-bool ConfigInterface::isInit(const QString s)
+bool ConfigInterface::isInit(const QString s) const
 {
     return s == "";
 }
 
-bool ConfigInterface::isInit(const double d)
+bool ConfigInterface::isInit(const double d) const
 {
     return d == 0;
 }
 
-bool ConfigInterface::isInit(const QColor c)
+bool ConfigInterface::isInit(const QColor c) const
 {
     return !c.isValid() || c == Qt::black;
 }
 
-bool ConfigInterface::changed(const QString s)
+bool ConfigInterface::changed(const QString s) const
 {
     return !isInit(s);
 }
 
-bool ConfigInterface::changed(const double d)
+bool ConfigInterface::changed(const double d) const
 {
     return !isInit(d);
 }
 
-bool ConfigInterface::changed(const QColor c)
+bool ConfigInterface::changed(const QColor c) const
 {
     return !isInit(c);
 }

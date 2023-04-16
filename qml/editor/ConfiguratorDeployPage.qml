@@ -12,13 +12,6 @@ Rectangle
         anchors.centerIn: parent
         spacing: 1
         width: parent.width * 3 / 4
-//        YACLineEditWithHeader
-//        {
-//            headerText: qsTr("Host")
-//            width: parent.width
-//            id: host
-//            visible: !deployToYACAPPServer
-//        }
         YACLineEditWithHeader
         {
             headerText: qsTr("LoginEMail")

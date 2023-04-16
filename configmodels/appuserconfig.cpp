@@ -31,7 +31,7 @@ void AppUserConfig::setConfig(const QJsonValue &config)
     }
 }
 
-QJsonObject AppUserConfig::getConfig()
+QJsonObject AppUserConfig::getConfig() const
 {
     QJsonObject config;
     if (changed(id()))

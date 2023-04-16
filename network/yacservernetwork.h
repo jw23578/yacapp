@@ -174,6 +174,10 @@ public:
                                JSONCallbackFunction jsonSuccessCallback,
                                CallbackFunction  errorCallback);
 
+    void getAppImage(const QString &imageId,
+                     JSONCallbackFunction jsonSuccessCallback,
+                     CallbackFunction errorCallback);
+
     void appUserFetchImage(const QString &appId,
                            const QString &loginEMail,
                            const QString &loginToken,

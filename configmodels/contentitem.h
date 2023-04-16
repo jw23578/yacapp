@@ -31,7 +31,7 @@ public:
     explicit ContentItem(QObject *parent = nullptr);
 
     void setConfig(QJsonValue const &config) override;
-    QJsonObject getConfig() override;
+    QJsonObject getConfig() const override;
 
 signals:
 

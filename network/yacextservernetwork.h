@@ -32,6 +32,7 @@ public:
                                const QString &app_name,
                                const int app_version,
                                const QString &app_logo_url,
+                               const QString &app_info_url,
                                const QString &app_color_name,
                                const bool is_template_app,
                                const QString &json_yacapp,

@@ -17,7 +17,7 @@ void RecentProject::setConfig(const QJsonValue &config)
     stringFromJSON(logoUrl, LogoUrl);
 }
 
-QJsonObject RecentProject::getConfig()
+QJsonObject RecentProject::getConfig() const
 {
     QJsonObject config;
     stringToJSON(logoUrl);

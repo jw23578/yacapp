@@ -15,7 +15,7 @@ void MainMenueConfig::setConfig(const QJsonValue &config)
     colorFromJSONIfExists(smallElemColor, SmallElemColor);
 }
 
-QJsonObject MainMenueConfig::getConfig()
+QJsonObject MainMenueConfig::getConfig() const
 {
     QJsonObject config;
     doubleToJSON(smallElemCount);

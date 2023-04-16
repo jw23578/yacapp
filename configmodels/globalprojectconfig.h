@@ -18,6 +18,7 @@ class GlobalProjectConfig : public ConfigInterface
     YACAPPPROPERTY(QString, projectID, ProjectID, "");
     YACAPPPROPERTY(QString, mainFormFilename, MainFormFilename, "")
     YACAPPPROPERTY(QString, logoUrl, LogoUrl, "")
+    YACAPPPROPERTY(QString, appInfoUrl, AppInfoUrl, "")
     YACAPPPROPERTY(QString, projectColorName, ProjectColorName, "white");
     YACAPPPROPERTY(bool, appUserEnabled, AppUserEnabled, false);
     YACAPPPROPERTY(bool, appUserMessagesEnabled, AppUserMessagesEnabled, false);
@@ -38,7 +39,7 @@ class GlobalProjectConfig : public ConfigInterface
     QStringList menueFiles;
 
     void setConfig(QJsonValue const &config) override;
-    QJsonObject getConfig() override;
+    QJsonObject getConfig() const override;
     QByteArray getConfigAsString(Constants &constants);
 
     void init(const QString &jsonConfigFile, Constants &constants);

@@ -19,7 +19,7 @@ void HeaderConfig::setConfig(const QJsonValue &config)
     setHeightPerThousand(config["heightPerThousand"].toDouble(0));
 }
 
-QJsonObject HeaderConfig::getConfig()
+QJsonObject HeaderConfig::getConfig() const
 {
     QJsonObject config;
     if (changed(color()) || changed(title()) || changed(heightPerThousand()))

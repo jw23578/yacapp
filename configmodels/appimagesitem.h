@@ -12,7 +12,7 @@ public:
     explicit AppImagesItem(QObject *parent = nullptr);
 
     void setConfig(const QJsonValue &config) override;
-    QJsonObject getConfig() override;
+    QJsonObject getConfig() const override;
 
     void assign(const AppImagesItem &other);
 };
