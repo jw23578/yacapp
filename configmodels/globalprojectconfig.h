@@ -19,6 +19,8 @@ class GlobalProjectConfig : public ConfigInterface
     YACAPPPROPERTY(QString, mainFormFilename, MainFormFilename, "")
     YACAPPPROPERTY(QString, logoUrl, LogoUrl, "")
     YACAPPPROPERTY(QString, appInfoUrl, AppInfoUrl, "")
+    YACAPPPROPERTY(QString, searchCode, SearchCode, "")
+    YACAPPPROPERTY(QString, installationCode, InstallationCode, "")
     YACAPPPROPERTY(QString, projectColorName, ProjectColorName, "white");
     YACAPPPROPERTY(bool, appUserEnabled, AppUserEnabled, false);
     YACAPPPROPERTY(bool, appUserMessagesEnabled, AppUserMessagesEnabled, false);
@@ -40,7 +42,8 @@ class GlobalProjectConfig : public ConfigInterface
 
     void setConfig(QJsonValue const &config) override;
     QJsonObject getConfig() const override;
-    QByteArray getConfigAsString(Constants &constants);
+    QByteArray getConfigAsString(Constants &constants,
+                                 bool forUpload);
 
     void init(const QString &jsonConfigFile, Constants &constants);
     void save(const QString &jsonConfigFile, Constants &constants);

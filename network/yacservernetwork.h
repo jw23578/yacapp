@@ -21,6 +21,7 @@ public:
                                 CallbackFunction  errorCallback);
 
     void yacappServerGetAPP(const QString &app_id,
+                            const QString &installation_code,
                             const int current_installed_version,
                             CallbackFunction successCallback,
                             CallbackFunction  errorCallback);

@@ -88,6 +88,13 @@ Rectangle
             width: parent.width
             height: Constants.designWidthFactor * 250
             source: "https://loremflickr.com/" + width + "/" + height
+            Rectangle
+            {
+                anchors.fill: parent
+                color: "white"
+                opacity: 0.7
+                visible: installationCodeRectangle.visible
+            }
         }
         Rectangle
         {
@@ -99,17 +106,18 @@ Rectangle
             YACTextInput
             {
                 id: searchProjectNeedle
-                emptyText.text: "CODE oder Suche"
+                emptyText.text: qsTr("CODE or Search")
                 emptyText.color: "#EEEEEE"
                 anchors.fill: parent
                 font.pixelSize: Constants.designHeightFactor * 30
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
             }
-
+            visible: !installationCodeRectangle.visible
         }
         YACText
         {
+            visible: !installationCodeRectangle.visible
             text: "Projekte"
             font.pixelSize: Constants.designHeightFactor * 22
             font.bold: true
@@ -160,7 +168,7 @@ Rectangle
             id: theFlickable
             property int position: 0
             property string needle: searchProjectNeedle.displayText.toLowerCase()
-            property bool matched: needle == "" || app_name.toLowerCase().search(needle) > -1
+            property bool matched: needle == "" || app_name.toLowerCase().search(needle) > -1 || search_code.toLowerCase() == needle
             visible: opacity > 0
             opacity: 1
             Behavior on opacity {
@@ -187,7 +195,8 @@ Rectangle
             ]
             width: appView.width
             contentWidth: theRow.width
-            enabled: theRow.width > width
+            interactive: theRow.width > width
+
             Row
             {
                 id: theRow
@@ -197,6 +206,7 @@ Rectangle
                     height: parent.height
                     width: Constants.designWidthFactor * 36
                 }
+
 
                 Rectangle
                 {
@@ -228,16 +238,25 @@ Rectangle
                         anchors.bottom: parent.bottom
                         height: installText.height
                         color: "silver"
+
                         YACTextClickable
                         {
                             id: installText
                             anchors.bottom: parent.bottom
                             anchors.left: parent.left
                             text: qsTr("Install")
-                            onClicked: {
-
+                            onClicked:
+                            {
                                 console.log("App selected")
+                                if (installation_code_needed)
+                                {
+                                    installationCodeRectangle.app_id = app_id
+                                    installationCodeRectangle.visible = true;
+                                    return
+                                }
+                                var installationCode = "";
                                 yacApp.yacappServerGetAPP(app_id,
+                                                          installationCode,
                                                           0,
                                                           function(message)
                                                           {
@@ -376,6 +395,113 @@ Rectangle
             anchors.centerIn: parent
             horizontalAlignment: Text.AlignHCenter
             text: qsTr("No known Apps yet")
+        }
+    }
+    YACRectangle
+    {
+        property string app_id: ""
+        id: installationCodeRectangle
+        visible: false
+        anchors.fill: parent
+        Shape {
+            anchors.fill: parent
+            ShapePath
+            {
+                fillGradient: RadialGradient {
+                    centerX: theSelectAppForm.width / 2
+                    centerY: theSelectAppForm.height / 2
+                    centerRadius: theSelectAppForm.height / 2
+                    focalX: centerX
+                    focalY: centerY
+                    GradientStop { position: 0; color: "#F7DDF8" }
+                    GradientStop { position: 1; color: "#F8FFFD" }
+                }
+                startX: 0; startY: 0
+                PathLine { x: theSelectAppForm.width - 1; y: 0 }
+                PathLine { x: theSelectAppForm.width - 1; y: theSelectAppForm.height - 1 }
+                PathLine { x: 0; y: theSelectAppForm.height - 1 }
+            }
+        }
+        Column
+        {
+            x: Constants.designWidthFactor * 36
+            width: parent.width - 2 * x
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 1
+            Rectangle
+            {
+                width: parent.width
+                height: Constants.designHeightFactor * 62
+                YACText
+                {
+                    anchors.centerIn: parent
+                    width: parent.width * 3 / 4
+                    text: qsTr("Please enter the installation Code to proceed.")
+                    font.pixelSize: Constants.designHeightFactor * 20
+                    horizontalAlignment: Text.AlignHCenter
+                }
+            }
+
+            Rectangle
+            {
+                width: parent.width
+                height: Constants.designHeightFactor * 62
+                YACTextInput
+                {
+                    id: installationCodeInput
+                    emptyText.text: qsTr("Installation Code")
+                    emptyText.color: "#EEEEEE"
+                    anchors.fill: parent
+                    font.pixelSize: Constants.designHeightFactor * 30
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+            }
+            Rectangle
+            {
+                width: parent.width
+                height: Constants.designHeightFactor * 62
+                YACText
+                {
+                    anchors.centerIn: parent
+                    text: qsTr("Verify and Install")
+                    font.pixelSize: Constants.designHeightFactor * 30
+                }
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked: yacApp.yacappServerGetAPP(installationCodeRectangle.app_id,
+                                                         installationCodeInput.displayText,
+                                                         0,
+                                                         function(message)
+                                                         {
+                                                             installationCodeRectangle.visible = false
+                                                             yacApp.goodMessage(qsTr("App installed, have fun."), null, null)
+                                                         },
+                                                         function(message)
+                                                         {
+                                                             yacApp.badMessage(message, null, null)
+                                                         }
+                                                         )
+
+                }
+            }
+            Rectangle
+            {
+                width: parent.width
+                height: Constants.designHeightFactor * 62
+                YACText
+                {
+                    anchors.centerIn: parent
+                    text: qsTr("Back")
+                    font.pixelSize: Constants.designHeightFactor * 30
+                }
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked: installationCodeRectangle.visible = false
+                }
+            }
         }
     }
 }

@@ -140,9 +140,11 @@ void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCall
         gpc->version(),
         gpc->logoUrl(),
         gpc->appInfoUrl(),
+        gpc->searchCode(),
+        gpc->installationCode(),
         gpc->projectColorName(),
         gpc->isTemplateApp(),
-        gpc->getConfigAsString(yacApp.constants),
+        gpc->getConfigAsString(yacApp.constants, true),
         appPackage.toBase64(),
         [goodCallback, this, &gpc, &pd](const QString &message) mutable
         {

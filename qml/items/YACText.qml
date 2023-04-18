@@ -6,4 +6,5 @@ Text
     wrapMode: Text.WordWrap
     font.pixelSize: Constants.defaultFontPixelSize
     font.family: JSConstants.urbanistMedium
+    color: "#000"
 }

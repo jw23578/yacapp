@@ -175,6 +175,7 @@ public:
                                             QJSValue  errorCallback);
 
     Q_INVOKABLE void yacappServerGetAPP(const QString &app_id,
+                                        const QString &installation_code,
                                         const int current_installed_version,
                                         QJSValue successCallback,
                                         QJSValue errorCallback);

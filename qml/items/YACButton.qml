@@ -4,6 +4,7 @@ Item
 {
     id: theButton
     signal clicked()
+    property alias font: theText.font
     property alias text: theText.text
     property alias source: theImage.source
     property alias shadow: theRectangle.shadow

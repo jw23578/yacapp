@@ -471,11 +471,13 @@ void YACAPP::yacappServerGetAllAPPs(QJSValue successCallback,
 }
 
 void YACAPP::yacappServerGetAPP(const QString &app_id,
+                                const QString &installation_code,
                                 const int current_installed_version,
                                 QJSValue successCallback,
                                 QJSValue errorCallback)
 {
     network.yacappServerGetAPP(app_id,
+        installation_code,
         current_installed_version,
         [this, app_id, successCallback](const QString &message) mutable
         {

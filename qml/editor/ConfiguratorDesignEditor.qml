@@ -39,6 +39,18 @@ Rectangle
                             text: global.appInfoUrl
                             onDisplayTextChanged: global.appInfoUrl = text
                         }
+                        YACLineEditWithHeader
+                        {
+                            headerText: qsTr("Search-Code")
+                            text: global.searchCode
+                            onDisplayTextChanged: global.searchCode = text
+                        }
+                        YACLineEditWithHeader
+                        {
+                            headerText: qsTr("Installation-Code")
+                            text: global.installationCode
+                            onDisplayTextChanged: global.installationCode = text
+                        }
                         YACText
                         {
                             text: qsTr("Font PointSize")

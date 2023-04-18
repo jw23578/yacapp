@@ -36,7 +36,7 @@ void GlobalProjectConfig::save(const QString &jsonConfigFile,
     setVersion(version() + 1);
     QFile jsonFile(jsonConfigFile);
     jsonFile.open(QIODevice::WriteOnly);
-    jsonFile.write(getConfigAsString(constants));
+    jsonFile.write(getConfigAsString(constants, false));
 }
 
 void GlobalProjectConfig::setConfig(const QJsonValue &config)
@@ -51,6 +51,8 @@ void GlobalProjectConfig::setConfig(const QJsonValue &config)
     intFromJSON(version, Version);
     stringFromJSON(logoUrl, LogoUrl);
     stringFromJSON(appInfoUrl, AppInfoUrl);
+    stringFromJSON(searchCode, SearchCode);
+    stringFromJSON(installationCode, InstallationCode);
     doubleFromJSON(logoWidthPerThousand, LogoWidthPerThousand);
     doubleFromJSON(logoHeightPerThousand, LogoHeightPerThousand);
     doubleFromJSON(logoOffsetXPerThousand, LogoOffsetXPerThousand);
@@ -91,6 +93,8 @@ QJsonObject GlobalProjectConfig::getConfig() const
     intToJSON(version);
     stringToJSON(logoUrl);
     stringToJSON(appInfoUrl);
+    stringToJSON(searchCode);
+    stringToJSON(installationCode);
     doubleToJSON(logoWidthPerThousand);
     doubleToJSON(logoHeightPerThousand);
     doubleToJSON(logoOffsetXPerThousand);
@@ -117,10 +121,16 @@ QJsonObject GlobalProjectConfig::getConfig() const
     return config;
 }
 
-QByteArray GlobalProjectConfig::getConfigAsString(Constants &constants)
+QByteArray GlobalProjectConfig::getConfigAsString(Constants &constants,
+                                                  bool forUpload)
 {
     QJsonObject config;
-    config["global"] = getConfig();
+    QJsonObject global(getConfig());
+    if (forUpload)
+    {
+        global.remove("installationCode");
+    }
+    config["global"] = global;
     config["globalDesignConfig"] = constants.globalDesignConfig()->getConfig();
     config["mainMenueConfig"] = constants.mainMenueConfig()->getConfig();
 

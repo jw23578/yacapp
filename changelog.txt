@@ -1,3 +1,18 @@
+2023-04-18
+- Der InstallationsCode wird jetzt abgefragt bei Installation einer App
+
+2023-04-16
+- InstallationCode und SearchCode angefangen zu implementieren
+
+- Der InstallationCode wird lokal beim Configurator im Klartext gespeichert, auf dem Server nur noch als Hashwert
+
+- Nach dem Search-Code kann jetzt gesucht werden
+
+2023-04-15
+- Darstellung der App-Auswahl
+
+- Es kann nach einer App gesucht werden
+
 2023-03-27
 - Die AppUserProfileList gibt jetzt eine Liste mit neu ausgewählten und mit neu entfernten ProfileIDs aus
 

@@ -30,6 +30,7 @@ void YACServerNetwork::yacappServerGetAllAPPs(CallbackFunction successCallback,
 }
 
 void YACServerNetwork::yacappServerGetAPP(const QString &app_id,
+                                          const QString &installation_code,
                                           const int current_installed_version,
                                           CallbackFunction successCallback,
                                           CallbackFunction errorCallback)
@@ -87,6 +88,7 @@ void YACServerNetwork::yacappServerGetAPP(const QString &app_id,
     });
     QUrlQuery query;
     query.addQueryItem("app_id", app_id);
+    query.addQueryItem("installation_code", installation_code);
     query.addQueryItem("current_installed_version", QString::number(current_installed_version));
     yacappServerGet("/getAPP",
                     query,
