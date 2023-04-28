@@ -87,7 +87,7 @@ Rectangle
             id: topImage
             width: parent.width
             height: Constants.designWidthFactor * 250
-            source: "https://loremflickr.com/" + width + "/" + height
+            source: "https://loremflickr.com/" + Math.floor(width) + "/" + Math.floor(height)
             Rectangle
             {
                 anchors.fill: parent
@@ -476,6 +476,7 @@ Rectangle
                                                          function(message)
                                                          {
                                                              installationCodeRectangle.visible = false
+                                                             installationCodeInput.text = ""
                                                              yacApp.goodMessage(qsTr("App installed, have fun."), null, null)
                                                          },
                                                          function(message)
@@ -499,7 +500,11 @@ Rectangle
                 MouseArea
                 {
                     anchors.fill: parent
-                    onClicked: installationCodeRectangle.visible = false
+                    onClicked:
+                    {
+                        installationCodeInput.text = ""
+                        installationCodeRectangle.visible = false
+                    }
                 }
             }
         }

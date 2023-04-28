@@ -73,3 +73,5 @@ Thumbs.db
 android/google-services.json
 deployToJW78.sh
 currentWork.txt
+firebase_cpp_sdk/*
+

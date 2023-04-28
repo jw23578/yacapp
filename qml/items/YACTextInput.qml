@@ -13,7 +13,7 @@ TextInput
         z: -1
         id: theEmptyText
         visible: opacity > 0
-        opacity: parent.text == "" ? 1 : 0
+        opacity: parent.displayText == "" ? 1 : 0
         Behavior on opacity {
             NumberAnimation {
                 duration: Constants.fastAnimationDuration
