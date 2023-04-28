@@ -10,10 +10,8 @@ class ProjectData : public QObject
     YACAPPPROPERTY(QString, projectID, ProjectID, "");
     YACAPPPROPERTY(QString, projectName, ProjectName, "");
     YACAPPPROPERTY(QString, logoUrl, LogoUrl, "");
-    YACAPPPROPERTY(QString, deployUrl, DeployUrl, "");
     YACAPPPROPERTY(QString, deployUser, DeployUser, "");
     YACAPPPROPERTY(QString, deployPassword, DeployPassword, "");
-    YACAPPPROPERTY(QString, deployBaseDirectory, DeployBaseDirectory, "");
 
     YACAPPPROPERTY(QString, yacappServerLoginToken, YacappServerLoginToken, "");
 public:

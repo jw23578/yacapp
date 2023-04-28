@@ -50,8 +50,6 @@ Configurator::Configurator(YACAPP &yacApp
         pd.setProjectName(config["projectName"].toString());
         pd.setLogoUrl(config["logoUrl"].toString());
         pd.setDeployPassword(config["deployPassword"].toString());
-        pd.setDeployUrl(config["deployUrl"].toString());
-        pd.setDeployBaseDirectory(config["deployBaseDirectory"].toString());
         pd.setDeployUser(config["deployUser"].toString());
         pd.setYacappServerLoginToken(config["yacappServerLoginToken"].toString());
 
@@ -76,8 +74,6 @@ void Configurator::save()
         pd["projectName"] = (*it)->projectName();
         pd["logoUrl"] = (*it)->logoUrl();
         pd["deployPassword"] = (*it)->deployPassword();
-        pd["deployUrl"] = (*it)->deployUrl();
-        pd["deployBaseDirectory"] = (*it)->deployBaseDirectory();
         pd["deployUser"] = (*it)->deployUser();
         pd["yacappServerLoginToken"] = (*it)->yacappServerLoginToken();
         ++it;
@@ -102,7 +98,6 @@ void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCall
     pd.setProjectID(gpc->projectID());
     pd.setProjectName(gpc->projectName());
     pd.setLogoUrl(gpc->logoUrl());
-    pd.setDeployBaseDirectory("");
 
     save();
 
