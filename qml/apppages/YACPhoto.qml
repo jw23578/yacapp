@@ -137,7 +137,7 @@ Rectangle
         {
             if (!photoPreview.visible)
             {
-                yacApp.badMessage(qsTr("Please take Photo first"), null, null);
+                CPPQMLAppAndConfigurator.badMessage(qsTr("Please take Photo first"), null, null);
                 return
             }
 

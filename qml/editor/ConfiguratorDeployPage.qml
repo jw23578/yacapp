@@ -42,7 +42,7 @@ Rectangle
             {
                 if (configurator.activeProjectData.yacappServerLoginToken.length)
                 {
-                    yacApp.goodMessage(qsTr("You are already logged in."), null, null)
+                    CPPQMLAppAndConfigurator.goodMessage(qsTr("You are already logged in."), null, null)
                     return
                 }
 
@@ -51,11 +51,11 @@ Rectangle
                                             yacApp.globalConfig.projectID,
                                             function ()
                                             {
-                                                yacApp.goodMessage(configurator.activeProjectData.yacappServerLoginToken, null)
+                                                CPPQMLAppAndConfigurator.goodMessage(configurator.activeProjectData.yacappServerLoginToken, null)
                                             },
                                             function (message)
                                             {
-                                                yacApp.badMessage(message, null, null)
+                                                CPPQMLAppAndConfigurator.badMessage(message, null, null)
                                             }
                                             )
             }
@@ -82,16 +82,16 @@ Rectangle
             {
                 if (configurator.activeProjectData.yacappServerLoginToken == "")
                 {
-                    yacApp.badMessage(qsTr("Please login first"), null, null)
+                    CPPQMLAppAndConfigurator.badMessage(qsTr("Please login first"), null, null)
                     return
                 }
                 configurator.deploy(function()
                                     {
-                                        yacApp.goodMessage(qsTr("Deployment successful"), null, null)
+                                        CPPQMLAppAndConfigurator.goodMessage(qsTr("Deployment successful"), null, null)
                                     },
                                     function(message)
                                     {
-                                        yacApp.badMessage(message, null, null)
+                                        CPPQMLAppAndConfigurator.badMessage(message, null, null)
                                     })
             }
         }

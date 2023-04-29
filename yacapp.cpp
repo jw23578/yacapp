@@ -7,6 +7,7 @@
 #include "yacAppAndServer/rightnumbers.h"
 
 YACAPP::YACAPP(QQmlApplicationEngine &engine
+               , CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator
                , Constants &constants
                , const Helper &helper
                , YACServerNetwork &network
@@ -14,6 +15,7 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
                , QObject *parent)
     : QObject{parent},
     timer(0),
+    cppQMLAppAndConfigurator(cppQMLAppAndConfigurator),
     constants(constants),
     helper(helper),
     localStorage(0),
@@ -271,7 +273,7 @@ void YACAPP::timeout()
 
 void YACAPP::missingRight(int rightNumber)
 {
-    emit badMessage(tr("You are not allowed"), QJSValue::NullValue, QJSValue::NullValue);
+    emit cppQMLAppAndConfigurator.badMessage(tr("You are not allowed"), QJSValue::NullValue, QJSValue::NullValue);
 }
 
 

@@ -25,7 +25,7 @@ AppUserBasePage
     {
         if (newSelected.indexOf(id) != -1)
         {
-            yacApp.badMessage(qsTr("Already selected"), null, null)
+            CPPQMLAppAndConfigurator.badMessage(qsTr("Already selected"), null, null)
             return
         }
         var index = newRemoved.indexOf(id)

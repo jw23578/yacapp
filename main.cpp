@@ -109,6 +109,7 @@ int main(int argc, char *argv[])
         customWriteablePath = "/home/jw78/MyYacApps/LocalYACAPPConfig";
     }
     Helper helper;
+    CPPQMLAppAndConfigurator cppQMLAppAndConfigurator;
     Constants constants(customWriteablePath);
 
     QNetworkAccessManager manager;
@@ -119,6 +120,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     YACAPP yacApp(engine
+                  , cppQMLAppAndConfigurator
                   , constants
                   , helper
                   , network
@@ -128,6 +130,7 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("Helper", &helper);
     engine.rootContext()->setContextProperty("Constants", &constants);
+    engine.rootContext()->setContextProperty("CPPQMLAppAndConfigurator", &cppQMLAppAndConfigurator);
 
     if (app.arguments().contains("Configurator"))
     {

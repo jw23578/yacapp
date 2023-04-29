@@ -205,6 +205,19 @@ ApplicationWindow
 
     Connections
     {
+        target: CPPQMLAppAndConfigurator
+        function onBadMessage(message, itemToFocus, okCallback)
+        {
+            badMessage.show(message, itemToFocus)
+        }
+        function onGoodMessage(message, itemToFocus, okCallback)
+        {
+            goodMessage.show(message, itemToFocus, okCallback)
+        }
+    }
+
+    Connections
+    {
         target: yacApp
         function onTakePhoto(squared, circled, target)
         {
@@ -214,14 +227,6 @@ ApplicationWindow
             photoLoader.sourceComponent = photoComponent
         }
 
-        function onBadMessage(message, itemToFocus, okCallback)
-        {
-            badMessage.show(message, itemToFocus)
-        }
-        function onGoodMessage(message, itemToFocus, okCallback)
-        {
-            goodMessage.show(message, itemToFocus, okCallback)
-        }
         function onYesNoQuestion(question, itemToFocus, yesCallback, noCallback)
         {
             yesNoQuestion.show(question, itemToFocus, yesCallback, noCallback)

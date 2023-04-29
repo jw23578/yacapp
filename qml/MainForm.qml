@@ -48,7 +48,7 @@ Item
         },
         function(message)
         {
-            yacApp.badMessage(qsTr("Could not fetch Profile, please try again later."), null, null);
+            CPPQMLAppAndConfigurator.badMessage(qsTr("Could not fetch Profile, please try again later."), null, null);
         }
         )
     }
@@ -102,7 +102,7 @@ Item
             },
             function(message)
             {
-                yacApp.badMessage(qsTr("could not load appointments, please try again later. ") + message, null, null)
+                CPPQMLAppAndConfigurator.badMessage(qsTr("could not load appointments, please try again later. ") + message, null, null)
             }
             )
         }
@@ -114,7 +114,7 @@ Item
                 rightgroupsLoader.open()
             },
             function(message) {
-                yacApp.badMessage(qsTr("Could not load Rightgroups, please try again later. ") + message, null, null)
+                CPPQMLAppAndConfigurator.badMessage(qsTr("Could not load Rightgroups, please try again later. ") + message, null, null)
             })
 
         }
@@ -125,7 +125,7 @@ Item
                 spacesLoader.open()
             },
             function(message) {
-                yacApp.badMessage(qsTr("Could not load Spaces, please try again later. ") + message, null, null)
+                CPPQMLAppAndConfigurator.badMessage(qsTr("Could not load Spaces, please try again later. ") + message, null, null)
             })
         }
     }

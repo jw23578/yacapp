@@ -208,7 +208,7 @@ Window {
 
     Connections
     {
-        target: yacApp
+        target: CPPQMLAppAndConfigurator
         function onBadMessage(message, itemToFocus, okCallback)
         {
             badMessage.show(message, itemToFocus, okCallback)

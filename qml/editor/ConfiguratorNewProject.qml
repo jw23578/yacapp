@@ -12,12 +12,12 @@ DialogBase
     {
         if (projectName.displayText == "")
         {
-            yacApp.badMessage(qsTr("Please enter the Projectname"), projectName, null)
+            CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter the Projectname"), projectName, null)
             return
         }
         if (!configurator.isFolderEmpty(newProjectDialog.folder))
         {
-            yacApp.badMessage(qsTr("Please select an empty folder for your new project."), null, null)
+            CPPQMLAppAndConfigurator.badMessage(qsTr("Please select an empty folder for your new project."), null, null)
             return
         }
         configurator.createNewProject(projectName.displayText,
@@ -55,7 +55,7 @@ DialogBase
         {
             if (!configurator.isFolderEmpty(folder))
             {
-                yacApp.badMessage(qsTr("Please select an empty folder for your new project."), null,
+                CPPQMLAppAndConfigurator.badMessage(qsTr("Please select an empty folder for your new project."), null,
                                   function()
                                   {
                                       loadProjectDialog.open()

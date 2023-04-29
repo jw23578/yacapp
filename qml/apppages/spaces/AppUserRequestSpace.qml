@@ -34,7 +34,7 @@ AppUserBasePage
             {
                 if (theAccesscode.displayText == "")
                 {
-                    yacApp.badMessage(qsTr("Please enter Accesscode first"), theAccesscode, null)
+                    CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter Accesscode first"), theAccesscode, null)
                     return
                 }
                 yacApp.notYetImplemented()
@@ -49,13 +49,13 @@ AppUserBasePage
                 yacApp.appUserRequestSpaceAccess(space.id
                                                  , function(message)
                                                  {
-                                                     yacApp.goodMessage(qsTr("Space access requested, Space owner is informed"), null, null)
+                                                     CPPQMLAppAndConfigurator.goodMessage(qsTr("Space access requested, Space owner is informed"), null, null)
                                                      space.requested = true
                                                      closeClicked()
                                                  }
                                                  , function(message)
                                                  {
-                                                     yacApp.badMessage(qsTr("Could not request Space-Access, please try again later"), null, null)
+                                                     CPPQMLAppAndConfigurator.badMessage(qsTr("Could not request Space-Access, please try again later"), null, null)
                                                  })
             }
         }

@@ -49,7 +49,7 @@ AppUserBasePage
                                                             appUserInsertRightGroup.show(rightgroup)
                                                         }, function(message)
                                                         {
-                                                            yacApp.badMessage(message, null, null)
+                                                            CPPQMLAppAndConfigurator.badMessage(message, null, null)
                                                         })
             }
             Column
@@ -97,13 +97,13 @@ AppUserBasePage
                         onClicked:
                         {
                             console.log("hello hjsdfhsdlkjfhlkjsahlka")
-                            yacApp.yesNoQuestion(qsTr("Delete Rightgroup \"") + rightgroup.name + "\"", null,
+                            CPPQMLAppAndConfigurator.yesNoQuestion(qsTr("Delete Rightgroup \"") + rightgroup.name + "\"", null,
                                                  function()
                                                  {
                                                      yacApp.appUserDeleteRightGroup(rightgroup.id, function(message){},
                                                      function(message)
                                                      {
-                                                         yacApp.badMessage(message, null, null)
+                                                         CPPQMLAppAndConfigurator.badMessage(message, null, null)
                                                      })
                                                  },
                                                  function()

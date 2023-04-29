@@ -126,11 +126,11 @@ AppUserBasePage
                                                 theNewPassword.text,
                                                 function(message)
                                                 {
-                                                    yacApp.goodMessage(qsTr("Profile saved"), null, null);
+                                                    CPPQMLAppAndConfigurator.goodMessage(qsTr("Profile saved"), null, null);
                                                     closeClicked()
                                                 },
                                                 function(message){
-                                                    yacApp.badMessage(qsTr("Could not save Profile, please try again"), null, null)
+                                                    CPPQMLAppAndConfigurator.badMessage(qsTr("Could not save Profile, please try again"), null, null)
                                                 })
                 }
 
@@ -138,7 +138,7 @@ AppUserBasePage
                 {
                     if (theNewPassword.text != "")
                     {
-                        if (!EMailPasswordFunctions.checkPassword(Helper, yacApp, theNewPassword.text, theNewPassword))
+                        if (!EMailPasswordFunctions.checkPassword(Helper, CPPQMLAppAndConfigurator, theNewPassword.text, theNewPassword))
                         {
                             return;
                         }

@@ -45,7 +45,7 @@ Loader
         {
             if (!yacApp.appUserConfig.loggedIn)
             {
-                yacApp.badMessage(qsTr("Please login first."), null, null);
+                CPPQMLAppAndConfigurator.badMessage(qsTr("Please login first."), null, null);
                 return
             }
         }

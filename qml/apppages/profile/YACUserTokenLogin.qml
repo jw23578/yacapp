@@ -50,7 +50,7 @@ AppUserBasePage
                     text: qsTr("Next")
                     onClicked:
                     {
-                        if (!EMailPasswordFunctions.checkEMail(Helper, yacApp, login.displayText, login))
+                        if (!EMailPasswordFunctions.checkEMail(Helper, CPPQMLAppAndConfigurator, login.displayText, login))
                         {
                             return;
                         }
@@ -74,7 +74,7 @@ AppUserBasePage
                                                        theSwipeView.setCurrentIndex(2)
                                                        return
                                                    }
-                                                   yacApp.badMessage(qsTr(message), null, null)
+                                                   CPPQMLAppAndConfigurator.badMessage(qsTr(message), null, null)
                                                })
                     }
                 }
@@ -108,7 +108,7 @@ AppUserBasePage
                     {
                         if (token.displayText.length != 4)
                         {
-                            yacApp.goodMessage(qsTr("Please enter the Code you received by E-Mail"), token, null)
+                            CPPQMLAppAndConfigurator.goodMessage(qsTr("Please enter the Code you received by E-Mail"), token, null)
                         }
                         yacApp.appUserVerify(login.displayText,
                                              token.displayText,
@@ -116,17 +116,17 @@ AppUserBasePage
                                                  token.text = ""
                                                  if (tokenButton.text == qsTr("Login"))
                                                  {
-                                                     yacApp.goodMessage(qsTr("You are logged in. Have fun!"), null, null)
+                                                     CPPQMLAppAndConfigurator.goodMessage(qsTr("You are logged in. Have fun!"), null, null)
                                                  } else
                                                  {
-                                                    yacApp.goodMessage(qsTr("Verification successful, you are logged in. Have fun!"), null, null)
+                                                    CPPQMLAppAndConfigurator.goodMessage(qsTr("Verification successful, you are logged in. Have fun!"), null, null)
                                                  }
                                                  loginSuccessful();
                                                  theSwipeView.setCurrentIndex(0)
 
                                              },
                                              function(message) {
-                                                 yacApp.badMessage(message, verifyToken, null)
+                                                 CPPQMLAppAndConfigurator.badMessage(message, verifyToken, null)
                                              })
                     }
                 }
@@ -157,11 +157,11 @@ AppUserBasePage
                     text: qsTr("Login")
                     onClicked:
                     {
-                        if (!EMailPasswordFunctions.checkEMail(Helper, yacApp, login.displayText, login))
+                        if (!EMailPasswordFunctions.checkEMail(Helper, CPPQMLAppAndConfigurator, login.displayText, login))
                         {
                             return;
                         }
-                        if (!EMailPasswordFunctions.checkPassword(Helper, yacApp, password.text, password))
+                        if (!EMailPasswordFunctions.checkPassword(Helper, CPPQMLAppAndConfigurator, password.text, password))
                         {
                             return;
                         }
@@ -169,12 +169,12 @@ AppUserBasePage
                                             password.text,
                                             function(message) {
                                                 password.text = ""
-                                                yacApp.goodMessage(qsTr("Login successful, have fun!"), null, null)
+                                                CPPQMLAppAndConfigurator.goodMessage(qsTr("Login successful, have fun!"), null, null)
                                                 loginSuccessful();
                                                 theSwipeView.setCurrentIndex(0)
                                             },
                                             function(message) {
-                                                yacApp.badMessage(qsTr(message), null, null)
+                                                CPPQMLAppAndConfigurator.badMessage(qsTr(message), null, null)
                                             })
                     }
                 }
@@ -193,13 +193,13 @@ AppUserBasePage
                         yacApp.appUserRequestVerifyToken(login.displayText,
                                                          function(message)
                                                          {
-                                                             yacApp.goodMessage(qsTr("Token sended, please check your E-Mails."), null, null)
+                                                             CPPQMLAppAndConfigurator.goodMessage(qsTr("Token sended, please check your E-Mails."), null, null)
                                                              tokenButton.text = qsTr("Login")
                                                              tokenOrPasswort.byToken = true
                                                          },
                                                          function(message)
                                                          {
-                                                             yacApp.badMessage(message, null, null)
+                                                             CPPQMLAppAndConfigurator.badMessage(message, null, null)
                                                          })
                     }
                 }

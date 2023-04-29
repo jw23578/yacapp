@@ -77,11 +77,11 @@ AppUserBasePage
                 {
                     if (appointment.creater_id != yacApp.appUserConfig.id)
                     {
-                        yacApp.badMessage(qsTr("You only can delete appointments that you created."), null, null);
+                        CPPQMLAppAndConfigurator.badMessage(qsTr("You only can delete appointments that you created."), null, null);
                         return
                     }
 
-                    yacApp.yesNoQuestion(qsTr("Delete Appointment?"),
+                    CPPQMLAppAndConfigurator.yesNoQuestion(qsTr("Delete Appointment?"),
                                          null,
                                          function()
                                          {

@@ -69,7 +69,7 @@ AppUserBasePage
                 height: parent.height
                 width: height
                 text: "-"
-                onClicked: yacApp.yesNoQuestion(qsTr("Delete this Contact?"), null,
+                onClicked: CPPQMLAppAndConfigurator.yesNoQuestion(qsTr("Delete this Contact?"), null,
                                                 function() {
                                                     yacApp.removeProfileFromKnownProfiles(profile.id)
                                                 },

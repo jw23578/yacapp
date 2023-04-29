@@ -97,7 +97,7 @@ AppUserBasePage
                     {
                         yacApp.notYetImplemented()
                         return
-                        yacApp.yesNoQuestion("Really leave this space?", null
+                        CPPQMLAppAndConfigurator.yesNoQuestion("Really leave this space?", null
                                              , function(){yacApp.notYetImplemented()}
                                              , function(){yacApp.notYetImplemented()})
                         return
@@ -119,13 +119,13 @@ AppUserBasePage
                 visible: space.creater_id == yacApp.appUserConfig.id
                 onClicked:
                 {
-                    yacApp.yesNoQuestion(qsTr("Delete Space \"") + space.name + "\"", null,
+                    CPPQMLAppAndConfigurator.yesNoQuestion(qsTr("Delete Space \"") + space.name + "\"", null,
                                          function()
                                          {
                                              yacApp.appUserDeleteSpace(space.id, function(message){},
                                              function(message)
                                              {
-                                                 yacApp.badMessage(message, null, null)
+                                                 CPPQMLAppAndConfigurator.badMessage(message, null, null)
                                              })
                                          },
                                          function()

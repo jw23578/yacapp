@@ -41,12 +41,12 @@ AppUserBasePage
                 {
                     if (pauseStarted)
                     {
-                        yacApp.badMessage(qsTr("Please end your Pause first"), null, function() {})
+                        CPPQMLAppAndConfigurator.badMessage(qsTr("Please end your Pause first"), null, function() {})
                         return;
                     }
                     if (offSiteWorkStarted)
                     {
-                        yacApp.badMessage(qsTr("Please end your offSiteWork first"), null, function() {})
+                        CPPQMLAppAndConfigurator.badMessage(qsTr("Please end your offSiteWork first"), null, function() {})
                         return;
                     }
                     worktimeType = 2;
@@ -66,7 +66,7 @@ AppUserBasePage
             onClicked: {
                 if (!workStarted)
                 {
-                    yacApp.badMessage(qsTr("Please start your Work first"), null, function() {})
+                    CPPQMLAppAndConfigurator.badMessage(qsTr("Please start your Work first"), null, function() {})
                     return;
                 }
 
@@ -87,12 +87,12 @@ AppUserBasePage
             {
                 if (!workStarted)
                 {
-                    yacApp.badMessage(qsTr("Please start your Work first"), null, function() {})
+                    CPPQMLAppAndConfigurator.badMessage(qsTr("Please start your Work first"), null, function() {})
                     return;
                 }
                 if (pauseStarted)
                 {
-                    yacApp.badMessage(qsTr("Please end your Pause first"), null, function() {})
+                    CPPQMLAppAndConfigurator.badMessage(qsTr("Please end your Pause first"), null, function() {})
                     return;
                 }
                 let worktimeType = 5;

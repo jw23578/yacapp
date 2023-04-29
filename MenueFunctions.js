@@ -14,7 +14,7 @@ function openTarget(yacApp, stackView, target, theMenue)
     }
     if (target == "logout")
     {
-        yacApp.yesNoQuestion(qsTr("really logout?"), null,
+        CPPQMLAppAndConfigurator.yesNoQuestion(qsTr("really logout?"), null,
                              function()
                              {
                                  yacApp.logout()
@@ -24,7 +24,7 @@ function openTarget(yacApp, stackView, target, theMenue)
     }
     if (target == "leave app")
     {
-        yacApp.yesNoQuestion(qsTr("really leave app?"), null,
+        CPPQMLAppAndConfigurator.yesNoQuestion(qsTr("really leave app?"), null,
                              function()
                              {
                                  yacApp.leaveApp()

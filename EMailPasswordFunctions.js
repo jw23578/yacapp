@@ -1,20 +1,20 @@
 .pragma library
 
-function checkEMail(Helper, yacApp, email, toFocus)
+function checkEMail(Helper, CPPQMLAppAndConfigurator, email, toFocus)
 {
     if (!Helper.emailIsValid(email))
     {
-        yacApp.badMessage(qsTr("Please enter a valid E-Mail."), toFocus, null)
+        CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter a valid E-Mail."), toFocus, null)
         return false
     }
     return true
 }
 
-function checkPassword(Helper, yacApp, password, toFocus)
+function checkPassword(Helper, CPPQMLAppAndConfigurator, password, toFocus)
 {
     if (!Helper.passwordOk(password))
     {
-        yacApp.badMessage(qsTr("Please enter a better Password."), toFocus, null)
+        CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter a better Password."), toFocus, null)
         return false
     }
     return true

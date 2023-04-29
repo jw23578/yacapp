@@ -260,11 +260,11 @@ Rectangle
                                                           0,
                                                           function(message)
                                                           {
-                                                              yacApp.goodMessage(qsTr("App installed, have fun."), null, null)
+                                                              CPPQMLAppAndConfigurator.goodMessage(qsTr("App installed, have fun."), null, null)
                                                           },
                                                           function(message)
                                                           {
-                                                              yacApp.badMessage(message, null, null)
+                                                              CPPQMLAppAndConfigurator.badMessage(message, null, null)
                                                           }
                                                           )
                                 return
@@ -477,11 +477,11 @@ Rectangle
                                                          {
                                                              installationCodeRectangle.visible = false
                                                              installationCodeInput.text = ""
-                                                             yacApp.goodMessage(qsTr("App installed, have fun."), null, null)
+                                                             CPPQMLAppAndConfigurator.goodMessage(qsTr("App installed, have fun."), null, null)
                                                          },
                                                          function(message)
                                                          {
-                                                             yacApp.badMessage(message, null, null)
+                                                             CPPQMLAppAndConfigurator.badMessage(message, null, null)
                                                          }
                                                          )
 

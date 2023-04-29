@@ -10,7 +10,7 @@ DialogBase
     {
         if (fileName.displayText == "")
         {
-            yacApp.badMessage(qsTr("Please enter the Fileame"), fileName, null)
+            CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter the Fileame"), fileName, null)
             return
         }
         close()

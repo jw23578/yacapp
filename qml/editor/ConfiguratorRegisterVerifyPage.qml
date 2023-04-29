@@ -47,23 +47,23 @@ Rectangle
             {
                 if (!Helper.emailIsValid(loginEMail.displayText))
                 {
-                    yacApp.badMessage(qsTr("Please enter a valid email"), loginEMail, null)
+                    CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter a valid email"), loginEMail, null)
                     return
                 }
                 if (password.text == "")
                 {
-                    yacApp.badMessage(qsTr("Please enter a valid password"), password, null)
+                    CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter a valid password"), password, null)
                     return;
                 }
 
                 configurator.yacserverRegister(loginEMail.displayText, password.text,
                                                function(message)
                                                {
-                                                   yacApp.goodMessage(message, null, null)
+                                                   CPPQMLAppAndConfigurator.goodMessage(message, null, null)
                                                },
                                                function(message)
                                                {
-                                                   yacApp.badMessage(message, null, null)
+                                                   CPPQMLAppAndConfigurator.badMessage(message, null, null)
                                                }
                                                )
             }
@@ -83,12 +83,12 @@ Rectangle
             {
                 if (!Helper.emailIsValid(loginEMail.displayText))
                 {
-                    yacApp.badMessage(qsTr("Please enter a valid email"), loginEMail, null)
+                    CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter a valid email"), loginEMail, null)
                     return
                 }
                 if (verifyToken.displayText == "")
                 {
-                    yacApp.badMessage(qsTr("Please enter a valid Verify-Code"), verifyToken, null)
+                    CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter a valid Verify-Code"), verifyToken, null)
                     return;
                 }
 
@@ -96,12 +96,12 @@ Rectangle
                                              , verifyToken.displayText
                                              , function()
                                              {
-                                                 yacApp.goodMessage(qsTr("Verifying Successful, you are now logged in an can deploy your App."), null, null)
+                                                 CPPQMLAppAndConfigurator.goodMessage(qsTr("Verifying Successful, you are now logged in an can deploy your App."), null, null)
                                                  registerVerifyPage.visible = false
                                              }
                                              , function(message)
                                              {
-                                                 yacApp.badMessage(message, null, null)
+                                                 CPPQMLAppAndConfigurator.badMessage(message, null, null)
                                              }
 )
             }

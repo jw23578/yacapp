@@ -28,6 +28,7 @@
 #include "dataobjects/profileobject.h"
 #include "dataobjects/spacerequestobject.h"
 #include "dataobjects/newsobject.h"
+#include "cppqmlobjects/cppqmlappandconfigurator.h"
 
 #include "orm-mapper/orm2qjson.h"
 #include "orm_implementions/t0021_right_group.h"
@@ -47,6 +48,7 @@ class YACAPP : public QObject
     friend Configurator;
     friend AsyncImageProvider;
     Q_OBJECT
+    CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator;
     Constants &constants;
     const Helper &helper;
     LocalStorage *localStorage;
@@ -144,6 +146,7 @@ class YACAPP : public QObject
 public:
     Firebase2Qt firebase2qt;
     explicit YACAPP(QQmlApplicationEngine &engine
+                    , CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator
                     , Constants &constants
                     , const Helper &helper
                     , YACServerNetwork &network
@@ -328,9 +331,6 @@ public:
                                     QJSValue errorCallback);
 signals:
     void takePhoto(bool squared, bool circled, QJSValue target);
-    void badMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
-    void goodMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
-    void yesNoQuestion(const QString &question, QJSValue itemToFocus, QJSValue yesCallback, QJSValue noCallback);
     void pickDateTime(const QDateTime dateTime, const QJSValue okCallback);
     void pickDate(const QDateTime date, const QJSValue okCallback);
     void pickTime(const QDateTime time, const QJSValue okCallback);

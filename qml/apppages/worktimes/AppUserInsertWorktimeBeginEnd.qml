@@ -38,13 +38,13 @@ AppUserBasePage
     {
         if (begin >= end)
         {
-            yacApp.badMessage(qsTr("End needs to be after Begin"), null, null)
+            CPPQMLAppAndConfigurator.badMessage(qsTr("End needs to be after Begin"), null, null)
             return
         }
         yacApp.appUserInsertWorktimeBeginEnd(workTimeType.currentIndex * 2 + 1,
                                              begin,
                                              end,
                                              function(message) {thePage.visible = false},
-                                             function(message) {yacApp.badMessage(message, null, null)})
+                                             function(message) {CPPQMLAppAndConfigurator.badMessage(message, null, null)})
     }
 }

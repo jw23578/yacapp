@@ -107,7 +107,7 @@ AppUserBasePage
     {
         if (theName.displayText == "")
         {
-            yacApp.badMessage(qsTr("Please insert Name first"), theName, null)
+            CPPQMLAppAndConfigurator.badMessage(qsTr("Please insert Name first"), theName, null)
             return
         }
         yacApp.appUserInsertOrUpdateRightGroup(thePage.rightGroupID,

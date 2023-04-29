@@ -56,12 +56,12 @@ FocusScope
                 {
                     if (login.displayText == "")
                     {
-                        yacApp.badMessage(qsTr("Please enter your Login first"), login, null)
+                        CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter your Login first"), login, null)
                         return
                     }
                     if (password.text == "")
                     {
-                        yacApp.badMessage(qsTr("Please enter your Password first"), password, null)
+                        CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter your Password first"), password, null)
                         return
                     }
                     LoginFunctions.login(yacApp, "aidoo", "https://portal.aidoo-online.de/directLogin?mandant=test", login.displayText, password.text)
