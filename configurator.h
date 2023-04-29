@@ -35,8 +35,7 @@ public:
 
     Q_INVOKABLE void save();
 
-    Q_INVOKABLE void deploy(QString globalProjectConfigFilename,
-                            QJSValue goodCallback,
+    Q_INVOKABLE void deploy(QJSValue goodCallback,
                             QJSValue badCallback);
 
     Q_INVOKABLE void setProjectData(const QString &projectID);
@@ -63,6 +62,7 @@ public:
     Q_INVOKABLE void createNewProject(const QString &projectName,
                                       const QString &projectFolder);
     Q_INVOKABLE void loadProjectFromFile(const QString &projectFilename);
+    Q_INVOKABLE void saveCurrentProject();
 
 
 

@@ -162,9 +162,8 @@ public:
 
     Q_INVOKABLE MenueConfig *getMenueConfig(QString const &filename);
 
-    Q_INVOKABLE void loadAppAndInitialize(QString projectFilename);
-
-    Q_INVOKABLE void saveCurrentProject();
+    void loadAppAndInitialize(QString projectFilename);
+    void saveAppToFile(QString projectFilename);
 
     Q_INVOKABLE void yacappServerGetAllAPPs(QJSValue successCallback,
                                             QJSValue  errorCallback);

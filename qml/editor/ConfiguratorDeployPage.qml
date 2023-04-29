@@ -85,8 +85,7 @@ Rectangle
                     yacApp.badMessage(qsTr("Please login first"), null, null)
                     return
                 }
-                configurator.deploy(yacApp.globalProjectConfigFilename,
-                                    function()
+                configurator.deploy(function()
                                     {
                                         yacApp.goodMessage(qsTr("Deployment successful"), null, null)
                                     },

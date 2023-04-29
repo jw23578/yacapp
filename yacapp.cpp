@@ -409,9 +409,10 @@ void YACAPP::loadAppAndInitialize(QString projectFilename)
     init();
 }
 
-void YACAPP::saveCurrentProject()
+void YACAPP::saveAppToFile(QString projectFilename)
 {
-    globalConfig()->save(globalProjectConfigFilename(), constants);
+    projectFilename.replace("file://", "");
+    globalConfig()->save(projectFilename, constants);
     {
         QMap<QString, ParsedConfig*>::iterator it(fileName2ParsedConfig.begin());
         while (it != fileName2ParsedConfig.end())

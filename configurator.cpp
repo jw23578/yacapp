@@ -88,10 +88,11 @@ void Configurator::save()
 
 }
 
-void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCallback, QJSValue badCallback)
+void Configurator::deploy(QJSValue goodCallback, QJSValue badCallback)
 {
     GlobalProjectConfig *gpc(new GlobalProjectConfig(true));
-    gpc->init(globalProjectConfigFilename, yacApp.constants);
+    gpc->init(yacApp.globalProjectConfigFilename(),
+              yacApp.constants);
     if (!deployConfigs[gpc->projectID()])
     {
         deployConfigs[gpc->projectID()] = new ProjectData;
@@ -103,7 +104,7 @@ void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCall
 
     save();
 
-    QFileInfo fileinfo(globalProjectConfigFilename);
+    QFileInfo fileinfo(yacApp.globalProjectConfigFilename());
 
     QString path(fileinfo.path() + "/");
     QString baseName(fileinfo.baseName());
@@ -296,6 +297,12 @@ void Configurator::loadProjectFromFile(const QString &projectFilename)
     setProjectData(yacApp.globalConfig()->projectID());
     setLastProjectFilename(projectFilename);
     setLastProjectName(yacApp.globalConfig()->projectName());
+    save();
+}
+
+void Configurator::saveCurrentProject()
+{
+    yacApp.saveAppToFile(yacApp.globalProjectConfigFilename());
     save();
 }
 

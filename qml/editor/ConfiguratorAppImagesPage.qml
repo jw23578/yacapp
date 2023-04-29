@@ -81,7 +81,7 @@ Rectangle
             text: qsTr("Close")
             onClicked:
             {
-                yacApp.saveCurrentProject()
+                configurator.saveCurrentProject()
                 appImages.visible = false
             }
         }

@@ -70,7 +70,7 @@ Window {
                     {
                         width: parent.width / 3 - 2
                         text: qsTr("Save Project")
-                        onClicked: yacApp.saveCurrentProject()
+                        onClicked: configurator.saveCurrentProject()
                     }
                     YACButton
                     {
