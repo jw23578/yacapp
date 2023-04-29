@@ -48,8 +48,8 @@ Rectangle
                         YACLineEditWithHeader
                         {
                             headerText: qsTr("Installation-Code")
-                            text: global.installationCode
-                            onDisplayTextChanged: global.installationCode = text
+                            text: configurator.activeProjectData.installationCode
+                            onDisplayTextChanged: configurator.activeProjectData.installationCode = text
                         }
                         YACText
                         {

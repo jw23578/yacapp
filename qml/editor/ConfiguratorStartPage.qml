@@ -17,10 +17,7 @@ Rectangle
         nameFilters: [ "yacApp-Project-Files (*.yacapp)" ]
         onAccepted:
         {
-            yacApp.loadNewProject(fileUrl)
-            configurator.lastProjectFilename = fileUrl
-            configurator.lastProjectName = yacApp.globalConfig.projectName
-            configurator.save()
+            configurator.loadProjectFromFile(fileUrl)
             newProjectLoaded()
             startPage.visible = false
         }
@@ -58,7 +55,7 @@ Rectangle
             text: "Last Project: " + configurator.lastProjectName
             onClicked:
             {
-                yacApp.loadNewProject(configurator.lastProjectFilename)
+                configurator.loadProjectFromFile(configurator.lastProjectFilename)
                 newProjectLoaded()
                 startPage.visible = false
             }

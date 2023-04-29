@@ -149,7 +149,7 @@ public:
                     , YACServerNetwork &network
                     , CustomServerNetwork &customServerNetwork
                     , QObject *parent = nullptr);
-    void init(QString projectFilename);
+    void init();
 
     Q_INVOKABLE QString getProfileVisibleName(const QString &id);
     Q_INVOKABLE QString getProfileImageId(const QString &id);
@@ -162,14 +162,9 @@ public:
 
     Q_INVOKABLE MenueConfig *getMenueConfig(QString const &filename);
 
-    Q_INVOKABLE void loadNewProject(QString const &projectFilename);
+    Q_INVOKABLE void loadAppAndInitialize(QString projectFilename);
 
     Q_INVOKABLE void saveCurrentProject();
-
-    Q_INVOKABLE void downloadApp(QString url,
-                                 QString projectID,
-                                 QJSValue successCallback,
-                                 QJSValue errorCallback);
 
     Q_INVOKABLE void yacappServerGetAllAPPs(QJSValue successCallback,
                                             QJSValue  errorCallback);

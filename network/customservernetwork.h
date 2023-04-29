@@ -11,12 +11,6 @@ public:
     explicit CustomServerNetwork(QNetworkAccessManager &manager
                                  , Constants &constants);
 
-    void downloadApp(QString projectFilename,
-                     QString projectPackage,
-                     const QString &appId,
-                     std::function<void(const QString &)> appDownloadedCallback,
-                     std::function<void (const QString &)>  errorCallback);
-
 };
 
 #endif // CUSTOMSERVERNETWORK_H

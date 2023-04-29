@@ -22,7 +22,6 @@ DialogBase
         }
         configurator.createNewProject(projectName.displayText,
                                       projectFolder.text)
-        yacApp.loadNewProject(configurator.lastProjectFilename)
         close()
         created()
     }

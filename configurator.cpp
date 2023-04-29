@@ -47,6 +47,7 @@ Configurator::Configurator(YACAPP &yacApp
         deployConfigs[projectID] = new ProjectData;
         ProjectData &pd(*deployConfigs[projectID]);
         pd.setProjectID(projectID);
+        pd.setInstallationCode(config["installationCode"].toString());
         pd.setProjectName(config["projectName"].toString());
         pd.setLogoUrl(config["logoUrl"].toString());
         pd.setDeployPassword(config["deployPassword"].toString());
@@ -72,6 +73,7 @@ void Configurator::save()
         QJsonObject pd;
         pd["projectID"] = (*it)->projectID();
         pd["projectName"] = (*it)->projectName();
+        pd["installationCode"] = (*it)->installationCode();
         pd["logoUrl"] = (*it)->logoUrl();
         pd["deployPassword"] = (*it)->deployPassword();
         pd["deployUser"] = (*it)->deployUser();
@@ -136,10 +138,10 @@ void Configurator::deploy(QString globalProjectConfigFilename, QJSValue goodCall
         gpc->logoUrl(),
         gpc->appInfoUrl(),
         gpc->searchCode(),
-        gpc->installationCode(),
+        pd.installationCode(),
         gpc->projectColorName(),
         gpc->isTemplateApp(),
-        gpc->getConfigAsString(yacApp.constants, true),
+        gpc->getConfigAsString(yacApp.constants),
         appPackage.toBase64(),
         [goodCallback, this, &gpc, &pd](const QString &message) mutable
         {
@@ -284,6 +286,17 @@ void Configurator::createNewProject(const QString &projectName,
 
     setLastProjectName(projectName);
     setLastProjectFilename(projectFileName);
+
+    loadProjectFromFile(projectFileName);
+}
+
+void Configurator::loadProjectFromFile(const QString &projectFilename)
+{
+    yacApp.loadAppAndInitialize(projectFilename);
+    setProjectData(yacApp.globalConfig()->projectID());
+    setLastProjectFilename(projectFilename);
+    setLastProjectName(yacApp.globalConfig()->projectName());
+    save();
 }
 
 void Configurator::addFormFile(QString fileUrl)

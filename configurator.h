@@ -62,6 +62,9 @@ public:
 
     Q_INVOKABLE void createNewProject(const QString &projectName,
                                       const QString &projectFolder);
+    Q_INVOKABLE void loadProjectFromFile(const QString &projectFilename);
+
+
 
     Q_INVOKABLE void addFormFile(QString fileUrl);
     Q_INVOKABLE void addMenueFile(QString fileUrl);

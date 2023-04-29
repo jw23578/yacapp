@@ -95,25 +95,12 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
     //    }
 }
 
-void YACAPP::init(QString projectFilename)
+void YACAPP::init()
 {
     m_knownFiles.clear();
     m_knownMenueFiles.clear();
-    projectFilename.replace("file://", "");
-    setGlobalProjectConfigFilename(projectFilename);
-    QString rawFolder(QFileInfo(projectFilename).path());
-    rawFolder.replace("file://", "");
-    if (rawFolder.right(1) != '/')
-    {
-        rawFolder += "/";
-    }
-    setAppFolder(rawFolder);
-    if (appFolder() == "")
-    {
-        return;
-    }
 
-    globalConfig()->init(projectFilename, constants);
+    globalConfig()->init(globalProjectConfigFilename(), constants);
 
     for (int i(0); i < globalConfig()->formFiles.size(); ++i)
     {
@@ -400,13 +387,26 @@ MenueConfig *YACAPP::getMenueConfig(const QString &filename)
     return configIt.value();
 }
 
-void YACAPP::loadNewProject(const QString &projectFilename)
+void YACAPP::loadAppAndInitialize(QString projectFilename)
 {
     if (projectFilename.size() == 0)
     {
         return;
     }
-    init(projectFilename);
+    projectFilename.replace("file://", "");
+    setGlobalProjectConfigFilename(projectFilename);
+    QString rawFolder(QFileInfo(projectFilename).path());
+    rawFolder.replace("file://", "");
+    if (rawFolder.right(1) != '/')
+    {
+        rawFolder += "/";
+    }
+    setAppFolder(rawFolder);
+    if (appFolder() == "")
+    {
+        return;
+    }
+    init();
 }
 
 void YACAPP::saveCurrentProject()
@@ -428,33 +428,6 @@ void YACAPP::saveCurrentProject()
             ++it;
         }
     }
-}
-
-void YACAPP::downloadApp(QString url
-                         , QString projectID
-                         , QJSValue successCallback
-                         , QJSValue errorCallback)
-{
-    if (url.right(1) != '/')
-    {
-        url += '/';
-    }
-
-    customServerNetwork.downloadApp(url + projectID + ".yacapp"
-        , url + projectID + ".yacpck"
-        , projectID
-        , [this, projectID, successCallback](const QString &message) mutable
-        {
-            Q_UNUSED(message);
-            loadNewProject(constants.getYacAppConfigPath(projectID) + projectID + ".yacapp");
-            saveState();
-            successCallback.call(QJSValueList());
-        }
-        , [errorCallback](const QString &errorMessage) mutable
-        {
-            qDebug() << __FILE__ << ": " << __LINE__ << errorMessage;
-            errorCallback.call(QJSValueList() << errorMessage);
-        });
 }
 
 void YACAPP::yacappServerGetAllAPPs(QJSValue successCallback,
@@ -486,7 +459,7 @@ void YACAPP::yacappServerGetAPP(const QString &app_id,
                 successCallback.call(QJSValueList() << message);
                 return;
             }
-            loadNewProject(constants.getYacAppConfigPath(app_id) + app_id + ".yacapp");
+            loadAppAndInitialize(constants.getYacAppConfigPath(app_id) + app_id + ".yacapp");
             saveState();
             successCallback.call(QJSValueList() << message);
         },

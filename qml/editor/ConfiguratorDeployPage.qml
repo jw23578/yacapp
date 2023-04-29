@@ -123,12 +123,4 @@ Rectangle
         id: appImages
         visible: false
     }
-
-    onVisibleChanged:
-    {
-        if (visible)
-        {
-            configurator.setProjectData(yacApp.globalConfig.projectID)
-        }
-    }
 }

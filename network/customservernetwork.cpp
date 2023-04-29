@@ -10,24 +10,6 @@ CustomServerNetwork::CustomServerNetwork(QNetworkAccessManager &manager
 
 }
 
-void CustomServerNetwork::downloadApp(QString projectFilename,
-                                      QString projectPackage,
-                                      const QString &appId,
-                                      std::function<void(const QString &)> appDownloadedCallback,
-                                      std::function<void(const QString &errorMessage)> errorCallback)
-{
-    QNetworkRequest request;
-    request.setUrl(QUrl(projectFilename));
-    QNetworkReply *reply(manager.get(request));
-    SRunningRequest &rr(runningRequests[reply]);
-    rr.handlerFunction = std::bind(&CustomServerNetwork::projectFilenameFinished, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-    rr.projectFilename = projectFilename;
-    rr.projectPackage = projectPackage;
-    rr.appId = appId;
-    rr.errorCallback = errorCallback;
-    rr.successCallback = appDownloadedCallback;
-}
-
 void CustomServerNetwork::projectFilenameFinished(QNetworkReply *finishedReply, QByteArray &allData, SRunningRequest &rr)
 {
     if (finishedReply->error() != QNetworkReply::NoError)

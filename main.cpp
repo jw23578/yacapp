@@ -142,12 +142,12 @@ int main(int argc, char *argv[])
         QString appFiles(getAppParam(app, "AppFiles="));
         if (appFiles.size())
         {
-            yacApp.loadNewProject(appFiles);
+            yacApp.loadAppAndInitialize(appFiles);
         }
         else
         {
             // default yacApp
-            yacApp.loadNewProject(yacApp.globalProjectConfigFilename());
+            yacApp.loadAppAndInitialize(yacApp.globalProjectConfigFilename());
         }
     }
     engine.rootContext()->setContextProperty("yacApp", &yacApp);
