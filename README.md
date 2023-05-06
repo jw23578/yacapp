@@ -16,11 +16,11 @@ On Sites which require a Login the App forces the User to login and remembers th
 
 ## Member/Login-Area
 A content page can be configured to need a login.
-If yacApp.loginToken is not set then the LoginPage is automatically displayed
+If ThirdPartyLogin.loginToken is not set then the LoginPage is automatically displayed
 
 Login for now only works with the aidoo (https://www.aidoo.de) online memberarea-login which can be called via directLogin.
 
-If loggedin correctly yacApp.loginToken is set an appended to all webview urls where a login is needed
+If loggedin correctly ThirdPartyLogin.loginToken is set an appended to all webview urls where a login is needed
 
 
 ## Deploying the App

@@ -10,7 +10,7 @@ function aidooLoginCallback(yacApp, data)
         return;
     }
     var obj = JSON.parse(jsontext)
-    yacApp.loginToken = obj["loginToken"]
+    ThirdPartyLogin.loginToken = obj["loginToken"]
     yacApp.saveState()
 }
 

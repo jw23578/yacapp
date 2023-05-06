@@ -31,6 +31,7 @@ SOURCES += \
         configuratormodels/recentproject.cpp \
         constants.cpp \
         cppqmlobjects/cppqmlappandconfigurator.cpp \
+        cppqmlobjects/thirdpartylogin.cpp \
         datamodels/asyncimageresponse.cpp \
         datamodels/datamodelqobjectinterface.cpp \
         datamodels/messagesmodel.cpp \
@@ -103,6 +104,7 @@ HEADERS += \
   configuratormodels/recentproject.h \
   constants.h \
   cppqmlobjects/cppqmlappandconfigurator.h \
+  cppqmlobjects/thirdpartylogin.h \
   datamodels/asyncimageresponse.h \
   datamodels/datamodelinterface.h \
   datamodels/datamodelqobjectinterface.h \

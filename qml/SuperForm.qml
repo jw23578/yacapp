@@ -35,7 +35,7 @@ Rectangle
                 id: theWebview
                 anchors.fill: parent
                 visible: !loading && theSuperForm.currentSuperForm && !Constants.topLevelFormActive
-                url: config.content.url + (config.content.loginNeeded ? yacApp.loginToken : "")
+                url: config.content.url + (config.content.loginNeeded ? ThirdPartyLogin.loginToken : "")
                 onUrlChanged: console.log("url: " + url)
                 onVisibleChanged:
                 {
@@ -165,7 +165,7 @@ Rectangle
         id: loginPageLoader
         anchors.fill: parent
         focus: true
-        source: config.content.loginNeeded && yacApp.loginToken == "" ? "LoginPage.qml" : ""
+        source: config.content.loginNeeded && ThirdPartyLogin.loginToken == "" ? "LoginPage.qml" : ""
     }
     Component.onCompleted: loginPageLoader.active = true
 }

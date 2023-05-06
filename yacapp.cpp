@@ -8,6 +8,7 @@
 
 YACAPP::YACAPP(QQmlApplicationEngine &engine
                , CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator
+               , ThirdPartyLogin &thirdPartyLogin
                , Constants &constants
                , const Helper &helper
                , YACServerNetwork &network
@@ -16,6 +17,7 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
     : QObject{parent},
     timer(0),
     cppQMLAppAndConfigurator(cppQMLAppAndConfigurator),
+    thirdPartyLogin(thirdPartyLogin),
     constants(constants),
     helper(helper),
     localStorage(0),
@@ -64,7 +66,9 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
     QByteArray fileData(jsonFile.readAll());
     QJsonDocument config(QJsonDocument::fromJson(fileData));
     stringFromJSON(globalProjectConfigFilename, GlobalProjectConfigFilename);
-    stringFromJSON(loginToken, LoginToken);
+
+    thirdPartyLogin.setLoginToken(config["loginToken"].toString());  // should be removed from here to thirdPartyLogin FIXME
+
     boolFromJSON(secondStart, SecondStart);
     if (!secondStart())
     {
@@ -137,13 +141,14 @@ QString YACAPP::getProfileImageId(const QString &id)
 
 void YACAPP::logout()
 {
-    setLoginToken("");
+    // logout should probably moved to ThirdPartyLogin FIXME
+    thirdPartyLogin.setLoginToken("");
     saveState();
 }
 
 void YACAPP::leaveApp()
 {
-    setLoginToken("");
+    thirdPartyLogin.setLoginToken(""); // should probably moved to ThirdPartyLogin FIXME
     appUserConfig()->clear();
     setGlobalProjectConfigFilename("");
     globalConfig()->setProjectID("");
@@ -175,7 +180,9 @@ void YACAPP::leaveApp()
 void YACAPP::saveState()
 {
     QJsonObject config;
-    stringToJSON(loginToken);
+
+    config["loginToken"] = thirdPartyLogin.loginToken();  // FIXME, move to ThirdPartyLogin
+
     stringToJSON(globalProjectConfigFilename);
     config["deviceToken"] = deviceToken;
     config["secondStart"] = true;

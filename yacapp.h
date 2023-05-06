@@ -29,6 +29,7 @@
 #include "dataobjects/spacerequestobject.h"
 #include "dataobjects/newsobject.h"
 #include "cppqmlobjects/cppqmlappandconfigurator.h"
+#include "cppqmlobjects/thirdpartylogin.h"
 
 #include "orm-mapper/orm2qjson.h"
 #include "orm_implementions/t0021_right_group.h"
@@ -49,13 +50,13 @@ class YACAPP : public QObject
     friend AsyncImageProvider;
     Q_OBJECT
     CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator;
+    ThirdPartyLogin &thirdPartyLogin;
     Constants &constants;
     const Helper &helper;
     LocalStorage *localStorage;
     QString deviceToken;
     YACAPPPROPERTY(bool, secondStart, SecondStart, false);
     YACAPPPROPERTY(QString, appFolder, AppFolder, "");
-    YACAPPPROPERTY(QString, loginToken, LoginToken, "");
     YACAPPPROPERTY(QDateTime, serverNow, ServerNow, QDateTime(QDate(1978, 1, 1), QTime(12, 0)));
     YACAPPPROPERTY(AppUserConfig*, appUserConfig, AppUserConfig, new AppUserConfig(0));
     YACAPPPROPERTY(ParsedConfig*, mainConfig, MainConfig, 0);
@@ -147,6 +148,7 @@ public:
     Firebase2Qt firebase2qt;
     explicit YACAPP(QQmlApplicationEngine &engine
                     , CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator
+                    , ThirdPartyLogin &thirdPartyLogin
                     , Constants &constants
                     , const Helper &helper
                     , YACServerNetwork &network

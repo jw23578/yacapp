@@ -23,6 +23,7 @@
 #include "dataobjects/messageobject.h"
 
 #include "yacappfirebase.h"
+#include "cppqmlobjects/thirdpartylogin.h"
 
 QString getAppParam(const QGuiApplication &app, const QString &param)
 {
@@ -110,6 +111,7 @@ int main(int argc, char *argv[])
     }
     Helper helper;
     CPPQMLAppAndConfigurator cppQMLAppAndConfigurator;
+    ThirdPartyLogin thirdPartyLogin;
     Constants constants(customWriteablePath);
 
     QNetworkAccessManager manager;
@@ -121,6 +123,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     YACAPP yacApp(engine
                   , cppQMLAppAndConfigurator
+                  , thirdPartyLogin
                   , constants
                   , helper
                   , network
@@ -131,6 +134,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("Helper", &helper);
     engine.rootContext()->setContextProperty("Constants", &constants);
     engine.rootContext()->setContextProperty("CPPQMLAppAndConfigurator", &cppQMLAppAndConfigurator);
+    engine.rootContext()->setContextProperty("ThirdPartyLogin", &thirdPartyLogin);
 
     if (app.arguments().contains("Configurator"))
     {
