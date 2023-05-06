@@ -331,10 +331,6 @@ public:
                                     QJSValue errorCallback);
 signals:
     void takePhoto(bool squared, bool circled, QJSValue target);
-    void pickDateTime(const QDateTime dateTime, const QJSValue okCallback);
-    void pickDate(const QDateTime date, const QJSValue okCallback);
-    void pickTime(const QDateTime time, const QJSValue okCallback);
-    void notYetImplemented();
 
 private slots:
     void deviceTokenChanged(QString deviceToken);

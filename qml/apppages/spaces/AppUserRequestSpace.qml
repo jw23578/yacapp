@@ -37,7 +37,7 @@ AppUserBasePage
                     CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter Accesscode first"), theAccesscode, null)
                     return
                 }
-                yacApp.notYetImplemented()
+                CPPQMLAppAndConfigurator.notYetImplemented()
             }
         }
         YACButton

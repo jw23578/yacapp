@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QJSValue>
+#include <QDateTime>
 
 class CPPQMLAppAndConfigurator : public QObject
 {
@@ -16,6 +17,11 @@ signals:
     void badMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
     void goodMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
 
+    void pickDateTime(const QDateTime dateTime, const QJSValue okCallback);
+    void pickTime(const QDateTime time, const QJSValue okCallback);
+    void pickDate(const QDateTime date, const QJSValue okCallback);
+
+    void notYetImplemented();
 };
 
 #endif // CPPQMLAPPANDCONFIGURATOR_H

@@ -4,6 +4,6 @@ YACButtonWithHeader
 {
     property date theDate: new Date()
     text: Helper.formatDate(theDate)
-    onClicked: yacApp.pickDate(theDate,
-                               function(newDate){theDate = newDate})
+    onClicked: CPPQMLAppAndConfigurator.pickDate(theDate,
+                                                 function(newDate){theDate = newDate})
 }

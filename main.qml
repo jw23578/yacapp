@@ -214,19 +214,6 @@ ApplicationWindow
         {
             goodMessage.show(message, itemToFocus, okCallback)
         }
-    }
-
-    Connections
-    {
-        target: yacApp
-        function onTakePhoto(squared, circled, target)
-        {
-            photoLoader.circled = circled
-            photoLoader.squared = squared
-            photoLoader.target = target
-            photoLoader.sourceComponent = photoComponent
-        }
-
         function onYesNoQuestion(question, itemToFocus, yesCallback, noCallback)
         {
             yesNoQuestion.show(question, itemToFocus, yesCallback, noCallback)
@@ -243,11 +230,23 @@ ApplicationWindow
         {
             timePicker.show(time, okCallback)
         }
-
         function onNotYetImplemented()
         {
             badMessage.show(qsTr("Not yet implemented"), null)
         }
+    }
+
+    Connections
+    {
+        target: yacApp
+        function onTakePhoto(squared, circled, target)
+        {
+            photoLoader.circled = circled
+            photoLoader.squared = squared
+            photoLoader.target = target
+            photoLoader.sourceComponent = photoComponent
+        }
+
     }
 
     Component.onCompleted:

@@ -95,16 +95,16 @@ AppUserBasePage
                 {
                     if (space.member)
                     {
-                        yacApp.notYetImplemented()
+                        CPPQMLAppAndConfigurator.notYetImplemented()
                         return
                         CPPQMLAppAndConfigurator.yesNoQuestion("Really leave this space?", null
-                                             , function(){yacApp.notYetImplemented()}
-                                             , function(){yacApp.notYetImplemented()})
+                                             , function(){CPPQMLAppAndConfigurator.notYetImplemented()}
+                                             , function(){CPPQMLAppAndConfigurator.notYetImplemented()})
                         return
                     }
                     if (space.denied)
                     {
-                        yacApp.notYetImplemented()
+                        CPPQMLAppAndConfigurator.notYetImplemented()
                         return
                     }
                     appUserRequestSpace.show(space)
