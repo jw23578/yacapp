@@ -9,6 +9,8 @@
 #include <QJSValue>
 #include "yacapp.h"
 #include "configuratormodels/recentproject.h"
+#include "cppqmlobjects/cppqmlappandconfigurator.h"
+
 
 class Configurator : public QObject
 {
@@ -16,6 +18,7 @@ class Configurator : public QObject
     QString configFilename;
 
     YACAPP &yacApp;
+    CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator;
     YACExtServerNetwork &network;
 
     YACAPPPROPERTY(QString, lastProjectName, LastProjectName, "");
@@ -30,6 +33,7 @@ class Configurator : public QObject
 
 public:
     explicit Configurator(YACAPP &yacApp
+                          , CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator
                           , YACExtServerNetwork &network
                           , QObject *parent = nullptr);
 
@@ -59,8 +63,11 @@ public:
 
     Q_INVOKABLE bool isFolderEmpty(const QString &folder);
 
-    Q_INVOKABLE void createNewProject(const QString &projectName,
-                                      const QString &projectFolder);
+    Q_INVOKABLE void createNewProject(const QString &projectName
+                                      , const QString &projectFolder
+                                      , QJSValue okCallback
+                                      , QJSValue projectNameEdit
+                                      , QJSValue projectFolderEdit);
     Q_INVOKABLE void loadProjectFromFile(const QString &projectFilename);
     Q_INVOKABLE void saveCurrentProject();
 

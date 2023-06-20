@@ -6,6 +6,7 @@ Item
     signal clicked()
     property alias font: theText.font
     property alias text: theText.text
+    property alias emptyText: theEmptyText.text
     property alias source: theImage.source
     property alias shadow: theRectangle.shadow
     property color baseColor: "lightgrey"
@@ -46,6 +47,15 @@ Item
             anchors.bottom: parent.theInnerRectangle.bottom
             anchors.left: theImage.visible ? theImage.right : parent.theInnerRectangle.left
             anchors.right: parent.theInnerRectangle.right
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            clip: true
+        }
+        YACText
+        {
+            visible: theText.text == ""
+            id: theEmptyText
+            anchors.fill: theText
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             clip: true

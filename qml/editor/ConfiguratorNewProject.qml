@@ -10,20 +10,15 @@ DialogBase
     onAbortClicked: close()
     onOkClicked:
     {
-        if (projectName.displayText == "")
-        {
-            CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter the Projectname"), projectName, null)
-            return
-        }
-        if (!configurator.isFolderEmpty(newProjectDialog.folder))
-        {
-            CPPQMLAppAndConfigurator.badMessage(qsTr("Please select an empty folder for your new project."), null, null)
-            return
-        }
         configurator.createNewProject(projectName.displayText,
-                                      projectFolder.text)
-        close()
-        created()
+                                      projectFolder.text,
+                                      function()
+                                      {
+                                          close()
+                                          created()
+                                      },
+                                      projectName,
+                                      projectFolder)
     }
 
     Column
@@ -39,7 +34,7 @@ DialogBase
         {
             id: projectFolder
             headerText: qsTr("Projectfolder")
-            text: qsTr("Please select")
+            emptyText: qsTr("Please select")
             onClicked: newProjectDialog.open()
         }
     }

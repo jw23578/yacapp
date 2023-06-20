@@ -7,6 +7,7 @@ FocusScope
 
     property alias headerText: header.text
     property alias text: button.text
+    property alias emptyText: button.emptyText
     height: buttonEditWithHeader.height
     width: parent.width
     signal clicked()

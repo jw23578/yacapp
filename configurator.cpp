@@ -19,10 +19,12 @@
 
 
 Configurator::Configurator(YACAPP &yacApp
+                           , CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator
                            , YACExtServerNetwork &network
                            , QObject *parent)
     : QObject{parent}
     , yacApp(yacApp)
+    , cppQMLAppAndConfigurator(cppQMLAppAndConfigurator)
     , network(network)
 {
     QStringList paths(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
@@ -270,9 +272,24 @@ bool Configurator::isFolderEmpty(const QString &folder)
     return QDir(QUrl(folder).path()).isEmpty();
 }
 
-void Configurator::createNewProject(const QString &projectName,
-                                    const QString &projectFolder)
+void Configurator::createNewProject(const QString &projectName
+                                    , const QString &projectFolder
+                                    , QJSValue okCallback
+                                    , QJSValue projectNameEdit
+                                    , QJSValue projectFolderEdit)
 {
+    if (projectName == "")
+    {
+        emit cppQMLAppAndConfigurator.badMessage(tr("Please enter the Projectname"), projectNameEdit, QJSValue::NullValue);
+        return;
+    }
+    if (projectFolder == "" || !isFolderEmpty(projectFolder))
+    {
+        emit cppQMLAppAndConfigurator.badMessage(tr("Please select an empty folder for your new project."), projectFolderEdit, QJSValue::NullValue);
+        return;
+    }
+
+
     GlobalProjectConfig gpc(false);
     gpc.setProjectName(projectName);
     gpc.setMainFormFilename("mainform.json");
@@ -289,6 +306,8 @@ void Configurator::createNewProject(const QString &projectName,
     setLastProjectFilename(projectFileName);
 
     loadProjectFromFile(projectFileName);
+
+    okCallback.call();
 }
 
 void Configurator::loadProjectFromFile(const QString &projectFilename)
