@@ -19,11 +19,13 @@
 
 
 Configurator::Configurator(YACAPP &yacApp
+                           , Helper &helper
                            , CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator
                            , YACExtServerNetwork &network
                            , QObject *parent)
     : QObject{parent}
     , yacApp(yacApp)
+    , helper(helper)
     , cppQMLAppAndConfigurator(cppQMLAppAndConfigurator)
     , network(network)
 {
@@ -267,11 +269,6 @@ void Configurator::yacserverVerify(const QString &loginEMail
 
 }
 
-bool Configurator::isFolderEmpty(const QString &folder)
-{
-    return QDir(QUrl(folder).path()).isEmpty();
-}
-
 void Configurator::createNewProject(const QString &projectName
                                     , const QString &projectFolder
                                     , QJSValue okCallback
@@ -283,7 +280,7 @@ void Configurator::createNewProject(const QString &projectName
         emit cppQMLAppAndConfigurator.badMessage(tr("Please enter the Projectname"), projectNameEdit, QJSValue::NullValue);
         return;
     }
-    if (projectFolder == "" || !isFolderEmpty(projectFolder))
+    if (projectFolder == "" || !helper.isFolderEmpty(projectFolder))
     {
         emit cppQMLAppAndConfigurator.badMessage(tr("Please select an empty folder for your new project."), projectFolderEdit, QJSValue::NullValue);
         return;

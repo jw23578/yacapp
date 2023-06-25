@@ -2,6 +2,9 @@
 #include <QRegularExpression>
 #include <QDateTime>
 #include <QLocale>
+#include <QUrl>
+#include <QDir>
+
 Helper::Helper(QObject *parent)
     : QObject{parent}
 {
@@ -171,4 +174,7 @@ int Helper::minutesBetween(const QDateTime &a, const QDateTime &b) const
     return b.toSecsSinceEpoch() / 60 - a.toSecsSinceEpoch() / 60;
 }
 
-
+bool Helper::isFolderEmpty(const QString &folder)
+{
+    return QDir(QUrl(folder).path()).isEmpty();
+}

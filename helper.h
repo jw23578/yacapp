@@ -51,6 +51,8 @@ public:
 
     Q_INVOKABLE int minutesBetween(const QDateTime &a, const QDateTime &b) const;
 
+    Q_INVOKABLE bool isFolderEmpty(const QString &folder);
+
 signals:
 
 };
