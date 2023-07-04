@@ -24,6 +24,7 @@ Rectangle
     }
     property int buttonHeight: parent.height / 3.6
     property int buttonWidth: parent.width / 3
+
     Column
     {
         id: leftColumn

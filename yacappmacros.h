@@ -101,7 +101,7 @@
     private: \
     type m_##name = {defaultValue}; \
     public: \
-    Q_PROPERTY(type name READ name) \
+    Q_PROPERTY(type name READ name CONSTANT) \
     type name() const {return m_##name;} \
     private:
 

@@ -11,14 +11,14 @@ Item
     property alias shadow: theRectangle.shadow
     property color baseColor: "lightgrey"
     width: theText.contentWidth + theText.contentHeight * 2
-    height: theRectangle.height
+    height: theText.contentHeight * 2 + shadow.shadowVerticalOffset * 2
     property double captionStartX: theRectangle.x + theRectangle.radius
     YACRectangle
     {
         id: theRectangle
         x: shadow.shadowHorizontalOffset
         width: theButton.width
-        implicitHeight: theText.contentHeight * 2 + shadow.shadowVerticalOffset * 2
+        implicitHeight: theButton.height
         color: mouseArea.pressed ? Qt.darker(baseColor, 1.1) :
                                    mouseArea.containsMouse ? Qt.lighter(baseColor, 1.1) : baseColor
         shadow.visible: !mouseArea.pressed

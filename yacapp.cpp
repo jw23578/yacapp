@@ -333,6 +333,10 @@ void YACAPP::cleanUpKnownFile()
 void YACAPP::loadAppConfig()
 {
     QFile jsonFile(constants.getAppConfigFilename(globalConfig()->projectID()));
+    if (!jsonFile.exists())
+    {
+        return;
+    }
     jsonFile.open(QIODevice::ReadOnly);
     QByteArray fileData(jsonFile.readAll());
     QJsonDocument config(QJsonDocument::fromJson(fileData));

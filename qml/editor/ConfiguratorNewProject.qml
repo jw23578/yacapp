@@ -29,6 +29,7 @@ DialogBase
         {
             id: projectName
             headerText: qsTr("Projectname")
+            focus: true
         }
         YACButtonWithHeader
         {

@@ -14,6 +14,7 @@ Rectangle
     signal okClicked()
     signal abortClicked()
     property int animationDuration: 200
+    focus: true
 
     ParallelAnimation
     {
@@ -80,16 +81,22 @@ Rectangle
         }
     }
 
+    Keys.onEscapePressed:
+    {
+        close()
+        abortClicked()
+    }
+
     YACTwoButtonRow
     {
-        leftText: qsTr("OK")
-        rightText: qsTr("Abort")
-        onRightClicked:
+        rightText: qsTr("OK")
+        leftText: qsTr("Abort")
+        onLeftClicked:
         {
             close()
             abortClicked()
         }
-        onLeftClicked:
+        onRightClicked:
         {
             okClicked()
         }
