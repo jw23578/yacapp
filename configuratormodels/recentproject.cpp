@@ -15,14 +15,16 @@ void RecentProject::setConfig(const QJsonValue &config)
     stringFromJSON(projectID, ProjectID);
     stringFromJSON(projectColorName, ProjectColorName);
     stringFromJSON(logoUrl, LogoUrl);
+    stringFromJSON(projectFilename, ProjectFilename);
 }
 
 QJsonObject RecentProject::getConfig() const
 {
     QJsonObject config;
-    stringToJSON(logoUrl);
+    toJSON(logoUrl);
     toJSON(projectName);
-    stringToJSON(projectID);
+    toJSON(projectID);
     toJSON(projectColorName);
+    toJSON(projectFilename);
     return config;
 }

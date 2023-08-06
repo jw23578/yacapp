@@ -28,13 +28,14 @@ Configurator::Configurator(YACAPP &yacApp
     , helper(helper)
     , cppQMLAppAndConfigurator(cppQMLAppAndConfigurator)
     , network(network)
+    , yacAppConfiguratorConfig("/yacAppConfiguratorConfig.json")
 {
     QStringList paths(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
     if (paths.size() == 0)
     {
         return;
     }
-    configFilename = paths[0] + "/yacAppConfig.json";
+    configFilename = paths[0] + yacAppConfiguratorConfig;
     qDebug() << __FILE__ << ": " << __LINE__ << configFilename;
     QFile jsonFile(configFilename);
     jsonFile.open(QIODevice::ReadOnly);
@@ -42,6 +43,7 @@ Configurator::Configurator(YACAPP &yacApp
     QJsonDocument config(QJsonDocument::fromJson(fileData));
     stringFromJSON(lastProjectName, LastProjectName);
     stringFromJSON(lastProjectFilename, LastProjectFilename);
+    stringFromJSON(lastProjectLogoUrl, LastProjectLogoUrl);
 
     QJsonArray dc(config["deployConfigs"].toArray());
     for (int i(0); i < dc.size(); ++i)
@@ -53,6 +55,7 @@ Configurator::Configurator(YACAPP &yacApp
         pd.setProjectID(projectID);
         pd.setInstallationCode(config["installationCode"].toString());
         pd.setProjectName(config["projectName"].toString());
+        pd.setProjectFilename(config["projectFilename"].toString());
         pd.setLogoUrl(config["logoUrl"].toString());
         pd.setDeployPassword(config["deployPassword"].toString());
         pd.setDeployUser(config["deployUser"].toString());
@@ -67,9 +70,13 @@ Configurator::Configurator(YACAPP &yacApp
 
 void Configurator::save()
 {
+    setLastProjectName(yacApp.globalConfig()->projectName());
+    setLastProjectLogoUrl(yacApp.globalConfig()->logoUrl());
+
     QJsonObject config;
-    stringToJSON(lastProjectName);
-    stringToJSON(lastProjectFilename);
+    toJSON(lastProjectName);
+    toJSON(lastProjectFilename);
+    toJSON(lastProjectLogoUrl);
     QJsonArray dc;
     QMap<QString, ProjectData*>::Iterator it(deployConfigs.begin());
     while (it != deployConfigs.end())
@@ -77,6 +84,7 @@ void Configurator::save()
         QJsonObject pd;
         pd["projectID"] = (*it)->projectID();
         pd["projectName"] = (*it)->projectName();
+        pd["projectFilename"] = (*it)->projectFilename();
         pd["installationCode"] = (*it)->installationCode();
         pd["logoUrl"] = (*it)->logoUrl();
         pd["deployPassword"] = (*it)->deployPassword();
@@ -104,6 +112,7 @@ void Configurator::deploy(QJSValue goodCallback, QJSValue badCallback)
     ProjectData &pd(*deployConfigs[gpc->projectID()]);
     pd.setProjectID(gpc->projectID());
     pd.setProjectName(gpc->projectName());
+    pd.setProjectFilename(lastProjectFilename());
     pd.setLogoUrl(gpc->logoUrl());
 
     save();
@@ -312,7 +321,6 @@ void Configurator::loadProjectFromFile(const QString &projectFilename)
     yacApp.loadAppAndInitialize(projectFilename);
     setProjectData(yacApp.globalConfig()->projectID());
     setLastProjectFilename(projectFilename);
-    setLastProjectName(yacApp.globalConfig()->projectName());
     save();
 }
 

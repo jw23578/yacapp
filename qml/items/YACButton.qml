@@ -31,7 +31,7 @@ Item
         {
             id: theImage
             visible: source != ""
-            anchors.margins: Constants.shadowHorizontalOffset
+            anchors.margins: Constants.shadowHorizontalOffset + parent.radius / 2
             anchors.top: parent.theInnerRectangle.top
             anchors.left: parent.theInnerRectangle.left
             anchors.right: parent.theInnerRectangle.horizontalCenter

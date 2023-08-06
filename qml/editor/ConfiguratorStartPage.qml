@@ -53,7 +53,8 @@ Rectangle
             width: startPage.buttonWidth
             height: startPage.buttonHeight
             visible: configurator.lastProjectName != ""
-            text: "Last Project: " + configurator.lastProjectName
+            text: "Last Project:\r\n\r\n" + configurator.lastProjectName
+            source: configurator.lastProjectLogoUrl
             onClicked:
             {
                 configurator.loadProjectFromFile(configurator.lastProjectFilename)
@@ -78,6 +79,12 @@ Rectangle
             height: startPage.buttonHeight
             text: configurator.recentProjects[index].projectName
             source: configurator.recentProjects[index].logoUrl
+            onClicked:
+            {
+                configurator.loadProjectFromFile(configurator.recentProjects[index].projectFilename)
+                newProjectLoaded()
+                startPage.visible = false
+            }
         }
     }
 

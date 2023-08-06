@@ -24,7 +24,7 @@ DataModelInterface<T>::DataModelInterface(QQmlApplicationEngine &engine,
                                           const QString &modelName,
                                           const QString &objectName,
                                           const DirectionType direction):
-    DataModelQObjectInterface{&engine},
+    DataModelQObjectInterface(),
     modelName(modelName),
     objectName(objectName),
     direction(direction)
@@ -41,7 +41,7 @@ DataModelInterface<T>::DataModelInterface(QQmlApplicationEngine &engine,
 template<class T>
 DataModelInterface<T>::DataModelInterface(const QString &objectName,
                                           const DirectionType direction):
-    DataModelQObjectInterface(0),
+    DataModelQObjectInterface(),
     objectName(objectName),
     direction(direction)
 {

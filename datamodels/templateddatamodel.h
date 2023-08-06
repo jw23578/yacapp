@@ -27,6 +27,8 @@ public:
     TemplatedDataModel(const QString &objectName,
                        typename DataModelInterface<T>::DirectionType const direction = DataModelInterface<T>::forward);
 
+    virtual ~TemplatedDataModel() {}
+
     size_t size() const override;
     T *getById(const QString &id);
     void removeById(const QString &id);

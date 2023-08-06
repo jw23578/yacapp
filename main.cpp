@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
     QString b3 = begin.toTimeSpec(Qt::TimeZone).toString(Qt::ISODate);
     QString b4 = begin.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
 
-//    return 0;
+    //    return 0;
     std::srand(std::time(nullptr));
     QtWebView::initialize();
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -121,13 +121,13 @@ int main(int argc, char *argv[])
                                             , constants);
 
     QQmlApplicationEngine engine;
-    YACAPP yacApp(engine
-                  , cppQMLAppAndConfigurator
-                  , thirdPartyLogin
-                  , constants
-                  , helper
-                  , network
-                  , customServerNetwork);
+    YACAPP *yacApp(new YACAPP(engine
+                              , cppQMLAppAndConfigurator
+                              , thirdPartyLogin
+                              , constants
+                              , helper
+                              , network
+                              , customServerNetwork));
     QUrl url(QStringLiteral("qrc:/main.qml"));
     Configurator *configurator(0);
 
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
     {
         constants.setIsConfigurator(true);
         url = QStringLiteral("qrc:/mainDesignMode.qml");
-        configurator = new Configurator(yacApp
+        configurator = new Configurator(*yacApp
                                         , helper
                                         , cppQMLAppAndConfigurator
                                         , network);
@@ -151,24 +151,25 @@ int main(int argc, char *argv[])
         QString appFiles(getAppParam(app, "AppFiles="));
         if (appFiles.size())
         {
-            yacApp.loadAppAndInitialize(appFiles);
+            yacApp->loadAppAndInitialize(appFiles);
         }
         else
         {
             // default yacApp
-            yacApp.loadAppAndInitialize(yacApp.globalProjectConfigFilename());
+            yacApp->loadAppAndInitialize(yacApp->globalProjectConfigFilename());
         }
     }
-    engine.rootContext()->setContextProperty("yacApp", &yacApp);
+    engine.rootContext()->setContextProperty("yacApp", yacApp);
 
-    YACAPPFirebase fb(yacApp.firebase2qt);
+    YACAPPFirebase fb(yacApp->firebase2qt);
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
+        &app, [url](QObject *obj, const QUrl &objUrl) {
+            if (!obj && url == objUrl)
+                QCoreApplication::exit(-1);
+        }, Qt::QueuedConnection);
     engine.load(url);
 
-    return app.exec();
+    int result(app.exec());
+    return result;
 }

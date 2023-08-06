@@ -10,6 +10,7 @@ class RecentProject : public ConfigInterface
 
     YACAPPPROPERTY(QString, projectID, ProjectID, "");
     YACAPPPROPERTY(QString, projectName, ProjectName, "")
+    YACAPPPROPERTY(QString, projectFilename, ProjectFilename, "");
     YACAPPPROPERTY(QString, logoUrl, LogoUrl, "")
     YACAPPPROPERTY(QString, projectColorName, ProjectColorName, "white");
 public:

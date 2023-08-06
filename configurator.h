@@ -22,9 +22,11 @@ class Configurator : public QObject
     Helper &helper;
     CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator;
     YACExtServerNetwork &network;
+    const QString yacAppConfiguratorConfig;
 
     YACAPPPROPERTY(QString, lastProjectName, LastProjectName, "");
     YACAPPPROPERTY(QString, lastProjectFilename, LastProjectFilename, "");
+    YACAPPPROPERTY(QString, lastProjectLogoUrl, LastProjectLogoUrl, "");
 
     YACAPPPROPERTY(int, recentItemCount, RecentItemCount, 0);
     YACOBJECTLISTPROPERTY(RecentProject, recentProject, RecentProject, Configurator)

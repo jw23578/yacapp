@@ -60,6 +60,7 @@ void NetworkInterface::replyFinished(QNetworkReply *reply)
     if (reply->error() != QNetworkReply::NoError)
     {
         qDebug() << __FILE__ << " " << __LINE__ << ": " << reply->errorString();
+        qDebug() << __FILE__ << " " << __LINE__ << "Url: " << reply->url();
         QJsonDocument replyDoc(QJsonDocument::fromJson(allData));
         QJsonObject object(replyDoc.object());
         QString message(object["message"].toString());

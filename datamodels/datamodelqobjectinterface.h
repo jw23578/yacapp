@@ -11,7 +11,7 @@ class DataModelQObjectInterface : public QAbstractItemModel
 protected:
     virtual void internalDeleteById(const QString &id) = 0;
 public:
-    explicit DataModelQObjectInterface(QObject *parent = nullptr);
+    explicit DataModelQObjectInterface();
     virtual ~DataModelQObjectInterface() {}
 
     virtual size_t size() const = 0;

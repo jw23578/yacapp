@@ -42,6 +42,8 @@ public:
     explicit DataModelInterface(const QString &objectName,
                                 DirectionType const direction);
 
+    virtual ~DataModelInterface() {}
+
     QModelIndex index(int row, int column, const QModelIndex &parent) const override;
     QModelIndex parent(const QModelIndex &child) const override;
     int rowCount(const QModelIndex &parent) const override;

@@ -1,7 +1,7 @@
 #include "worktimemainobject.h"
 
 WorktimeMainObject::WorktimeMainObject(QObject *parent)
-    : DataObjectInterface{parent},
+    : DataObjectInterface(parent),
       subentries("entry")
 {
 

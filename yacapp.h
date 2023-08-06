@@ -7,12 +7,12 @@
 #include "configmodels/appuserconfig.h"
 #include "network/yacservernetwork.h"
 #include "network/customservernetwork.h"
-#include "network/asyncimageprovider.h"
 #include "constants.h"
 #include "helper.h"
 #include <QJSValue>
 #include "datamodels/templateddatamodel.h"
 #include "datamodels/profilesmodel.h"
+#include "network/asyncimageprovider.h"
 #include "localstorage/localstorage.h"
 #include "datamodels/messagesmodel.h"
 #include "firebase2qt.h"
@@ -90,12 +90,11 @@ class YACAPP : public QObject
     MenueConfig emptyMenue;
 
     YACServerNetwork &network;
-    AsyncImageProvider imageProvider;
     CustomServerNetwork &customServerNetwork;
 
-    ProfilesModel searchProfilesModel;
     ProfilesModel knownProfilesModel;
     ProfilesModel selectedProfilesModel;
+    ProfilesModel searchProfilesModel;
 
     MessagesModel messagesModel;
 

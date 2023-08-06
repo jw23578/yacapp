@@ -22,12 +22,10 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
     helper(helper),
     localStorage(0),
     network(network),
-    imageProvider(*this,
-                  network),
     customServerNetwork(customServerNetwork),
-    searchProfilesModel(engine, "SearchProfilesModel"),
     knownProfilesModel(engine, "KnownProfilesModel"),
     selectedProfilesModel(engine, "SelectedProfilesModel"),
+    searchProfilesModel(engine, "SearchProfilesModel"),
     messagesModel(engine),
     appointmentsModel(engine, "AppointmentsModel", "appointment"),
     rightGroupsModel(engine, "RightGroupsModel", "rightgroup"),
@@ -49,7 +47,8 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
         mpo->setCaption(rn.second->meaning);
         allRightsModel.append(mpo);
     }
-    engine.addImageProvider("async", &imageProvider);
+    engine.addImageProvider("async", new AsyncImageProvider(*this,
+                                                            network));
     connect(&network, &NetworkInterface::missingRight, this, &YACAPP::missingRight);
 
     connect(&timer, &QTimer::timeout, this, &YACAPP::timeout);

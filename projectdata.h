@@ -9,6 +9,7 @@ class ProjectData : public QObject
     Q_OBJECT
     YACAPPPROPERTY(QString, projectID, ProjectID, "");
     YACAPPPROPERTY(QString, projectName, ProjectName, "");
+    YACAPPPROPERTY(QString, projectFilename, ProjectFilename, "");
     YACAPPPROPERTY(QString, logoUrl, LogoUrl, "");
     YACAPPPROPERTY(QString, deployUser, DeployUser, "");
     YACAPPPROPERTY(QString, deployPassword, DeployPassword, "");

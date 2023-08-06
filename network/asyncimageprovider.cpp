@@ -4,10 +4,10 @@
 
 AsyncImageProvider::AsyncImageProvider(YACAPP &yacApp,
                                        YACServerNetwork &yacServerNetwork):
+    QQuickAsyncImageProvider(),
     yacApp(yacApp),
     yacServerNetwork(yacServerNetwork)
 {
-
 }
 
 QQuickImageResponse *AsyncImageProvider::requestImageResponse(const QString &id,
