@@ -56,6 +56,7 @@ SOURCES += \
         helper.cpp \
         localstorage/localstorage.cpp \
         localstorage/tablenames.cpp \
+        logger.cpp \
         main.cpp \
         network/asyncimageprovider.cpp \
         network/customservernetwork.cpp \
@@ -132,6 +133,7 @@ HEADERS += \
   helper.h \
   localstorage/localstorage.h \
   localstorage/tablenames.h \
+  logger.h \
   network/asyncimageprovider.h \
   network/customservernetwork.h \
   network/networkinterface.h \

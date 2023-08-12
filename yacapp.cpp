@@ -5,6 +5,7 @@
 #include <QJsonArray>
 #include <QCoreApplication>
 #include "yacAppAndServer/rightnumbers.h"
+#include "logger.h"
 
 YACAPP::YACAPP(QQmlApplicationEngine &engine
                , CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator
@@ -59,7 +60,7 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
     connect(&firebase2qt, &Firebase2Qt::deviceTokenChanged, this, &YACAPP::deviceTokenChanged);
     connect(&firebase2qt, &Firebase2Qt::newMessages, this, &YACAPP::newMessages);
 
-    qDebug() << __FILE__ << ": " << __LINE__ << constants.getStateFilename();
+    DEFAULT_LOG(QString("constants.getStateFilename(): ") + constants.getStateFilename());
     QFile jsonFile(constants.getStateFilename());
     jsonFile.open(QIODevice::ReadOnly);
     QByteArray fileData(jsonFile.readAll());
@@ -1560,10 +1561,10 @@ void YACAPP::deviceTokenChanged(QString deviceToken)
     }
     this->deviceToken = deviceToken;
     saveState();
-    qDebug() << "YACAPP: " << deviceToken;
+    DEFAULT_LOG(QString("YACAPP: ") + deviceToken);
     if (!appUserConfig()->loggedIn())
     {
-        qDebug() << "not logged in";
+        DEFAULT_LOG("not logged in");
         return;
     }
     network.appUserUpdateDeviceToken(globalConfig()->projectID(),

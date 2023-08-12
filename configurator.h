@@ -81,6 +81,8 @@ public:
 
     Q_INVOKABLE void addImageFile(QString fileUrl);
 
+    Q_INVOKABLE QString getYacappServerUrl() const;
+
 signals:
 
     void addFileSignal(const QJSValue okCallback);

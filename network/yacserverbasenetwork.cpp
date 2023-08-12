@@ -1,6 +1,7 @@
 #include "yacserverbasenetwork.h"
 #include <QUrlQuery>
 #include <QJsonDocument>
+#include "logger.h"
 
 QString YACServerBaseNetwork::yacappServerUrl  = {"http://www.jw78.de:23579"}; // {"http://127.0.0.1:23578"}; //
 
@@ -9,6 +10,11 @@ YACServerBaseNetwork::YACServerBaseNetwork(QNetworkAccessManager &manager
     NetworkInterface{manager, constants}
 {
 
+}
+
+QString YACServerBaseNetwork::getYacappServerUrl() const
+{
+    return yacappServerUrl;
 }
 
 void YACServerBaseNetwork::yacappServerPost(QString method,
@@ -27,10 +33,7 @@ void YACServerBaseNetwork::yacappServerPost(QString method,
     request.setUrl(QUrl(yacappServerUrl + method));
     QJsonDocument doc(object);
     QByteArray postData(doc.toJson());
-    if (constants.isDesktop())
-    {
-        qDebug() << postData;
-    }
+    ONLY_DESKTOP_LOG(postData);
     request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
     QMap<QByteArray, QByteArray>::ConstIterator it(rawHeader.begin());
     while (it != rawHeader.end())

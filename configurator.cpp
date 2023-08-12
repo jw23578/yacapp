@@ -10,6 +10,7 @@
 #include "configmodels/parsedconfig.h"
 #include "configmodels/appimagesitem.h"
 #include "orm_implementions/t0027_app_images.h"
+#include "logger.h"
 
 #ifndef Q_OS_ANDROID
 #include "helper.h"
@@ -36,7 +37,7 @@ Configurator::Configurator(YACAPP &yacApp
         return;
     }
     configFilename = paths[0] + yacAppConfiguratorConfig;
-    qDebug() << __FILE__ << ": " << __LINE__ << configFilename;
+    DEFAULT_LOG_VARIABLE(configFilename);
     QFile jsonFile(configFilename);
     jsonFile.open(QIODevice::ReadOnly);
     QByteArray fileData(jsonFile.readAll());
@@ -354,10 +355,15 @@ void Configurator::addMenueFile(QString fileUrl)
 
 void Configurator::addImageFile(QString fileUrl)
 {
-    qDebug() << __FILE__ << " " << fileUrl;
+    DEFAULT_LOG_VARIABLE(fileUrl);
     AppImagesItem *aii(new AppImagesItem);
     aii->setFileUrl(fileUrl);
     aii->setId(fileUrl);
     yacApp.globalConfig()->getappImages().append(aii);
+}
+
+QString Configurator::getYacappServerUrl() const
+{
+    return network.getYacappServerUrl();
 }
 

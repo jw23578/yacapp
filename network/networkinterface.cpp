@@ -1,6 +1,7 @@
 #include "networkinterface.h"
 #include <QJsonDocument>
 #include <QJsonObject>
+#include "logger.h"
 
 NetworkInterface::NetworkInterface(QNetworkAccessManager &manager
                                    , Constants &constants
@@ -53,14 +54,13 @@ void NetworkInterface::replyFinished(QNetworkReply *reply)
     SRunningRequest rr(it.value());
     runningRequests.erase(it);
     QByteArray allData(reply->readAll());
-    if (constants.isDesktop())
-    {
-        qDebug() << __FILE__ << __LINE__ << allData;
-    }
+
+    ONLY_DESKTOP_LOG(allData);
+
     if (reply->error() != QNetworkReply::NoError)
     {
-        qDebug() << __FILE__ << " " << __LINE__ << ": " << reply->errorString();
-        qDebug() << __FILE__ << " " << __LINE__ << "Url: " << reply->url();
+        DEFAULT_LOG(reply->errorString());
+        DEFAULT_LOG(QString("Url: ") + reply->url().toString());
         QJsonDocument replyDoc(QJsonDocument::fromJson(allData));
         QJsonObject object(replyDoc.object());
         QString message(object["message"].toString());

@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include "logger.h"
 
 #include "QZXing.h"
 #include <QLocale>
@@ -42,6 +43,7 @@ QString getAppParam(const QGuiApplication &app, const QString &param)
 
 int main(int argc, char *argv[])
 {
+    DEFAULT_LOG("yacapp start, not yet known if app or configurator");
     QDateTime begin(QDateTime::currentDateTime());
     QString b1 = begin.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
     QString b2 = begin.toTimeSpec(Qt::LocalTime).toString(Qt::ISODate);
@@ -113,6 +115,7 @@ int main(int argc, char *argv[])
     CPPQMLAppAndConfigurator cppQMLAppAndConfigurator;
     ThirdPartyLogin thirdPartyLogin;
     Constants constants(customWriteablePath);
+    Logger::gi().setIsDesktop(constants.isDesktop());
 
     QNetworkAccessManager manager;
     YACExtServerNetwork network(manager

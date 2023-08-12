@@ -69,6 +69,8 @@ protected:
 public:
     explicit YACServerBaseNetwork(QNetworkAccessManager &manager
                                   , Constants &constants);
+
+    QString getYacappServerUrl() const;
 };
 
 #endif // YACSERVERBASENETWORK_H

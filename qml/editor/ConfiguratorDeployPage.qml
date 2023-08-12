@@ -6,6 +6,14 @@ Rectangle
 {
     id: deployPage
     anchors.fill: parent
+    YACText
+    {
+        visible: Constants.isDesktop
+        anchors.left: parent.left
+        anchors.top: parent.top
+        text: "ServerURL: " + configurator.getYacappServerUrl()
+    }
+
     Column
     {
         id: theColumn

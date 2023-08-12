@@ -1,8 +1,9 @@
 #include "localstorage.h"
-#include <QDebug>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRecord>
+#include "logger.h"
+#include <QVariant>
 
 LocalStorage::LocalStorage(QString appId,
                            Constants &constants):
@@ -17,16 +18,16 @@ LocalStorage::LocalStorage(QString appId,
                              + QString(" where id = :id"))
 {
     db.setDatabaseName(constants.getDBFilename(appId));
-    qDebug() << "dbFilename: " << constants.getDBFilename(appId);
+    DEFAULT_LOG(QString("dbFilename: ") + constants.getDBFilename(appId));
     if (db.open())
     {
-        qDebug() << "db opened successfully";
+        DEFAULT_LOG("db opened successfully");
         createTables();
     }
     else
     {
-        qDebug() << "db not opened";
-        qDebug() << db.lastError().databaseText();
+        DEFAULT_LOG("db not opened");
+        DEFAULT_LOG(db.lastError().databaseText());
     }
 
 }
