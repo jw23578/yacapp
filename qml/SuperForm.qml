@@ -36,11 +36,11 @@ Rectangle
                 anchors.fill: parent
                 visible: !loading && theSuperForm.currentSuperForm && !Constants.topLevelFormActive
                 url: config.content.url + (config.content.loginNeeded ? ThirdPartyLogin.loginToken : "")
-                onUrlChanged: console.log("url: " + url)
+                onUrlChanged: Helper.jsLog("url: " + url)
                 onVisibleChanged:
                 {
-                    console.log("Webview Visible: " + visible)
-                    console.log("Webview Constants.topLevelFormActive: " + Constants.topLevelFormActive)
+                    Helper.jsLog("Webview Visible: " + visible)
+                    Helper.jsLog("Webview Constants.topLevelFormActive: " + Constants.topLevelFormActive)
                 }
             }
             Rectangle

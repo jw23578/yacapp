@@ -4,6 +4,7 @@
 #include <QLocale>
 #include <QUrl>
 #include <QDir>
+#include "logger.h"
 
 Helper::Helper(QObject *parent)
     : QObject{parent}
@@ -177,4 +178,9 @@ int Helper::minutesBetween(const QDateTime &a, const QDateTime &b) const
 bool Helper::isFolderEmpty(const QString &folder)
 {
     return QDir(QUrl(folder).path()).isEmpty();
+}
+
+void Helper::jsLog(const QString &message)
+{
+    JAVASCRIPT_LOG(message);
 }

@@ -8,7 +8,7 @@ AppUserBasePage
     multiMenueButton.model: [{caption: qsTr("Add Space")}]
     multiMenueButton.onClicked:
     {
-        console.log("caption: " + caption)
+        Helper.jsLog("caption: " + caption)
         if (caption == qsTr("Add Space"))
         {
             appUserInsertSpace.show(null)
@@ -62,7 +62,7 @@ AppUserBasePage
 
                     yacApp.appUserFetchSpace(space.id,
                                              function(message){
-                                                 console.log(yacApp.currentFetchedIds)
+                                                 Helper.jsLog(yacApp.currentFetchedIds)
                                                  appUserInsertSpace.show(space)
                                              },
                                              function(message){})

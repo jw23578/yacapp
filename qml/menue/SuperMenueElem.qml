@@ -152,14 +152,14 @@ Rectangle
             anchors.fill: parent
             drag.axis: Drag.YAxis
             onReleased: {
-                console.log("end drag")
+                Helper.jsLog("end drag")
                 drag.target = null
                 theElem.Drag.active = false
             }
 
             onPressAndHold:
             {
-                console.log("hello")
+                Helper.jsLog("hello")
                 drag.target = theElem
                 theElem.Drag.active = true
             }

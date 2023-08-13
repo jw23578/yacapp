@@ -53,6 +53,8 @@ public:
 
     Q_INVOKABLE bool isFolderEmpty(const QString &folder);
 
+    Q_INVOKABLE void jsLog(const QString &message);
+
 signals:
 
 };

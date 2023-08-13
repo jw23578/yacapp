@@ -39,8 +39,8 @@ AppUserBasePage
         }
         yacApp.addProfileToSelectedProfiles(id)
         theLoader.sourceComponent = null
-        console.log("newSelected: " + newSelected)
-        console.log("newRemoved: " + newRemoved)
+        Helper.jsLog("newSelected: " + newSelected)
+        Helper.jsLog("newRemoved: " + newRemoved)
 
         undoAction = undoAddString
         lastId = id;
@@ -66,8 +66,8 @@ AppUserBasePage
         }
         undoButton.visible = true
         yacApp.removeFromSelectedProfiles(id)
-        console.log("newSelected: " + newSelected)
-        console.log("newRemoved: " + newRemoved)
+        Helper.jsLog("newSelected: " + newSelected)
+        Helper.jsLog("newRemoved: " + newRemoved)
 
         undoAction = qsTr("Undo Remove")
         lastId = id;
@@ -80,7 +80,7 @@ AppUserBasePage
     multiMenueButton.model: [{caption: qsTr("Add Profile")}]
     multiMenueButton.onClicked:
     {
-        console.log("caption: " + caption)
+        Helper.jsLog("caption: " + caption)
         if (caption == qsTr("Add Profile"))
         {
             theLoader.sourceComponent = searchProfiles

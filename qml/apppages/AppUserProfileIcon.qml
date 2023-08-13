@@ -12,7 +12,7 @@ Item
     function fetchMessages()
     {
         return
-        console.log("fetch messages")
+        Helper.jsLog("fetch messages")
         yacApp.fetchMessageUpdates()
     }
 

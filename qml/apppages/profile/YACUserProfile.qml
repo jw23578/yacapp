@@ -13,7 +13,7 @@ AppUserBasePage
         {caption: qsTr("Change Profileimage")}]
     multiMenueButton.onClicked:
     {
-        console.log("caption: " + caption)
+        Helper.jsLog("caption: " + caption)
         if (caption == qsTr("Logout"))
         {
             yacApp.appUserLogout()

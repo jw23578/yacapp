@@ -32,7 +32,7 @@ Item
 
     function open()
     {
-        console.log("hello2")
+        Helper.jsLog("hello2")
         isClosed = false
         if (once)
         {

@@ -80,7 +80,7 @@ ApplicationWindow
         onVisibleChanged:
         {
             Constants.topLevelFormActive = badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible
-            console.log("Constants.topLevelFormActive: " + Constants.topLevelFormActive)
+            Helper.jsLog("Constants.topLevelFormActive: " + Constants.topLevelFormActive)
         }
     }
     Component
@@ -171,26 +171,26 @@ ApplicationWindow
     {
         if (!yacApp.globalConfig.projectID.length)
         {
-            console.log("no current app active -> no update check")
+            Helper.jsLog("no current app active -> no update check")
             return;
         }
 
-        console.log("checking for updates");
+        Helper.jsLog("checking for updates");
         yacApp.yacappServerGetAPP(yacApp.globalConfig.projectID,
                                   yacApp.globalConfig.version,
                                   function(message)
                                   {
                                       if (message == "app version is up to date")
                                       {
-                                          console.log(message)
+                                          Helper.jsLog(message)
                                           return;
                                       }
 
-                                      console.log("got an update")
+                                      Helper.jsLog("got an update")
                                   },
                                   function(message)
                                   {
-                                      console.log("error on updating")
+                                      Helper.jsLog("error on updating")
                                   }
                                   )
     }
@@ -255,15 +255,15 @@ ApplicationWindow
         {
             startUpAni.start()
         }
-        //        console.log("hello")
-        //        console.log("ProjectID: " + yacApp.globalConfig.projectID)
-        //        console.log(yacApp.mainConfig)
-        //        console.log(yacApp.mainConfig.background)
-        //        console.log(yacApp.mainConfig.background.imageFilename)
-        //        console.log(yacApp.mainConfig.background.color)
-        //        console.log(yacApp.mainConfig.content.type)
-        //        console.log(yacApp.mainConfig.content.items.length)
-        //        console.log(yacApp.mainConfig.content.items[1].height)
+        //        Helper.jsLog("hello")
+        //        Helper.jsLog("ProjectID: " + yacApp.globalConfig.projectID)
+        //        Helper.jsLog(yacApp.mainConfig)
+        //        Helper.jsLog(yacApp.mainConfig.background)
+        //        Helper.jsLog(yacApp.mainConfig.background.imageFilename)
+        //        Helper.jsLog(yacApp.mainConfig.background.color)
+        //        Helper.jsLog(yacApp.mainConfig.content.type)
+        //        Helper.jsLog(yacApp.mainConfig.content.items.length)
+        //        Helper.jsLog(yacApp.mainConfig.content.items[1].height)
         checkForAppUpdate()
         Constants.appTotalWidth = width
         Constants.designWidthFactor = width / 430.0

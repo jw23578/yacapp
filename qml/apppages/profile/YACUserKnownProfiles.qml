@@ -12,7 +12,7 @@ AppUserBasePage
         {caption: qsTr("Fetch")}]
     multiMenueButton.onClicked:
     {
-        console.log("caption: " + caption)
+        Helper.jsLog("caption: " + caption)
         if (caption == qsTr("Add Contact"))
         {
             theLoader.sourceComponent = searchProfiles
@@ -104,7 +104,7 @@ AppUserBasePage
             onProfileSelected:
             {
                 yacApp.addProfileToKnownProfiles(id)
-                console.log("id: " + id)
+                Helper.jsLog("id: " + id)
                 theLoader.sourceComponent = null
             }
             onCloseClicked: theLoader.sourceComponent = null

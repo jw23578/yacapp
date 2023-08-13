@@ -72,9 +72,9 @@ Rectangle
                                 theMultiSelectItem.newSelected.delete(dataObject.id)
                             }
                         }
-                        console.log("previous: " + Array.from(theMultiSelectItem.previousSelected).join(' '))
-                        console.log("newSelected: " + Array.from(theMultiSelectItem.newSelected).join(' '))
-                        console.log("newDeselected: " + Array.from(theMultiSelectItem.newDeselected).join(' '))
+                        Helper.jsLog("previous: " + Array.from(theMultiSelectItem.previousSelected).join(' '))
+                        Helper.jsLog("newSelected: " + Array.from(theMultiSelectItem.newSelected).join(' '))
+                        Helper.jsLog("newDeselected: " + Array.from(theMultiSelectItem.newDeselected).join(' '))
                     }
                 }
             }

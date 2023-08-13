@@ -8,7 +8,7 @@ AppUserBasePage
     multiMenueButton.model: [{caption: qsTr("Add Appointment")}]
     multiMenueButton.onClicked:
     {
-        console.log("caption: " + caption)
+        Helper.jsLog("caption: " + caption)
         if (caption == qsTr("Add Appointment"))
         {
             insertAppointmentsLoader.sourceComponent = insertAppointmentsComponent
@@ -90,11 +90,11 @@ AppUserBasePage
                                              yacApp.appUserDeleteAppointment(appointment.id,
                                                                              function(message)
                                                                              {
-                                                                                 console.log(message)
+                                                                                 Helper.jsLog(message)
                                                                              },
                                                                              function(message)
                                                                              {
-                                                                                 console.log(message)
+                                                                                 Helper.jsLog(message)
                                                                              }
                                                                              )
                                          },

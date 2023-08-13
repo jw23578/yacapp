@@ -60,16 +60,16 @@ AppUserBasePage
                                                {
                                                    if (message == "appuser registered, please verify")
                                                    {
-                                                       console.log("weiter zum token")
+                                                       Helper.jsLog("weiter zum token")
                                                        tokenOrPasswort.byToken = true
                                                    }
                                                    theSwipeView.setCurrentIndex(2)
                                                },
                                                function(message) {
-                                                   console.log(message)
+                                                   Helper.jsLog(message)
                                                    if (message == "LoginEMail already exists.")
                                                    {
-                                                       console.log("weiter zum passwort")
+                                                       Helper.jsLog("weiter zum passwort")
                                                        tokenOrPasswort.byToken = false
                                                        theSwipeView.setCurrentIndex(2)
                                                        return

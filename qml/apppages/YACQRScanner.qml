@@ -43,13 +43,13 @@ Rectangle {
 
             imageSourceFilter: QZXing.SourceFilter_ImageNormal //| QZXing.SourceFilter_ImageInverted
             /////////////
-            onTagFound: console.log("Barcode data: " + tag)
+            onTagFound: Helper.jsLog("Barcode data: " + tag)
         }
 
 
-//        onDecodingStarted: console.log("Decoding of image started...")
+//        onDecodingStarted: Helper.jsLog("Decoding of image started...")
 
 
-//        onDecodingFinished: console.log("Decoding finished " + (succeeded==true ? "successfully" :    "unsuccessfully") )
+//        onDecodingFinished: Helper.jsLog("Decoding finished " + (succeeded==true ? "successfully" :    "unsuccessfully") )
     }
 }

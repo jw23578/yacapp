@@ -10,7 +10,7 @@ Item
         onStatusChanged: {
             if (status == FontLoader.Ready)
             {
-                console.log("font loaded")
+                Helper.jsLog("FontLoader: font loaded")
             }
         }
     }
@@ -26,7 +26,7 @@ Item
             }
             onFontChanged:
             {
-                console.log("font changed")
+                Helper.jsLog("font changed: " + font.family)
                 Constants.defaultFontPixelSize = Constants.isDesktop ? font.pixelSize : font.pixelSize
             }
 
@@ -35,7 +35,7 @@ Item
             {
                 Constants.defaultFontPixelSize = Constants.isDesktop ? font.pixelSize : font.pixelSize
                 JSConstants.urbanistMedium = urbanistMedium.name
-                console.log("font: " + urbanistMedium)
+                Helper.jsLog("font: " + urbanistMedium)
             }
         }
         Component.onCompleted:

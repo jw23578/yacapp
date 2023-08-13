@@ -44,7 +44,7 @@ Rectangle
 
     function allAppsLoaded(jsontext)
     {
-        console.log("fetched")
+        Helper.jsLog("fetched")
         if (jsontext.length < 3)
         {
             return;
@@ -160,7 +160,7 @@ Rectangle
                     to: 1
                     duration: Constants.slowAnimationDuration
                 }
-                onFinished: console.log(appView.ViewTransition.index)
+                onFinished: Helper.jsLog(appView.ViewTransition.index)
             }
         }
         delegate: Flickable
@@ -247,7 +247,7 @@ Rectangle
                             text: qsTr("Install")
                             onClicked:
                             {
-                                console.log("App selected")
+                                Helper.jsLog("App selected")
                                 if (installation_code_needed)
                                 {
                                     installationCodeRectangle.app_id = app_id

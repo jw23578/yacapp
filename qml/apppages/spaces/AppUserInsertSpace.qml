@@ -48,7 +48,7 @@ AppUserBasePage
                                           function(message){
                                               spaceSaved()
                                           },
-                                          function(message){console.log(message)})
+                                          function(message){Helper.jsLog(message)})
     }
     YACPageColumn
     {

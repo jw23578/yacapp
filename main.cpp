@@ -43,6 +43,7 @@ QString getAppParam(const QGuiApplication &app, const QString &param)
 
 int main(int argc, char *argv[])
 {
+    Logger::gi().setLogFile("/home/jw78/yacapplog.txt");
     DEFAULT_LOG("yacapp start, not yet known if app or configurator");
     QDateTime begin(QDateTime::currentDateTime());
     QString b1 = begin.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);

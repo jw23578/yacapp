@@ -54,6 +54,6 @@ AppUserBasePage
                                         theEndDateTime,
                                         visible_for_everybody.currentIndex == 1,
                                         function(message){appointmentSaved()},
-                                        function(message){console.log(message)})
+                                        function(message){Helper.jsLog(message)})
     }
 }

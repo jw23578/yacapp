@@ -14,9 +14,9 @@ AppUserBasePage
         height: parent.height * Constants.newsPageConfig.topImageHeightFactor
         source: "https://picsum.photos/" + Math.trunc(Constants.appTotalWidth) + "/" + Math.trunc(Constants.appTotalHeight * (1 - Constants.mainMenueConfig.smallElemHeightFactor)  * Constants.newsPageConfig.topImageHeightFactor)
         Component.onCompleted: {
-            console.log(width)
-            console.log(height)
-            console.log(source)
+            Helper.jsLog(width)
+            Helper.jsLog(height)
+            Helper.jsLog(source)
         }
     }
     Column

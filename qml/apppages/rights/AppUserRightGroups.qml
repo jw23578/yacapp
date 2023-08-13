@@ -9,7 +9,7 @@ AppUserBasePage
     multiMenueButton.model: [{caption: qsTr("Add Rightgroup")}]
     multiMenueButton.onClicked:
     {
-        console.log("caption: " + caption)
+        Helper.jsLog("caption: " + caption)
         if (caption == qsTr("Add Rightgroup"))
         {
             appUserInsertRightGroup.show(null)
@@ -96,7 +96,7 @@ AppUserBasePage
                         text: qsTr("Delete")
                         onClicked:
                         {
-                            console.log("hello hjsdfhsdlkjfhlkjsahlka")
+                            Helper.jsLog("hello hjsdfhsdlkjfhlkjsahlka")
                             CPPQMLAppAndConfigurator.yesNoQuestion(qsTr("Delete Rightgroup \"") + rightgroup.name + "\"", null,
                                                  function()
                                                  {

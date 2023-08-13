@@ -117,6 +117,6 @@ AppUserBasePage
                                                theRequestAllowed.currentIndex == 1,
                                                theVisibleForNonMembers.currentIndex == 1,
                                                function(message){rightgroupSaved()},
-                                               function(message){console.log(message)})
+                                               function(message){Helper.jsLog(message)})
     }
 }

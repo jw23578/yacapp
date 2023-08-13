@@ -228,7 +228,7 @@ AppUserBasePage
 
     Component.onCompleted:
     {
-        console.log("worktimestate")
+        Helper.jsLog("worktimestate")
         yacApp.appUserGetWorktimeState(function(message) {},
         function(message) {});
     }

@@ -199,6 +199,6 @@ Item
     }
     Component.onCompleted:
     {
-        console.log("theMenu.smallElemHeight: " + theMenu.smallElemHeight)
+        Helper.jsLog("theMenu.smallElemHeight: " + theMenu.smallElemHeight)
     }
 }

@@ -9,6 +9,7 @@ Rectangle
     id: startPage
     anchors.fill: parent
     signal newProjectLoaded()
+
     FileDialog
     {
         id: loadProjectDialog
