@@ -7,6 +7,15 @@
         <file>images/burger_menue_icon.svg</file>
         <file>images/close_menue_icon.svg</file>
         <file>images/person_icon.svg</file>
+        <file>images/image_loading.gif</file>
+        <file>images/image_loading.webp</file>
+        <file>images/loading_animation2.webp</file>
+        <file>images/loading_animation3.webp</file>
+        <file>images/loading_animation4.webp</file>
+        <file>images/loading_animation1.webp</file>
+        <file>images/loading_animation5.webp</file>
+        <file>images/loading_animation6.webp</file>
+        <file>images/loading_animation7.webp</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

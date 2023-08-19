@@ -13,7 +13,7 @@ ApplicationWindow
     visible: true
     width: 430
     height: 932
-    title: qsTr("Hello World")
+    title: yacApp.applicationTitle
 
     DefaultsSetter {}
 

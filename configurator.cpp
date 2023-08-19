@@ -51,20 +51,23 @@ Configurator::Configurator(YACAPP &yacApp
     {
         QJsonValue config(dc[i]);
         QString projectID(config["projectID"].toString());
-        deployConfigs[projectID] = new ProjectData;
-        ProjectData &pd(*deployConfigs[projectID]);
-        pd.setProjectID(projectID);
-        pd.setInstallationCode(config["installationCode"].toString());
-        pd.setProjectName(config["projectName"].toString());
-        pd.setProjectFilename(config["projectFilename"].toString());
-        pd.setLogoUrl(config["logoUrl"].toString());
-        pd.setDeployPassword(config["deployPassword"].toString());
-        pd.setDeployUser(config["deployUser"].toString());
-        pd.setYacappServerLoginToken(config["yacappServerLoginToken"].toString());
+        if (projectID.size())
+        {
+            deployConfigs[projectID] = new ProjectData;
+            ProjectData &pd(*deployConfigs[projectID]);
+            pd.setProjectID(projectID);
+            pd.setInstallationCode(config["installationCode"].toString());
+            pd.setProjectName(config["projectName"].toString());
+            pd.setProjectFilename(config["projectFilename"].toString());
+            pd.setLogoUrl(config["logoUrl"].toString());
+            pd.setDeployPassword(config["deployPassword"].toString());
+            pd.setDeployUser(config["deployUser"].toString());
+            pd.setYacappServerLoginToken(config["yacappServerLoginToken"].toString());
 
-        RecentProject *rp(new RecentProject);
-        rp->setConfig(config);
-        appendRecentProject(rp);
+            RecentProject *rp(new RecentProject);
+            rp->setConfig(config);
+            appendRecentProject(rp);
+        }
     }
     setRecentItemCount(recentProjectsCount());
 }

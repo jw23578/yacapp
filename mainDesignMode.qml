@@ -11,7 +11,7 @@ Window {
     width: 1280
     height: 1000
     visible: true
-    title: qsTr("YAC-App Designer")
+    title: yacApp.applicationTitle
 
     DefaultsSetter {}
 
@@ -98,7 +98,7 @@ Window {
                     YACButton
                     {
                         width: parent.width / 3 - 1
-                        text: theSwipeView.currentIndex == 1 ? qsTr("Menue Editor visible") : qsTr("Show Page Editor")
+                        text: theSwipeView.currentIndex == 1 ? qsTr("Menue Editor visible") : qsTr("Show Menue Editor")
                         onClicked: theSwipeView.currentIndex = 1
                     }
                     YACButton

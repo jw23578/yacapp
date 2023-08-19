@@ -55,6 +55,7 @@ class YACAPP : public QObject
     const Helper &helper;
     LocalStorage *localStorage;
     QString deviceToken;
+    YACAPPPROPERTY(QString, applicationTitle, ApplicationTitle, "The fantastic yacapp");
     YACAPPPROPERTY(bool, secondStart, SecondStart, false);
     YACAPPPROPERTY(QString, appFolder, AppFolder, "");
     YACAPPPROPERTY(QDateTime, serverNow, ServerNow, QDateTime(QDate(1978, 1, 1), QTime(12, 0)));

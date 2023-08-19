@@ -8,6 +8,7 @@ Item
     property alias text: theText.text
     property alias emptyText: theEmptyText.text
     property alias source: theImage.source
+    property alias showLoadingImage: theImage.showLoadingImage
     property alias shadow: theRectangle.shadow
     property color baseColor: "lightgrey"
     width: theText.contentWidth + theText.contentHeight * 2

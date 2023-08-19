@@ -140,7 +140,7 @@ Item
     Component
     {
         id: imageComponent
-        Image
+        YACImage
         {
             property string fms: itemConfig.fillModeString
             source: itemConfig.url
@@ -157,7 +157,6 @@ Item
                                           fms == "Image.TileHorizontally" ?
                                               Image.TileHorizontally :
                                               Image.Pad
-            cache: true
         }
     }
     Component

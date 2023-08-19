@@ -80,6 +80,7 @@ Rectangle
             height: startPage.buttonHeight
             text: configurator.recentProjects[index].projectName
             source: configurator.recentProjects[index].logoUrl
+            showLoadingImage: true
             onClicked:
             {
                 configurator.loadProjectFromFile(configurator.recentProjects[index].projectFilename)

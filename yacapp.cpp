@@ -107,6 +107,7 @@ void YACAPP::init()
     m_knownMenueFiles.clear();
 
     globalConfig()->init(globalProjectConfigFilename(), constants);
+    setApplicationTitle(globalConfig()->projectName());
 
     for (int i(0); i < globalConfig()->formFiles.size(); ++i)
     {
