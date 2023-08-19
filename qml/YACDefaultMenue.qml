@@ -3,7 +3,7 @@ import "qrc:/MenueFunctions.js" as MenueFunctions
 import com.yacapp.menueconfig 1.0
 import "items"
 
-Item
+YACTriggerableItem
 {
     id: defaultMenue
     anchors.fill: parent

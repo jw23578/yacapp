@@ -39,6 +39,7 @@ Item
             anchors.bottom: parent.theInnerRectangle.bottom
             width: parent.width / 2
             height: parent.height
+            showLoadingImage: true
         }
 
         YACText

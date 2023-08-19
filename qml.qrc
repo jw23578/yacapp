@@ -93,5 +93,6 @@
         <file>qml/apppages/messages/YACUserMessages.qml</file>
         <file>qml/apppages/profile/AppUserProfileList.qml</file>
         <file>qml/editor/ConfiguratorAppImagesPage.qml</file>
+        <file>qml/items/YACTriggerableItem.qml</file>
     </qresource>
 </RCC>

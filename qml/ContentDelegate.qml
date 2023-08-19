@@ -143,6 +143,7 @@ Item
         YACImage
         {
             property string fms: itemConfig.fillModeString
+            showLoadingImage: true
             source: itemConfig.url
             fillMode: fms == "Image.Stretch" ?
                           Image.Stretch :

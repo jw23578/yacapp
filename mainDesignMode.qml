@@ -132,19 +132,6 @@ Window {
                         config = yacApp.getConfig(filename)
                         mainFormLoader.item.openFilename(filename)
                     }
-                    onConfigChanged:
-                    {
-                        menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
-                    }
-                    onMenueFilenameChanged:
-                    {
-                        menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
-                    }
-
-                    Component.onCompleted:
-                    {
-                        menueEditor.config = yacApp.getMenueConfig(config.menueFilename)
-                    }
                 }
                 ConfiguratorMenueEditor
                 {

@@ -55,6 +55,7 @@ class YACAPP : public QObject
     const Helper &helper;
     LocalStorage *localStorage;
     QString deviceToken;
+    YACAPPPROPERTY(int, updateTrigger, UpdateTrigger, 0); // just for a change event to trigger functions
     YACAPPPROPERTY(QString, applicationTitle, ApplicationTitle, "The fantastic yacapp");
     YACAPPPROPERTY(bool, secondStart, SecondStart, false);
     YACAPPPROPERTY(QString, appFolder, AppFolder, "");

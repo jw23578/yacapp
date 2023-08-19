@@ -128,6 +128,7 @@ void YACAPP::init()
         knownProfilesModel.clear();
         localStorage->loadKnownContacts([this](DataObjectInterface *o){knownProfilesModel.append(dynamic_cast<ProfileObject*>(o));});
     }
+    setUpdateTrigger(updateTrigger() + 1);
 }
 
 QString YACAPP::getProfileVisibleName(const QString &id)

@@ -39,6 +39,7 @@ Item
         visible: theMenue.type === "" || theMenue.type === "default"
         stackView: theStackView
         theMenue: yacApp.getMenueConfig(config.menueFilename)
+        onPleaseUpdate: theMenue = yacApp.getMenueConfig(config.menueFilename)
     }
     function goProfile()
     {
@@ -166,6 +167,13 @@ Item
                     header.headerConfig = currentItem.config.header
                     theItem.currentItemChanged(currentItem.config)
                     menueSwitchPause.start()
+                }
+                property int updateTrigger: yacApp.updateTrigger
+                onUpdateTriggerChanged:
+                {
+                    Helper.jsLog("ontestChanged")
+                    header.headerConfig = currentItem.config.header
+                    theItem.currentItemChanged(currentItem.config)
                 }
             }
         }
