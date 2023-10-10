@@ -13,7 +13,6 @@ protected:
     QNetworkAccessManager &manager;
     Constants &constants;
 
-
     struct SRunningRequest;
     typedef std::function<void(QNetworkReply*, QByteArray &allData, SRunningRequest &)> HandlerFunction;
     typedef std::function<void(const QString &)> CallbackFunction;
@@ -36,6 +35,8 @@ protected:
 
 public:
     explicit NetworkInterface(QNetworkAccessManager &manager, Constants &constants, QObject *parent = nullptr);
+    std::function<void(const QString &message)> networkDefectCallback;
+    std::function<void()> networkGoodCallback;
 
 signals:
     void missingRight(int rightNumber);

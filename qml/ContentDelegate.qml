@@ -232,7 +232,7 @@ Item
         MouseArea
         {
             anchors.fill: parent
-            onClicked: MenueFunctions.openTarget(yacApp, stackView, itemConfig.target, theMenue)
+            onClicked: MenueFunctions.openTarget(yacApp, CPPQMLAppAndConfigurator, stackView, itemConfig.target, theMenue)
         }
     }
 

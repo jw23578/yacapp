@@ -33,6 +33,7 @@ void YACServerBaseNetwork::yacappServerPost(QString method,
     request.setUrl(QUrl(yacappServerUrl + method));
     QJsonDocument doc(object);
     QByteArray postData(doc.toJson());
+    ONLY_DESKTOP_LOG(request.url().toString());
     ONLY_DESKTOP_LOG(postData);
     request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
     QMap<QByteArray, QByteArray>::ConstIterator it(rawHeader.begin());

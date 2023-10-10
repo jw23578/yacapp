@@ -36,6 +36,8 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
     worktimeMainsModel(engine, "WorktimesModel", "worktime"),
     newsModel(engine, "NewsModel", "news")
 {
+    network.networkDefectCallback = [this](const QString &message){setServerConnectionDefectMessage(message);};
+    network.networkGoodCallback = [this](){setServerConnectionDefectMessage("");};
     m_moodModel.push_back(tr("Perfect"));
     m_moodModel.push_back(tr("Better"));
     m_moodModel.push_back(tr("Neutral"));

@@ -166,6 +166,29 @@ ApplicationWindow
         id: yesNoQuestion
         onVisibleChanged: topLevelVisible()
     }
+    Rectangle
+    {
+        anchors.fill: parent
+        color: Constants.badColor
+        visible: yacApp.serverConnectionDefectMessage.length > 0
+        Column
+        {
+            width: parent.width * 3/4
+            anchors.centerIn: parent
+            YACText
+            {
+                width: parent.width
+                horizontalAlignment: Text.AlignHCenter
+                text: "Netzwerkfehler!"
+            }
+            YACText
+            {
+                width: parent.width
+                horizontalAlignment: Text.AlignHCenter
+                text: yacApp.serverConnectionDefectMessage
+            }
+        }
+    }
 
     function checkForAppUpdate()
     {
@@ -177,6 +200,7 @@ ApplicationWindow
 
         Helper.jsLog("checking for updates");
         yacApp.yacappServerGetAPP(yacApp.globalConfig.projectID,
+                                  "",
                                   yacApp.globalConfig.version,
                                   function(message)
                                   {

@@ -24,8 +24,9 @@ Rectangle
     Component
     {
         id: webviewComponent
-        Item
+        Rectangle
         {
+            color: "yellow"
             id: webviewItem
             visible: !theMenue.menueOpen && !Constants.topLevelFormActive && !Constants.profileOpen  && !Constants.superMenueOpen && !Constants.superMenueClicked &&  (!config.content.loginNeeded || yacApp.loginToken != "")
             enabled: visible
@@ -34,7 +35,7 @@ Rectangle
             {
                 id: theWebview
                 anchors.fill: parent
-                visible: !loading && theSuperForm.currentSuperForm && !Constants.topLevelFormActive
+                visible: true // !loading && theSuperForm.currentSuperForm && !Constants.topLevelFormActive
                 url: config.content.url + (config.content.loginNeeded ? ThirdPartyLogin.loginToken : "")
                 onUrlChanged: Helper.jsLog("url: " + url)
                 onVisibleChanged:
@@ -42,12 +43,17 @@ Rectangle
                     Helper.jsLog("Webview Visible: " + visible)
                     Helper.jsLog("Webview Constants.topLevelFormActive: " + Constants.topLevelFormActive)
                 }
+                onStateChanged:
+                {
+                    Helper.jsLog("Webview loading: " + theWebview.loading)
+                    Helper.jsLog("Webview State: " + theWebview.state)
+                }
             }
             Rectangle
             {
                 anchors.fill: parent
                 id: webviewLoadingRectangle
-                visible: theWebview.loading
+                visible: false // theWebview.loading
                 YACText
                 {
                     anchors.centerIn: parent

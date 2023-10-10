@@ -112,6 +112,11 @@ int main(int argc, char *argv[])
         YACServerBaseNetwork::yacappServerUrl = "http://127.0.0.1:23578";
         customWriteablePath = "/home/jw78/MyYacApps/LocalYACAPPConfig";
     }
+    if (app.arguments().contains("ServerIsLocalhostOther"))
+    {
+        YACServerBaseNetwork::yacappServerUrl = "http://127.0.0.1:23578";
+        customWriteablePath = "/home/jw78/MyYacApps/LocalYACAPPConfigOther";
+    }
     Helper helper;
     CPPQMLAppAndConfigurator cppQMLAppAndConfigurator;
     ThirdPartyLogin thirdPartyLogin;

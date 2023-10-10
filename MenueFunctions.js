@@ -1,6 +1,6 @@
 .pragma library
 
-function openTarget(yacApp, stackView, target, theMenue)
+function openTarget(yacApp, CPPQMLAppAndConfigurator, stackView, target, theMenue)
 {
     if (target == "back")
     {

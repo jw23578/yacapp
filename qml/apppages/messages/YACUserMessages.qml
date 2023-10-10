@@ -50,9 +50,9 @@ Rectangle
                 }
             }
             id: theColumn
-            width: messagePage.width - 40 // - messagePage.width / 30
+            width: messagePage.width - 2 * x
             rotation: 180
-            x: 20
+            x: Constants.defaultMargin
             //x: -20 //  (messagePage.width - width) / 2
             property var model: null
             property var message: model.message
@@ -68,13 +68,14 @@ Rectangle
             {
                 id: messageRectangle
                 radius: Constants.radius
-                radiusTopLeft: other && !theColumn.model.prevSameTime
-                radiusBottomRight: other && !theColumn.model.nextSameTime
-                radiusTopRight: !other && !theColumn.model.prevSameTime
-                radiusBottomLeft: !other && !theColumn.model.nextSameTime
+                radiusTopLeft: other && !theColumn.model.prevSameTime && theListview.count
+                radiusBottomRight: other && !theColumn.model.nextSameTime && theListview.count
+                radiusTopRight: !other && !theColumn.model.prevSameTime && theListview.count
+                radiusBottomLeft: !other && !theColumn.model.nextSameTime && theListview.count
                 color: other ? Qt.darker("lightgrey", 1.3) : "lightgrey"
                 property bool other: message.senderId != yacApp.appUserConfig.id
-                width: Math.max(contentText.contentWidth, messageDateTime.contentWidth, theColumn.model.message.qmlWidth, theColumn.model.nextQMLWidth, theColumn.model.prevQMLWidth) + radius
+                property int nettoWidth: Math.max(contentText.contentWidth, messageDateTime.contentWidth, theColumn.model.message.qmlWidth, theColumn.model.nextQMLWidth, theColumn.model.prevQMLWidth)
+                width: nettoWidth + radius
                 height: messageColumn.height
                 x: other ? 0 : theColumn.width - width
                 Column
@@ -89,6 +90,7 @@ Rectangle
 
                     Item
                     {
+                        id: theMessageItem
                         width: theColumn.width * 0.7
                         height: contentText.contentHeight
                         x: messageRectangle.radius / 2
@@ -97,7 +99,7 @@ Rectangle
                             id: contentText
                             text: message.content.trim()
                             width: parent.width
-                            //                            x: (contentWidth < messageDateTime.contentWidth ? messageColumn.width - contentWidth - messageRectangle.radius / 2 : messageRectangle.radius / 2)
+                            x: contentWidth < messageDateTime.contentWidth ? messageRectangle.nettoWidth - contentWidth : 0
                             onContentWidthChanged:
                             {
                                 if (theColumn.message == null)
@@ -124,11 +126,12 @@ Rectangle
                     }
                     YACText
                     {
-                        visible: !theColumn.model.nextSameTime
+                        visible: !theColumn.model.nextSameTime && theListview.count
                         font.pixelSize: contentText.font.pixelSize * Constants.smallerTextFactor
                         id: messageDateTime
                         text: Helper.formatTime(message.sent)
-                        x: messageRectangle.other ? messageRectangle.radius / 4 : messageColumn.width - width - messageRectangle.radius / 4
+                        x: messageRectangle.other ? theMessageItem.x : messageRectangle.width - contentWidth - messageRectangle.radius / 2
+//                        x: messageRectangle.other ? messageRectangle.radius / 4 : messageColumn.width - width - messageRectangle.radius / 4
                     }
                     Item
                     {

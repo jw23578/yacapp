@@ -59,6 +59,10 @@ void NetworkInterface::replyFinished(QNetworkReply *reply)
 
     if (reply->error() != QNetworkReply::NoError)
     {
+        if (networkDefectCallback)
+        {
+            networkDefectCallback(reply->errorString());
+        }
         DEFAULT_LOG(reply->errorString());
         DEFAULT_LOG(QString("Url: ") + reply->url().toString());
         QJsonDocument replyDoc(QJsonDocument::fromJson(allData));
@@ -71,6 +75,10 @@ void NetworkInterface::replyFinished(QNetworkReply *reply)
         }
         rr.errorCallback(reply->errorString());
         return;
+    }
+    if (networkGoodCallback)
+    {
+        networkGoodCallback();
     }
     rr.networkInterface = this;
     rr.handlerFunction(reply, allData, rr);

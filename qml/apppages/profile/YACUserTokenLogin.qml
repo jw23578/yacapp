@@ -50,10 +50,12 @@ AppUserBasePage
                     text: qsTr("Next")
                     onClicked:
                     {
+                        Helper.jsLog("next clicked, checkEMail")
                         if (!EMailPasswordFunctions.checkEMail(Helper, CPPQMLAppAndConfigurator, login.displayText, login))
                         {
                             return;
                         }
+                        Helper.jsLog("next clicked, email ok")
                         yacApp.appUserRegister(login.displayText,
                                                "",
                                                function(message)

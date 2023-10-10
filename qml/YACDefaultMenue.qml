@@ -154,7 +154,7 @@ YACTriggerableItem
                 onClicked:
                 {
                     defaultMenue.close()
-                    MenueFunctions.openTarget(yacApp, stackView, theMenue.items[index].target, defaultMenue)
+                    MenueFunctions.openTarget(yacApp, CPPQMLAppAndConfigurator, stackView, theMenue.items[index].target, defaultMenue)
                 }
             }
         }
