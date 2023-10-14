@@ -136,12 +136,33 @@ Item
         id: menueSwitchPause
         onStopped: theRealMenue.theMenue = yacApp.getMenueConfig(theStackView.currentItem.config.menueFilename)
     }
+    Connections
+    {
+        target: yacApp
+        function onMinimizeMenueSignal()
+        {
+            contentItem.height = contentItem.parent.height
+
+        }
+        function onRestoreMenueSignal()
+        {
+            contentItem.height = contentItem.parent.height - theSuperMenue.smallElemHeight
+        }
+    }
     Item
     {
         z: 0
         id: contentItem
         width: parent.width
         height: parent.height - theSuperMenue.smallElemHeight
+        Behavior on height
+        {
+            NumberAnimation
+            {
+                duration: Constants.fastAnimationDuration
+            }
+        }
+
         Column
         {
             width: parent.width
@@ -161,7 +182,8 @@ Item
                     stackView: theStackView
                     theMenue: theRealMenue
                 }
-                height: contentItem.height - header.height
+
+                height: theItem.height - theSuperMenue.smallElemHeight - header.height // contentItem.height - header.height
                 width: parent.width
                 onCurrentItemChanged: {
                     header.headerConfig = currentItem.config.header

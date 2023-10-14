@@ -333,8 +333,13 @@ public:
 
     Q_INVOKABLE void fetchMyProfile(QJSValue successCallback,
                                     QJSValue errorCallback);
+
+    Q_INVOKABLE void minimizeMenue();
+    Q_INVOKABLE void restoreMenue();
 signals:
     void takePhoto(bool squared, bool circled, QJSValue target);
+    void minimizeMenueSignal();
+    void restoreMenueSignal();
 
 private slots:
     void deviceTokenChanged(QString deviceToken);

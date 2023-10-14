@@ -270,7 +270,6 @@ ApplicationWindow
             photoLoader.target = target
             photoLoader.sourceComponent = photoComponent
         }
-
     }
 
     Component.onCompleted:

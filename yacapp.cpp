@@ -1325,6 +1325,16 @@ void YACAPP::fetchMyProfile(QJSValue successCallback,
 
 }
 
+void YACAPP::minimizeMenue()
+{
+    emit minimizeMenueSignal();
+}
+
+void YACAPP::restoreMenue()
+{
+    emit restoreMenueSignal();
+}
+
 void YACAPP::fetchMessageUpdates()
 {
     if (!appUserConfig()->loggedIn())

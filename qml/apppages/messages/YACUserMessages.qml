@@ -11,11 +11,17 @@ Rectangle
     anchors.fill: parent
     signal closeClicked()
     id: messagePage
-    Rectangle
+    property color otherColor: Qt.darker("lightgrey", 1.3)
+    property color myColor: "lightgrey"
+    YACRoundedRectangle
     {
         id: profileHeader
         height: 50
-        width: parent.width
+        width: parent.width * 3 / 4
+        radiusTopLeft: true
+        radiusBottomRight: true
+        color: messagePage.otherColor
+        radius: Constants.radius
 
         YACRoundedImage
         {
@@ -72,7 +78,7 @@ Rectangle
                 radiusBottomRight: other && !theColumn.model.nextSameTime && theListview.count
                 radiusTopRight: !other && !theColumn.model.prevSameTime && theListview.count
                 radiusBottomLeft: !other && !theColumn.model.nextSameTime && theListview.count
-                color: other ? Qt.darker("lightgrey", 1.3) : "lightgrey"
+                color: other ? messagePage.otherColor : messagePage.myColor
                 property bool other: message.senderId != yacApp.appUserConfig.id
                 property int nettoWidth: Math.max(contentText.contentWidth, messageDateTime.contentWidth, theColumn.model.message.qmlWidth, theColumn.model.nextQMLWidth, theColumn.model.prevQMLWidth)
                 width: nettoWidth + radius
@@ -99,8 +105,9 @@ Rectangle
                             id: contentText
                             text: message.content.trim()
                             width: parent.width
-                            x: contentWidth < messageDateTime.contentWidth ? messageRectangle.nettoWidth - contentWidth : 0
-                            onContentWidthChanged:
+                            property double theWidth: 0
+                            x: theWidth < messageDateTime.contentWidth ? messageRectangle.nettoWidth - contentWidth : 0
+                            function setWidth()
                             {
                                 if (theColumn.message == null)
                                 {
@@ -110,12 +117,25 @@ Rectangle
                                 {
                                     return
                                 }
-                                contentWidth = Math.max(theColumn.model.prevQMLWidth, theColumn.model.nextQMLWidth, contentWidth)
-                                theColumn.model.message.qmlWidth = contentWidth
+                                theWidth = Math.max(theColumn.model.prevQMLWidth, theColumn.model.nextQMLWidth, contentWidth, messageDateTime.contentWidth)
+                                theColumn.model.message.qmlWidth = theWidth
                                 if (theColumn.model.nextSameTime)
                                 {
-                                    theListview.itemAtIndex(theColumn.model.index - 1).item.updateFunction(contentWidth)
+                                    theListview.itemAtIndex(theColumn.model.index - 1).item.updateFunction(theWidth)
                                 }
+                            }
+                            Connections
+                            {
+                                target: theListview
+                                function onCountChanged(count)
+                                {
+                                    contentText.setWidth()
+                                }
+                            }
+
+                            onContentWidthChanged:
+                            {
+                                setWidth()
                             }
                         }
                     }
@@ -131,7 +151,7 @@ Rectangle
                         id: messageDateTime
                         text: Helper.formatTime(message.sent)
                         x: messageRectangle.other ? theMessageItem.x : messageRectangle.width - contentWidth - messageRectangle.radius / 2
-//                        x: messageRectangle.other ? messageRectangle.radius / 4 : messageColumn.width - width - messageRectangle.radius / 4
+                        //                        x: messageRectangle.other ? messageRectangle.radius / 4 : messageColumn.width - width - messageRectangle.radius / 4
                     }
                     Item
                     {
@@ -170,7 +190,11 @@ Rectangle
         id: closeButton
         anchors.top: profileHeader.bottom
         text: qsTr("Close")
-        onClicked: closeClicked()
+        onClicked:
+        {
+            yacApp.restoreMenue()
+            closeClicked()
+        }
     }
     YACTextEditWithBackground
     {

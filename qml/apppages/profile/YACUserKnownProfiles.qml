@@ -56,6 +56,7 @@ AppUserBasePage
                     {
                         currentProfile = profile
                         yacApp.loadMessages(profile.id)
+                        yacApp.minimizeMenue()
                         theLoader.sourceComponent = messages
                     }
                 }
