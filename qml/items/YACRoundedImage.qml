@@ -6,6 +6,8 @@ Image
     id: img
     property bool rounded: true
     property bool adapt: true
+    property double radius: 0
+    property bool circled: true
     fillMode: Image.PreserveAspectFit
     layer.enabled: rounded
     layer.effect: OpacityMask
@@ -16,10 +18,11 @@ Image
             height: img.height
             Rectangle
             {
+                id: theMask
                 anchors.centerIn: parent
                 width: img.adapt ? img.width : Math.min(img.width, img.height)
                 height: img.adapt ? img.height : width
-                radius: Math.min(width, height)
+                radius: img.circled ? Math.min(width, height) : img.radius
             }
         }
     }

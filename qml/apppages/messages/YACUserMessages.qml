@@ -40,123 +40,210 @@ Rectangle
     {
         id: messageDelegate
 
-        Column
+        Item
         {
-            function updateFunction(widthToSet)
-            {
-                if (widthToSet <= message.qmlWidth)
-                {
-                    return;
-                }
-
-                message.qmlWidth = widthToSet;
-                if (theColumn.model.nextSameTime)
-                {
-                    theListview.itemAtIndex(theColumn.model.index - 1).item.updateFunction(message.qmlWidth)
-                }
-            }
-            id: theColumn
-            width: messagePage.width - 2 * x
-            rotation: 180
-            x: Constants.defaultMargin
-            //x: -20 //  (messagePage.width - width) / 2
+            id: theMessageItem
+            width: theColumn.width
+            height: theColumn.height
             property var model: null
             property var message: model.message
+            property var parsedMessage: JSON.parse(message.content)
+            property var messageText: parsedMessage.text
+            property bool other: message.senderId != yacApp.appUserConfig.id
 
-            Text
+            Column
             {
-                height: visible ? contentHeight : 0
-                anchors.horizontalCenter: parent.horizontalCenter
-                visible: theColumn.model.daySwitch
-                text: Helper.formatDate(message.sent)
-            }
-            YACRoundedRectangle
-            {
-                id: messageRectangle
-                radius: Constants.radius
-                radiusTopLeft: other && !theColumn.model.prevSameTime && theListview.count
-                radiusBottomRight: other && !theColumn.model.nextSameTime && theListview.count
-                radiusTopRight: !other && !theColumn.model.prevSameTime && theListview.count
-                radiusBottomLeft: !other && !theColumn.model.nextSameTime && theListview.count
-                color: other ? messagePage.otherColor : messagePage.myColor
-                property bool other: message.senderId != yacApp.appUserConfig.id
-                property int nettoWidth: Math.max(contentText.contentWidth, messageDateTime.contentWidth, theColumn.model.message.qmlWidth, theColumn.model.nextQMLWidth, theColumn.model.prevQMLWidth)
-                width: nettoWidth + radius
-                height: messageColumn.height
-                x: other ? 0 : theColumn.width - width
-                Column
+                function updateFunction(widthToSet)
                 {
-                    id: messageColumn
-                    width: parent.width
-                    Item
+                    if (widthToSet <= theMessageItem.message.qmlWidth)
                     {
-                        width: 1
-                        height: messageRectangle.radius / 2
+                        return;
                     }
 
-                    Item
+                    theMessageItem.message.qmlWidth = widthToSet;
+                    if (theMessageItem.model.nextSameTime)
                     {
-                        id: theMessageItem
-                        width: theColumn.width * 0.7
-                        height: contentText.contentHeight
-                        x: messageRectangle.radius / 2
-                        YACText
-                        {
-                            id: contentText
-                            text: message.content.trim()
-                            width: parent.width
-                            property double theWidth: 0
-                            x: theWidth < messageDateTime.contentWidth ? messageRectangle.nettoWidth - contentWidth : 0
-                            function setWidth()
-                            {
-                                if (theColumn.message == null)
-                                {
-                                    return
-                                }
-                                if (theColumn.model.message.qmlWidth >= contentWidth)
-                                {
-                                    return
-                                }
-                                theWidth = Math.max(theColumn.model.prevQMLWidth, theColumn.model.nextQMLWidth, contentWidth, messageDateTime.contentWidth)
-                                theColumn.model.message.qmlWidth = theWidth
-                                if (theColumn.model.nextSameTime)
-                                {
-                                    theListview.itemAtIndex(theColumn.model.index - 1).item.updateFunction(theWidth)
-                                }
-                            }
-                            Connections
-                            {
-                                target: theListview
-                                function onCountChanged(count)
-                                {
-                                    contentText.setWidth()
-                                }
-                            }
+                        theListview.itemAtIndex(theMessageItem.model.index - 1).item.updateFunction(theMessageItem.message.qmlWidth)
+                    }
+                }
+                id: theColumn
+                width: messagePage.width - 2 * x
+                rotation: 180
+                x: Constants.defaultMargin
+                //x: -20 //  (messagePage.width - width) / 2
 
-                            onContentWidthChanged:
+                Text
+                {
+                    height: visible ? contentHeight : 0
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    visible: theMessageItem.model.daySwitch
+                    text: Helper.formatDate(theMessageItem.message.sent)
+                }
+                Repeater
+                {
+                    model: parsedMessage.images.length
+                    id: imagesRepeater
+                    property int imagesRectWidth: parent.width * 3 / 4
+                    YACRoundedRectangle
+                    {
+                        id: theImageRectangle
+                        property var tracker: yacApp.tracker(theMessageItem.parsedMessage.images[0].imageid)
+                        radius: Constants.radius
+                        radiusTopLeft: other && !theMessageItem.model.prevSameTime && theListview.count
+                        radiusTopRight: !other && !theMessageItem.model.prevSameTime && theListview.count
+                        color: other ? messagePage.otherColor : messagePage.myColor
+                        width: imagesRepeater.imagesRectWidth
+                        height: tracker.active ? 100 : imagesRepeater.imagesRectWidth / theMessageItem.parsedMessage.images[0].width * theMessageItem.parsedMessage.images[0].height
+                        x: theMessageItem.other ? 0 : theColumn.width - width
+                        YACRoundedImage
+                        {
+                            id: theImage
+                            radius: Constants.radius
+                            circled: false
+                            anchors.centerIn: parent
+                            width: parent.width - 2
+                            height: parent.height - 2
+                            source: "image://async/message/" + theMessageItem.parsedMessage.images[0].imageid
+                            Rectangle
                             {
-                                setWidth()
+                                visible: theImageRectangle.tracker.active
+                                width: parent.width
+                                anchors.verticalCenter: parent.verticalCenter
+                                height: 1
+                                color: "red"
+                                Rectangle
+                                {
+                                    color: "white"
+                                    width: parent.width * theImageRectangle.tracker.percentState / 100
+                                    height: 1
+                                }
                             }
                         }
                     }
-                    Item
+                }
+
+                YACRoundedRectangle
+                {
+                    id: messageRectangle
+                    radius: Constants.radius
+                    radiusTopLeft: theMessageItem.other && !theMessageItem.model.prevSameTime && theListview.count && imagesRepeater.count == 0
+                    radiusTopRight: !theMessageItem.other && !theMessageItem.model.prevSameTime && theListview.count && imagesRepeater.count == 0
+                    radiusBottomRight: theMessageItem.other && !theMessageItem.model.nextSameTime && theListview.count
+                    radiusBottomLeft: !theMessageItem.other && !theMessageItem.model.nextSameTime && theListview.count
+                    color: theMessageItem.other ? messagePage.otherColor : messagePage.myColor
+                    property int nettoWidth: Math.max(contentText.contentWidth
+                                                      , messageDateTime.contentWidth
+                                                      , theMessageItem.model.message.qmlWidth
+                                                      , theMessageItem.model.nextQMLWidth
+                                                      , theMessageItem.model.prevQMLWidth
+                                                      , imagesRepeater.count > 0 ? imagesRepeater.imagesRectWidth - radius : 0)
+                    width: nettoWidth + radius
+                    height: messageColumn.height
+                    x: theMessageItem.other ? 0 : theColumn.width - width
+                    Column
                     {
-                        width: 1
-                        height: messageRectangle.radius / 4
+                        id: messageColumn
+                        width: parent.width
+                        Item
+                        {
+                            width: 1
+                            height: messageRectangle.radius / 2
+                        }
+
+                        Item
+                        {
+                            id: theInnerMessageItem
+                            width: theColumn.width * 0.7
+                            height: contentText.contentHeight
+                            x: messageRectangle.radius / 2
+                            YACText
+                            {
+                                id: contentText
+                                text: messageText
+                                width: parent.width
+                                property double theWidth: 0
+                                x: theWidth < messageDateTime.contentWidth ? messageRectangle.nettoWidth - contentWidth : 0
+                                function setWidth()
+                                {
+                                    if (theMessageItem.message == null)
+                                    {
+                                        return
+                                    }
+                                    if (theMessageItem.model.message.qmlWidth >= contentWidth)
+                                    {
+                                        return
+                                    }
+                                    theWidth = Math.max(theMessageItem.model.prevQMLWidth, theMessageItem.model.nextQMLWidth, contentWidth, messageDateTime.contentWidth)
+                                    theMessageItem.model.message.qmlWidth = theWidth
+                                    if (theMessageItem.model.nextSameTime)
+                                    {
+                                        theListview.itemAtIndex(theMessageItem.model.index - 1).item.updateFunction(theWidth)
+                                    }
+                                }
+                                Connections
+                                {
+                                    target: theListview
+                                    function onCountChanged(count)
+                                    {
+                                        contentText.setWidth()
+                                    }
+                                }
+
+                                onContentWidthChanged:
+                                {
+                                    setWidth()
+                                }
+                            }
+                        }
+                        Item
+                        {
+                            width: 1
+                            height: messageRectangle.radius / 4
+                        }
+                        YACText
+                        {
+                            visible: !theMessageItem.model.nextSameTime && theListview.count
+                            font.pixelSize: contentText.font.pixelSize * Constants.smallerTextFactor
+                            id: messageDateTime
+                            text: Helper.formatTime(message.sent)
+                            x: messageRectangle.other ? theInnerMessageItem.x : messageRectangle.width - contentWidth - messageRectangle.radius / 2
+                            //                        x: messageRectangle.other ? messageRectangle.radius / 4 : messageColumn.width - width - messageRectangle.radius / 4
+                        }
+                        Item
+                        {
+                            width: 1
+                            height: messageRectangle.radius / 4
+                        }
                     }
-                    YACText
+                    MouseArea
                     {
-                        visible: !theColumn.model.nextSameTime && theListview.count
-                        font.pixelSize: contentText.font.pixelSize * Constants.smallerTextFactor
-                        id: messageDateTime
-                        text: Helper.formatTime(message.sent)
-                        x: messageRectangle.other ? theMessageItem.x : messageRectangle.width - contentWidth - messageRectangle.radius / 2
-                        //                        x: messageRectangle.other ? messageRectangle.radius / 4 : messageColumn.width - width - messageRectangle.radius / 4
+                        anchors.fill: parent
+                        onPressAndHold: deleteItem.visible = true
+                        onClicked: deleteItem.visible = false
                     }
-                    Item
+                }
+            }
+            Item
+            {
+                id: deleteItem
+                visible: false
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                width: theColumn.width * 0.1
+                height: width
+                Image
+                {
+                    mipmap: true
+                    anchors.fill: parent
+                    source: "qrc:/images/images/delete.svg"
+                }
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked:
                     {
-                        width: 1
-                        height: messageRectangle.radius / 4
+                        yacApp.deleteMessage(theMessageItem.message.id)
+                        deleteItem.visible = false
                     }
                 }
             }
@@ -172,7 +259,7 @@ Rectangle
         anchors.top: profileHeader.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.bottom: theTextEdit.top
+        anchors.bottom: bottomRectangle.top
         reuseItems: true
         model: MessagesModel
         spacing: 1
@@ -196,33 +283,139 @@ Rectangle
             closeClicked()
         }
     }
+    Rectangle
+    {
+        id: bottomRectangle
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: theTextEdit.height + Constants.radius / 2 + (imageToSend.visible ? imageToSend.height + Constants.radius / 4 : 0)
+        anchors.bottom: parent.bottom
+        color: "orange"
+    }
+    Image {
+        id: realSizeImage
+        visible: false
+        width: sourceSize.width
+        height: sourceSize.height
+        onSourceChanged: imageToSend.source = source
+    }
+
+    Image
+    {
+        id: imageToSend
+        visible: source != ""
+        fillMode: Image.PreserveAspectFit
+        mipmap: true
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.margins: Constants.radius / 4
+        anchors.bottom: theTextEdit.top
+    }
+
     YACTextEditWithBackground
     {
         id: theTextEdit
-        focus: false
+        radius: Constants.radius / 2
+        border.width: 0
+        focus: true
         anchors.left: parent.left
-        anchors.right: sendButton.left
-        anchors.leftMargin: Constants.defaultMargin
-        anchors.bottom: parent.bottom
+        anchors.right: cameraButton.left
+        anchors.margins: Constants.radius / 4
+        anchors.bottom: bottomRectangle.bottom
         wrapMode: Text.WordWrap
         font.pixelSize: Constants.defaultFontPixelSize * Constants.x4largerTextFactor
         textFocus: false
     }
-    YACButton
+    YACTextEditWithBackground
+    {
+        id: heightInfoTextEdit
+        visible: false
+        radius: Constants.radius / 2
+        focus: false
+        anchors.left: parent.left
+        anchors.right: sendButton.left
+        anchors.margins: Constants.radius / 4
+        anchors.bottom: bottomRectangle.bottom
+        wrapMode: Text.WordWrap
+        font.pixelSize: Constants.defaultFontPixelSize * Constants.x4largerTextFactor
+        textFocus: false
+    }
+
+
+    YACImage
+    {
+        id: cameraButton
+        anchors.right: sendButton.left
+        height: heightInfoTextEdit.height
+        width: theTextEdit.text == "" ? height : 0
+        Behavior on width
+        {
+
+            NumberAnimation
+            {
+                duration: Constants.fastAnimationDuration
+            }
+        }
+
+        anchors.margins: Constants.radius / 4
+        anchors.bottom: parent.bottom
+        source: "qrc:/images/images/camera.svg"
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked:
+            {
+                yacApp.goTakePhoto(false, false, realSizeImage)
+            }
+        }
+    }
+
+    YACImage
     {
         id: sendButton
-        text: ">>"
         anchors.right: parent.right
+        height: heightInfoTextEdit.height
+        width: height
+        anchors.margins: Constants.radius / 4
         anchors.bottom: parent.bottom
-        onClicked:
+        source: "qrc:/images/images/send-arrow.svg"
+        MouseArea
         {
-            var toSend = theTextEdit.text + theTextEdit.preeditText
-            if (toSend == "")
+            anchors.fill: parent
+            onClicked:
             {
-                return
+                var toSend = theTextEdit.text + theTextEdit.preeditText
+                if (toSend == "" && imageToSend.source == "")
+                {
+                    return
+                }
+                var images = []
+                var imagesWidths = []
+                var imagesHeights = []
+                if (realSizeImage.source != "")
+                {
+
+                    realSizeImage.grabToImage(function(result) {
+                        var filename = yacApp.getCacheImageFilename()
+                        console.log(filename)
+                        if (result.saveToFile(filename))
+                        {
+                            images.push(yacApp.storeMessageImage(filename, realSizeImage.width, realSizeImage.height));
+                            imagesWidths.push(realSizeImage.width)
+                            imagesHeights.push(realSizeImage.height)
+                            yacApp.sendMessage(profile.id, toSend, images, imagesWidths, imagesHeights)
+                            imageToSend.source = ""
+                            theTextEdit.text = ""
+                        }
+                    });
+                }
+                else
+                {
+                    yacApp.sendMessage(profile.id, toSend, images)
+                    imageToSend.source = ""
+                    theTextEdit.text = ""
+                }
             }
-            yacApp.sendMessage(profile.id, toSend)
-            theTextEdit.text = ""
         }
     }
 }

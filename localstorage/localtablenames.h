@@ -1,15 +1,15 @@
-#ifndef TABLENAMES_H
-#define TABLENAMES_H
+#ifndef LOCALTABLENAMES_H
+#define LOCALTABLENAMES_H
 
 #include <QString>
 
-class TableNames
+class LocalTableNames
 {
 public:
-    TableNames();
+    LocalTableNames();
 
     const QString knowncontacts = "knowncontacts";
     const QString messages = "messages";
 };
 
-#endif // TABLENAMES_H
+#endif // LOCALTABLENAMES_H

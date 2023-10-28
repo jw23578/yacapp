@@ -37,6 +37,7 @@ SOURCES += \
         datamodels/messagesmodel.cpp \
         datamodels/objectdatamodel.cpp \
         datamodels/profilesmodel.cpp \
+        datamodels/transmissiontracker.cpp \
         dataobjects/appointmentobject.cpp \
         dataobjects/dataobjectinterface.cpp \
         dataobjects/groupobject.cpp \
@@ -55,7 +56,7 @@ SOURCES += \
         firebase2qt.cpp \
         helper.cpp \
         localstorage/localstorage.cpp \
-        localstorage/tablenames.cpp \
+        localstorage/localtablenames.cpp \
         logger.cpp \
         main.cpp \
         network/asyncimageprovider.cpp \
@@ -114,6 +115,7 @@ HEADERS += \
   datamodels/objectdatamodel.h \
   datamodels/profilesmodel.h \
   datamodels/templateddatamodel.h \
+  datamodels/transmissiontracker.h \
   dataobjects/appointmentobject.h \
   dataobjects/dataobjectinterface.h \
   dataobjects/groupobject.h \
@@ -132,7 +134,7 @@ HEADERS += \
   firebase2qt.h \
   helper.h \
   localstorage/localstorage.h \
-  localstorage/tablenames.h \
+  localstorage/localtablenames.h \
   logger.h \
   network/asyncimageprovider.h \
   network/customservernetwork.h \

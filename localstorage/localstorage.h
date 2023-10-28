@@ -3,7 +3,7 @@
 
 #include <QSqlDatabase>
 #include "constants.h"
-#include "tablenames.h"
+#include "localtablenames.h"
 #include "dataobjects/dataobjectinterface.h"
 #include "dataobjects/profileobject.h"
 #include "dataobjects/messageobject.h"
@@ -12,7 +12,7 @@
 class LocalStorage
 {
     QSqlDatabase db;
-    TableNames tableNames;
+    LocalTableNames tableNames;
     bool tableHasColumn(const QString &tableName,
                         const QString &columnName);
     bool tableExists(const QString &tableName);
@@ -20,6 +20,7 @@ class LocalStorage
 
     const QString selectOneMessageString;
     const QString insertMessageString;
+    const QString deleteMessageString;
     const QString deleteKnownContactString;
 public:
     LocalStorage(QString appId, Constants &constants);
@@ -33,6 +34,7 @@ public:
     bool messageExists(const QString &id);
     int loadMessages(const QString &contactId, AppendFunction appendFunction);
     bool insertMessage(const MessageObject &mo);
+    void deleteMessage(const QString &id);
 };
 
 #endif // LOCALSTORAGE_H

@@ -48,6 +48,12 @@ DataModelInterface<T>::DataModelInterface(const QString &objectName,
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
+template<class T>
+typename DataModelInterface<T>::DirectionType DataModelInterface<T>::getDirection() const
+{
+    return direction;
+}
+
 template <class T>
 QModelIndex DataModelInterface<T>::index(int row, int column, const QModelIndex &parent) const
 {

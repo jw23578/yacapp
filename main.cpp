@@ -18,6 +18,7 @@
 #include <QtWebView>
 #include "helper.h"
 #include "datamodels/messagesmodel.h"
+#include "datamodels/transmissiontracker.h"
 #include "localstorage/localstorage.h"
 
 #include "dataobjects/profileobject.h"
@@ -64,6 +65,7 @@ int main(int argc, char *argv[])
     QZXing::registerQMLTypes();
 
     qRegisterMetaType<QObjectList*>("QObjectList*");
+    qmlRegisterType<TransmissionTracker>("com.yacapp.transmissiontracker", 1,  0, "TransmissionTracker");
     qmlRegisterType<MessageObject>("com.yacapp.messageobject", 1, 0, "MessageObject");
     qmlRegisterType<ParsedConfig>("com.yacapp.parsedconfig", 1, 0, "ParsedConfig");
     qmlRegisterType<BackgroundConfig>("com.yacapp.backgroundconfig", 1, 0, "BackgroundConfig");
@@ -76,6 +78,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<HeaderConfig>("com.yacapp.headerconfig", 1, 0, "HeaderConfig");
     qmlRegisterType<ProjectData>("com.yacapp.projectdata", 1, 0, "ProjectData");
     qRegisterMetaType<YACAPP*>("YACAPP");
+    qRegisterMetaType<TransmissionTracker*>("TransmissionTracker");
     qRegisterMetaType<GlobalProjectConfig*>("GlobalProjectConfig");
     qRegisterMetaType<AppImagesItem*>("AppImagesItem");
     qRegisterMetaType<ParsedConfig*>("ParsedConfig");

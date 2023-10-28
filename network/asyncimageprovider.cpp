@@ -22,19 +22,38 @@ QQuickImageResponse *AsyncImageProvider::requestImageResponse(const QString &id,
         return new AsyncImageResponse("");
     }
     QString imageType(parts[0]);
+    if (parts[1].size() == 0)
+    {
+        return new AsyncImageResponse("");
+    }
+    QString uuid(parts[1]);
+    if (uuid == "undefined")
+    {
+        return new AsyncImageResponse("");
+    }
+    QString cachename(uuid);
+    QString cacheFileName(yacApp.constants.getCachePath(yacApp.globalConfig()->projectID()) + cachename + ".jpg");
+    if (QFile::exists(cacheFileName))
+    {
+        return new AsyncImageResponse(cacheFileName);
+    }
+    cachename += "#" + QString::number(requestedSize.width()) + "x" + QString::number(requestedSize.height());
+    cacheFileName = yacApp.constants.getCachePath(yacApp.globalConfig()->projectID()) + cachename + ".jpg";
+    if (QFile::exists(cacheFileName))
+    {
+        return new AsyncImageResponse(cacheFileName);
+    }
+    if (imageType == "message")
+    {
+        AsyncImageResponse *air(new AsyncImageResponse);
+        yacApp.addFileToFetch(imageType,
+                              uuid,
+                              air,
+                              cacheFileName);
+        return air;
+    }
     if (imageType == "profileImage" || imageType == "appImage")
     {
-        if (parts[1].size() == 0)
-        {
-            return new AsyncImageResponse("");
-        }
-        QString uuid(parts[1]);
-        QString cachename(uuid + "#" + QString::number(requestedSize.width()) + "x" + QString::number(requestedSize.height()));
-        QString cacheFileName(yacApp.constants.getCachePath() + cachename + ".jpg");
-        if (QFile::exists(cacheFileName))
-        {
-            return new AsyncImageResponse(cacheFileName);
-        }
         AsyncImageResponse *air(new AsyncImageResponse);
         yacApp.addFileToFetch(imageType,
                               uuid,

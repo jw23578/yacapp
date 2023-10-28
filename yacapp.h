@@ -18,6 +18,7 @@
 #include "firebase2qt.h"
 #include <QTranslator>
 #include <QTimer>
+#include "yacAppAndServer/tablenames.h"
 #include "yacAppAndServer/tablefields.h"
 #include "dataobjects/appointmentobject.h"
 #include "dataobjects/groupobject.h"
@@ -44,6 +45,7 @@ class YACAPP : public QObject
     YACORMFactory factory;
     ORM2QJson orm2json;
     TableFields tableFields;
+    TableNames tableNames;
     QTimer timer;
     QTranslator translator;
     friend Configurator;
@@ -316,7 +318,11 @@ public:
     Q_INVOKABLE void fetchMessageUpdates();
 
     Q_INVOKABLE void loadMessages(const QString &contactId);
-    Q_INVOKABLE void sendMessage(const QString &profileId, const QString &content);
+    Q_INVOKABLE void sendMessage(const QString &profileId, const QString &text, QStringList images
+                                 , QStringList imagesWidhts
+                                 , QStringList imagesHeighs);
+    Q_INVOKABLE QString storeMessageImage(const QString &imageFilename, int widht, int height);
+    Q_INVOKABLE void deleteMessage(const QString &messageId);
     Q_INVOKABLE void addProfileToKnownProfiles(const QString &id);
     Q_INVOKABLE void removeProfileFromKnownProfiles(const QString &id);
 
@@ -328,6 +334,8 @@ public:
     Q_INVOKABLE void goTakePhoto(bool squared, bool circled, QJSValue target);
 
     Q_INVOKABLE QString getNewProfileImageFilename();
+    Q_INVOKABLE QString getCacheImageFilename() const;
+    Q_INVOKABLE QString getUuidCacheImageFilename(const QString &uuid) const;
 
     Q_INVOKABLE void fetchProfileAndUpsertKnownProfiles(const QString &profileId);
 
@@ -336,6 +344,8 @@ public:
 
     Q_INVOKABLE void minimizeMenue();
     Q_INVOKABLE void restoreMenue();
+
+    Q_INVOKABLE TransmissionTracker *tracker(const QString &uuid) const;
 signals:
     void takePhoto(bool squared, bool circled, QJSValue target);
     void minimizeMenueSignal();

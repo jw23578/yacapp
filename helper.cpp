@@ -4,6 +4,7 @@
 #include <QLocale>
 #include <QUrl>
 #include <QDir>
+#include <QUuid>
 #include "logger.h"
 
 Helper::Helper(QObject *parent)
@@ -183,4 +184,9 @@ bool Helper::isFolderEmpty(const QString &folder)
 void Helper::jsLog(const QString &message)
 {
     JAVASCRIPT_LOG(message);
+}
+
+QString Helper::generateUuid() const
+{
+    return QUuid::createUuid().toString(QUuid::WithoutBraces);
 }

@@ -31,7 +31,12 @@ void TemplatedDataModel<T>::internalRemoveByIndex(const size_t index)
     {
         return;
     }
-    DataModelInterface<T>::beginRemoveRows(QModelIndex(), index, index);
+    size_t visibleIndex(index);
+    if (DataModelInterface<T>::getDirection() == DataModelInterface<T>::reverse)
+    {
+        visibleIndex = size() - 1 - index;
+    }
+    DataModelInterface<T>::beginRemoveRows(QModelIndex(), visibleIndex, visibleIndex);
     objects.deleteByIndex(index);
     DataModelInterface<T>::endRemoveRows();
 }

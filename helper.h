@@ -55,6 +55,8 @@ public:
 
     Q_INVOKABLE void jsLog(const QString &message);
 
+    Q_INVOKABLE QString generateUuid() const;
+
 signals:
 
 };

@@ -28,7 +28,7 @@ void CustomServerNetwork::projectFilenameFinished(QNetworkReply *finishedReply, 
     request.setUrl(QUrl(rr.projectPackage));
     QNetworkReply *reply(manager.get(request));
     rr.handlerFunction = std::bind(&CustomServerNetwork::projectPackageFinished, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-    runningRequests[reply] = rr;
+    addRunningRequest(reply, rr);
 }
 
 void CustomServerNetwork::projectPackageFinished(QNetworkReply *finishedReply, QByteArray &allData, SRunningRequest &rr)

@@ -6,6 +6,8 @@
 #include <QCoreApplication>
 #include "yacAppAndServer/rightnumbers.h"
 #include "logger.h"
+#include "orm_implementions/t0028_message_images.h"
+#include "QUrlQuery"
 
 YACAPP::YACAPP(QQmlApplicationEngine &engine
                , CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator
@@ -1335,6 +1337,11 @@ void YACAPP::restoreMenue()
     emit restoreMenueSignal();
 }
 
+TransmissionTracker *YACAPP::tracker(const QString &uuid) const
+{
+    return network.tracker(uuid);
+}
+
 void YACAPP::fetchMessageUpdates()
 {
     if (!appUserConfig()->loggedIn())
@@ -1448,14 +1455,34 @@ void YACAPP::loadMessages(const QString &contactId)
     messagesModel.setProfileID(contactId);
 }
 
-void YACAPP::sendMessage(const QString &profileId, const QString &content)
+void YACAPP::sendMessage(const QString &profileId, const QString &text
+                         , QStringList images
+                         , QStringList imagesWidhts
+                         , QStringList imagesHeighs)
 {
+    DEFAULT_LOG("sending message");
+    QJsonArray imageArray;
+    for (int i(0); i < images.size(); ++i)
+    {
+        DEFAULT_LOG(QString("imageid: ") + images[i]);
+        DEFAULT_LOG(QString("width: ") + imagesWidhts[i]);
+        DEFAULT_LOG(QString("height: ") + imagesHeighs[i]);
+        QJsonObject image;
+        image["imageid"] = images[i];
+        image["width"] = imagesWidhts[i].toInt();
+        image["height"] = imagesHeighs[i].toInt();
+        imageArray.append(image);
+    }
+    QJsonObject jsonContent;
+    jsonContent["text"] = text;
+    jsonContent["images"] = imageArray;
+    QJsonDocument document(jsonContent);
     MessageObject *mo(new MessageObject(QUuid::createUuid().toString(QUuid::WithoutBraces),
                                         appUserConfig()->id(),
                                         profileId,
                                         QDateTime::currentDateTime(),
                                         QDateTime::currentDateTime(),
-                                        content,
+                                        document.toJson(),
                                         false));
     messagesModel.append(mo);
     localStorage->insertMessage(*mo);
@@ -1474,6 +1501,49 @@ void YACAPP::sendMessage(const QString &profileId, const QString &content)
         {
             Q_UNUSED(message);
         });
+}
+
+QString YACAPP::storeMessageImage(const QString &imageFilename, int widht, int height)
+{
+    t0028_message_images t0028;
+    t0028.setid(helper.generateUuid());
+    QFile file(imageFilename);
+    file.rename(getUuidCacheImageFilename(t0028.id()));
+    if (!file.open(QFile::ReadOnly))
+    {
+        return "";
+    }
+    QByteArray imageData(file.readAll().toBase64());
+    t0028.setapp_id(globalConfig()->projectID());
+    t0028.setcreater_id(appUserConfig()->id());
+    t0028.setwidth(widht);
+    t0028.setheight(height);
+    t0028.settransfer_image_base64(imageData);
+    DEFAULT_LOG(QString("imageData.size(): ") + QString::number(imageData.size()));
+    network.appUserPostORM(globalConfig()->projectID(),
+        appUserConfig()->loginEMail(),
+        appUserConfig()->loginToken(),
+        t0028,
+        [](const QJsonDocument &document){},
+        [](const QString &message){});
+    return t0028.id();
+}
+
+void YACAPP::deleteMessage(const QString &messageId)
+{
+    QUrlQuery query;
+    query.addQueryItem("id", messageId);
+
+    network.yacappServerDelete(tableNames.t0007_messages,
+        query,
+        globalConfig()->projectID(),
+        appUserConfig()->loginEMail(),
+        appUserConfig()->loginToken(),
+        [this, messageId](const QJsonDocument &document){
+            messagesModel.removeById(messageId);
+            localStorage->deleteMessage(messageId);
+        },
+        [](const QString &message){});
 }
 
 void YACAPP::addProfileToKnownProfiles(const QString &id)
@@ -1528,7 +1598,23 @@ void YACAPP::goTakePhoto(bool squared, bool circled, QJSValue target)
 
 QString YACAPP::getNewProfileImageFilename()
 {
-    return constants.getWriteablePath(globalConfig()->projectID()) + "newProfileImage.jpg";
+    QString newProfileImageFilename(constants.getWriteablePath(globalConfig()->projectID()) + "newProfileImage.jpg");
+    DEFAULT_LOG_VARIABLE(newProfileImageFilename)
+    return newProfileImageFilename;
+}
+
+QString YACAPP::getCacheImageFilename() const
+{
+    QString cacheImageFilename(constants.getCachePath(globalConfig()->projectID()) + helper.generateUuid() + ".jpg");
+    DEFAULT_LOG_VARIABLE(cacheImageFilename)
+    return cacheImageFilename;
+}
+
+QString YACAPP::getUuidCacheImageFilename(const QString &uuid) const
+{
+    QString cacheImageFilename(constants.getCachePath(globalConfig()->projectID()) + uuid + ".jpg");
+    DEFAULT_LOG_VARIABLE(cacheImageFilename)
+    return cacheImageFilename;
 }
 
 void YACAPP::fetchProfileAndUpsertKnownProfiles(const QString &profileId)

@@ -10,9 +10,39 @@ NetworkInterface::NetworkInterface(QNetworkAccessManager &manager
     , manager(manager)
     , constants(constants)
 {
+    finishedTracker.setPercentState(100);
     connect(&manager, &QNetworkAccessManager::finished,
             this, &NetworkInterface::replyFinished);
 
+}
+
+void NetworkInterface::addRunningRequest(QNetworkReply *reply, const SRunningRequest &rr)
+{
+    if (rr.trackerUuid.size())
+    {
+        TransmissionTracker *tt(tracker(rr.trackerUuid));
+        tt->setActive(true);
+        connect(reply, &QNetworkReply::downloadProgress, tt, &TransmissionTracker::downloadProgress);
+        connect(reply, &QNetworkReply::uploadProgress, tt, &TransmissionTracker::uploadProgress);
+    }
+    runningRequests[reply] = rr;
+}
+
+
+TransmissionTracker *NetworkInterface::tracker(const QString &uuid)
+{
+    if (uuid.size() == 0)
+    {
+        return &finishedTracker;
+    }
+    auto it(uuid2TransmissionTracker.find(uuid));
+    if (it == uuid2TransmissionTracker.end())
+    {
+        TransmissionTracker *tt (new TransmissionTracker);
+        uuid2TransmissionTracker[uuid] = tt;
+        return tt;
+    }
+    return it->second;
 }
 
 void defaultReplyHandler(QNetworkReply *finishedReply, QByteArray &allData, NetworkInterface::SRunningRequest &rr)
@@ -52,10 +82,15 @@ void NetworkInterface::replyFinished(QNetworkReply *reply)
         return;
     }
     SRunningRequest rr(it.value());
+    if (rr.trackerUuid.size())
+    {
+        TransmissionTracker *tt(tracker(rr.trackerUuid));
+        tt->setActive(false);
+    }
     runningRequests.erase(it);
     QByteArray allData(reply->readAll());
 
-    ONLY_DESKTOP_LOG(allData);
+    ONLY_DESKTOP_LOG(allData.left(1024));
 
     if (reply->error() != QNetworkReply::NoError)
     {

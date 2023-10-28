@@ -247,7 +247,8 @@ void YACServerNetwork::appUserPostORM(const QString &appId,
                      rawHeader,
                      0,
                      successCallback,
-                     errorCallback);
+                     errorCallback,
+                     object.id());
 }
 
 void YACServerNetwork::appUserGetWorktimeState(const QString &appId,
@@ -567,7 +568,8 @@ void YACServerNetwork::appUserFetchImage(const QString &appId,
                     rawHeader,
                     0,
                     jsonSuccessCallback,
-                    errorCallback);
+                    errorCallback,
+                    imageId);
 }
 
 void YACServerNetwork::appUserInsertAppointment(const QString &appId,

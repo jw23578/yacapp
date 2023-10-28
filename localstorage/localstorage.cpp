@@ -14,6 +14,8 @@ LocalStorage::LocalStorage(QString appId,
     insertMessageString("insert into messages (id, sender_id, receiver_or_group_id, content, sent_msecs, received_msecs, read) "
                         " values "
                         "(:id, :sender_id, :receiver_or_group_id, :content, :sent_msecs, :received_msecs, :read)"),
+    deleteMessageString(QString("delete from ") + tableNames.messages
+                             + QString(" where id = :id")),
     deleteKnownContactString(QString("delete from ") + tableNames.knowncontacts
                              + QString(" where id = :id"))
 {
@@ -150,6 +152,14 @@ bool LocalStorage::insertMessage(const MessageObject &mo)
     q.bindValue(":read", mo.read());
     q.exec();
     return true;
+}
+
+void LocalStorage::deleteMessage(const QString &id)
+{
+    QSqlQuery q;
+    q.prepare(deleteMessageString);
+    q.bindValue(":id", id);
+    q.exec();
 }
 
 bool LocalStorage::tableHasColumn(const QString &tableName,

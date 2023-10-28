@@ -16,6 +16,9 @@
         <file>images/loading_animation5.webp</file>
         <file>images/loading_animation6.webp</file>
         <file>images/loading_animation7.webp</file>
+        <file>images/send-arrow.svg</file>
+        <file>images/camera.svg</file>
+        <file>images/delete.svg</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

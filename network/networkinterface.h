@@ -5,10 +5,13 @@
 #include <QNetworkAccessManager>
 #include "constants.h"
 #include <QNetworkReply>
+#include "datamodels/transmissiontracker.h"
 
 class NetworkInterface : public QObject
 {
     Q_OBJECT
+    TransmissionTracker finishedTracker;
+    std::map<QString, TransmissionTracker*> uuid2TransmissionTracker;
 protected:
     QNetworkAccessManager &manager;
     Constants &constants;
@@ -22,6 +25,7 @@ protected:
         QString projectFilename;
         QString projectPackage;
         QString appId;
+        QString trackerUuid;
         HandlerFunction handlerFunction;
         CallbackFunction successCallback;
         JSONCallbackFunction jsonSuccessCallback;
@@ -31,12 +35,17 @@ protected:
     };
     friend void defaultReplyHandler(QNetworkReply *finishedReply, QByteArray &allData, NetworkInterface::SRunningRequest &rr);
 
+private:
     QMap<QNetworkReply*, SRunningRequest> runningRequests;
+protected:
+    void addRunningRequest(QNetworkReply *reply, const SRunningRequest &rr);
 
 public:
     explicit NetworkInterface(QNetworkAccessManager &manager, Constants &constants, QObject *parent = nullptr);
     std::function<void(const QString &message)> networkDefectCallback;
     std::function<void()> networkGoodCallback;
+
+    TransmissionTracker *tracker(const QString &uuid);
 
 signals:
     void missingRight(int rightNumber);
