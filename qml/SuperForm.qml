@@ -26,7 +26,7 @@ Rectangle
         id: webviewComponent
         Rectangle
         {
-            color: "yellow"
+            color: "white"
             id: webviewItem
             visible: !theMenue.menueOpen && !Constants.topLevelFormActive && !Constants.profileOpen  && !Constants.superMenueOpen && !Constants.superMenueClicked &&  (!config.content.loginNeeded || yacApp.loginToken != "")
             enabled: visible

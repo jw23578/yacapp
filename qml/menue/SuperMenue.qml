@@ -31,28 +31,54 @@ Item
         }
     }
 
-    property var menueItems: [{caption: qsTr("Menue"),
+    property int menueItemsLength: 0
+    property var menueItems: []
+    function fillMenueItems()
+    {
+        for (var i = 0; i < allMenueItems.length; ++i)
+        {
+            console.log(i)
+            console.log(allMenueItems[i].menueEnabled)
+            if (allMenueItems[i].menueEnabled)
+            {
+                menueItems.push(allMenueItems[i])
+            }
+        }
+        theRepeater.model = menueItems
+        menueItemsLength = menueItems.length
+    }
+
+    property var allMenueItems: [
+        {menueEnabled: true,
+            caption: qsTr("Menue"),
             iconUrl: "",
             loginNeeded: false},
-        {caption: qsTr("News"),
+        {menueEnabled: false,
+            caption: qsTr("News"),
             iconUrl: "",
             loginNeeded: true},
-        {caption: qsTr("Worktime"),
+        {menueEnabled: true,
+            caption: qsTr("Worktime"),
             iconUrl: "qrc:/images/images/appointments_menue_icon.svg",
             loginNeeded: true},
-        {caption: qsTr("Appointments"),
+        {menueEnabled: true,
+            caption: qsTr("Appointments"),
             iconUrl: "",
             loginNeeded: true},
-        {caption: qsTr("Spaces"),
+        {menueEnabled: true,
+            caption: qsTr("Spaces"),
             iconUrl: "",
             loginNeeded: true},
-        {caption: qsTr("Rights"),
+        {menueEnabled: true,
+            caption: qsTr("Rights"),
             iconUrl: "",
             loginNeeded: true},
-        {caption: qsTr("Profile"),
+        {menueEnabled: true,
+            caption: qsTr("Profile"),
             iconUrl: "",
             loginNeeded: true},
-        {caption: qsTr("Message"),
+        {menueEnabled: true,
+            caption: qsTr("Message"),
             iconUrl: "",
             loginNeeded: true}
     ]
@@ -71,7 +97,7 @@ Item
         horizontalFlickable.contentX = 0
         horizontalFlickable.interactive = false
         verticalFlickable.interactive = true
-        verticalFlickable.contentHeight = menueItems.length * largeElemHeight
+        verticalFlickable.contentHeight = menueItemsLength * largeElemHeight
         verticalFlickable.contentY = 0
         theOpenBar.y = theOpenBar.height
         for(var i = 0; i < theRepeater.count; ++i)
@@ -119,7 +145,7 @@ Item
         y: theMenu.height - smallElemHeight
         width: parent.width
         height: parent.height
-        contentWidth: menueItems.length * smallElemWidth
+        contentWidth: menueItemsLength * smallElemWidth
         Behavior on y
         {
             SmoothedAnimation {
@@ -150,8 +176,7 @@ Item
             }
             Repeater
             {
-                id: theRepeater
-                model: menueItems
+                id: theRepeater                
                 SuperMenueElem
                 {
                     text: modelData.caption
@@ -199,6 +224,7 @@ Item
     }
     Component.onCompleted:
     {
+        fillMenueItems()
         Helper.jsLog("theMenu.smallElemHeight: " + theMenu.smallElemHeight)
     }
 }

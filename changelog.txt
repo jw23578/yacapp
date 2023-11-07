@@ -1,3 +1,7 @@
+2023-11-07
+- Im Android funktionieren die Webviews (im Linux nicht)
+- Angefangen das Menü konfigurierbar zu machen, also welche Inhalte überhaupt drin sind.
+
 2023-11-05
 - Es kann jetzt ein Fremdsystem für die Loginverwaltung angegeben werden. Als erstes ist da natürlich aidoo http://www.aidoo.de implementiert
 - Wenn eine App verlassen wird, dann werden jetzt alle gespeicherten Daten gelöscht (auch der Cache)
