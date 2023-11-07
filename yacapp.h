@@ -70,6 +70,7 @@ class YACAPP : public QObject
     YACAPPPROPERTY(QStringList, knownFiles, KnownFiles, QStringList())
     YACAPPPROPERTY(QStringList, currentFetchedIds, CurrentFetchedId, QStringList());
     YACAPPPROPERTY(QStringList, moodModel, MoodModel, QStringList());
+    YACAPPPROPERTY(bool, autoFetchMessages, AutoFetchMessages, true);
     QMap<QString, ParsedConfig*> fileName2ParsedConfig;
     void addKnownFile(QString const &filename);
 

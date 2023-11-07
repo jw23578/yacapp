@@ -8,6 +8,7 @@
 #include "logger.h"
 #include "orm_implementions/t0028_message_images.h"
 #include "QUrlQuery"
+#include <QDir>
 
 YACAPP::YACAPP(QQmlApplicationEngine &engine
                , CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator
@@ -38,6 +39,8 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
     worktimeMainsModel(engine, "WorktimesModel", "worktime"),
     newsModel(engine, "NewsModel", "news")
 {
+    network.acceptErrors("/getAPP", 3);
+    network.acceptErrors("/fetchMessageUpdates", 100);
     network.networkDefectCallback = [this](const QString &message){setServerConnectionDefectMessage(message);};
     network.networkGoodCallback = [this](){setServerConnectionDefectMessage("");};
     m_moodModel.push_back(tr("Perfect"));
@@ -111,6 +114,7 @@ void YACAPP::init()
     m_knownMenueFiles.clear();
 
     globalConfig()->init(globalProjectConfigFilename(), constants);
+    network.setThirdMandant(globalConfig()->third(), globalConfig()->mandant());
     setApplicationTitle(globalConfig()->projectName());
 
     for (int i(0); i < globalConfig()->formFiles.size(); ++i)
@@ -154,6 +158,9 @@ void YACAPP::logout()
 
 void YACAPP::leaveApp()
 {
+    QString appId(globalConfig()->projectID());
+    delete localStorage;
+    localStorage = 0;
     thirdPartyLogin.setLoginToken(""); // should probably moved to ThirdPartyLogin FIXME
     appUserConfig()->clear();
     setGlobalProjectConfigFilename("");
@@ -180,6 +187,10 @@ void YACAPP::leaveApp()
     setGlobalConfig(new GlobalProjectConfig(true));
     saveState();
 
+    QDir path(constants.getWriteablePath(appId));
+    path.removeRecursively();
+    path.setPath(constants.getCachePath(appId));
+    path.removeRecursively();
     // TODO: clear all Models (am besten irgendwie zentral)
 }
 
@@ -1324,7 +1335,6 @@ void YACAPP::fetchMyProfile(QJSValue successCallback,
             }
             errorCallback.call(QJSValueList() << message);
         });
-
 }
 
 void YACAPP::minimizeMenue()

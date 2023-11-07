@@ -12,6 +12,13 @@ YACServerBaseNetwork::YACServerBaseNetwork(QNetworkAccessManager &manager
 
 }
 
+void YACServerBaseNetwork::setThirdMandant(const QString &third,
+                                           const QString &mandant)
+{
+    this->third = third;
+    this->mandant = mandant;
+}
+
 QString YACServerBaseNetwork::getYacappServerUrl() const
 {
     return yacappServerUrl;

@@ -51,6 +51,20 @@ Rectangle
                             text: configurator.activeProjectData.installationCode
                             onDisplayTextChanged: configurator.activeProjectData.installationCode = text
                         }
+                        YACComboBoxWithHeader
+                        {
+                            headerText: qsTr("Fremdsystem (Loginsteuerung)")
+                            initialText: yacApp.globalConfig.third
+                            onCurrentTextChanged: yacApp.globalConfig.third = currentText
+                            model: [""
+                                , "aidoo"]
+                        }
+                        YACLineEditWithHeader
+                        {
+                            headerText: qsTr("Fremdsystem-Mandant")
+                            text: yacApp.globalConfig.mandant
+                            onDisplayTextChanged: yacApp.globalConfig.mandant = text
+                        }
                         YACText
                         {
                             text: qsTr("Font PointSize")

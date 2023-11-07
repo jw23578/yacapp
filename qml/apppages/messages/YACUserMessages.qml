@@ -406,12 +406,13 @@ Rectangle
                             yacApp.sendMessage(profile.id, toSend, images, imagesWidths, imagesHeights)
                             imageToSend.source = ""
                             theTextEdit.text = ""
+                            realSizeImage.source = ""
                         }
                     });
                 }
                 else
                 {
-                    yacApp.sendMessage(profile.id, toSend, images)
+                    yacApp.sendMessage(profile.id, toSend, images, imagesWidths, imagesHeights)
                     imageToSend.source = ""
                     theTextEdit.text = ""
                 }

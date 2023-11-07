@@ -11,7 +11,6 @@ Item
     visible: !Constants.topLevelFormActive
     function fetchMessages()
     {
-        return
         Helper.jsLog("fetch messages")
         yacApp.fetchMessageUpdates()
     }
@@ -26,7 +25,7 @@ Item
 
     Timer
     {
-        running: Constants.isDesktop
+        running: yacApp.autoFetchMessages
         interval: 10000
         onTriggered: fetchMessages()
         repeat: true

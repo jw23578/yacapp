@@ -63,6 +63,8 @@ Configurator::Configurator(YACAPP &yacApp
             pd.setDeployPassword(config["deployPassword"].toString());
             pd.setDeployUser(config["deployUser"].toString());
             pd.setYacappServerLoginToken(config["yacappServerLoginToken"].toString());
+            pd.setThird(config["third"].toString());
+            pd.setMandant(config["mandant"].toString());
 
             RecentProject *rp(new RecentProject);
             rp->setConfig(config);
@@ -94,6 +96,8 @@ void Configurator::save()
         pd["deployPassword"] = (*it)->deployPassword();
         pd["deployUser"] = (*it)->deployUser();
         pd["yacappServerLoginToken"] = (*it)->yacappServerLoginToken();
+        pd["third"] = (*it)->third();
+        pd["mandant"] = (*it)->mandant();
         ++it;
         dc.append(pd);
     }
@@ -118,6 +122,8 @@ void Configurator::deploy(QJSValue goodCallback, QJSValue badCallback)
     pd.setProjectName(gpc->projectName());
     pd.setProjectFilename(lastProjectFilename());
     pd.setLogoUrl(gpc->logoUrl());
+    pd.setThird(gpc->third());
+    pd.setMandant(gpc->mandant());
 
     save();
 

@@ -12,6 +12,14 @@ class NetworkInterface : public QObject
     Q_OBJECT
     TransmissionTracker finishedTracker;
     std::map<QString, TransmissionTracker*> uuid2TransmissionTracker;
+    struct AcceptErrorsInfo
+    {
+        size_t currentCount;
+        size_t maxCount;
+    };
+
+    std::map<QString, AcceptErrorsInfo> urlPart2errorInfo;
+    bool acceptedError(const QString &url);
 protected:
     QNetworkAccessManager &manager;
     Constants &constants;
@@ -46,6 +54,8 @@ public:
     std::function<void()> networkGoodCallback;
 
     TransmissionTracker *tracker(const QString &uuid);
+
+    void acceptErrors(const QString &urlPart, size_t maxCount);
 
 signals:
     void missingRight(int rightNumber);

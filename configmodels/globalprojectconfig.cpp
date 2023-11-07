@@ -49,6 +49,8 @@ void GlobalProjectConfig::setConfig(const QJsonValue &config)
         getappImages().append(aii);
     }
     intFromJSON(version, Version);
+    stringFromJSON(third, Third);
+    stringFromJSON(mandant, Mandant);
     stringFromJSON(logoUrl, LogoUrl);
     stringFromJSON(appInfoUrl, AppInfoUrl);
     stringFromJSON(searchCode, SearchCode);
@@ -90,6 +92,8 @@ QJsonObject GlobalProjectConfig::getConfig() const
 {
     QJsonObject config;
     intToJSON(version);
+    stringToJSON(third);
+    stringToJSON(mandant);
     stringToJSON(logoUrl);
     stringToJSON(appInfoUrl);
     stringToJSON(searchCode);

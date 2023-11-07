@@ -174,7 +174,7 @@ Rectangle
                         headerText: qsTr("Height per thousand")
                         doubleEdit: true
                         text: config.header.heightPerThousand
-                        onDisplayTextChanged: config.header.heightPerThousand = text
+                        onDisplayTextChanged: config.header.heightPerThousand = doubleValue
                     }
                     YACColorDialogWithHeader
                     {

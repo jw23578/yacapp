@@ -146,7 +146,11 @@ void DataModelInterface<T>::removeByIndex(const size_t index)
 template<class T>
 void DataModelInterface<T>::clear()
 {
-    beginRemoveRows(QModelIndex(), 0, size());
+    if (!size())
+    {
+        return;
+    }
+    beginRemoveRows(QModelIndex(), 0, size() - 1);
     internalClear();
     endRemoveRows();
 }

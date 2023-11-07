@@ -1,3 +1,10 @@
+2023-11-05
+- Es kann jetzt ein Fremdsystem für die Loginverwaltung angegeben werden. Als erstes ist da natürlich aidoo http://www.aidoo.de implementiert
+- Wenn eine App verlassen wird, dann werden jetzt alle gespeicherten Daten gelöscht (auch der Cache)
+- In den Nachrichten können Bilder versendet werden
+- Es gibt jetzt eine "Waitmessage", die wird zum Beispiel beim Installationsvorgang oder beim Login angezeigt. Einfach, damit man sofort sieht, dass der Klick angenommen wurde
+-
+
 2023-04-18
 - Der InstallationsCode wird jetzt abgefragt bei Installation einer App
 

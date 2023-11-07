@@ -24,6 +24,7 @@ class LocalStorage
     const QString deleteKnownContactString;
 public:
     LocalStorage(QString appId, Constants &constants);
+    ~LocalStorage();
 
     void exec(const QString &sql);
     typedef std::function<void(DataObjectInterface *)> AppendFunction;

@@ -43,6 +43,7 @@ AppUserBasePage
                     id: login
                     color: Helper.emailIsValid(displayText) ? Constants.goodColor : Constants.badColor
                     text: yacApp.appUserConfig.loginEMail
+                    emailEdit: true
                 }
                 YACButton
                 {
@@ -56,6 +57,14 @@ AppUserBasePage
                             return;
                         }
                         Helper.jsLog("next clicked, email ok")
+                        if (yacApp.globalConfig.third != "")
+                        {
+                            Helper.jsLog("with third we only accept passwords")
+                            tokenOrPasswort.byToken = false
+                            theSwipeView.setCurrentIndex(2)
+                            return
+                        }
+
                         yacApp.appUserRegister(login.displayText,
                                                "",
                                                function(message)
@@ -92,7 +101,7 @@ AppUserBasePage
                 {
                     visible: tokenOrPasswort.byToken
                     id: tokenText
-                    text: qsTr("Please enter the code you received by E-Mail.")
+                    text: qsTr("Please enter the Code you received by E-Mail.")
                 }
                 YACLineEdit
                 {
@@ -110,18 +119,22 @@ AppUserBasePage
                     {
                         if (token.displayText.length != 4)
                         {
-                            CPPQMLAppAndConfigurator.goodMessage(qsTr("Please enter the Code you received by E-Mail"), token, null)
+                            CPPQMLAppAndConfigurator.goodMessage(qsTr("Please enter the Code you received by E-Mail."), token, null)
+                            return
                         }
+                        CPPQMLAppAndConfigurator.waitMessage(qsTr("Login in progress, please wait."))
                         yacApp.appUserVerify(login.displayText,
                                              token.displayText,
                                              function(message) {
                                                  token.text = ""
                                                  if (tokenButton.text == qsTr("Login"))
                                                  {
+                                                     CPPQMLAppAndConfigurator.hideWaitMessage()
                                                      CPPQMLAppAndConfigurator.goodMessage(qsTr("You are logged in. Have fun!"), null, null)
                                                  } else
                                                  {
-                                                    CPPQMLAppAndConfigurator.goodMessage(qsTr("Verification successful, you are logged in. Have fun!"), null, null)
+                                                     CPPQMLAppAndConfigurator.hideWaitMessage()
+                                                     CPPQMLAppAndConfigurator.goodMessage(qsTr("Verification successful, you are logged in. Have fun!"), null, null)
                                                  }
                                                  loginSuccessful();
                                                  theSwipeView.setCurrentIndex(0)
@@ -167,15 +180,18 @@ AppUserBasePage
                         {
                             return;
                         }
+                        CPPQMLAppAndConfigurator.waitMessage(qsTr("Login in progress, please wait."))
                         yacApp.appUserLogin(login.displayText,
                                             password.text,
                                             function(message) {
                                                 password.text = ""
+                                                CPPQMLAppAndConfigurator.hideWaitMessage()
                                                 CPPQMLAppAndConfigurator.goodMessage(qsTr("Login successful, have fun!"), null, null)
                                                 loginSuccessful();
                                                 theSwipeView.setCurrentIndex(0)
                                             },
                                             function(message) {
+                                                CPPQMLAppAndConfigurator.hideWaitMessage()
                                                 CPPQMLAppAndConfigurator.badMessage(qsTr(message), null, null)
                                             })
                     }
@@ -189,13 +205,19 @@ AppUserBasePage
                 {
                     width: parent.width
                     visible: !tokenOrPasswort.byToken
-                    text: qsTr("Request Logintoken")
+                    text: yacApp.globalConfig.third != "" ? qsTr("Request Passwortreset E-Mail") : qsTr("Request Logincode")
                     onClicked:
                     {
+                        if (yacApp.globalConfig.third != "")
+                        {
+                            CPPQMLAppAndConfigurator.badMessage("not yet implemented", null, null)
+                            return;
+                        }
+
                         yacApp.appUserRequestVerifyToken(login.displayText,
                                                          function(message)
                                                          {
-                                                             CPPQMLAppAndConfigurator.goodMessage(qsTr("Token sended, please check your E-Mails."), null, null)
+                                                             CPPQMLAppAndConfigurator.goodMessage(qsTr("Code sended, please check your E-Mails."), null, null)
                                                              tokenButton.text = qsTr("Login")
                                                              tokenOrPasswort.byToken = true
                                                          },

@@ -7,6 +7,28 @@ Rectangle
     anchors.fill: parent
     id: theSelectAppForm
 
+    function installApp(app_id, installationCode, installText)
+    {
+        installText.text = qsTr("Please wait")
+        CPPQMLAppAndConfigurator.waitMessage(installText.text)
+        yacApp.yacappServerGetAPP(app_id,
+                                  installationCode,
+                                  0,
+                                  function(message)
+                                  {
+                                      installText.text = qsTr("Install")
+                                      CPPQMLAppAndConfigurator.hideWaitMessage()
+                                      CPPQMLAppAndConfigurator.goodMessage(qsTr("App installed, have fun."), null, null)
+                                  },
+                                  function(message)
+                                  {
+                                      installText.text = qsTr("Install")
+                                      CPPQMLAppAndConfigurator.hideWaitMessage()
+                                      CPPQMLAppAndConfigurator.badMessage(message, null, null)
+                                  }
+                                  )
+    }
+
     Shape {
         anchors.fill: parent
         ShapePath
@@ -232,54 +254,54 @@ Rectangle
                     }
                     Rectangle
                     {
+                        id: moreRectangle
+                        anchors.top: parent.top
+                        anchors.left: parent.horizontalCenter
+                        anchors.right: parent.right
+                        anchors.bottom: parent.verticalCenter
+                        color: "silver"
+                        visible: app_info_url != ""
+                        YACText
+                        {
+                            anchors.centerIn: parent
+                            text: qsTr("more")
+                        }
+                        MouseArea
+                        {
+                            anchors.fill: parent
+                            onClicked: Qt.openUrlExternally(app_info_url);
+                        }
+                    }
+                    Rectangle
+                    {
                         id: installRectangle
+                        anchors.top: parent.verticalCenter
                         anchors.left: parent.horizontalCenter
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
-                        height: installText.height
-                        color: "silver"
-
-                        YACTextClickable
+                        color: "green"
+                        YACText
                         {
                             id: installText
-                            anchors.bottom: parent.bottom
-                            anchors.left: parent.left
+                            anchors.centerIn: parent
                             text: qsTr("Install")
-                            onClicked:
-                            {
+                        }
+                        MouseArea
+                        {
+                            anchors.fill: parent
+                            onClicked: {
                                 Helper.jsLog("App selected")
                                 if (installation_code_needed)
                                 {
                                     installationCodeRectangle.app_id = app_id
                                     installationCodeRectangle.visible = true;
+                                    installationCodeRectangle.installText = installText
                                     return
                                 }
-                                var installationCode = "";
-                                yacApp.yacappServerGetAPP(app_id,
-                                                          installationCode,
-                                                          0,
-                                                          function(message)
-                                                          {
-                                                              CPPQMLAppAndConfigurator.goodMessage(qsTr("App installed, have fun."), null, null)
-                                                          },
-                                                          function(message)
-                                                          {
-                                                              CPPQMLAppAndConfigurator.badMessage(message, null, null)
-                                                          }
-                                                          )
+                                installApp(app_id, "", installText)
                                 return
                             }
                         }
-                        YACTextClickable
-                        {
-                            id: urlText
-                            anchors.bottom: parent.bottom
-                            anchors.right: parent.right
-                            text: qsTr("More")
-                            visible: app_info_url != ""
-                            onClicked: Qt.openUrlExternally(app_info_url);
-                        }
-
                     }
 
                 }
@@ -400,6 +422,7 @@ Rectangle
     YACRectangle
     {
         property string app_id: ""
+        property var installText: null
         id: installationCodeRectangle
         visible: false
         anchors.fill: parent
@@ -470,21 +493,9 @@ Rectangle
                 MouseArea
                 {
                     anchors.fill: parent
-                    onClicked: yacApp.yacappServerGetAPP(installationCodeRectangle.app_id,
-                                                         installationCodeInput.displayText,
-                                                         0,
-                                                         function(message)
-                                                         {
-                                                             installationCodeRectangle.visible = false
-                                                             installationCodeInput.text = ""
-                                                             CPPQMLAppAndConfigurator.goodMessage(qsTr("App installed, have fun."), null, null)
-                                                         },
-                                                         function(message)
-                                                         {
-                                                             CPPQMLAppAndConfigurator.badMessage(message, null, null)
-                                                         }
-                                                         )
-
+                    onClicked: installApp(installationCodeRectangle.app_id,
+                                          installationCodeInput.displayText,
+                                          installationCodeRectangle.installText)
                 }
             }
             Rectangle

@@ -16,6 +16,24 @@ NetworkInterface::NetworkInterface(QNetworkAccessManager &manager
 
 }
 
+bool NetworkInterface::acceptedError(const QString &url)
+{
+    for (auto &it: urlPart2errorInfo)
+    {
+        if (url.contains(it.first))
+        {
+            AcceptErrorsInfo &aei(it.second);
+            if (aei.currentCount >= aei.maxCount)
+            {
+                return false;
+            }
+            aei.currentCount += 1;
+            return true;
+        }
+    }
+    return false;
+}
+
 void NetworkInterface::addRunningRequest(QNetworkReply *reply, const SRunningRequest &rr)
 {
     if (rr.trackerUuid.size())
@@ -45,7 +63,14 @@ TransmissionTracker *NetworkInterface::tracker(const QString &uuid)
     return it->second;
 }
 
-void defaultReplyHandler(QNetworkReply *finishedReply, QByteArray &allData, NetworkInterface::SRunningRequest &rr)
+void NetworkInterface::acceptErrors(const QString &urlPart, size_t maxCount)
+{
+    urlPart2errorInfo[urlPart].maxCount = maxCount;
+}
+
+void defaultReplyHandler(QNetworkReply *finishedReply,
+                         QByteArray &allData,
+                         NetworkInterface::SRunningRequest &rr)
 {
     QJsonDocument replyDoc(QJsonDocument::fromJson(allData));
     QJsonObject object(replyDoc.object());
@@ -90,16 +115,21 @@ void NetworkInterface::replyFinished(QNetworkReply *reply)
     runningRequests.erase(it);
     QByteArray allData(reply->readAll());
 
+    DEFAULT_LOG(QString("Reply Finished Url: ") + reply->url().toString());
     ONLY_DESKTOP_LOG(allData.left(1024));
 
     if (reply->error() != QNetworkReply::NoError)
     {
+        DEFAULT_LOG(QString("Error on this url: ") + reply->url().toString());
+        if (acceptedError(reply->url().toString()))
+        {
+            return;
+        }
         if (networkDefectCallback)
         {
             networkDefectCallback(reply->errorString());
         }
         DEFAULT_LOG(reply->errorString());
-        DEFAULT_LOG(QString("Url: ") + reply->url().toString());
         QJsonDocument replyDoc(QJsonDocument::fromJson(allData));
         QJsonObject object(replyDoc.object());
         QString message(object["message"].toString());

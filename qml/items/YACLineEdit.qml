@@ -8,6 +8,7 @@ FocusScope
     property alias color: theRectangle.color
     property bool doubleEdit: false
     property bool intEdit: false
+    property bool emailEdit: false
     property alias text: inputItem.text
     property alias input: inputItem
     property alias displayText: inputItem.displayText
@@ -45,7 +46,8 @@ FocusScope
             validator: theScope.doubleEdit ? doubleValidator : theScope.intEdit ? intValidator : null
             clip: true
             focus: true
-            inputMethodHints: theScope.intEdit ? Qt.ImhDigitsOnly : Qt.ImhNone
+            inputMethodHints: theScope.intEdit ? Qt.ImhDigitsOnly :
+                                                 theScope.emailEdit ? Qt.ImhEmailCharactersOnly : Qt.ImhNone
         }
     }
 }

@@ -13,6 +13,9 @@ public:
 
 
 signals:
+    void waitMessage(const QString &message);
+    void hideWaitMessage();
+
     void yesNoQuestion(const QString &question, QJSValue itemToFocus, QJSValue yesCallback, QJSValue noCallback);
     void badMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);
     void goodMessage(const QString &message, QJSValue itemToFocus, QJSValue okCallback);

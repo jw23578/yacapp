@@ -148,7 +148,7 @@ ApplicationWindow
     }
     function topLevelVisible()
     {
-        Constants.topLevelFormActive = Constants.superMenueOpen ||  Constants.superMenueClicked || badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible || timePicker.visible || datePicker.visible || dateTimePicker.visible
+        Constants.topLevelFormActive = Constants.superMenueOpen ||  Constants.superMenueClicked || badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible || timePicker.visible || datePicker.visible || dateTimePicker.visible || waitForm.visible
     }
 
     YACBadMessageForm
@@ -166,6 +166,12 @@ ApplicationWindow
         id: yesNoQuestion
         onVisibleChanged: topLevelVisible()
     }
+    YACPleaseWaitForm
+    {
+        id: waitForm
+        onVisibleChanged: topLevelVisible()
+    }
+
     Rectangle
     {
         anchors.fill: parent
@@ -230,6 +236,14 @@ ApplicationWindow
     Connections
     {
         target: CPPQMLAppAndConfigurator
+        function onWaitMessage(message)
+        {
+            waitForm.show(message)
+        }
+        function onHideWaitMessage()
+        {
+            waitForm.hide()
+        }
         function onBadMessage(message, itemToFocus, okCallback)
         {
             badMessage.show(message, itemToFocus)

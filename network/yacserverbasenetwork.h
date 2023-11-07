@@ -7,7 +7,10 @@
 QMap<QByteArray, QByteArray> rawHeader; \
     rawHeader["YACAPP-AppId"] = appId.toLatin1(); \
     rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1(); \
-    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1(); \
+    rawHeader["YACAPP-Third"] = third.toLatin1(); \
+    rawHeader["YACAPP-Mandant"] = mandant.toLatin1();
+
 
 
 #define MACRO_JSON_SET_DATETIME(obj, nameValue) \
@@ -21,6 +24,8 @@ class YACServerBaseNetwork : public NetworkInterface
 {
     friend int main(int argc, char *argv[]);
 protected:
+    QString third;
+    QString mandant;
     static QString yacappServerUrl;
 
     void yacappServerPost(QString method,
@@ -80,6 +85,8 @@ protected:
 public:
     explicit YACServerBaseNetwork(QNetworkAccessManager &manager
                                   , Constants &constants);
+    void setThirdMandant(const QString &third,
+                         const QString &mandant);
 
     QString getYacappServerUrl() const;
 
@@ -90,7 +97,6 @@ public:
                             const QString &loginToken,
                             JSONCallbackFunction jsonSuccessCallback,
                             CallbackFunction errorCallback);
-
 };
 
 #endif // YACSERVERBASENETWORK_H

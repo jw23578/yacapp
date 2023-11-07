@@ -161,7 +161,8 @@ void YACServerNetwork::yacappServerAppUserLogin(const QString &loginEMail,
     obj["password"] = password;
     obj["appId"] = appId;
     obj["deviceToken"] = deviceToken;
-    QMap<QByteArray, QByteArray> rawHeader;
+    QString loginToken;
+    MACRO_RAW_HEADER();
     yacappServerPost("/loginAppUser",
                      obj,
                      defaultReplyHandler,

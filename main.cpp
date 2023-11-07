@@ -54,10 +54,10 @@ int main(int argc, char *argv[])
 
     //    return 0;
     std::srand(std::time(nullptr));
-    QtWebView::initialize();
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
+    QtWebView::initialize();
     QGuiApplication app(argc, argv);
     app.setOrganizationName("jw78");
     app.setOrganizationDomain("jw78.de");
@@ -115,6 +115,10 @@ int main(int argc, char *argv[])
         YACServerBaseNetwork::yacappServerUrl = "http://127.0.0.1:23578";
         customWriteablePath = "/home/jw78/MyYacApps/LocalYACAPPConfig";
     }
+    if (app.arguments().contains("Other"))
+    {
+        customWriteablePath = "/home/jw78/MyYacApps/LocalYACAPPConfigOther";
+    }
     if (app.arguments().contains("ServerIsLocalhostOther"))
     {
         YACServerBaseNetwork::yacappServerUrl = "http://127.0.0.1:23578";
@@ -170,6 +174,11 @@ int main(int argc, char *argv[])
             // default yacApp
             yacApp->loadAppAndInitialize(yacApp->globalProjectConfigFilename());
         }
+    }
+    int noAutoFetchMessages(getAppParam(app, "noAutoFetchMessages=").toInt());
+    if (noAutoFetchMessages)
+    {
+        yacApp->setAutoFetchMessages(false);
     }
     engine.rootContext()->setContextProperty("yacApp", yacApp);
 

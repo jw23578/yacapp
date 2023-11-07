@@ -34,6 +34,11 @@ LocalStorage::LocalStorage(QString appId,
 
 }
 
+LocalStorage::~LocalStorage()
+{
+    db.close();
+}
+
 void LocalStorage::exec(const QString &sql)
 {
     QSqlQuery q(sql);

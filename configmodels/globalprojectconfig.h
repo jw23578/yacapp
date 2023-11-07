@@ -21,6 +21,8 @@ class GlobalProjectConfig : public ConfigInterface
     YACAPPPROPERTY(QString, appInfoUrl, AppInfoUrl, "")
     YACAPPPROPERTY(QString, searchCode, SearchCode, "")
     YACAPPPROPERTY(QString, projectColorName, ProjectColorName, "white");
+    YACAPPPROPERTY(QString, third, Third, "");
+    YACAPPPROPERTY(QString, mandant, Mandant, "");
     YACAPPPROPERTY(bool, appUserEnabled, AppUserEnabled, false);
     YACAPPPROPERTY(bool, appUserMessagesEnabled, AppUserMessagesEnabled, false);
     YACAPPPROPERTY(bool, appUserWorktimeEnabled, AppUserWorktimeEnabled, false);

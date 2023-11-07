@@ -176,5 +176,5 @@ android {
 
   QT += androidextras
 
-  LIBS += -L$$PWD/firebase_cpp_sdk/libs/android/armeabi-v7a -lfirebase_app -lfirebase_messaging
+  LIBS += -L$$PWD/firebase_cpp_sdk/libs/android/arm64-v8a -lfirebase_app -lfirebase_messaging
 }

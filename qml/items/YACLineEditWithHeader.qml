@@ -12,6 +12,16 @@ FocusScope
         return parseInt(text)
     }
 
+    property double doubleValue: 0
+
+    onDisplayTextChanged:
+    {
+        if (doubleEdit)
+        {
+            doubleValue = parseFloat(displayText) || 0
+        }
+    }
+
     property bool showColumn: true
     property alias echoMode: inputItem.echoMode
     property alias color: theRectangle.color

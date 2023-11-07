@@ -51,6 +51,7 @@ class Constants : public QObject
     YACAPPPROPERTY(double, x3largerTextFactor, X3largerTextFactor, 7.0 / 4.0)
     YACAPPPROPERTY(double, x4largerTextFactor, X4largerTextFactor, 8.0 / 4.0)
 
+    YACAPPPROPERTY(QColor, waitColor, WaitColor, "orange");
     YACAPPPROPERTY(QColor, goodColor, GoodColor, "#A9CEA5");
     YACAPPPROPERTY(QColor, badColor, BadColor, "#F09494");
 
