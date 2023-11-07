@@ -53,7 +53,7 @@ Rectangle
             {
                 anchors.fill: parent
                 id: webviewLoadingRectangle
-                visible: false // theWebview.loading
+                visible: theWebview.loading
                 YACText
                 {
                     anchors.centerIn: parent
