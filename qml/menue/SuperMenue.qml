@@ -31,10 +31,21 @@ Item
         }
     }
 
+    Connections
+    {
+        target: yacApp
+        function onSuperMenueChanged()
+        {
+            fillMenueItems()
+        }
+    }
+
     property int menueItemsLength: 0
     property var menueItems: []
     function fillMenueItems()
     {
+        theRepeater.model = null
+        menueItems = []
         for (var i = 0; i < allMenueItems.length; ++i)
         {
             console.log(i)
@@ -53,32 +64,32 @@ Item
             caption: qsTr("Menue"),
             iconUrl: "",
             loginNeeded: false},
-        {menueEnabled: false,
-            caption: qsTr("News"),
-            iconUrl: "",
-            loginNeeded: true},
-        {menueEnabled: true,
-            caption: qsTr("Worktime"),
-            iconUrl: "qrc:/images/images/appointments_menue_icon.svg",
-            loginNeeded: true},
-        {menueEnabled: true,
-            caption: qsTr("Appointments"),
-            iconUrl: "",
-            loginNeeded: true},
-        {menueEnabled: true,
-            caption: qsTr("Spaces"),
-            iconUrl: "",
-            loginNeeded: true},
-        {menueEnabled: true,
-            caption: qsTr("Rights"),
-            iconUrl: "",
-            loginNeeded: true},
-        {menueEnabled: true,
+        {menueEnabled: yacApp.globalConfig.appUserEnabled,
             caption: qsTr("Profile"),
             iconUrl: "",
             loginNeeded: true},
-        {menueEnabled: true,
+        {menueEnabled: yacApp.globalConfig.appUserEnabled && yacApp.globalConfig.appUserMessagesEnabled,
             caption: qsTr("Message"),
+            iconUrl: "",
+            loginNeeded: true},
+        {menueEnabled: yacApp.globalConfig.appUserNewsEnabled,
+            caption: qsTr("News"),
+            iconUrl: "",
+            loginNeeded: true},
+        {menueEnabled: yacApp.globalConfig.appUserEnabled && yacApp.globalConfig.appUserWorktimeEnabled,
+            caption: qsTr("Worktime"),
+            iconUrl: "qrc:/images/images/appointments_menue_icon.svg",
+            loginNeeded: true},
+        {menueEnabled: yacApp.globalConfig.appUserEnabled && yacApp.globalConfig.appUserAppointmentsEnabled,
+            caption: qsTr("Appointments"),
+            iconUrl: "",
+            loginNeeded: true},
+        {menueEnabled: yacApp.globalConfig.appUserEnabled && yacApp.globalConfig.appUserSpacesEnabled,
+            caption: qsTr("Spaces"),
+            iconUrl: "",
+            loginNeeded: true},
+        {menueEnabled: yacApp.globalConfig.appUserEnabled && yacApp.globalConfig.appUserRightsEnabled,
+            caption: qsTr("Rights"),
             iconUrl: "",
             loginNeeded: true}
     ]

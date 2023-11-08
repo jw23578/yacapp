@@ -348,6 +348,7 @@ public:
 
     Q_INVOKABLE TransmissionTracker *tracker(const QString &uuid) const;
 signals:
+    void superMenueChanged();
     void takePhoto(bool squared, bool circled, QJSValue target);
     void minimizeMenueSignal();
     void restoreMenueSignal();

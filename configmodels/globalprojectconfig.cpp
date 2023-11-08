@@ -65,6 +65,10 @@ void GlobalProjectConfig::setConfig(const QJsonValue &config)
     boolFromJSON(appUserEnabled, AppUserEnabled);
     boolFromJSON(appUserMessagesEnabled, AppUserMessagesEnabled);
     boolFromJSON(appUserWorktimeEnabled, AppUserWorktimeEnabled);
+    boolFromJSON(appUserNewsEnabled, AppUserNewsEnabled);
+    boolFromJSON(appUserAppointmentsEnabled, AppUserAppointmentsEnabled);
+    boolFromJSON(appUserSpacesEnabled, AppUserSpacesEnabled);
+    boolFromJSON(appUserRightsEnabled, AppUserRightsEnabled);
     if (projectID() == "")
     {
         setProjectID(QUuid::createUuid().toString(QUuid::WithoutBraces));
@@ -111,6 +115,10 @@ QJsonObject GlobalProjectConfig::getConfig() const
     boolToJSON(appUserEnabled);
     boolToJSON(appUserMessagesEnabled);
     boolToJSON(appUserWorktimeEnabled);
+    boolToJSON(appUserNewsEnabled);
+    boolToJSON(appUserAppointmentsEnabled);
+    boolToJSON(appUserSpacesEnabled);
+    boolToJSON(appUserRightsEnabled);
 
     QJsonArray appImagesArray;
     for (size_t i(0); i < m_appImages.count(); ++i)

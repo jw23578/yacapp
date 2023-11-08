@@ -1,3 +1,6 @@
+2023-11-08
+- Die Einzelnen Menüpunkte im Supermenü können jetzt an und ausgeschaltet werden.
+
 2023-11-07
 - Im Android funktionieren die Webviews (im Linux nicht)
 - Angefangen das Menü konfigurierbar zu machen, also welche Inhalte überhaupt drin sind.

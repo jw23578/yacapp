@@ -104,20 +104,65 @@ Rectangle
                     YACButton
                     {
                         width: parent.width
-                        text: qsTr("APP-User enabled: ") + (global.appUserEnabled ? qsTr("Yes") : qsTr("No"))
-                        onClicked: global.appUserEnabled = !global.appUserEnabled
+                        text: qsTr("APP-User Profile (create/login) enabled: ") + (global.appUserEnabled ? qsTr("Yes") : qsTr("No"))
+                        onClicked: {
+                            global.appUserEnabled = !global.appUserEnabled
+                            yacApp.superMenueChanged()
+                        }
                     }
                     YACButton
                     {
                         width: parent.width
                         text: qsTr("APP-User Messages enabled: ") + (global.appUserMessagesEnabled ? qsTr("Yes") : qsTr("No"))
-                        onClicked: global.appUserMessagesEnabled = !global.appUserMessagesEnabled
+                        onClicked: {
+                            global.appUserMessagesEnabled = !global.appUserMessagesEnabled
+                            yacApp.superMenueChanged()
+                        }
+                    }
+                    YACButton
+                    {
+                        width: parent.width
+                        text: qsTr("APP-User News enabled: ") + (global.appUserNewsEnabled ? qsTr("Yes") : qsTr("No"))
+                        onClicked: {
+                            global.appUserNewsEnabled = !global.appUserNewsEnabled
+                            yacApp.superMenueChanged()
+                        }
                     }
                     YACButton
                     {
                         width: parent.width
                         text: qsTr("APP-User Worktime: ") + (global.appUserWorktimeEnabled ? qsTr("Yes") : qsTr("No"))
-                        onClicked: global.appUserWorktimeEnabled = !global.appUserWorktimeEnabled
+                        onClicked: {
+                            global.appUserWorktimeEnabled = !global.appUserWorktimeEnabled
+                            yacApp.superMenueChanged()
+                        }
+                    }
+                    YACButton
+                    {
+                        width: parent.width
+                        text: qsTr("APP-User Appointments: ") + (global.appUserAppointmentsEnabled ? qsTr("Yes") : qsTr("No"))
+                        onClicked: {
+                            global.appUserAppointmentsEnabled = !global.appUserAppointmentsEnabled
+                            yacApp.superMenueChanged()
+                        }
+                    }
+                    YACButton
+                    {
+                        width: parent.width
+                        text: qsTr("APP-User Spaces: ") + (global.appUserSpacesEnabled ? qsTr("Yes") : qsTr("No"))
+                        onClicked: {
+                            global.appUserSpacesEnabled = !global.appUserSpacesEnabled
+                            yacApp.superMenueChanged()
+                        }
+                    }
+                    YACButton
+                    {
+                        width: parent.width
+                        text: qsTr("APP-User Spaces: ") + (global.appUserRightsEnabled ? qsTr("Yes") : qsTr("No"))
+                        onClicked: {
+                            global.appUserRightsEnabled = !global.appUserRightsEnabled
+                            yacApp.superMenueChanged()
+                        }
                     }
                 }
 
