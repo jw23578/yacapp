@@ -39,6 +39,8 @@ Item
             fillMenueItems()
         }
     }
+    property int updateTrigger: yacApp.updateTrigger
+    onUpdateTriggerChanged: fillMenueItems()
 
     property int menueItemsLength: 0
     property var menueItems: []
