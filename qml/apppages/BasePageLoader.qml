@@ -2,6 +2,7 @@ import QtQuick 2.15
 
 Loader
 {
+    z: 2
     id: pageLoader
     property bool loginNeeded: false
     property var theComponent: null

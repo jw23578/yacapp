@@ -56,7 +56,6 @@ AppUserBasePage
                     {
                         currentProfile = profile
                         yacApp.loadMessages(profile.id)
-                        yacApp.minimizeMenue()
                         theLoader.sourceComponent = messages
                     }
                 }
@@ -85,18 +84,6 @@ AppUserBasePage
         }
     }
 
-    Loader
-    {
-        id: theLoader
-        anchors.fill: parent
-        onLoaded:
-        {
-            if (sourceComponent == messages)
-            {
-                item.profile = currentProfile
-            }
-        }
-    }
     Component
     {
         id: searchProfiles
@@ -119,6 +106,18 @@ AppUserBasePage
             onCloseClicked:
             {
                 theLoader.sourceComponent = null
+            }
+        }
+    }
+    BasePageLoader
+    {
+        id: theLoader
+        anchors.fill: parent
+        onLoaded:
+        {
+            if (sourceComponent == messages)
+            {
+                item.profile = currentProfile
             }
         }
     }

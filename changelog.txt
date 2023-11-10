@@ -1,3 +1,7 @@
+2023-11-10
+- Design/Layout Sachen
+- AppUserBasePage2 eingeführt
+
 2023-11-08
 - Die Einzelnen Menüpunkte im Supermenü können jetzt an und ausgeschaltet werden.
 - Das Supermenü wird jetzt auch durch ein Update der YacApp angepasst, also wenn die App-Configuration geändert wurde

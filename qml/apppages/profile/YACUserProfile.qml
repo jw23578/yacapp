@@ -3,7 +3,7 @@ import "../../items"
 import ".."
 import "qrc:/EMailPasswordFunctions.js" as EMailPasswordFunctions
 
-AppUserBasePage
+AppUserBasePage2
 {
 
     id: theProfilePage
@@ -28,7 +28,7 @@ AppUserBasePage
     property bool imageChanged: false
     Rectangle
     {
-        anchors.fill: parent
+        anchors.fill: content
         YACPageColumn
         {
             spacing: parent.height / 50

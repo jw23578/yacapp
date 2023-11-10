@@ -1339,11 +1339,13 @@ void YACAPP::fetchMyProfile(QJSValue successCallback,
 
 void YACAPP::minimizeMenue()
 {
+    setSuperMenueMinimized(true);
     emit minimizeMenueSignal();
 }
 
 void YACAPP::restoreMenue()
 {
+    setSuperMenueMinimized(false);
     emit restoreMenueSignal();
 }
 

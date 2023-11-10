@@ -1,15 +1,11 @@
 import QtQuick 2.15
 import "../../items"
+import ".."
 
-Rectangle
+AppUserBasePage2
 {
-    MouseArea
-    {
-        anchors.fill: parent
-    }
     property var profile: null
     anchors.fill: parent
-    signal closeClicked()
     id: messagePage
     property color otherColor: Qt.darker("lightgrey", 1.3)
     property color myColor: "lightgrey"
@@ -272,26 +268,7 @@ Rectangle
             }
         }
     }
-    YACButton
-    {
-        id: closeButton
-        anchors.top: profileHeader.bottom
-        text: qsTr("Close")
-        onClicked:
-        {
-            yacApp.restoreMenue()
-            closeClicked()
-        }
-    }
-    Rectangle
-    {
-        id: bottomRectangle
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: theTextEdit.height + Constants.radius / 2 + (imageToSend.visible ? imageToSend.height + Constants.radius / 4 : 0)
-        anchors.bottom: parent.bottom
-        color: "orange"
-    }
+
     Image {
         id: realSizeImage
         visible: false
@@ -318,28 +295,21 @@ Rectangle
         radius: Constants.radius / 2
         border.width: 0
         focus: true
-        anchors.left: parent.left
+        anchors.left: backImage.right
         anchors.right: cameraButton.left
         anchors.margins: Constants.radius / 4
         anchors.bottom: bottomRectangle.bottom
         wrapMode: Text.WordWrap
         font.pixelSize: Constants.defaultFontPixelSize * Constants.x4largerTextFactor
         textFocus: false
+        Behavior on height {
+            NumberAnimation {
+                duration: Constants.fastAnimationDuration
+            }
+        }
+        onHeightChanged: bottomRectangle.height = theTextEdit.height + Constants.radius / 2 + (imageToSend.visible ? imageToSend.height + Constants.radius / 4 : 0)
     }
-    YACTextEditWithBackground
-    {
-        id: heightInfoTextEdit
-        visible: false
-        radius: Constants.radius / 2
-        focus: false
-        anchors.left: parent.left
-        anchors.right: sendButton.left
-        anchors.margins: Constants.radius / 4
-        anchors.bottom: bottomRectangle.bottom
-        wrapMode: Text.WordWrap
-        font.pixelSize: Constants.defaultFontPixelSize * Constants.x4largerTextFactor
-        textFocus: false
-    }
+
 
 
     YACImage

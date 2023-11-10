@@ -2,6 +2,8 @@ import QtQuick 2.15
 import "../items"
 import "../menue"
 
+// deprecated
+
 Rectangle
 {
     anchors.fill: parent
