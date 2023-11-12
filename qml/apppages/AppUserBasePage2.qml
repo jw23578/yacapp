@@ -10,12 +10,13 @@ Rectangle
     }
     Component.onCompleted:
     {
-        yacApp.minimizeMenue()
+        waitTimer.start()
     }
 
     anchors.fill: parent
     signal closeClicked();
     signal leftClicked();
+    property bool enableBack: false
     property alias content: theContent
     property alias backImage: theBackImage
     property alias bottomRectangle: theBottomRectangle
@@ -68,11 +69,19 @@ Rectangle
         color: "orange"
     }
 
+    Timer
+    {
+        id: waitTimer
+        running: false
+        interval: 10
+        repeat: false
+    }
+
     YACImage
     {
         id: theBackImage
         source: "qrc:/images/images/up-arrow.svg"
-        rotation: yacApp.superMenueMinized ? 0 : 180
+        rotation: waitTimer.running ? 90 : enableBack ? 270 : yacApp.superMenueMinized ? 0 : 180
         Behavior on rotation {
             NumberAnimation {
                 duration: Constants.fastAnimationDuration
@@ -82,18 +91,23 @@ Rectangle
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.margins: Constants.radius / 4
-        anchors.top: theBottomRectangle.top
+        anchors.top: theHeightInfoTextEdit.top
         width: height
         MouseArea
         {
             anchors.fill: parent
             onClicked:
             {
+                console.log("hello")
+                if (enableBack)
+                {
+                    closeClicked()
+                    return
+                }
+
                 if (yacApp.superMenueMinized)
                 {
                     yacApp.restoreMenue()
-
-                    closeClicked()
                 }
                 else
                 {

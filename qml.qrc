@@ -42,13 +42,11 @@
         <file>qml/RectangleORSuperForm.qml</file>
         <file>qml/items/YACPageColumn.qml</file>
         <file>EMailPasswordFunctions.js</file>
-        <file>qml/apppages/AppUserProfileIcon.qml</file>
         <file>qml/apppages/profile/YACUserSearchProfiles.qml</file>
         <file>qml/apppages/profile/YACUserKnownProfiles.qml</file>
         <file>qml/items/YACTextEdit.qml</file>
         <file>qml/items/YACTextEditWithBackground.qml</file>
         <file>qml/items/YACRoundedRectangle.qml</file>
-        <file>qml/apppages/YACUserSelectLanguage.qml</file>
         <file>qml/apppages/profile/YACUserTokenLogin.qml</file>
         <file>qml/items/YACLineEdit.qml</file>
         <file>qml/apppages/YACPhoto.qml</file>

@@ -3,7 +3,7 @@ import "../../items"
 import ".."
 import "../messages"
 
-AppUserBasePage
+AppUserBasePage2
 {
     property var currentProfile: null
 
@@ -28,7 +28,7 @@ AppUserBasePage
     {
         id: listView
         clip: true
-        anchors.fill: parent
+        anchors.fill: content
         model: KnownProfilesModel
         delegate: Row
         {
@@ -56,7 +56,8 @@ AppUserBasePage
                     {
                         currentProfile = profile
                         yacApp.loadMessages(profile.id)
-                        theLoader.sourceComponent = messages
+                        theLoader.theComponent = messages
+                        theLoader.open()
                     }
                 }
                 Component.onCompleted:
@@ -105,14 +106,14 @@ AppUserBasePage
         {
             onCloseClicked:
             {
-                theLoader.sourceComponent = null
+                theLoader.close()
             }
         }
     }
     BasePageLoader
     {
+        z: 1
         id: theLoader
-        anchors.fill: parent
         onLoaded:
         {
             if (sourceComponent == messages)

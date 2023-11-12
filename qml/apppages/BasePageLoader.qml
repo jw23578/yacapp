@@ -54,7 +54,10 @@ Loader
         {
             parentCurrentOpenedLoader.close()
         }
-        parentSuperMenue.close()
+        if (parentSuperMenue != null)
+        {
+            parentSuperMenue.close()
+        }
         sourceComponent = theComponent
         x = 0
         width =  parent.width
@@ -63,7 +66,9 @@ Loader
         if (status == Loader.Ready)
         {
             item.multiMenueButton.moveIn()
+            item.backImage.visible = true
         }
+        yacApp.minimizeMenue()
     }
 
     function close()
@@ -74,6 +79,7 @@ Loader
         if (status == Loader.Ready)
         {
             item.multiMenueButton.moveOut()
+            item.backImage.visible = false
         }
     }
     onLoaded: item.multiMenueButton.moveIn()

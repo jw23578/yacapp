@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import "../../items"
 import ".."
+import "../../editor"
 import "qrc:/EMailPasswordFunctions.js" as EMailPasswordFunctions
 
 AppUserBasePage2
@@ -10,7 +11,8 @@ AppUserBasePage2
     signal logout()
     multiMenueButton.visible: true
     multiMenueButton.model: [{caption: qsTr("Logout")},
-        {caption: qsTr("Change Profileimage")}]
+        {caption: qsTr("Change Profileimage")},
+        {caption: qsTr("Design")}]
     multiMenueButton.onClicked:
     {
         Helper.jsLog("caption: " + caption)
@@ -22,6 +24,10 @@ AppUserBasePage2
         if (caption == qsTr("Change Profileimage"))
         {
             yacApp.takePhoto(true, true, originalSizeProfileImage)
+        }
+        if (caption == qsTr("Design"))
+        {
+            theLoader.sourceComponent = designEditorComponent
         }
     }
 
@@ -159,5 +165,19 @@ AppUserBasePage2
                 }
             }
         }
+    }
+    Component
+    {
+        id: designEditorComponent
+        ConfiguratorDesignEditor
+        {
+            onCloseClicked: theLoader.sourceComponent = null
+        }
+    }
+
+    Loader
+    {
+        id: theLoader
+        anchors.fill: parent
     }
 }

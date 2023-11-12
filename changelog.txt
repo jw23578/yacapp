@@ -1,3 +1,9 @@
+2023-11-12
+- Die User-Messages gehen jetzt auch animiert auf.
+- Das Sprachauswahlmenü entfernt, das ist überflüssig, weil sich das sowieso anhand der Handyeinstellungen selbst einstellt.
+- "Design-Menü" ist jetzt im Profil im "Multibutton" gelandet.
+Der Multibutton ist dieser Button mit "Burgermenü" auf klick geht der auf und zeigt die einzelnen Menüpunkte an.
+
 2023-11-10
 - Design/Layout Sachen
 - AppUserBasePage2 eingeführt

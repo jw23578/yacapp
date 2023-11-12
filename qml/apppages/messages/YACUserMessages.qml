@@ -4,6 +4,7 @@ import ".."
 
 AppUserBasePage2
 {
+    enableBack: true
     property var profile: null
     anchors.fill: parent
     id: messagePage
