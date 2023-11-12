@@ -132,44 +132,36 @@ ApplicationWindow
     {
         visible: false
         id: dateTimePicker
-        onVisibleChanged: topLevelVisible()
     }
     DialogDatePicker
     {
         visible: false
         id: datePicker
-        onVisibleChanged: topLevelVisible()
     }
     DialogTimePicker
     {
         visible: false
         id: timePicker
-        onVisibleChanged: topLevelVisible()
     }
-    function topLevelVisible()
-    {
-        Constants.topLevelFormActive = Constants.superMenueOpen ||  Constants.superMenueClicked || badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible || timePicker.visible || datePicker.visible || dateTimePicker.visible || waitForm.visible
-    }
+
+    property bool topLevelFormActive: Constants.superMenueOpen ||  Constants.superMenueClicked || badMessage.visible || goodMessage.visible || yesNoQuestion.visible || splashscreen.visible || timePicker.visible || datePicker.visible || dateTimePicker.visible || waitForm.visible
+    onTopLevelFormActiveChanged: Constants.topLevelFormActive = topLevelFormActive
 
     YACBadMessageForm
     {
         id: badMessage
-        onVisibleChanged: topLevelVisible()
     }
     YACGoodMessageForm
     {
         id: goodMessage
-        onVisibleChanged: topLevelVisible()
     }
     YACYesNoQuestionForm
     {
         id: yesNoQuestion
-        onVisibleChanged: topLevelVisible()
     }
     YACPleaseWaitForm
     {
         id: waitForm
-        onVisibleChanged: topLevelVisible()
     }
 
     Rectangle

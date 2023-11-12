@@ -1,4 +1,8 @@
 2023-11-12
+- Verbessert, wie festgestell wird, dass ein TopLevelWindow aktiv ist (jetzt muss dazu keine Funktion mehr aufgerufen werden)
+- Wenn das SuperMenü geöffnet ist, dann werden die aktuellen inhalte ausgeblendet
+
+2023-11-12
 - Die User-Messages gehen jetzt auch animiert auf.
 - Das Sprachauswahlmenü entfernt, das ist überflüssig, weil sich das sowieso anhand der Handyeinstellungen selbst einstellt.
 - "Design-Menü" ist jetzt im Profil im "Multibutton" gelandet.

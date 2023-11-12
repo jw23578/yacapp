@@ -128,6 +128,7 @@ Item
         duration: animationDuration
         onFinished: Constants.superMenueOpen = false
     }
+    property double openValue: 1 - horizontalFlickable.y / (theMenu.height - smallElemHeight)
     function close()
     {
         if (!Constants.superMenueOpen)

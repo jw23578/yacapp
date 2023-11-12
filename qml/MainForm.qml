@@ -165,6 +165,9 @@ Item
 
         Column
         {
+            opacity: 1 - theSuperMenue.openValue
+
+
             width: parent.width
             id: mainForm
             YACHeader
