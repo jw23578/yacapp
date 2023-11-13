@@ -11,7 +11,6 @@ AppUserBasePage2
     signal logout()
     multiMenueButton.visible: true
     multiMenueButton.model: [{caption: qsTr("Logout")},
-        {caption: qsTr("Change Profileimage")},
         {caption: qsTr("Design")}]
     multiMenueButton.onClicked:
     {
@@ -20,10 +19,6 @@ AppUserBasePage2
         {
             yacApp.appUserLogout()
             theProfilePage.logout()
-        }
-        if (caption == qsTr("Change Profileimage"))
-        {
-            yacApp.takePhoto(true, true, originalSizeProfileImage)
         }
         if (caption == qsTr("Design"))
         {
@@ -55,7 +50,6 @@ AppUserBasePage2
                     {
                         id: theProfileImage
                         anchors.fill: parent
-                        mipmap: true
                         autoTransform: true
                         source: "image://async/profileImage/" + yacApp.appUserConfig.profileImageId
                     }
@@ -68,6 +62,30 @@ AppUserBasePage2
                             theProfileImage.source = source
                         }
                     }
+                    YACRoundedRectangle
+                    {
+                        radiusTopLeft: true
+                        radius: Constants.radius
+                        opacity: .5
+                        id: changeProfileRectangle
+                        anchors.horizontalCenterOffset: -width / 2
+                        anchors.verticalCenterOffset: -height / 2
+                        anchors.horizontalCenter: parent.right
+                        anchors.verticalCenter: parent.bottom
+                        width: parent.width / 4
+                        height: width
+                        MouseArea
+                        {
+                            anchors.fill: parent
+                            onClicked: yacApp.takePhoto(true, true, originalSizeProfileImage)
+                        }
+                    }
+                    Image
+                    {
+                        anchors.fill: changeProfileRectangle
+                        source: "qrc:/images/images/camera.svg"
+                    }
+
                 }
             }
 

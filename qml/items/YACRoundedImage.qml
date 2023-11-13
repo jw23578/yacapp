@@ -8,6 +8,7 @@ Image
     property bool adapt: true
     property double radius: 0
     property bool circled: true
+    mipmap: true
     fillMode: Image.PreserveAspectFit
     layer.enabled: rounded
     layer.effect: OpacityMask

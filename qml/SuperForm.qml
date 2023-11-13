@@ -57,7 +57,7 @@ Rectangle
                 YACText
                 {
                     anchors.centerIn: parent
-                    text: qsTr("One Moment please")
+                    text: qsTr("One Moment please.")
                 }
             }
         }

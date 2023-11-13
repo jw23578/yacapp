@@ -98,7 +98,6 @@ Rectangle
             anchors.fill: parent
             onClicked:
             {
-                console.log("hello")
                 if (enableBack)
                 {
                     closeClicked()

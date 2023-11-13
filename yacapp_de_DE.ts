@@ -38,7 +38,7 @@
 <context>
     <name>AppUserBasePage</name>
     <message>
-        <location filename="qml/apppages/AppUserBasePage.qml" line="32"/>
+        <location filename="qml/apppages/AppUserBasePage.qml" line="34"/>
         <source>Close</source>
         <translation type="unfinished">Schließen</translation>
     </message>
@@ -251,14 +251,8 @@
 <context>
     <name>AppUserProfileIcon</name>
     <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="93"/>
         <source>Language</source>
-        <translation type="unfinished">Sprache</translation>
-    </message>
-    <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="110"/>
-        <source>Design</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Sprache</translation>
     </message>
     <message>
         <source>Profile</source>
@@ -277,9 +271,8 @@
         <translation type="obsolete">Dienstzeit</translation>
     </message>
     <message>
-        <location filename="qml/apppages/AppUserProfileIcon.qml" line="76"/>
         <source>Close</source>
-        <translation type="unfinished">Schließen</translation>
+        <translation type="obsolete">Schließen</translation>
     </message>
 </context>
 <context>
@@ -494,7 +487,7 @@
 <context>
     <name>BasePageLoader</name>
     <message>
-        <location filename="qml/apppages/BasePageLoader.qml" line="48"/>
+        <location filename="qml/apppages/BasePageLoader.qml" line="49"/>
         <source>Please login first.</source>
         <translation type="unfinished">Bitte erst Einloggen.</translation>
     </message>
@@ -756,205 +749,230 @@
     </message>
     <message>
         <location filename="qml/editor/ConfiguratorPageEditor.qml" line="107"/>
-        <source>APP-User enabled: </source>
+        <source>APP-User Profile (create/login) enabled: </source>
+        <oldsource>APP-User enabled: </oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="qml/editor/ConfiguratorPageEditor.qml" line="107"/>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="113"/>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="119"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="116"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="125"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="134"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="143"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="152"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="161"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="qml/editor/ConfiguratorPageEditor.qml" line="107"/>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="113"/>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="119"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="116"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="125"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="134"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="143"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="152"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="161"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="113"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="116"/>
         <source>APP-User Messages enabled: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="119"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="125"/>
+        <source>APP-User News enabled: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="134"/>
         <source>APP-User Worktime: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="126"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="143"/>
+        <source>APP-User Appointments: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="152"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="161"/>
+        <source>APP-User Spaces: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="171"/>
         <source>Logo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="129"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="174"/>
         <source>LogoUrl</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="135"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="180"/>
         <source>Logo-Width per thousand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="142"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="187"/>
         <source>Logo-Offset-X per thousand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="149"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="194"/>
         <source>Logo-Height per thousand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="156"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="201"/>
         <source>Logo-Offset-Y per thousand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="165"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="210"/>
         <source>Header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="168"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="213"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="174"/>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="397"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="219"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="442"/>
         <source>Height per thousand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="181"/>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="191"/>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="307"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="226"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="236"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="352"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="188"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="233"/>
         <source>Background</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="199"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="244"/>
         <source>Content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="202"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="247"/>
         <source>Login needed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="209"/>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="268"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="254"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="313"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="218"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="263"/>
         <source>Columns</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="226"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="271"/>
         <source>Rows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="233"/>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="347"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="278"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="392"/>
         <source>Url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="276"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="321"/>
         <source>Remove Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="277"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="322"/>
         <source>Remove Item?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="293"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="338"/>
         <source>Target</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="300"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="345"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="315"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="360"/>
         <source>FlipableFilename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="323"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="368"/>
         <source>Text2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="330"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="375"/>
         <source>Color2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="338"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="383"/>
         <source>FlipableFilename2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="355"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="400"/>
         <source>Fillmode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="375"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="420"/>
         <source>Filename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="383"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="428"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="389"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="434"/>
         <source>Width per thousand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="405"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="450"/>
         <source>Left Margin per Thousand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="412"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="457"/>
         <source>Right Margin per Thousand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="419"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="464"/>
         <source>Top Margin per Thousand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="426"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="471"/>
         <source>Bottom Margin per Thousand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="436"/>
+        <location filename="qml/editor/ConfiguratorPageEditor.qml" line="481"/>
         <source>Add Item</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1186,17 +1204,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/MainForm.qml" line="106"/>
+        <location filename="qml/MainForm.qml" line="107"/>
         <source>could not load appointments, please try again later. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/MainForm.qml" line="118"/>
+        <location filename="qml/MainForm.qml" line="119"/>
         <source>Could not load Rightgroups, please try again later. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/MainForm.qml" line="129"/>
+        <location filename="qml/MainForm.qml" line="130"/>
         <source>Could not load Spaces, please try again later. </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1230,53 +1248,59 @@
 <context>
     <name>SelectAppForm</name>
     <message>
-        <location filename="qml/SelectAppForm.qml" line="109"/>
+        <location filename="qml/SelectAppForm.qml" line="131"/>
         <source>CODE or Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/SelectAppForm.qml" line="247"/>
+        <location filename="qml/SelectAppForm.qml" line="19"/>
+        <location filename="qml/SelectAppForm.qml" line="25"/>
+        <location filename="qml/SelectAppForm.qml" line="287"/>
         <source>Install</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/SelectAppForm.qml" line="263"/>
-        <location filename="qml/SelectAppForm.qml" line="480"/>
+        <location filename="qml/SelectAppForm.qml" line="12"/>
+        <source>Please wait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/SelectAppForm.qml" line="21"/>
         <source>App installed, have fun.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/SelectAppForm.qml" line="278"/>
-        <source>More</source>
+        <location filename="qml/SelectAppForm.qml" line="267"/>
+        <source>more</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/SelectAppForm.qml" line="361"/>
+        <location filename="qml/SelectAppForm.qml" line="383"/>
         <source>Close</source>
         <translation type="unfinished">Schließen</translation>
     </message>
     <message>
-        <location filename="qml/SelectAppForm.qml" line="397"/>
+        <location filename="qml/SelectAppForm.qml" line="419"/>
         <source>No known Apps yet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/SelectAppForm.qml" line="439"/>
+        <location filename="qml/SelectAppForm.qml" line="462"/>
         <source>Please enter the installation Code to proceed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/SelectAppForm.qml" line="452"/>
+        <location filename="qml/SelectAppForm.qml" line="475"/>
         <source>Installation Code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/SelectAppForm.qml" line="467"/>
+        <location filename="qml/SelectAppForm.qml" line="490"/>
         <source>Verify and Install</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/SelectAppForm.qml" line="497"/>
+        <location filename="qml/SelectAppForm.qml" line="508"/>
         <source>Back</source>
         <translation type="unfinished">Zurück</translation>
     </message>
@@ -1285,59 +1309,61 @@
     <name>SuperForm</name>
     <message>
         <location filename="qml/SuperForm.qml" line="60"/>
-        <source>One Moment please</source>
-        <translation type="unfinished"></translation>
+        <source>One Moment please.</source>
+        <oldsource>One Moment please</oldsource>
+        <translation>Einen Moment bitte.</translation>
     </message>
 </context>
 <context>
     <name>SuperMenue</name>
     <message>
         <location filename="qml/menue/SuperMenue.qml" line="23"/>
-        <location filename="qml/menue/SuperMenue.qml" line="34"/>
+        <location filename="qml/menue/SuperMenue.qml" line="66"/>
         <source>Menue</source>
-        <translation type="unfinished"></translation>
+        <translation>Menü</translation>
     </message>
     <message>
         <location filename="qml/menue/SuperMenue.qml" line="24"/>
-        <location filename="qml/menue/SuperMenue.qml" line="37"/>
+        <location filename="qml/menue/SuperMenue.qml" line="78"/>
         <source>News</source>
-        <translation type="unfinished"></translation>
+        <translation>Neuigkeiten</translation>
     </message>
     <message>
         <location filename="qml/menue/SuperMenue.qml" line="25"/>
-        <location filename="qml/menue/SuperMenue.qml" line="40"/>
+        <location filename="qml/menue/SuperMenue.qml" line="82"/>
         <source>Worktime</source>
-        <translation type="unfinished">Dienstzeit</translation>
+        <translation>Arbeitszeit</translation>
     </message>
     <message>
         <location filename="qml/menue/SuperMenue.qml" line="26"/>
-        <location filename="qml/menue/SuperMenue.qml" line="43"/>
+        <location filename="qml/menue/SuperMenue.qml" line="86"/>
         <source>Appointments</source>
-        <translation type="unfinished"></translation>
+        <translation>Termine</translation>
     </message>
     <message>
         <location filename="qml/menue/SuperMenue.qml" line="27"/>
-        <location filename="qml/menue/SuperMenue.qml" line="46"/>
+        <location filename="qml/menue/SuperMenue.qml" line="90"/>
         <source>Spaces</source>
-        <translation type="unfinished"></translation>
+        <translation>Bereiche</translation>
     </message>
     <message>
         <location filename="qml/menue/SuperMenue.qml" line="28"/>
-        <location filename="qml/menue/SuperMenue.qml" line="49"/>
+        <location filename="qml/menue/SuperMenue.qml" line="94"/>
         <source>Rights</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechte</translation>
     </message>
     <message>
         <location filename="qml/menue/SuperMenue.qml" line="29"/>
-        <location filename="qml/menue/SuperMenue.qml" line="52"/>
+        <location filename="qml/menue/SuperMenue.qml" line="70"/>
         <source>Profile</source>
-        <translation type="unfinished">Profil</translation>
+        <translation>Profil</translation>
     </message>
     <message>
         <location filename="qml/menue/SuperMenue.qml" line="30"/>
-        <location filename="qml/menue/SuperMenue.qml" line="55"/>
-        <source>Message</source>
-        <translation type="unfinished"></translation>
+        <location filename="qml/menue/SuperMenue.qml" line="74"/>
+        <source>Messages</source>
+        <oldsource>Message</oldsource>
+        <translation>Nachrichten</translation>
     </message>
 </context>
 <context>
@@ -1421,7 +1447,7 @@
     <message>
         <location filename="qml/YACBadMessageForm.qml" line="57"/>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>Ok</translation>
     </message>
 </context>
 <context>
@@ -1429,17 +1455,17 @@
     <message>
         <location filename="qml/items/YACDateWheel.qml" line="25"/>
         <source>Year</source>
-        <translation type="unfinished"></translation>
+        <translation>Jahr</translation>
     </message>
     <message>
         <location filename="qml/items/YACDateWheel.qml" line="65"/>
         <source>Month</source>
-        <translation type="unfinished"></translation>
+        <translation>Monat</translation>
     </message>
     <message>
         <location filename="qml/items/YACDateWheel.qml" line="105"/>
         <source>Day</source>
-        <translation type="unfinished"></translation>
+        <translation>Tag</translation>
     </message>
 </context>
 <context>
@@ -1447,7 +1473,7 @@
     <message>
         <location filename="qml/YACGoodMessageForm.qml" line="57"/>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>Ok</translation>
     </message>
 </context>
 <context>
@@ -1488,12 +1514,12 @@
     <message>
         <location filename="qml/items/YACTimeWheel.qml" line="26"/>
         <source>Hour</source>
-        <translation type="unfinished"></translation>
+        <translation>Stunde</translation>
     </message>
     <message>
         <location filename="qml/items/YACTimeWheel.qml" line="60"/>
         <source>Minute</source>
-        <translation type="unfinished"></translation>
+        <translation>Minute</translation>
     </message>
 </context>
 <context>
@@ -1502,12 +1528,12 @@
         <location filename="qml/apppages/profile/YACUserKnownProfiles.qml" line="11"/>
         <location filename="qml/apppages/profile/YACUserKnownProfiles.qml" line="16"/>
         <source>Add Contact</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontakt hinzufügen</translation>
     </message>
     <message>
         <location filename="qml/apppages/profile/YACUserKnownProfiles.qml" line="73"/>
         <source>Delete this Contact?</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontakt löschen?</translation>
     </message>
     <message>
         <source>Close</source>
@@ -1517,77 +1543,82 @@
         <location filename="qml/apppages/profile/YACUserKnownProfiles.qml" line="12"/>
         <location filename="qml/apppages/profile/YACUserKnownProfiles.qml" line="20"/>
         <source>Fetch</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachrichten abrufen</translation>
     </message>
 </context>
 <context>
     <name>YACUserMessages</name>
     <message>
-        <location filename="qml/apppages/messages/YACUserMessages.qml" line="279"/>
         <source>Close</source>
-        <translation type="unfinished">Schließen</translation>
+        <translation type="obsolete">Schließen</translation>
     </message>
 </context>
 <context>
     <name>YACUserProfile</name>
     <message>
-        <location filename="qml/apppages/profile/YACUserProfile.qml" line="13"/>
-        <location filename="qml/apppages/profile/YACUserProfile.qml" line="22"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="14"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="24"/>
         <source>Change Profileimage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserProfile.qml" line="71"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="15"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="28"/>
+        <source>Design</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="77"/>
         <source>Name</source>
         <translation type="unfinished">Vorname</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserProfile.qml" line="77"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="83"/>
         <source>Surname</source>
         <translation type="unfinished">Nachname</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserProfile.qml" line="83"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="89"/>
         <source>Visiblename</source>
         <translation type="unfinished">Sichtbarer Name</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserProfile.qml" line="89"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="95"/>
         <source>Search Option</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserProfile.qml" line="90"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="96"/>
         <source>not searchable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserProfile.qml" line="91"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="97"/>
         <source>only exact searchable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserProfile.qml" line="92"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="98"/>
         <source>fuzzy searchable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserProfile.qml" line="108"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="114"/>
         <source>New Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserProfile.qml" line="114"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="120"/>
         <source>Save</source>
         <translation type="unfinished">Speichern</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserProfile.qml" line="129"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="135"/>
         <source>Profile saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserProfile.qml" line="133"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="139"/>
         <source>Could not save Profile, please try again</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1596,8 +1627,8 @@
         <translation type="obsolete">Schließen</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserProfile.qml" line="12"/>
-        <location filename="qml/apppages/profile/YACUserProfile.qml" line="17"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="13"/>
+        <location filename="qml/apppages/profile/YACUserProfile.qml" line="19"/>
         <source>Logout</source>
         <translation type="unfinished">Ausloggen</translation>
     </message>
@@ -1692,19 +1723,16 @@
 <context>
     <name>YACUserSelectLanguage</name>
     <message>
-        <location filename="qml/apppages/YACUserSelectLanguage.qml" line="19"/>
         <source>English</source>
-        <translation type="unfinished">Englisch</translation>
+        <translation type="obsolete">Englisch</translation>
     </message>
     <message>
-        <location filename="qml/apppages/YACUserSelectLanguage.qml" line="24"/>
         <source>German</source>
-        <translation type="unfinished">Deutsch</translation>
+        <translation type="obsolete">Deutsch</translation>
     </message>
     <message>
-        <location filename="qml/apppages/YACUserSelectLanguage.qml" line="29"/>
         <source>Close</source>
-        <translation type="unfinished">Schließen</translation>
+        <translation type="obsolete">Schließen</translation>
     </message>
 </context>
 <context>
@@ -1720,7 +1748,7 @@
         <translation>Bitte gib deine E-Mail ein</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="50"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="51"/>
         <source>Next</source>
         <translation>Weiter</translation>
     </message>
@@ -1729,70 +1757,76 @@
         <translation type="obsolete">Bitte geben sie den Code ein, den sie per E-Mail erhalten haben.</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="103"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="104"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="122"/>
         <source>Please enter the Code you received by E-Mail.</source>
         <translation>Bitte geben sie den Code ein, den sie per E-Mail erhalten haben.</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="116"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="117"/>
         <source>Verify and Login</source>
         <translation>Prüfen und Einloggen</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="121"/>
         <source>Please enter the Code you received by E-Mail</source>
-        <translation type="unfinished">Bitte geben sie den Code ein, den sie per E-Mail erhalten haben.</translation>
+        <translation type="obsolete">Bitte geben sie den Code ein, den sie per E-Mail erhalten haben.</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="127"/>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="147"/>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="167"/>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="213"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="125"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="183"/>
+        <source>Login in progress, please wait.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="130"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="152"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="172"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="221"/>
         <source>Login</source>
         <translation>Einloggen</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="129"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="133"/>
         <source>You are logged in. Have fun!</source>
         <translation>Einloggen erfolgreich. Viel Spaß!</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="132"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="137"/>
         <source>Verification successful, you are logged in. Have fun!</source>
         <translation>Verifikation erfolgreich, sie sind eingeloggt. Viel Spaß!</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="148"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="153"/>
         <source>Back to Password</source>
         <translation>Zurück zur Passworteingabe</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="155"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="160"/>
         <source>Please enter your Passwort.</source>
         <translation>Bitte gib dein Passwort ein.</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="182"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="189"/>
         <source>Login successful, have fun!</source>
         <translation>Einloggen erfolgreich, viel Spaß!</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="194"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="202"/>
         <source>Forgot your Password?</source>
         <translation>Passwort vergessen?</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="200"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="208"/>
         <source>Request Passwortreset E-Mail</source>
         <translation>Passwort-Link beantragen</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="200"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="208"/>
         <source>Request Logincode</source>
         <translation>Logincode beantragen</translation>
     </message>
     <message>
-        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="212"/>
+        <location filename="qml/apppages/profile/YACUserTokenLogin.qml" line="220"/>
         <source>Code sended, please check your E-Mails.</source>
         <translation>Der Code wurde versendet, bitte prüfe deine E-Mails.</translation>
     </message>
@@ -1942,7 +1976,7 @@ Seit: </translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="main.qml" line="259"/>
+        <location filename="main.qml" line="265"/>
         <source>Not yet implemented</source>
         <translation type="unfinished"></translation>
     </message>

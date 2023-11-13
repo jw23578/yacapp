@@ -32,15 +32,14 @@ YACTriggerableItem
 
     function open()
     {
-        Helper.jsLog("hello2")
         isClosed = false
         if (once)
         {
             once = false
             buttonColumn.anchors.centerIn = null
-            openXAni.to = buttonColumn.x
+            openXAni.to = Constants.appTotalWidth / 8
             openYAni.to = buttonColumn.y
-            openWidthAni.to = buttonColumn.width
+            openWidthAni.to = Constants.appTotalWidth * 3 / 4
             openHeightAni.to = buttonColumn.height
             buttonColumn.width = sizeButton.width
             buttonColumn.height = sizeButton.height
@@ -142,7 +141,7 @@ YACTriggerableItem
         visible: false
         id: buttonColumn
         anchors.centerIn: parent
-        width: parent.width * 3 / 4
+        width: Constants.appTotalWidth * 3 / 4
 
         Repeater
         {

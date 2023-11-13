@@ -1,3 +1,6 @@
+2023-11-13
+- Das Profilbild kann jetzt über einen Button geändert werden der direkt am Profilbild ist
+
 2023-11-12
 - Verbessert, wie festgestell wird, dass ein TopLevelWindow aktiv ist (jetzt muss dazu keine Funktion mehr aufgerufen werden)
 - Wenn das SuperMenü geöffnet ist, dann werden die aktuellen inhalte ausgeblendet

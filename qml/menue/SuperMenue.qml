@@ -27,7 +27,7 @@ Item
         case qsTr("Spaces"): openSpaces();break;
         case qsTr("Rights"): openRights();break;
         case qsTr("Profile"): openProfile();break;
-        case qsTr("Message"): openMessages();break;
+        case qsTr("Messages"): openMessages();break;
         }
     }
 
@@ -71,7 +71,7 @@ Item
             iconUrl: "",
             loginNeeded: true},
         {menueEnabled: yacApp.globalConfig.appUserEnabled && yacApp.globalConfig.appUserMessagesEnabled,
-            caption: qsTr("Message"),
+            caption: qsTr("Messages"),
             iconUrl: "",
             loginNeeded: true},
         {menueEnabled: yacApp.globalConfig.appUserNewsEnabled,
@@ -135,7 +135,6 @@ Item
         {
             return
         }
-
         menueClosed()
         waitBeforeSetClosed.start()
         horizontalFlickable.y = theMenu.height - smallElemHeight
@@ -226,7 +225,12 @@ Item
         {
             anchors.fill: parent
             anchors.margins: -theOpenBar.height
-            onClicked: if (Constants.superMenueOpen) {close()} else {open()}
+            onClicked: {
+                theSuperMenue.close()
+                if (Constants.superMenueOpen) {
+                    theSuperMenue.close()
+                } else {theSuperMenue.open()}
+            }
         }
         Behavior on y
         {

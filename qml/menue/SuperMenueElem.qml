@@ -159,7 +159,6 @@ Rectangle
 
             onPressAndHold:
             {
-                Helper.jsLog("hello")
                 drag.target = theElem
                 theElem.Drag.active = true
             }

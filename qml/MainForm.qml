@@ -77,6 +77,7 @@ Item
             {
                 currentOpenedLoader.close()
             }
+            theSuperMenue.close()
 
             theRealMenue.toggle()
         }
