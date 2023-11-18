@@ -258,7 +258,7 @@ void YACAPP::fetchFiles()
                 ,
                 [](QString message)
                 {
-                    int z1 = 0;
+                    Q_UNUSED(message)
                 });
         }
         else
@@ -283,7 +283,7 @@ void YACAPP::fetchFiles()
                 ,
                 [](QString message)
                 {
-                    int z1 = 0;
+                    Q_UNUSED(message)
                 });
         }
     }
@@ -297,6 +297,7 @@ void YACAPP::timeout()
 
 void YACAPP::missingRight(int rightNumber)
 {
+    Q_UNUSED(rightNumber)
     emit cppQMLAppAndConfigurator.badMessage(tr("You are not allowed"), QJSValue::NullValue, QJSValue::NullValue);
 }
 
@@ -993,7 +994,7 @@ void YACAPP::appUserFetchAppointments(QJSValue successCallback,
         {
             QJsonObject object(jsonDoc.object());
             QJsonArray appointments(object["appointments"].toArray());
-            for (size_t i(0); i < appointments.size(); ++i)
+            for (int i(0); i < appointments.size(); ++i)
             {
                 QJsonObject appointment(appointments[i].toObject());
                 AppointmentObject *a(new AppointmentObject);
@@ -1189,7 +1190,7 @@ void YACAPP::appUserFetchSpaces(QJSValue successCallback, QJSValue errorCallback
             spacesModel.clear();
             QJsonObject object(jsonDoc.object());
             QJsonArray spaces(object["spaces"].toArray());
-            for (size_t i(0); i < spaces.size(); ++i)
+            for (int i(0); i < spaces.size(); ++i)
             {
                 QJsonObject space(spaces[i].toObject());
                 SpaceObject *so(new SpaceObject);
@@ -1536,8 +1537,12 @@ QString YACAPP::storeMessageImage(const QString &imageFilename, int widht, int h
         appUserConfig()->loginEMail(),
         appUserConfig()->loginToken(),
         t0028,
-        [](const QJsonDocument &document){},
-        [](const QString &message){});
+        [](const QJsonDocument &document){
+            Q_UNUSED(document)
+        },
+        [](const QString &message){
+            Q_UNUSED(message)
+        });
     return t0028.id();
 }
 
@@ -1552,10 +1557,13 @@ void YACAPP::deleteMessage(const QString &messageId)
         appUserConfig()->loginEMail(),
         appUserConfig()->loginToken(),
         [this, messageId](const QJsonDocument &document){
+            Q_UNUSED(document)
             messagesModel.removeById(messageId);
             localStorage->deleteMessage(messageId);
         },
-        [](const QString &message){});
+        [](const QString &message){
+            Q_UNUSED(message)
+        });
 }
 
 void YACAPP::addProfileToKnownProfiles(const QString &id)
@@ -1594,13 +1602,13 @@ void YACAPP::switchLanguage(const QString &language)
 }
 
 #ifdef Q_OS_ANDROID
-#include <QtAndroid>
+#include <QtCore/private/qandroidextras_p.h>
 #endif
 
 void YACAPP::goTakePhoto(bool squared, bool circled, QJSValue target)
 {
 #ifdef Q_OS_ANDROID
-    if (QtAndroid::checkPermission("android.permission.CAMERA") == QtAndroid::PermissionResult::Denied)
+    if (QtAndroidPrivate::checkPermission("android.permission.CAMERA").result() == QtAndroidPrivate::Denied)
     {
 
     }

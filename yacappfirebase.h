@@ -10,9 +10,9 @@
 #include "firebase/app.h"
 #include "firebase/messaging.h"
 
-#include <QAndroidJniEnvironment>
-#include <QAndroidJniObject>
-#include <QtAndroid>
+#include <QJniEnvironment>
+#include <QJniObject>
+ #include <QCoreApplication>>
 #include "google_play_services/availability.h"
 
 
@@ -32,8 +32,8 @@ class YACAPPFirebase
     Firebase2Qt &firebase2qt;
     MessageListener messageListener;
     firebase::App *firebaseApp;
-    QAndroidJniEnvironment *qjniEnv;
-    QAndroidJniObject activity;
+    QJniEnvironment *qjniEnv;
+    QJniObject activity;
     bool checkGooglePlayService();
 public:
     YACAPPFirebase(Firebase2Qt &firebase2qt);

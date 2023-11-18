@@ -129,7 +129,7 @@ template<class T>
 void TemplatedDataModel<T>::internalDeleteById(const QString &id)
 {
     size_t index(objects.indexById(id));
-    if (index == -1)
+    if (index == static_cast<size_t>(-1))
     {
         return;
     }

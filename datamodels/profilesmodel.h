@@ -14,10 +14,7 @@ protected:
 public:
     ProfilesModel(QQmlApplicationEngine &engine,
                   const QString &modelName);
-    virtual ~ProfilesModel()
-    {
-        int z = 0;
-    }
+    virtual ~ProfilesModel(){}
 
     ProfileObject *getCopyById(const QString &id) const;
     bool incUnreadMessages(const QString &id);

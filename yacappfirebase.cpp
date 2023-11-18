@@ -3,10 +3,10 @@
 
 bool YACAPPFirebase::checkGooglePlayService()
 {
-    QAndroidJniEnvironment env;
-    QAndroidJniObject activity = QtAndroid::androidActivity();
+    QJniEnvironment env;
+    QJniObject activity = QNativeInterface::QAndroidApplication::context();
 
-    auto availablity = ::google_play_services::CheckAvailability(env, activity.object());
+    auto availablity = ::google_play_services::CheckAvailability(env.jniEnv(), activity.object());
     qDebug() << "GooglePlayServices::available() result :" << availablity << " (0 is kAvailabilityAvailable)";
     return true;
 }
@@ -17,15 +17,15 @@ YACAPPFirebase::YACAPPFirebase(Firebase2Qt &firebase2qt):
 {
     checkGooglePlayService();
 
-    qjniEnv = new QAndroidJniEnvironment;
+    qjniEnv = new QJniEnvironment;
 
-    QAndroidJniObject activity = QtAndroid::androidActivity();
+    QJniObject activity = QNativeInterface::QAndroidApplication::context();
 
     firebaseApp = ::firebase::App::GetInstance();
     if (!firebaseApp)
     {
         qDebug() << "creating firebase app";
-        firebaseApp = firebase::App::Create(*qjniEnv, activity.object<jobject>());
+        firebaseApp = firebase::App::Create(qjniEnv->jniEnv(), activity.object<jobject>());
     }
     if (firebaseApp)
     {
