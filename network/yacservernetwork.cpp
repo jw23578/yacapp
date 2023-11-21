@@ -444,18 +444,20 @@ void YACServerNetwork::appUserUpdateProfile(const QString &appId,
                                             const bool searching_exactly_allowed,
                                             const bool searching_fuzzy_allowed,
                                             const QString &password,
+                                            const QString &public_key_base64,
                                             JSONCallbackFunction successCallback,
                                             CallbackFunction errorCallback)
 {
     MACRO_RAW_HEADER();
 
     QJsonObject obj;
-    obj["fstname"] = fstname;
-    obj["surname"] = surname;
-    obj["visible_name"] = visible_name;
-    obj["searching_exactly_allowed"] = searching_exactly_allowed;
-    obj["searching_fuzzy_allowed"] = searching_fuzzy_allowed;
+    MACRO_JSON_SET(obj, fstname);
+    MACRO_JSON_SET(obj, surname);
+    MACRO_JSON_SET(obj, visible_name);
+    MACRO_JSON_SET(obj, searching_exactly_allowed);
+    MACRO_JSON_SET(obj, searching_fuzzy_allowed);
     MACRO_JSON_SET(obj, password);
+    MACRO_JSON_SET(obj, public_key_base64);
     if (profileFilename.size())
     {
         QFile file(profileFilename);

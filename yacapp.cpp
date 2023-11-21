@@ -596,6 +596,7 @@ void YACAPP::appUserLogin(const QString &loginEMail,
             appUserConfig()->setVisibleName(visible_name);
             appUserConfig()->setId(object[tableFields.id].toString());
             appUserConfig()->setProfileImageId(object[tableFields.image_id].toString());
+            appUserConfig()->loadKeyPair();
             saveState();
             fetchMessageUpdates();
             successCallback.call(QJSValueList());
@@ -885,11 +886,12 @@ void YACAPP::appUserUpdateProfile(const QString &fstname,
         searching_exactly_allowed,
         searching_fuzzy_allowed,
         password,
+        appUserConfig()->getPublicKeyBase64(),
         [this, successCallback](const QJsonDocument &jsonDoc) mutable
         {
             QJsonObject object(jsonDoc.object());
             QString image_id(object[tableFields.image_id].toString());
-            if (image_id.size())
+            if (helper.validUuid(image_id))
             {
                 appUserConfig()->setProfileImageId(image_id);
             }

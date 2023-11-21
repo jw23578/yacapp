@@ -8,7 +8,8 @@
 #include "logger.h"
 
 Helper::Helper(QObject *parent)
-    : QObject{parent}
+    : QObject{parent},
+    nullUuidString(QUuid().toString(QUuid::WithoutBraces))
 {
 
 }
@@ -189,4 +190,9 @@ void Helper::jsLog(const QString &message)
 QString Helper::generateUuid() const
 {
     return QUuid::createUuid().toString(QUuid::WithoutBraces);
+}
+
+bool Helper::validUuid(const QString &u) const
+{
+    return u.size() > 0 && u != nullUuidString;
 }

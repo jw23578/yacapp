@@ -7,6 +7,7 @@
 class Helper : public QObject
 {
     Q_OBJECT
+    QString nullUuidString;
 public:
     explicit Helper(QObject *parent = nullptr);
 
@@ -56,6 +57,7 @@ public:
     Q_INVOKABLE void jsLog(const QString &message);
 
     Q_INVOKABLE QString generateUuid() const;
+    Q_INVOKABLE bool validUuid(const QString &u) const;
 
 signals:
 

@@ -22,13 +22,19 @@ class AppUserConfig: public ConfigInterface
     YACAPPPROPERTY(QDateTime, workStart, WorkStart, QDateTime());
     YACAPPPROPERTY(QDateTime, pauseStart, PauseStart, QDateTime());
     YACAPPPROPERTY(QDateTime, offSiteWorkStart, OffSiteWorkStart, QDateTime());
+    QByteArray publicKey;
+    QByteArray privateKey;
+    void saveKeyPair();
 public:
     explicit AppUserConfig(QObject *parent = nullptr);
 
+    void loadKeyPair();
     void setConfig(const QJsonValue &config) override;
     QJsonObject getConfig() const override;
 
     void clear();
+
+    QString getPublicKeyBase64();
 };
 
 #endif // APPUSERCONFIG_H

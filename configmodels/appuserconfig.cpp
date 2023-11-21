@@ -2,6 +2,10 @@
 #include <QQmlEngine>
 #include <QJsonValue>
 #include <QJsonObject>
+#include "opensslwrapper.h"
+#include <QFile>
+#include <QFileInfo>
+#include "constants.h"
 
 AppUserConfig::AppUserConfig(QObject *parent):
     ConfigInterface(parent)
@@ -29,6 +33,7 @@ void AppUserConfig::setConfig(const QJsonValue &config)
     {
         setLoginToken("");
     }
+    loadKeyPair();
 }
 
 QJsonObject AppUserConfig::getConfig() const
@@ -93,4 +98,48 @@ void AppUserConfig::clear()
     setWorkStart(QDateTime());
     setPauseStart(QDateTime());
     setOffSiteWorkStart(QDateTime());
+}
+
+QString AppUserConfig::getPublicKeyBase64()
+{
+    return publicKey.toBase64();
+}
+
+void AppUserConfig::loadKeyPair()
+{
+    if (!id().size())
+    {
+        return;
+    }
+    QString fileNamePublicKey(Constants::gi().getWriteablePathAnyApp() + id() + ".publicKey");
+    QFile file(fileNamePublicKey);
+    if (!file.exists())
+    {
+        OpenSSLWrapper osw;
+        osw.createKeyPair();
+        privateKey = osw.getPrivateKey().c_str();
+        publicKey = osw.getPublicKey().c_str();
+        saveKeyPair();
+        return;
+    }
+    file.open(QFile::ReadOnly);
+    publicKey = file.readAll();
+    file.close();
+    QString fileNamePrivateKey(Constants::gi().getWriteablePathAnyApp() + id() + ".privateKey");
+    file.setFileName(fileNamePrivateKey);
+    file.open(QFile::ReadOnly);
+    privateKey = file.readAll();
+}
+
+void AppUserConfig::saveKeyPair()
+{
+    QString fileNamePublicKey(Constants::gi().getWriteablePathAnyApp() + id() + ".publicKey");
+    QFile file(fileNamePublicKey);
+    file.open(QFile::WriteOnly);
+    file.write(publicKey);
+    file.close();
+    QString fileNamePrivateKey(Constants::gi().getWriteablePathAnyApp() + id() + ".privateKey");
+    file.setFileName(fileNamePrivateKey);
+    file.open(QFile::WriteOnly);
+    file.write(privateKey);
 }

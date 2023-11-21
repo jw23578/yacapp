@@ -59,16 +59,21 @@ class Constants : public QObject
     YACAPPPROPERTY(MainMenueConfig*, mainMenueConfig, MainMenueConfig, new MainMenueConfig);
     YACAPPPROPERTY(NewsPageConfig*, newsPageConfig, NewsPageConfig, new NewsPageConfig);
     YACAPPPROPERTY(MultiMenueConfig*, multiMenueConfig, MultiMenueConfig, new MultiMenueConfig);
+
+    Constants(const QString &customWriteablePath);
+    static Constants *instance;
 public:
     Constants() {}
-    Constants(const QString &customWriteablePath);
 
     const QString &getWriteablePath(QString appId);
+    const QString &getWriteablePathAnyApp();
     const QString getYacAppConfigPath(QString appId);
     const QString getStateFilename() const;
     const QString getDBFilename(QString appId);
     const QString getAppConfigFilename(QString appId);
     const QString &getCachePath(QString const &appId);
+
+    static Constants &gi(const QString &customWriteablePath = "");
 };
 
 #endif // CONSTANTS_H

@@ -152,6 +152,7 @@ public:
                               const bool searching_exactly_allowed,
                               const bool searching_fuzzy_allowed,
                               const QString &password,
+                              const QString &public_key_base64,
                               JSONCallbackFunction successCallback,
                               CallbackFunction errorCallback);
 

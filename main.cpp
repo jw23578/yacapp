@@ -27,6 +27,8 @@
 #include "yacappfirebase.h"
 #include "cppqmlobjects/thirdpartylogin.h"
 
+#include "opensslwrapper.h"
+
 QString getAppParam(const QGuiApplication &app, const QString &param)
 {
     QStringList args(app.arguments());
@@ -44,6 +46,31 @@ QString getAppParam(const QGuiApplication &app, const QString &param)
 
 int main(int argc, char *argv[])
 {
+//    OpenSSLWrapper osw;
+//    osw.createKeyPair();
+//    std::cout << osw.getPrivateKey() << std::endl << std::endl;
+//    std::cout << osw.getPublicKey() << std::endl << std::endl;
+
+//    OpenSSLWrapper osw2;
+//    osw2.loadPrivateKey(osw.getPrivateKey());
+
+//    OpenSSLWrapper osw3;
+//    osw3.loadPublicKey(osw.getPublicKey());
+//    //    std::cout << osw2.getPrivateKey() << std::endl << std::endl;
+//    //    std::cout << osw2.getPublicKey() << std::endl << std::endl;
+
+//    std::string original("Hallo lieber Jens, ich bin gespannt, ob das klappt. Noch etwas Text und noch mehr mehr mehr");
+//    std::vector<unsigned char> encryptedMessage;
+
+//    std::vector<unsigned char> encryptedKey;
+//    std::vector<unsigned char> initialiationVector;
+//    osw3.encrypt(original, encryptedMessage, encryptedKey, initialiationVector);
+//    std::cout << "encrypted.size(): " << encryptedMessage.size() << std::endl;
+//    std::string resultMessage;
+//    osw2.decrypt(encryptedMessage, resultMessage, encryptedKey, initialiationVector);
+//    std::cout << resultMessage << std::endl << std::endl;
+//    return 0;
+
     Logger::gi().setLogFile("/home/jw78/yacapplog.txt");
     DEFAULT_LOG("yacapp start, not yet known if app or configurator");
     QDateTime begin(QDateTime::currentDateTime());
@@ -127,20 +154,20 @@ int main(int argc, char *argv[])
     Helper helper;
     CPPQMLAppAndConfigurator cppQMLAppAndConfigurator;
     ThirdPartyLogin thirdPartyLogin;
-    Constants constants(customWriteablePath);
-    Logger::gi().setIsDesktop(constants.isDesktop());
+    Constants::gi(customWriteablePath);
+    Logger::gi().setIsDesktop(Constants::gi().isDesktop());
 
     QNetworkAccessManager manager;
     YACExtServerNetwork network(manager
-                                , constants);
+                                , Constants::gi());
     CustomServerNetwork customServerNetwork(manager
-                                            , constants);
+                                            , Constants::gi());
 
     QQmlApplicationEngine engine;
     YACAPP *yacApp(new YACAPP(engine
                               , cppQMLAppAndConfigurator
                               , thirdPartyLogin
-                              , constants
+                              , Constants::gi()
                               , helper
                               , network
                               , customServerNetwork));
@@ -148,13 +175,13 @@ int main(int argc, char *argv[])
     Configurator *configurator(0);
 
     engine.rootContext()->setContextProperty("Helper", &helper);
-    engine.rootContext()->setContextProperty("Constants", &constants);
+    engine.rootContext()->setContextProperty("Constants", &Constants::gi());
     engine.rootContext()->setContextProperty("CPPQMLAppAndConfigurator", &cppQMLAppAndConfigurator);
     engine.rootContext()->setContextProperty("ThirdPartyLogin", &thirdPartyLogin);
 
     if (app.arguments().contains("Configurator"))
     {
-        constants.setIsConfigurator(true);
+        Constants::gi().setIsConfigurator(true);
         url = QStringLiteral("qrc:/mainDesignMode.qml");
         configurator = new Configurator(*yacApp
                                         , helper

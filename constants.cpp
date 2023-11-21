@@ -46,6 +46,11 @@ const QString &Constants::getWriteablePath(QString appId)
     return writeablePathWidthAppId;
 }
 
+const QString &Constants::getWriteablePathAnyApp()
+{
+    return writeablePath;
+}
+
 const QString Constants::getYacAppConfigPath(QString appId)
 {
     QString path(getWriteablePath(appId) + "yacAppConfig/");
@@ -76,5 +81,15 @@ const QString &Constants::getCachePath(QString const &appId)
         QDir().mkpath(theCachePathWithAppId);
     }
     return theCachePathWithAppId;
+}
+Constants *Constants::instance(0);
+
+Constants &Constants::gi(const QString &customWriteablePath)
+{
+    if (!instance)
+    {
+        instance = new Constants(customWriteablePath);
+    }
+    return *instance;
 }
 
