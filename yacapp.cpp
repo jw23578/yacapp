@@ -1639,6 +1639,9 @@ QString YACAPP::getUuidCacheImageFilename(const QString &uuid) const
     return cacheImageFilename;
 }
 
+#define STRING_FROM_JSON_OBJECT(field, jsonObject) \
+QString field(jsonObject[#field].toString())
+
 void YACAPP::fetchProfileAndUpsertKnownProfiles(const QString &profileId)
 {
     network.appUserFetchProfile(globalConfig()->projectID(),
@@ -1648,14 +1651,16 @@ void YACAPP::fetchProfileAndUpsertKnownProfiles(const QString &profileId)
         [this](const QJsonDocument &jsonDoc) mutable
         {
             QJsonObject profile(jsonDoc.object());
-            QString id(profile[tableFields.id].toString());
-            QString imageId(profile[tableFields.image_id].toString());
-            QString visible_name(profile[tableFields.visible_name].toString());
+            STRING_FROM_JSON_OBJECT(id, profile);
+            STRING_FROM_JSON_OBJECT(image_id, profile);
+            STRING_FROM_JSON_OBJECT(visible_name, profile);
+            STRING_FROM_JSON_OBJECT(public_key_base64, profile);
             if (knownProfilesModel.contains(id))
             {
                 ProfileObject &po(knownProfilesModel.getById(id));
-                po.setProfileImageId(imageId);
+                po.setProfileImageId(image_id);
                 po.setVisibleName(visible_name);
+                po.setPublic_key_base64(public_key_base64);
                 localStorage->upsertKnownContact(po);
             }
             return;
@@ -1663,7 +1668,8 @@ void YACAPP::fetchProfileAndUpsertKnownProfiles(const QString &profileId)
             ProfileObject *po(new ProfileObject);
             po->setId(id);
             po->setVisibleName(visible_name);
-            po->setProfileImageId(imageId);
+            po->setProfileImageId(image_id);
+            po->setPublic_key_base64(public_key_base64);
             if (knownProfilesModel.append(po))
             {
                 localStorage->upsertKnownContact(*po);

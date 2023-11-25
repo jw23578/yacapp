@@ -38,6 +38,7 @@ signals:
 
 #define JAVASCRIPT_LOG(message) Logger::gi().log(__FILE__, __LINE__, {Logger::Javascript}, message)
 #define DEFAULT_LOG(message) Logger::gi().log(__FILE__, __LINE__, {Logger::Default}, message)
+#define FATAL_LOG(message) Logger::gi().log(__FILE__, __LINE__, {Logger::Fatal}, message)
 #define DEFAULT_LOG_VARIABLE(variable) Logger::gi().log(__FILE__, __LINE__, {Logger::Default}, QString(#variable) + ": " + variable);
 #define ONLY_DESKTOP_LOG(message) Logger::gi().log(__FILE__, __LINE__, {Logger::OnlyDesktop}, message)
 

@@ -12,6 +12,7 @@ class ProfileObject : public DataObjectInterface
     YACAPPPROPERTY(int, unreadMessages, UnreadMessages, 0);
     YACAPPPROPERTY(QDateTime, lastAddedMessage, LastAddedMessage, QDateTime());
     YACAPPPROPERTY(QString, profileImageId, ProfileImageId, "");
+    YACAPPPROPERTY(QString, public_key_base64, Public_key_base64, "");
 public:
     explicit ProfileObject(QObject *parent = nullptr);
 

@@ -1,6 +1,5 @@
 #include "localstorage.h"
 #include <QSqlError>
-#include <QSqlQuery>
 #include <QSqlRecord>
 #include "logger.h"
 #include <QVariant>
@@ -39,9 +38,23 @@ LocalStorage::~LocalStorage()
     db.close();
 }
 
-void LocalStorage::exec(const QString &sql)
+bool LocalStorage::exec(QSqlQuery &q)
 {
-    QSqlQuery q(sql);
+    if (!q.exec())
+    {
+        FATAL_LOG(QString("Error executing Query: ") + q.lastError().text());
+        FATAL_LOG(QString("Query was: ") + q.lastQuery());
+        return false;
+    }
+    return true;
+}
+
+
+bool LocalStorage::exec(const QString &sql)
+{
+    QSqlQuery q;
+    q.prepare(sql);
+    return exec(q);
 }
 
 int LocalStorage::loadKnownContacts(AppendFunction appendFunction)
@@ -55,6 +68,7 @@ int LocalStorage::loadKnownContacts(AppendFunction appendFunction)
     int visibleNameColumn(q.record().indexOf("visible_name"));
     int unreadMessagesColumn(q.record().indexOf("unread_messages"));
     int imageIdColumn(q.record().indexOf("image_id"));
+    int public_key_base64Column(q.record().indexOf(tableFields.public_key_base64));
     while (q.next())
     {
         ProfileObject *po(new ProfileObject);
@@ -62,6 +76,7 @@ int LocalStorage::loadKnownContacts(AppendFunction appendFunction)
         po->setVisibleName(q.value(visibleNameColumn).toString());
         po->setUnreadMessages(q.value(unreadMessagesColumn).toInt());
         po->setProfileImageId(q.value(imageIdColumn).toString());
+        po->setPublic_key_base64(q.value(public_key_base64Column).toString());
         appendFunction(po);
     }
     return q.size();
@@ -71,11 +86,11 @@ void LocalStorage::upsertKnownContact(const ProfileObject &po)
 {
     QString sql("insert into ");
     sql += tableNames.knowncontacts;
-    sql += QString(" (id, visible_name, unread_messages, image_id) ");
+    sql += QString(" (id, visible_name, unread_messages, image_id, public_key_base64) ");
     sql += QString(" values ");
-    sql += QString(" (:id, :visible_name, :unread_messages, :image_id) ");
+    sql += QString(" (:id, :visible_name, :unread_messages, :image_id, :public_key_base64) ");
     sql += QString(" on conflict(id) do update set ");
-    sql += QString(" visible_name = :visible_name, unread_messages = :unread_messages, image_id = :image_id ");
+    sql += QString(" visible_name = :visible_name, unread_messages = :unread_messages, image_id = :image_id, public_key_base64 = :public_key_base64 ");
     sql += QString(" where id = :id ");
     QSqlQuery q;
     q.prepare(sql);
@@ -83,7 +98,8 @@ void LocalStorage::upsertKnownContact(const ProfileObject &po)
     q.bindValue(":visible_name", po.visibleName());
     q.bindValue(":unread_messages", po.unreadMessages());
     q.bindValue(":image_id", po.profileImageId());
-    q.exec();
+    q.bindValue(":public_key_base64", po.public_key_base64());
+    exec(q);
 }
 
 void LocalStorage::deleteKnownContact(const QString &id)
@@ -91,7 +107,7 @@ void LocalStorage::deleteKnownContact(const QString &id)
     QSqlQuery q;
     q.prepare(deleteKnownContactString);
     q.bindValue(":id", id);
-    q.exec();
+    exec(q);
 }
 
 bool LocalStorage::messageExists(const QString &id)
@@ -99,7 +115,7 @@ bool LocalStorage::messageExists(const QString &id)
     QSqlQuery q;
     q.prepare(selectOneMessageString);
     q.bindValue(":id", id);
-    q.exec();
+    exec(q);
     return q.first();
 }
 
@@ -114,7 +130,7 @@ int LocalStorage::loadMessages(const QString &contactId,
     QSqlQuery q;
     q.prepare(sql);
     q.bindValue(":contactId", contactId);
-    q.exec();
+    exec(q);
     int idColumn(q.record().indexOf("id"));
     int sender_idColumn(q.record().indexOf("sender_id"));
     int receiver_or_group_idColumn(q.record().indexOf("receiver_or_group_id"));
@@ -155,7 +171,7 @@ bool LocalStorage::insertMessage(const MessageObject &mo)
     q.bindValue(":sent_msecs", mo.sent().toMSecsSinceEpoch());
     q.bindValue(":received_msecs", mo.received().toMSecsSinceEpoch());
     q.bindValue(":read", mo.read());
-    q.exec();
+    exec(q);
     return true;
 }
 
@@ -164,7 +180,7 @@ void LocalStorage::deleteMessage(const QString &id)
     QSqlQuery q;
     q.prepare(deleteMessageString);
     q.bindValue(":id", id);
-    q.exec();
+    exec(q);
 }
 
 bool LocalStorage::tableHasColumn(const QString &tableName,
@@ -175,12 +191,28 @@ bool LocalStorage::tableHasColumn(const QString &tableName,
     sql += " limit 1";
     QSqlQuery q;
     q.prepare(sql);
-    if (!q.exec())
+    if (!exec(q))
     {
         return false;
     }
     const QSqlRecord &record(q.record());
     return record.indexOf(columnName) >= 0;
+}
+
+bool LocalStorage::addColumnIfNeeded(const QString &tableName,
+                                     const QString &columnName,
+                                     const QString &columnType)
+{
+    if (tableHasColumn(tableName,
+                       columnName))
+    {
+        return true;
+    }
+    QString sql("alter table ");
+    sql += tableName;
+    sql += QString(" add column ");
+    sql += columnName + " " + columnType;
+    exec(sql);
 }
 
 
@@ -191,7 +223,7 @@ bool LocalStorage::tableExists(const QString &tableName)
               "where type='table' and name = :tableName "
               "limit 1");
     q.bindValue("tableName", tableName);
-    q.exec();
+    exec(q);
     return q.size() > 0;
 }
 
@@ -204,10 +236,8 @@ void LocalStorage::createTables()
                     "visible_name text, "
                     "unread_messages int) ");
     }
-    if (!tableHasColumn(tableNames.knowncontacts, "image_id"))
-    {
-        QSqlQuery q("alter table knowncontacts add column image_id text");
-    }
+    addColumnIfNeeded(tableNames.knowncontacts, tableFields.image_id, "text");
+    addColumnIfNeeded(tableNames.knowncontacts, tableFields.public_key_base64, "text");
     if (!tableExists(tableNames.messages))
     {
         QString sql("create table ");

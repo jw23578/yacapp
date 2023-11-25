@@ -7,14 +7,19 @@
 #include "dataobjects/dataobjectinterface.h"
 #include "dataobjects/profileobject.h"
 #include "dataobjects/messageobject.h"
+#include <QSqlQuery>
 
 
 class LocalStorage
 {
     QSqlDatabase db;
     LocalTableNames tableNames;
+    TableFields tableFields;
     bool tableHasColumn(const QString &tableName,
                         const QString &columnName);
+    bool addColumnIfNeeded(const QString &tableName,
+                           const QString &columnName,
+                           const QString &columnType);
     bool tableExists(const QString &tableName);
     void createTables();
 
@@ -26,7 +31,8 @@ public:
     LocalStorage(QString appId, Constants &constants);
     ~LocalStorage();
 
-    void exec(const QString &sql);
+    bool exec(QSqlQuery &q);
+    bool exec(const QString &sql);
     typedef std::function<void(DataObjectInterface *)> AppendFunction;
     int loadKnownContacts(AppendFunction appendFunction);
     void upsertKnownContact(const ProfileObject &po);
