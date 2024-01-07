@@ -1435,7 +1435,10 @@ void YACAPP::fetchMessageUpdates()
                                                     content,
                                                     false,
                                                     appUserConfig()->getPrivateKey()));
-                if (localStorage->insertMessage(*mo))
+                bool inserted(false);
+                bool updated(false);
+                localStorage->upsertMessage(*mo, inserted, updated);
+                if (inserted)
                 {
                     if (mo->deleted_datetime().isNull() && !mo->read())
                     {
@@ -1465,7 +1468,14 @@ void YACAPP::fetchMessageUpdates()
                             }
                         }
                     }
-                    if (mo->deleted_datetime().isNull() && messagesModel.profileId() == senderId)
+                }
+                if (messagesModel.profileId() == senderId)
+                {
+                    if (mo->deleted_datetime().isValid())
+                    {
+                        messagesModel.removeById(mo->id());
+                    }
+                    else
                     {
                         messagesModel.append(mo);
                     }
@@ -1519,7 +1529,9 @@ void YACAPP::sendMessage(const QString &profileId,
                                         false,
                                         appUserConfig()->getPrivateKey()));
     messagesModel.append(mo);
-    localStorage->insertMessage(*mo);
+    bool inserted(false);
+    bool updated(false);
+    localStorage->upsertMessage(*mo, inserted, updated);
 
     ProfileObject &receiver(knownProfilesModel.getById(profileId));
 

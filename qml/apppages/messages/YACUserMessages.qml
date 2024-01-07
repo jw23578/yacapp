@@ -30,6 +30,11 @@ AppUserBasePage2
             anchors.centerIn: parent
             text: profile.visibleName
         }
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked: yacApp.fetchMessageUpdates()
+        }
     }
 
     Component
@@ -214,7 +219,14 @@ AppUserBasePage2
                     MouseArea
                     {
                         anchors.fill: parent
-                        onPressAndHold: deleteItem.visible = true
+                        onPressAndHold:
+                        {
+                            if (theMessageItem.other)
+                            {
+                                return
+                            }
+                            deleteItem.visible = true
+                        }
                         onClicked: deleteItem.visible = false
                     }
                 }

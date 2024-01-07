@@ -32,6 +32,7 @@ class LocalStorage
 
     const QString selectOneMessageString;
     const QString insertMessageString;
+    const QString updateMessageString;
     const QString deleteMessageString;
     const QString deleteAllMessagesString;
     const QString deleteKnownContactString;
@@ -39,20 +40,21 @@ class LocalStorage
     void bindQDateTimeToMsecs(QSqlQuery &q, QString const column, QDateTime const dt) const;
     QDateTime getDateTimeFromMSecs(QSqlQuery &q, int column) const;
 
+    bool updateMessage(const MessageObject &mo) const;
 public:
     LocalStorage(QString appId, Constants &constants);
     ~LocalStorage();
 
-    bool exec(QSqlQuery &q);
-    bool exec(const QString &sql);
+    bool exec(QSqlQuery &q) const;
+    bool exec(const QString &sql) const;
     typedef std::function<void(DataObjectInterface *)> AppendFunction;
     int loadKnownContacts(AppendFunction appendFunction);
     void upsertKnownContact(const ProfileObject &po);
     void deleteKnownContact(const QString &id);
 
-    bool messageExists(const QString &id);
+    bool messageExists(const QString &id) const;
     int loadMessages(const QString &contactId, AppendFunction appendFunction);
-    bool insertMessage(const MessageObject &mo);
+    bool upsertMessage(const MessageObject &mo, bool &inserted, bool &updated) const;
     void deleteMessage(const QString &id);
     void deleteAllMessages();
 };

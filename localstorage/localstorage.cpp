@@ -13,6 +13,8 @@ LocalStorage::LocalStorage(QString appId,
     insertMessageString("insert into messages (id, sender_id, receiver_or_group_id, content, sent_msecs, received_msecs, read, deleted_msecs) "
                         " values "
                         "(:id, :sender_id, :receiver_or_group_id, :content, :sent_msecs, :received_msecs, :read, :deleted_msecs)"),
+    updateMessageString("update messages set content = :content, deleted_msecs = :deleted_msecs "
+                          "where id = :id "),
     deleteMessageString(QString("update ") + tableNames.messages
                         + QString(" set deleted_msecs = :deleted_msecs where id = :id")),
     deleteAllMessagesString(QString("update ") + tableNames.messages
@@ -40,7 +42,7 @@ LocalStorage::~LocalStorage()
     db.close();
 }
 
-bool LocalStorage::exec(QSqlQuery &q)
+bool LocalStorage::exec(QSqlQuery &q) const
 {
     if (!q.exec())
     {
@@ -52,7 +54,7 @@ bool LocalStorage::exec(QSqlQuery &q)
 }
 
 
-bool LocalStorage::exec(const QString &sql)
+bool LocalStorage::exec(const QString &sql) const
 {
     QSqlQuery q;
     q.prepare(sql);
@@ -114,7 +116,7 @@ void LocalStorage::deleteKnownContact(const QString &id)
     exec(q);
 }
 
-bool LocalStorage::messageExists(const QString &id)
+bool LocalStorage::messageExists(const QString &id) const
 {
     QSqlQuery q;
     q.prepare(selectOneMessageString);
@@ -165,11 +167,14 @@ int LocalStorage::loadMessages(const QString &contactId,
     return count;
 }
 
-bool LocalStorage::insertMessage(const MessageObject &mo)
+bool LocalStorage::upsertMessage(const MessageObject &mo, bool &inserted, bool &updated) const
 {
+    inserted = updated = false;
     if (messageExists(mo.id()))
     {
-        return false;
+        updateMessage(mo);
+        updated = true;
+        return true;
     }
     QSqlQuery q;
     q.prepare(insertMessageString);
@@ -182,7 +187,18 @@ bool LocalStorage::insertMessage(const MessageObject &mo)
     q.bindValue(":read", mo.read());
     bindQDateTimeToMsecs(q, ":deleted_msecs", mo.deleted_datetime());
     exec(q);
+    inserted = true;
     return true;
+}
+
+bool LocalStorage::updateMessage(const MessageObject &mo) const
+{
+    QSqlQuery q;
+    q.prepare(updateMessageString);
+    q.bindValue(":id", mo.id());
+    q.bindValue(":content", mo.content());
+    bindQDateTimeToMsecs(q, ":deleted_msecs", mo.deleted_datetime());
+    exec(q);
 }
 
 void LocalStorage::deleteMessage(const QString &id)
