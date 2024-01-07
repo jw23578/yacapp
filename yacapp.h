@@ -325,6 +325,7 @@ public:
                                  , QStringList imagesHeighs);
     Q_INVOKABLE QString storeMessageImage(const QString &imageFilename, int widht, int height);
     Q_INVOKABLE void deleteMessage(const QString &messageId);
+    Q_INVOKABLE void deleteAllMyMessages();
     Q_INVOKABLE void addProfileToKnownProfiles(const QString &id);
     Q_INVOKABLE void removeProfileFromKnownProfiles(const QString &id);
 

@@ -5,24 +5,31 @@ import "../messages"
 
 AppUserBasePage2
 {
+    id: yacUserKnownProfiles
     property var currentProfile: null
 
     multiMenueButton.visible: true
     multiMenueButton.model: [{caption: qsTr("Add Contact")},
-        {caption: qsTr("Fetch")}]
+        {caption: qsTr("Fetch")},
+        {caption: qsTr("delete all messages")}]
     multiMenueButton.onClicked:
     {
         Helper.jsLog("caption: " + caption)
+        if (caption == qsTr("delete all messages"))
+        {
+            yacApp.deleteAllMyMessages()
+        }
         if (caption == qsTr("Add Contact"))
         {
-            theLoader.sourceComponent = searchProfiles
+            theLoader.theComponent = searchProfiles
+            theLoader.open()
         }
         if (caption == qsTr("Fetch"))
         {
             yacApp.fetchMessageUpdates()
         }
     }
-    multiMenueButton.hide: theLoader.sourceComponent != null
+    multiMenueButton.hide: theLoader.isOpen
 
     ListView
     {
@@ -54,6 +61,12 @@ AppUserBasePage2
                     anchors.fill: parent
                     onClicked:
                     {
+                        if (profile.public_key_base64 == "")
+                        {
+                            CPPQMLAppAndConfigurator.badMessage(qsTr("Receiver has no public Key to encrypt message, please try again later.", null, null))
+                            return;
+                        }
+
                         currentProfile = profile
                         yacApp.loadMessages(profile.id)
                         theLoader.theComponent = messages
@@ -71,10 +84,10 @@ AppUserBasePage2
                 width: height
                 text: "-"
                 onClicked: CPPQMLAppAndConfigurator.yesNoQuestion(qsTr("Delete this Contact?"), null,
-                                                function() {
-                                                    yacApp.removeProfileFromKnownProfiles(profile.id)
-                                                },
-                    function(){})
+                                                                  function() {
+                                                                      yacApp.removeProfileFromKnownProfiles(profile.id)
+                                                                  },
+                                                                  function(){})
             }
         }
         move: Transition {
@@ -94,9 +107,11 @@ AppUserBasePage2
             {
                 yacApp.addProfileToKnownProfiles(id)
                 Helper.jsLog("id: " + id)
-                theLoader.sourceComponent = null
+                theLoader.close()
             }
-            onCloseClicked: theLoader.sourceComponent = null
+            onCloseClicked: {
+                theLoader.close()
+            }
         }
     }
     Component

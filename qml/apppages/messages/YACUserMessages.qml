@@ -6,7 +6,6 @@ AppUserBasePage2
 {
     enableBack: true
     property var profile: null
-    anchors.fill: parent
     id: messagePage
     property color otherColor: Qt.darker("lightgrey", 1.3)
     property color myColor: "lightgrey"

@@ -17,16 +17,28 @@ class LocalStorage
     TableFields tableFields;
     bool tableHasColumn(const QString &tableName,
                         const QString &columnName);
+    bool renameColumn(const QString &tableName,
+                      const QString &oldColumnName,
+                      const QString &newColumnName);
+    bool renameColumnIfNeeded(const QString &tableName,
+                              const QString &oldColumnName,
+                              const QString &newColumnName);
     bool addColumnIfNeeded(const QString &tableName,
                            const QString &columnName,
                            const QString &columnType);
     bool tableExists(const QString &tableName);
+    bool createExec(const QString &sql);
     void createTables();
 
     const QString selectOneMessageString;
     const QString insertMessageString;
     const QString deleteMessageString;
+    const QString deleteAllMessagesString;
     const QString deleteKnownContactString;
+
+    void bindQDateTimeToMsecs(QSqlQuery &q, QString const column, QDateTime const dt) const;
+    QDateTime getDateTimeFromMSecs(QSqlQuery &q, int column) const;
+
 public:
     LocalStorage(QString appId, Constants &constants);
     ~LocalStorage();
@@ -42,6 +54,7 @@ public:
     int loadMessages(const QString &contactId, AppendFunction appendFunction);
     bool insertMessage(const MessageObject &mo);
     void deleteMessage(const QString &id);
+    void deleteAllMessages();
 };
 
 #endif // LOCALSTORAGE_H

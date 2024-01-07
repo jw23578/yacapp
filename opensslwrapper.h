@@ -13,6 +13,9 @@ class OpenSSLWrapper
     EVP_PKEY_CTX *keyCtx;
     EVP_PKEY *keyPair;
 
+    void logErrors(const std::string &file,
+                   int line);
+
 public:
     OpenSSLWrapper();
 
@@ -32,6 +35,8 @@ public:
                  std::string &decryptedMessage,
                  std::vector<unsigned char> &encryptedKey,
                  std::vector<unsigned char> &initialiationVector);
+
+    std::vector<unsigned char>  md5(const std::vector<unsigned char> &data) const;
 };
 
 #endif // OPENSSLWRAPPER_H

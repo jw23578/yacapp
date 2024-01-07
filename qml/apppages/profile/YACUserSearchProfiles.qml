@@ -1,11 +1,11 @@
 import QtQuick 2.15
 import "../../items"
+import ".."
 
-Rectangle
+AppUserBasePage2
 {
-    anchors.fill: parent
+    enableBack: true
     signal profileSelected(string id)
-    signal closeClicked()
     YACLineEditWithHeader
     {
         id: needleText
@@ -37,7 +37,7 @@ Rectangle
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: needleText.bottom
-        anchors.bottom: closeButton.top
+        anchors.bottom: bottomRectangle.top
         model: SearchProfilesModel
         delegate: Rectangle
         {
@@ -65,14 +65,5 @@ Rectangle
             }
         }
 
-    }
-    YACButton
-    {
-        id: closeButton
-        anchors.bottom: parent.bottom
-        width: parent.width * Constants.defaultWidthFactor
-        anchors.horizontalCenter: parent.horizontalCenter
-        text: qsTr("Close")
-        onClicked: closeClicked()
     }
 }

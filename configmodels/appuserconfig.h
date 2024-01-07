@@ -34,7 +34,8 @@ public:
 
     void clear();
 
-    QString getPublicKeyBase64();
+    QString getPublicKey() const;
+    QString getPrivateKey() const;
 };
 
 #endif // APPUSERCONFIG_H

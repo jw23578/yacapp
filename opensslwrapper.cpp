@@ -1,5 +1,18 @@
 #include "opensslwrapper.h"
 #include <openssl/evp.h>
+#include <openssl/md5.h>
+#include "logger.h"
+
+void OpenSSLWrapper::logErrors(const std::string &file, int line)
+{
+    unsigned long e(ERR_get_error());
+    while (e)
+    {
+        char message[1024];
+        ERR_error_string_n(e, message, 1024);
+        Logger::gi().log(file.c_str(), line, {Logger::Fatal}, message);
+    }
+}
 
 OpenSSLWrapper::OpenSSLWrapper():
     keyCtx(EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, NULL)),
@@ -54,9 +67,18 @@ std::string OpenSSLWrapper::getPublicKey()
 void OpenSSLWrapper::loadPublicKey( std::string publicKey)
 {
     // write char array to BIO
+    if (!publicKey.size())
+    {
+        FATAL_LOG("no publicKey given");
+    }
+    if (publicKey.find("END PUBLIC KEY") == std::string::npos)
+    {
+        FATAL_LOG(QString("publicKey probaby in wrong format: ") + publicKey.c_str());
+    }
     BIO *rsaPublicBIO = BIO_new_mem_buf(publicKey.data(), -1);
+    logErrors(__FILE__, __LINE__);
     PEM_read_bio_PUBKEY(rsaPublicBIO, &keyPair, NULL, NULL);
-
+    logErrors(__FILE__, __LINE__);
     BIO_free(rsaPublicBIO);
 }
 
@@ -85,6 +107,7 @@ void OpenSSLWrapper::encrypt(const std::string &message,
     unsigned char *iv((unsigned char *)malloc(EVP_MAX_IV_LENGTH));
     // generate AES secret, and encrypt it with public key
     EVP_SealInit(rsaEncryptCtx, EVP_aes_256_cbc(), &ek, &encryptedKeyLen, iv, &keyPair, 1);
+    logErrors(__FILE__, __LINE__);
     // encrypt a message with AES secret
     const unsigned char* messageChar = (const unsigned char*) message.c_str();
     // length of message
@@ -132,4 +155,11 @@ void OpenSSLWrapper::decrypt(const std::vector<unsigned char> &encrypted,
     decryptedMessageLen += decryptedBlockLen;
 
     decryptedMessage.insert(decryptedMessage.end(), tempDecryptedMessage, tempDecryptedMessage + decryptedMessageLen - 1);
+}
+
+std::vector<unsigned char> OpenSSLWrapper::md5(const std::vector<unsigned char> &data) const
+{
+    std::vector<unsigned char> result(MD5_DIGEST_LENGTH);
+    MD5(data.data(), data.size(), result.data());
+    return result;
 }

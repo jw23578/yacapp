@@ -13,6 +13,7 @@ Loader
     height: parent.height
     x: parent.width / 2
     y: -height
+    property bool isOpen: y == 0
     property int aniDuration: Constants.fastAnimationDuration
     Behavior on width
     {

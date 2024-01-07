@@ -10,11 +10,13 @@ LocalStorage::LocalStorage(QString appId,
     selectOneMessageString("select * from messages "
                            "where id = :id "
                            "limit 1"),
-    insertMessageString("insert into messages (id, sender_id, receiver_or_group_id, content, sent_msecs, received_msecs, read) "
+    insertMessageString("insert into messages (id, sender_id, receiver_or_group_id, content, sent_msecs, received_msecs, read, deleted_msecs) "
                         " values "
-                        "(:id, :sender_id, :receiver_or_group_id, :content, :sent_msecs, :received_msecs, :read)"),
-    deleteMessageString(QString("delete from ") + tableNames.messages
-                             + QString(" where id = :id")),
+                        "(:id, :sender_id, :receiver_or_group_id, :content, :sent_msecs, :received_msecs, :read, :deleted_msecs)"),
+    deleteMessageString(QString("update ") + tableNames.messages
+                        + QString(" set deleted_msecs = :deleted_msecs where id = :id")),
+    deleteAllMessagesString(QString("update ") + tableNames.messages
+                              + QString(" set deleted_msecs = :deleted_msecs where deleted_msecs is null")),
     deleteKnownContactString(QString("delete from ") + tableNames.knowncontacts
                              + QString(" where id = :id"))
 {
@@ -69,6 +71,7 @@ int LocalStorage::loadKnownContacts(AppendFunction appendFunction)
     int unreadMessagesColumn(q.record().indexOf("unread_messages"));
     int imageIdColumn(q.record().indexOf("image_id"));
     int public_key_base64Column(q.record().indexOf(tableFields.public_key_base64));
+    int count(0);
     while (q.next())
     {
         ProfileObject *po(new ProfileObject);
@@ -78,8 +81,9 @@ int LocalStorage::loadKnownContacts(AppendFunction appendFunction)
         po->setProfileImageId(q.value(imageIdColumn).toString());
         po->setPublic_key_base64(q.value(public_key_base64Column).toString());
         appendFunction(po);
+        count += 1;
     }
-    return q.size();
+    return count;
 }
 
 void LocalStorage::upsertKnownContact(const ProfileObject &po)
@@ -124,8 +128,9 @@ int LocalStorage::loadMessages(const QString &contactId,
 {
     QString sql("select * from ");
     sql += tableNames.messages;
-    sql += QString(" where sender_id = :contactId ");
-    sql += QString(" or receiver_or_group_id = :contactId ");
+    sql += QString(" where (sender_id = :contactId ");
+    sql += QString(" or receiver_or_group_id = :contactId) ");
+    sql += QString(" and deleted_msecs is null ");
     sql += QString(" order by received_msecs ");
     QSqlQuery q;
     q.prepare(sql);
@@ -138,18 +143,22 @@ int LocalStorage::loadMessages(const QString &contactId,
     int sent_msecsColumn(q.record().indexOf("sent_msecs"));
     int received_msecsColumn(q.record().indexOf("received_msecs"));
     int readColumn(q.record().indexOf("read"));
+    int deleted_msecsColumn(q.record().indexOf("deleted_datetime_msecs"));
     int count(0);
     while (q.next())
     {
         QDateTime sent(QDateTime::fromMSecsSinceEpoch(q.value(sent_msecsColumn).toLongLong()));
         QDateTime received(QDateTime::fromMSecsSinceEpoch(q.value(received_msecsColumn).toLongLong()));
+        QDateTime deleted_datetime(getDateTimeFromMSecs(q, deleted_msecsColumn));
         MessageObject *mo(new MessageObject(q.value(idColumn).toString(),
                                             q.value(sender_idColumn).toString(),
                                             q.value(receiver_or_group_idColumn).toString(),
                                             sent,
                                             received,
+                                            deleted_datetime,
                                             q.value(contentColumn).toString(),
-                                            q.value(readColumn).toBool()));
+                                            q.value(readColumn).toBool(),
+                                            ""));
         appendFunction(mo);
         ++count;
     }
@@ -168,9 +177,10 @@ bool LocalStorage::insertMessage(const MessageObject &mo)
     q.bindValue(":sender_id", mo.senderId());
     q.bindValue(":receiver_or_group_id", mo.receiverId());
     q.bindValue(":content", mo.content());
-    q.bindValue(":sent_msecs", mo.sent().toMSecsSinceEpoch());
-    q.bindValue(":received_msecs", mo.received().toMSecsSinceEpoch());
+    bindQDateTimeToMsecs(q, ":sent_msecs", mo.sent());
+    bindQDateTimeToMsecs(q, ":received_msecs", mo.received());
     q.bindValue(":read", mo.read());
+    bindQDateTimeToMsecs(q, ":deleted_msecs", mo.deleted_datetime());
     exec(q);
     return true;
 }
@@ -180,6 +190,15 @@ void LocalStorage::deleteMessage(const QString &id)
     QSqlQuery q;
     q.prepare(deleteMessageString);
     q.bindValue(":id", id);
+    bindQDateTimeToMsecs(q, ":deleted_msecs", QDateTime::currentDateTime());
+    exec(q);
+}
+
+void LocalStorage::deleteAllMessages()
+{
+    QSqlQuery q;
+    q.prepare(deleteAllMessagesString);
+    bindQDateTimeToMsecs(q, ":deleted_msecs", QDateTime::currentDateTime());
     exec(q);
 }
 
@@ -199,6 +218,30 @@ bool LocalStorage::tableHasColumn(const QString &tableName,
     return record.indexOf(columnName) >= 0;
 }
 
+bool LocalStorage::renameColumn(const QString &tableName,
+                                const QString &oldColumnName,
+                                const QString &newColumnName)
+{
+    QString sql("alter table ");
+    sql += tableName;
+    sql += QString(" rename ");
+    sql += oldColumnName;
+    sql += QString(" to ");
+    sql += newColumnName;
+    return exec(sql);
+}
+
+bool LocalStorage::renameColumnIfNeeded(const QString &tableName,
+                                        const QString &oldColumnName,
+                                        const QString &newColumnName)
+{
+    if (tableHasColumn(tableName, newColumnName))
+    {
+        return true;
+    }
+    return renameColumn(tableName, oldColumnName, newColumnName);
+}
+
 bool LocalStorage::addColumnIfNeeded(const QString &tableName,
                                      const QString &columnName,
                                      const QString &columnType)
@@ -212,7 +255,7 @@ bool LocalStorage::addColumnIfNeeded(const QString &tableName,
     sql += tableName;
     sql += QString(" add column ");
     sql += columnName + " " + columnType;
-    exec(sql);
+    return exec(sql);
 }
 
 
@@ -220,21 +263,34 @@ bool LocalStorage::tableExists(const QString &tableName)
 {
     QSqlQuery q;
     q.prepare("select name from sqlite_master "
-              "where type='table' and name = :tableName "
+              "where type = 'table' and name = :tableName "
               "limit 1");
-    q.bindValue("tableName", tableName);
+    q.bindValue(":tableName", tableName);
     exec(q);
-    return q.size() > 0;
+    return q.next();
+}
+
+bool LocalStorage::createExec(const QString &sql)
+{
+    QSqlQuery q;
+    if (!q.exec(sql))
+    {
+        FATAL_LOG(QString("Error executing Query: ") + q.lastError().text());
+        FATAL_LOG(QString("Query was: ") + q.lastQuery());
+        return false;
+    }
+    return true;
 }
 
 void LocalStorage::createTables()
 {
     if (!tableExists(tableNames.knowncontacts))
     {
-        QSqlQuery q("create table knowncontacts ( "
-                    "id text primary key, "
-                    "visible_name text, "
-                    "unread_messages int) ");
+        QString q("create table knowncontacts ( "
+                  "id text primary key, "
+                  "visible_name text, "
+                  "unread_messages int) ");
+        createExec(q);
     }
     addColumnIfNeeded(tableNames.knowncontacts, tableFields.image_id, "text");
     addColumnIfNeeded(tableNames.knowncontacts, tableFields.public_key_base64, "text");
@@ -249,8 +305,32 @@ void LocalStorage::createTables()
         sql += QString(" , sent_msecs int8 ");
         sql += QString(" , received_msecs int8 ");
         sql += QString(" , read bool) ");
-        exec(sql);
-        exec("create index message_i1 on messages (sender_id)");
-        exec("create index message_i2 on messages (receiver_or_group_id)");
+        createExec(sql);
+        createExec("create index message_i1 on messages (sender_id)");
+        createExec("create index message_i2 on messages (receiver_or_group_id)");
     }
+    renameColumnIfNeeded(tableNames.messages, "deleted_datetime_msecs", "deleted_msecs");
+    addColumnIfNeeded(tableNames.messages, "deleted_msecs", "int8");
+}
+
+void LocalStorage::bindQDateTimeToMsecs(QSqlQuery &q, const QString column, const QDateTime dt) const
+{
+    if (dt.isNull())
+    {
+        q.bindValue(column, QDateTime());
+    }
+    else
+    {
+        q.bindValue(column, dt.toMSecsSinceEpoch());
+    }
+}
+
+QDateTime LocalStorage::getDateTimeFromMSecs(QSqlQuery &q, int column) const
+{
+    qlonglong msecs(q.value(column).toLongLong());
+    if (msecs <= 0)
+    {
+        return QDateTime();
+    }
+    return QDateTime::fromMSecsSinceEpoch(msecs);
 }

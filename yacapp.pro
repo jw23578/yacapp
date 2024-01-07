@@ -164,7 +164,8 @@ DISTFILES += \
   android/settings.gradle \
   changelog.txt \
   currentWork.txt \
-  deployToJW78.sh
+  deployToJW78.sh \
+  otherYacApp.sh
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 

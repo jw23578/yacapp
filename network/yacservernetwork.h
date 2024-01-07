@@ -133,6 +133,12 @@ public:
                                   CallbackFunction successCallback,
                                   CallbackFunction errorCallback);
 
+    void appUserDeleteAllMyMessages(const QString &appId,
+                                    const QString &loginEMail,
+                                    const QString &loginToken,
+                                    JSONCallbackFunction jsonSuccessCallback,
+                                    CallbackFunction errorCallback);
+
     void appUserStoreMessage(const QString &appId,
                              const QString &loginEMail,
                              const QString &loginToken,

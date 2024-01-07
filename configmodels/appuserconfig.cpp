@@ -100,9 +100,14 @@ void AppUserConfig::clear()
     setOffSiteWorkStart(QDateTime());
 }
 
-QString AppUserConfig::getPublicKeyBase64()
+QString AppUserConfig::getPublicKey() const
 {
-    return publicKey.toBase64();
+    return publicKey;
+}
+
+QString AppUserConfig::getPrivateKey() const
+{
+    return privateKey;
 }
 
 void AppUserConfig::loadKeyPair()

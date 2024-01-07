@@ -886,7 +886,7 @@ void YACAPP::appUserUpdateProfile(const QString &fstname,
         searching_exactly_allowed,
         searching_fuzzy_allowed,
         password,
-        appUserConfig()->getPublicKeyBase64(),
+        appUserConfig()->getPublicKey(),
         [this, successCallback](const QJsonDocument &jsonDoc) mutable
         {
             QJsonObject object(jsonDoc.object());
@@ -1170,7 +1170,7 @@ void YACAPP::appUserInsertOrUpdateRightGroup2AppUser(const QString &id,
         appUserConfig()->loginEMail(),
         appUserConfig()->loginToken(),
         t0022,
-        [this, successCallback](const QJsonDocument &jsonDoc) mutable
+        [successCallback](const QJsonDocument &jsonDoc) mutable
         {
             QJsonObject object(jsonDoc.object());
             successCallback.call(QJSValueList() << object["message"].toString());
@@ -1413,43 +1413,59 @@ void YACAPP::fetchMessageUpdates()
             {
                 const QJsonObject message(messages[i].toObject());
                 QByteArray content_base64(message["content_base64"].toString().toUtf8());
+                QByteArray content;
+                if (content_base64.contains("-"))
+                {
+                    content = content_base64;
+                }
+                else
+                {
+                    content = QByteArray::fromBase64(content_base64);
+                }
                 QString toId(message["to_id"].toString());
                 QString senderId(message["sender_id"].toString());
+                QString deleted_datetimeString(message[tableFields.deleted_datetime].toString());
+                QDateTime deleted_datetime(QDateTime::fromString(deleted_datetimeString, Qt::DateFormat::ISODateWithMs));
                 MessageObject *mo(new MessageObject(message["id"].toString(),
                                                     senderId,
                                                     toId,
                                                     QDateTime::currentDateTime(),
                                                     QDateTime::currentDateTime(),
-                                                    QByteArray::fromBase64(content_base64),
-                                                    false));
+                                                    deleted_datetime,
+                                                    content,
+                                                    false,
+                                                    appUserConfig()->getPrivateKey()));
                 if (localStorage->insertMessage(*mo))
                 {
-                    if (senderId != appUserConfig()->id())
+                    if (mo->deleted_datetime().isNull() && !mo->read())
                     {
-                        if (!knownProfilesModel.incUnreadMessages(senderId))
+                        if (senderId != appUserConfig()->id())
                         {
-                            network.appUserFetchProfile(globalConfig()->projectID(),
-                                appUserConfig()->loginEMail(),
-                                appUserConfig()->loginToken(),
-                                senderId,
-                                [this](const QJsonDocument &jsonDoc) mutable
-                                {
-                                    QJsonObject profile(jsonDoc.object());
-                                    ProfileObject *po(new ProfileObject);
-                                    po->fromJSON(profile);
-                                    if (knownProfilesModel.append(po))
+                            if (!knownProfilesModel.incUnreadMessages(senderId))
+                            {
+                                network.appUserFetchProfile(globalConfig()->projectID(),
+                                    appUserConfig()->loginEMail(),
+                                    appUserConfig()->loginToken(),
+                                    senderId,
+                                    [this](const QJsonDocument &jsonDoc) mutable
                                     {
-                                        localStorage->upsertKnownContact(*po);
-                                        knownProfilesModel.incUnreadMessages(po->id());
-                                    }
-                                },
-                                [](const QString &message) mutable
-                                {
-                                    Q_UNUSED(message);
-                                });
+                                        QJsonObject profile(jsonDoc.object());
+                                        ProfileObject *po(new ProfileObject);
+                                        po->fromJSON(profile);
+                                        if (knownProfilesModel.append(po))
+                                        {
+                                            localStorage->upsertKnownContact(*po);
+                                            knownProfilesModel.incUnreadMessages(po->id());
+                                        }
+                                    },
+                                    [](const QString &message) mutable
+                                    {
+                                        Q_UNUSED(message);
+                                    });
+                            }
                         }
                     }
-                    if (messagesModel.profileId() == senderId)
+                    if (mo->deleted_datetime().isNull() && messagesModel.profileId() == senderId)
                     {
                         messagesModel.append(mo);
                     }
@@ -1470,7 +1486,8 @@ void YACAPP::loadMessages(const QString &contactId)
     messagesModel.setProfileID(contactId);
 }
 
-void YACAPP::sendMessage(const QString &profileId, const QString &text
+void YACAPP::sendMessage(const QString &profileId,
+                         const QString &text
                          , QStringList images
                          , QStringList imagesWidhts
                          , QStringList imagesHeighs)
@@ -1492,22 +1509,26 @@ void YACAPP::sendMessage(const QString &profileId, const QString &text
     jsonContent["text"] = text;
     jsonContent["images"] = imageArray;
     QJsonDocument document(jsonContent);
-    MessageObject *mo(new MessageObject(QUuid::createUuid().toString(QUuid::WithoutBraces),
+    MessageObject *mo(new MessageObject(helper.generateUuid(),
                                         appUserConfig()->id(),
                                         profileId,
                                         QDateTime::currentDateTime(),
                                         QDateTime::currentDateTime(),
+                                        QDateTime(),
                                         document.toJson(),
-                                        false));
+                                        false,
+                                        appUserConfig()->getPrivateKey()));
     messagesModel.append(mo);
     localStorage->insertMessage(*mo);
+
+    ProfileObject &receiver(knownProfilesModel.getById(profileId));
 
     network.appUserStoreMessage(globalConfig()->projectID(),
         appUserConfig()->loginEMail(),
         appUserConfig()->loginToken(),
         mo->id(),
         mo->receiverId(),
-        mo->base64(),
+        mo->encryptToBase64(receiver.public_key_base64()),
         [](const QString &message)
         {
             Q_UNUSED(message);
@@ -1562,6 +1583,22 @@ void YACAPP::deleteMessage(const QString &messageId)
             Q_UNUSED(document)
             messagesModel.removeById(messageId);
             localStorage->deleteMessage(messageId);
+        },
+        [](const QString &message){
+            Q_UNUSED(message)
+        });
+}
+
+void YACAPP::deleteAllMyMessages()
+{
+    network.appUserDeleteAllMyMessages(globalConfig()->projectID(),
+        appUserConfig()->loginEMail(),
+        appUserConfig()->loginToken(),
+        [this](const QJsonDocument &document){
+            Q_UNUSED(document)
+            messagesModel.clear();
+            localStorage->deleteAllMessages();
+            ONLY_DESKTOP_LOG("all messages deleted");
         },
         [](const QString &message){
             Q_UNUSED(message)
@@ -1642,7 +1679,7 @@ QString YACAPP::getUuidCacheImageFilename(const QString &uuid) const
 #define STRING_FROM_JSON_OBJECT(field, jsonObject) \
 QString field(jsonObject[#field].toString())
 
-void YACAPP::fetchProfileAndUpsertKnownProfiles(const QString &profileId)
+    void YACAPP::fetchProfileAndUpsertKnownProfiles(const QString &profileId)
 {
     network.appUserFetchProfile(globalConfig()->projectID(),
         appUserConfig()->loginEMail(),

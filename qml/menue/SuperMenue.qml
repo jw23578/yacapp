@@ -50,8 +50,6 @@ Item
         menueItems = []
         for (var i = 0; i < allMenueItems.length; ++i)
         {
-            console.log(i)
-            console.log(allMenueItems[i].menueEnabled)
             if (allMenueItems[i].menueEnabled)
             {
                 menueItems.push(allMenueItems[i])

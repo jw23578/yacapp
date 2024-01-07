@@ -409,6 +409,23 @@ void YACServerNetwork::appUserUpdateDeviceToken(const QString &appId,
                      errorCallback);
 }
 
+void YACServerNetwork::appUserDeleteAllMyMessages(const QString &appId,
+                                                  const QString &loginEMail,
+                                                  const QString &loginToken,
+                                                  JSONCallbackFunction jsonSuccessCallback,
+                                                  CallbackFunction errorCallback)
+{
+    MACRO_RAW_HEADER();
+    QUrlQuery query;
+    query.addQueryItem("allOfLoggedInUser", "true");
+    yacappServerDelete("t0007_messages",
+                       query,
+                       defaultReplyHandler,
+                       rawHeader,
+                       jsonSuccessCallback,
+                       errorCallback);
+}
+
 void YACServerNetwork::appUserStoreMessage(const QString &appId,
                                            const QString &loginEMail,
                                            const QString &loginToken,
