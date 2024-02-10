@@ -3,6 +3,7 @@
 
 #include "dataobjectinterface.h"
 #include <QDateTime>
+#include <QColor>
 
 class ProfileObject : public DataObjectInterface
 {
@@ -13,6 +14,7 @@ class ProfileObject : public DataObjectInterface
     YACAPPPROPERTY(QDateTime, lastAddedMessage, LastAddedMessage, QDateTime());
     YACAPPPROPERTY(QString, profileImageId, ProfileImageId, "");
     YACAPPPROPERTY(QString, public_key_base64, Public_key_base64, "");
+    YACAPPPROPERTY(QColor, color, Color, "orange");
 public:
     explicit ProfileObject(QObject *parent = nullptr);
 

@@ -126,6 +126,13 @@ AppUserBasePage2
                     }
                 }
             }
+            YACColorDialogWithHeader
+            {
+                id: theColor
+                headerText: qsTr("Color")
+                color: yacApp.appUserConfig.color
+            }
+
             YACLineEditWithHeader
             {
                 id: theNewPassword
@@ -144,6 +151,7 @@ AppUserBasePage2
                     yacApp.appUserUpdateProfile(fstname.displayText,
                                                 surname.displayText,
                                                 visible_name.displayText,
+                                                theColor.color,
                                                 imageFilename,
                                                 searchingExactlyAllowed,
                                                 searchingFuzzyAllowed,

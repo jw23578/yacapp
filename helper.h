@@ -9,7 +9,7 @@ class Helper : public QObject
     Q_OBJECT
     QString nullUuidString;
 public:
-    explicit Helper(QObject *parent = nullptr);
+    explicit Helper(QObject *parent = nullptr);       
 
     Q_INVOKABLE bool emailIsValid(const QString &email) const;
 

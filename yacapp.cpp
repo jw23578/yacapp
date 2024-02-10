@@ -380,6 +380,15 @@ void YACAPP::saveAppConfig()
 
 }
 
+QString YACAPP::coalesce(const QString &s, const QString &ifEmpty) const
+{
+    if (s.size())
+    {
+        return s;
+    }
+    return ifEmpty;
+}
+
 ParsedConfig *YACAPP::getConfig(const QString &filename)
 {
     QString fullFilename(appFolder() + filename);
@@ -863,6 +872,7 @@ void YACAPP::appUserDeleteWorktime(const QString &id, QJSValue successCallback, 
 void YACAPP::appUserUpdateProfile(const QString &fstname,
                                   const QString &surname,
                                   const QString &visible_name,
+                                  const QColor &color,
                                   const QString &profileFilename,
                                   const bool searching_exactly_allowed,
                                   const bool searching_fuzzy_allowed,
@@ -873,6 +883,7 @@ void YACAPP::appUserUpdateProfile(const QString &fstname,
     appUserConfig()->setFstname(fstname);
     appUserConfig()->setSurname(surname);
     appUserConfig()->setVisibleName(visible_name);
+    appUserConfig()->setColor(color);
     appUserConfig()->setSearchingFuzzyAllowed(searching_fuzzy_allowed);
     appUserConfig()->setSearchingExactlyAllowed(searching_exactly_allowed);
     saveState();
@@ -882,6 +893,7 @@ void YACAPP::appUserUpdateProfile(const QString &fstname,
         fstname,
         surname,
         visible_name,
+        color,
         profileFilename,
         searching_exactly_allowed,
         searching_fuzzy_allowed,
@@ -1328,6 +1340,7 @@ void YACAPP::fetchMyProfile(QJSValue successCallback,
             appUserConfig()->setProfileImageId(profile[tableFields.image_id].toString());
             appUserConfig()->setSearchingExactlyAllowed(profile[tableFields.searching_exactly_allowed].toBool());
             appUserConfig()->setSearchingFuzzyAllowed(profile[tableFields.searching_fuzzy_allowed].toBool());
+            appUserConfig()->setColor(coalesce(profile[tableFields.color].toString(), "orange"));
             successCallback.call(QJSValueList());
         },
         [this, errorCallback](const QString &message) mutable

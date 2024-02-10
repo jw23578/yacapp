@@ -150,6 +150,8 @@ class YACAPP : public QObject
         });
     }
 
+    QString coalesce(const QString &s, const QString &ifEmpty) const;
+
 public:
     Firebase2Qt firebase2qt;
     explicit YACAPP(QQmlApplicationEngine &engine
@@ -237,6 +239,7 @@ public:
     Q_INVOKABLE void appUserUpdateProfile(const QString &fstname,
                                           const QString &surname,
                                           const QString &visible_name,
+                                          const QColor &color,
                                           const QString &profileFilename,
                                           const bool searching_exactly_allowed,
                                           const bool searching_fuzzy_allowed,

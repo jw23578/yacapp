@@ -7,7 +7,7 @@
     set##uppercasename(config[#name].toString());
 
 #define colorFromJSONIfExists(name, uppercasename) \
-    if (o.contains(#name)) \
+if (o.contains(#name) && o[#name].toString().size()) \
     { \
         set##uppercasename(o[#name].toString()); \
     }

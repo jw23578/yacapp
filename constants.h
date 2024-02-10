@@ -28,7 +28,7 @@ class Constants : public QObject
     YACAPPPROPERTY(QString, allAppsBaseUrl, AllAppsBaseUrl, "https://www.jw78.de/yacapp/")
     YACAPPPROPERTY(bool, isDesktop, IsDesktop, false);
     YACAPPPROPERTY(bool, isConfigurator, IsConfigurator, false);
-    YACAPPPROPERTY(bool, shadowActive, ShadowActive, true);
+    YACAPPPROPERTY(bool, shadowActive, ShadowActive, false);
     YACAPPPROPERTY(int, radius, Radius, 21);
     YACAPPPROPERTY(int, shadowHorizontalOffset, ShadowHorizontalOffset, 0); // 5);
     YACAPPPROPERTY(int, shadowVerticalOffset, ShadowVerticalOffset, 5);
@@ -51,6 +51,8 @@ class Constants : public QObject
     YACAPPPROPERTY(double, x3largerTextFactor, X3largerTextFactor, 7.0 / 4.0)
     YACAPPPROPERTY(double, x4largerTextFactor, X4largerTextFactor, 8.0 / 4.0)
 
+    YACAPPPROPERTY(QColor, spacingColor, SpacingColor, "orange");
+    YACAPPPROPERTY(QColor, buttonColor, ButtonColor, "orange");
     YACAPPPROPERTY(QColor, waitColor, WaitColor, "orange");
     YACAPPPROPERTY(QColor, goodColor, GoodColor, "#A9CEA5");
     YACAPPPROPERTY(QColor, badColor, BadColor, "#F09494");

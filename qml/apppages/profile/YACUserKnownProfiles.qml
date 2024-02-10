@@ -9,8 +9,7 @@ AppUserBasePage2
     property var currentProfile: null
 
     multiMenueButton.visible: true
-    multiMenueButton.model: [{caption: qsTr("Add Contact")},
-        {caption: qsTr("Fetch")},
+    multiMenueButton.model: [{caption: qsTr("Fetch")},
         {caption: qsTr("delete all messages")}]
     multiMenueButton.onClicked:
     {
@@ -18,11 +17,6 @@ AppUserBasePage2
         if (caption == qsTr("delete all messages"))
         {
             yacApp.deleteAllMyMessages()
-        }
-        if (caption == qsTr("Add Contact"))
-        {
-            theLoader.theComponent = searchProfiles
-            theLoader.open()
         }
         if (caption == qsTr("Fetch"))
         {
@@ -37,57 +31,68 @@ AppUserBasePage2
         clip: true
         anchors.fill: content
         model: KnownProfilesModel
-        delegate: Row
+        delegate: Column
         {
-            height: 50
-            Rectangle
+            width: listView.width
+            Row
             {
-                width: listView.width - height
                 height: 50
-                YACRoundedImage
+                Rectangle
                 {
-                    height: parent.height
-                    width: height
-                    source: "image://async/profileImage/" + profile.profileImageId
-                }
-
-                Text
-                {
-                    anchors.centerIn: parent
-                    text: profile.visibleName + " " + profile.unreadMessages
-                }
-                MouseArea
-                {
-                    anchors.fill: parent
-                    onClicked:
+                    width: listView.width - height
+                    height: 50
+                    YACRoundedImage
                     {
-                        if (profile.public_key_base64 == "")
-                        {
-                            CPPQMLAppAndConfigurator.badMessage(qsTr("Receiver has no public Key to encrypt message, please try again later.", null, null))
-                            return;
-                        }
+                        height: parent.height
+                        width: height
+                        source: "image://async/profileImage/" + profile.profileImageId
+                    }
 
-                        currentProfile = profile
-                        yacApp.loadMessages(profile.id)
-                        theLoader.theComponent = messages
-                        theLoader.open()
+                    Text
+                    {
+                        anchors.centerIn: parent
+                        text: profile.visibleName + " " + profile.unreadMessages
+                    }
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            if (profile.public_key_base64 == "")
+                            {
+                                CPPQMLAppAndConfigurator.badMessage(qsTr("Receiver has no public Key to encrypt message, please try again later.", null, null))
+                                return;
+                            }
+
+                            currentProfile = profile
+                            yacApp.loadMessages(profile.id)
+                            theLoader.theComponent = messages
+                            theLoader.open()
+                        }
+                    }
+                    Component.onCompleted:
+                    {
+                        yacApp.fetchProfileAndUpsertKnownProfiles(profile.id)
                     }
                 }
-                Component.onCompleted:
+                YACButton
                 {
-                    yacApp.fetchProfileAndUpsertKnownProfiles(profile.id)
+                    height: parent.height * 3 / 4
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: height
+                    source: "qrc:/images/images/more.svg"
+                    onClicked: CPPQMLAppAndConfigurator.yesNoQuestion(qsTr("Delete this Contact?"), null,
+                                                                      function() {
+                                                                          yacApp.removeProfileFromKnownProfiles(profile.id)
+                                                                      },
+                                                                      function(){})
                 }
             }
-            YACButton
+            Rectangle
             {
-                height: parent.height
-                width: height
-                text: "-"
-                onClicked: CPPQMLAppAndConfigurator.yesNoQuestion(qsTr("Delete this Contact?"), null,
-                                                                  function() {
-                                                                      yacApp.removeProfileFromKnownProfiles(profile.id)
-                                                                  },
-                                                                  function(){})
+                height: 1
+                width: parent.width
+                color: Constants.spacingColor
             }
         }
         move: Transition {
@@ -134,6 +139,25 @@ AppUserBasePage2
             if (sourceComponent == messages)
             {
                 item.profile = currentProfile
+            }
+        }
+    }
+    YACImage
+    {
+        id: addProfileButton
+        anchors.right: parent.right
+        height: heightInfoTextEdit.height
+        width: height
+        anchors.margins: Constants.radius / 4
+        anchors.bottom: parent.bottom
+        source: "qrc:/images/images/add-circle.svg"
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked:
+            {
+                theLoader.theComponent = searchProfiles
+                theLoader.open()
             }
         }
     }

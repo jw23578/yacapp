@@ -4,13 +4,14 @@ Item
 {
     id: theButton
     signal clicked()
+    property alias radius: theRectangle.radius
     property alias font: theText.font
     property alias text: theText.text
     property alias emptyText: theEmptyText.text
     property alias source: theImage.source
     property alias showLoadingImage: theImage.showLoadingImage
     property alias shadow: theRectangle.shadow
-    property color baseColor: "lightgrey"
+    property color baseColor: Constants.buttonColor
     width: theText.contentWidth + theText.contentHeight * 2
     height: theText.contentHeight * 2 + shadow.shadowVerticalOffset * 2
     property double captionStartX: theRectangle.x + theRectangle.radius
@@ -22,29 +23,17 @@ Item
         implicitHeight: theButton.height
         color: mouseArea.pressed ? Qt.darker(baseColor, 1.1) :
                                    mouseArea.containsMouse ? Qt.lighter(baseColor, 1.1) : baseColor
-        shadow.visible: !mouseArea.pressed
-        radius: height / 4
+        shadow.visible: !mouseArea.pressed && Constants.shadowActive
+        radius: width == height ? height / 2 : height / 4
         radiusTopLeft: true
         radiusBottomRight:  true
         radiusTopRight: true
         radiusBottomLeft: true
-        YACImage
-        {
-            id: theImage
-            visible: source != ""
-            anchors.margins: Constants.shadowHorizontalOffset + parent.radius / 2
-            anchors.top: parent.theInnerRectangle.top
-            anchors.left: parent.theInnerRectangle.left
-            anchors.right: parent.theInnerRectangle.horizontalCenter
-            anchors.bottom: parent.theInnerRectangle.bottom
-            width: parent.width / 2
-            height: parent.height
-            showLoadingImage: true
-        }
 
         YACText
         {
             id: theText
+            visible: text != ""
             anchors.top: parent.theInnerRectangle.top
             anchors.bottom: parent.theInnerRectangle.bottom
             anchors.left: theImage.visible ? theImage.right : parent.theInnerRectangle.left
@@ -55,12 +44,22 @@ Item
         }
         YACText
         {
-            visible: theText.text == ""
+            visible: theText.text == "" && text != ""
             id: theEmptyText
             anchors.fill: theText
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             clip: true
+        }
+        YACImage
+        {
+            id: theImage
+            visible: source != ""
+            anchors.centerIn: parent
+            anchors.margins: Constants.shadowHorizontalOffset + parent.radius / 2
+            width: height
+            height: parent.height * 3 / 4
+            showLoadingImage: true
         }
 
         MouseArea

@@ -7,8 +7,8 @@ AppUserBasePage2
     enableBack: true
     property var profile: null
     id: messagePage
-    property color otherColor: Qt.darker("lightgrey", 1.3)
-    property color myColor: "lightgrey"
+    property color otherColor: profile.color
+    property color myColor: yacApp.appUserConfig.color
     YACRoundedRectangle
     {
         id: profileHeader

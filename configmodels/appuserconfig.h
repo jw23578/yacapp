@@ -4,6 +4,7 @@
 #include "configinterface.h"
 #include "yacappmacros.h"
 #include <QDateTime>
+#include <QColor>
 
 class AppUserConfig: public ConfigInterface
 {
@@ -12,6 +13,7 @@ class AppUserConfig: public ConfigInterface
     YACAPPPROPERTY(QString, fstname, Fstname, "");
     YACAPPPROPERTY(QString, surname, Surname, "");
     YACAPPPROPERTY(QString, visibleName, VisibleName, "");
+    YACAPPPROPERTY(QColor, color, Color, "darkorange");
     YACAPPPROPERTY(QString, profileImageId, ProfileImageId, "");
     YACAPPPROPERTY(bool, searchingExactlyAllowed, SearchingExactlyAllowed, false);
     YACAPPPROPERTY(bool, searchingFuzzyAllowed, SearchingFuzzyAllowed, false);

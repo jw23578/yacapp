@@ -16,6 +16,9 @@ QMap<QByteArray, QByteArray> rawHeader; \
 #define MACRO_JSON_SET_DATETIME(obj, nameValue) \
 obj[#nameValue] = nameValue.toString(Qt::ISODate);
 
+#define MACRO_JSON_SET_COLOR(obj, nameValue) \
+obj[#nameValue] = nameValue.name()
+
 #define MACRO_JSON_SET(obj, nameValue) \
 obj[#nameValue] = nameValue;
 

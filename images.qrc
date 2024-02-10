@@ -21,6 +21,8 @@
         <file>images/delete.svg</file>
         <file>images/back-square.svg</file>
         <file>images/up-arrow.svg</file>
+        <file>images/add-circle.svg</file>
+        <file>images/more.svg</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

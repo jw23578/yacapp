@@ -29,6 +29,8 @@ void AppUserConfig::setConfig(const QJsonValue &config)
     boolFromJSON(saveLoginEMail, SaveLoginEMail);
     boolFromJSON(searchingExactlyAllowed, SearchingExactlyAllowed);
     boolFromJSON(searchingFuzzyAllowed, SearchingFuzzyAllowed);
+    QJsonObject o(config.toObject());
+    colorFromJSONIfExists(color, Color);
     if (!loginEMail().size())
     {
         setLoginToken("");
@@ -79,6 +81,10 @@ QJsonObject AppUserConfig::getConfig() const
     {
         stringToJSON(visibleName);
     }
+    if (changed(color()))
+    {
+        colorToJSON(color);
+    }
     return config;
 
 }
@@ -98,6 +104,7 @@ void AppUserConfig::clear()
     setWorkStart(QDateTime());
     setPauseStart(QDateTime());
     setOffSiteWorkStart(QDateTime());
+    setColor("orange");
 }
 
 QString AppUserConfig::getPublicKey() const

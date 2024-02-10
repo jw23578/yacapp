@@ -13,6 +13,7 @@ ProfileObject::ProfileObject(const ProfileObject &other):DataObjectInterface(0)
     setVisibleName(other.visibleName());
     setUnreadMessages(other.unreadMessages());
     setProfileImageId(other.profileImageId());
+    setColor(other.color());
 }
 
 void ProfileObject::incUnreadMessages()
@@ -26,7 +27,10 @@ void ProfileObject::fromJSON(const QJsonObject &object)
     setId(object[tableFields.id].toString());
     setVisibleName(object[tableFields.visible_name].toString());
     setProfileImageId(object[tableFields.image_id].toString());
-
+    if (object["color"].toString().size())
+    {
+        setColor(object["color"].toString());
+    }
 }
 
 void ProfileObject::assign(const ProfileObject &other)
@@ -36,4 +40,5 @@ void ProfileObject::assign(const ProfileObject &other)
     setUnreadMessages(other.unreadMessages());
     setLastAddedMessage(other.lastAddedMessage());
     setProfileImageId(other.profileImageId());
+    setColor(other.color());
 }
