@@ -14,6 +14,7 @@ class AppUserConfig: public ConfigInterface
     YACAPPPROPERTY(QString, surname, Surname, "");
     YACAPPPROPERTY(QString, visibleName, VisibleName, "");
     YACAPPPROPERTY(QColor, color, Color, "darkorange");
+    YACAPPPROPERTY(QColor, messageFontColor, MessageFontColor, "black");
     YACAPPPROPERTY(QString, profileImageId, ProfileImageId, "");
     YACAPPPROPERTY(bool, searchingExactlyAllowed, SearchingExactlyAllowed, false);
     YACAPPPROPERTY(bool, searchingFuzzyAllowed, SearchingFuzzyAllowed, false);

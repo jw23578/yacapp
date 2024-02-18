@@ -873,6 +873,7 @@ void YACAPP::appUserUpdateProfile(const QString &fstname,
                                   const QString &surname,
                                   const QString &visible_name,
                                   const QColor &color,
+                                  const QColor &message_font_color,
                                   const QString &profileFilename,
                                   const bool searching_exactly_allowed,
                                   const bool searching_fuzzy_allowed,
@@ -884,6 +885,7 @@ void YACAPP::appUserUpdateProfile(const QString &fstname,
     appUserConfig()->setSurname(surname);
     appUserConfig()->setVisibleName(visible_name);
     appUserConfig()->setColor(color);
+    appUserConfig()->setMessageFontColor(message_font_color);
     appUserConfig()->setSearchingFuzzyAllowed(searching_fuzzy_allowed);
     appUserConfig()->setSearchingExactlyAllowed(searching_exactly_allowed);
     saveState();
@@ -894,6 +896,7 @@ void YACAPP::appUserUpdateProfile(const QString &fstname,
         surname,
         visible_name,
         color,
+        message_font_color,
         profileFilename,
         searching_exactly_allowed,
         searching_fuzzy_allowed,
@@ -1341,6 +1344,7 @@ void YACAPP::fetchMyProfile(QJSValue successCallback,
             appUserConfig()->setSearchingExactlyAllowed(profile[tableFields.searching_exactly_allowed].toBool());
             appUserConfig()->setSearchingFuzzyAllowed(profile[tableFields.searching_fuzzy_allowed].toBool());
             appUserConfig()->setColor(coalesce(profile[tableFields.color].toString(), "orange"));
+            appUserConfig()->setMessageFontColor(coalesce(profile[tableFields.message_font_color].toString(), "black"));
             successCallback.call(QJSValueList());
         },
         [this, errorCallback](const QString &message) mutable

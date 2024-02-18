@@ -132,6 +132,12 @@ AppUserBasePage2
                 headerText: qsTr("Color")
                 color: yacApp.appUserConfig.color
             }
+            YACColorDialogWithHeader
+            {
+                id: theMessageFontColor
+                headerText: qsTr("MessageFontColor")
+                color: yacApp.appUserConfig.messageFontColor
+            }
 
             YACLineEditWithHeader
             {
@@ -152,6 +158,7 @@ AppUserBasePage2
                                                 surname.displayText,
                                                 visible_name.displayText,
                                                 theColor.color,
+                                                theMessageFontColor.color,
                                                 imageFilename,
                                                 searchingExactlyAllowed,
                                                 searchingFuzzyAllowed,

@@ -155,6 +155,7 @@ public:
                               const QString &surname,
                               const QString &visible_name,
                               const QColor &color,
+                              const QColor &message_font_color,
                               const QString &profileFilename,
                               const bool searching_exactly_allowed,
                               const bool searching_fuzzy_allowed,

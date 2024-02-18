@@ -14,6 +14,7 @@ ProfileObject::ProfileObject(const ProfileObject &other):DataObjectInterface(0)
     setUnreadMessages(other.unreadMessages());
     setProfileImageId(other.profileImageId());
     setColor(other.color());
+    setMessageFontColor(other.messageFontColor());
 }
 
 void ProfileObject::incUnreadMessages()
@@ -31,6 +32,10 @@ void ProfileObject::fromJSON(const QJsonObject &object)
     {
         setColor(object["color"].toString());
     }
+    if (object["messageFontColor"].toString().size())
+    {
+        setMessageFontColor(object["messageFontColor"].toString());
+    }
 }
 
 void ProfileObject::assign(const ProfileObject &other)
@@ -41,4 +46,5 @@ void ProfileObject::assign(const ProfileObject &other)
     setLastAddedMessage(other.lastAddedMessage());
     setProfileImageId(other.profileImageId());
     setColor(other.color());
+    setMessageFontColor(other.messageFontColor());
 }

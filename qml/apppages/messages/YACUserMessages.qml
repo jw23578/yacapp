@@ -8,7 +8,9 @@ AppUserBasePage2
     property var profile: null
     id: messagePage
     property color otherColor: profile.color
+    property color otherMessageFontColor: profile.messageFontColor
     property color myColor: yacApp.appUserConfig.color
+    property color myMessageFontColor: yacApp.appUserConfig.messageFontColor
     YACRoundedRectangle
     {
         id: profileHeader
@@ -162,6 +164,7 @@ AppUserBasePage2
                                 id: contentText
                                 text: messageText
                                 width: parent.width
+                                color: theMessageItem.other ? messagePage.otherMessageFontColor : messagePage.myMessageFontColor
                                 property double theWidth: 0
                                 x: theWidth < messageDateTime.contentWidth ? messageRectangle.nettoWidth - contentWidth : 0
                                 function setWidth()
@@ -206,6 +209,7 @@ AppUserBasePage2
                             visible: !theMessageItem.model.nextSameTime && theListview.count
                             font.pixelSize: contentText.font.pixelSize * Constants.smallerTextFactor
                             id: messageDateTime
+                            color: theMessageItem.other ? messagePage.otherMessageFontColor : messagePage.myMessageFontColor
                             text: Helper.formatTime(message.sent)
                             x: messageRectangle.other ? theInnerMessageItem.x : messageRectangle.width - contentWidth - messageRectangle.radius / 2
                             //                        x: messageRectangle.other ? messageRectangle.radius / 4 : messageColumn.width - width - messageRectangle.radius / 4

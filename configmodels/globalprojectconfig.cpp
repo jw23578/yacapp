@@ -121,7 +121,7 @@ QJsonObject GlobalProjectConfig::getConfig() const
     boolToJSON(appUserRightsEnabled);
 
     QJsonArray appImagesArray;
-    for (size_t i(0); i < m_appImages.count(); ++i)
+    for (int i(0); i < m_appImages.count(); ++i)
     {
         const AppImagesItem &aii(m_appImages.get(i));
         appImagesArray.push_back(aii.getConfig());

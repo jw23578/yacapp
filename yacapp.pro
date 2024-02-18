@@ -167,23 +167,32 @@ DISTFILES += \
   deployToJW78.sh \
   otherYacApp.sh
 
+
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 HEADERS += yacappfirebase.h
 
-LIBS += -lssl -lcrypto
+message(QT_ARCH: $$QT_ARCH)
+message(QMAKESPEC: $$QMAKESPEC)
+
+contains(QT_ARCH, x86_64) {
+  message("compiling for linux")
+  LIBS += -lssl -lcrypto
+}
 
 android {
   QMAKE_CXXFLAGS += -std=c++2a
   SOURCES += yacappfirebase.cpp
   message("main pro android")
   include(/home/jw78/Android/Sdk/android_openssl/openssl.pri)
-  INCLUDEPATH += /home/jw78/Android/Sdk/android_openssl/ssl_3/include
+  INCLUDEPATH += /home/jw78/Android/android_openssl/ssl_3/include
   INCLUDEPATH += $$PWD/firebase_cpp_sdk/include
 
 #  QT += androidextras
   QT += core-private
 
   LIBS += -L$$PWD/firebase_cpp_sdk/libs/android/arm64-v8a -lfirebase_app -lfirebase_messaging
+  LIBS += -lssl -lcrypto
+  LIBS += -L/home/jw78/Android/android_openssl/ssl_3/arm64-v8a
 }
 

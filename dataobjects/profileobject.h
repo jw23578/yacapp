@@ -15,6 +15,7 @@ class ProfileObject : public DataObjectInterface
     YACAPPPROPERTY(QString, profileImageId, ProfileImageId, "");
     YACAPPPROPERTY(QString, public_key_base64, Public_key_base64, "");
     YACAPPPROPERTY(QColor, color, Color, "orange");
+    YACAPPPROPERTY(QColor, messageFontColor, MessageFontColor, "black");
 public:
     explicit ProfileObject(QObject *parent = nullptr);
 

@@ -458,6 +458,7 @@ void YACServerNetwork::appUserUpdateProfile(const QString &appId,
                                             const QString &surname,
                                             const QString &visible_name,
                                             const QColor &color,
+                                            const QColor &message_font_color,
                                             const QString &profileFilename,
                                             const bool searching_exactly_allowed,
                                             const bool searching_fuzzy_allowed,
@@ -477,6 +478,7 @@ void YACServerNetwork::appUserUpdateProfile(const QString &appId,
     MACRO_JSON_SET(obj, password);
     MACRO_JSON_SET(obj, public_key_base64);
     MACRO_JSON_SET_COLOR(obj, color);
+    MACRO_JSON_SET_COLOR(obj, message_font_color);
     if (profileFilename.size())
     {
         QFile file(profileFilename);
