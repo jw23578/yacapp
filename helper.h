@@ -16,7 +16,9 @@ public:
     Q_INVOKABLE bool passwordOk(const QString &password) const;
 
     Q_INVOKABLE QString formatTime(const QDateTime &dt) const;
-    Q_INVOKABLE QString formatDate(const QDateTime &dt) const;
+    Q_INVOKABLE QString formatDateShort(const QDateTime &dt) const;
+    Q_INVOKABLE QString formatDateLong(const QDateTime &dt) const;
+    Q_INVOKABLE QString nameOfWeekDay(const QDateTime &dt) const;
     Q_INVOKABLE QString formatDateTime(const QDateTime &dt) const;
 
     Q_INVOKABLE QString smartFormatDateTime(const QDateTime &dt) const;

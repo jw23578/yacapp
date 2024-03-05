@@ -5,6 +5,10 @@ Rectangle
 {
     id: theDatePicker
     anchors.fill: parent
+    MouseArea
+    {
+        anchors.fill: parent
+    }
     property var okCallback: null
     property int hour: 0
     property int minute: 0
@@ -28,7 +32,14 @@ Rectangle
         YACText
         {
             width: theDatePicker.width
-            text: Helper.formatDate(theDatePicker.theDate)
+            text: Helper.nameOfWeekDay(theDatePicker.theDate)
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: Constants.defaultFontPixelSize * Constants.x4largerTextFactor
+        }
+        YACText
+        {
+            width: theDatePicker.width
+            text: Helper.formatDateShort(theDatePicker.theDate)
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: Constants.defaultFontPixelSize * Constants.x4largerTextFactor
         }
@@ -71,36 +82,25 @@ Rectangle
         }
         Row
         {
-            YACText
+            YACArrowButton
             {
-                width: theDatePicker.width / 7
-                text: "<"
-                horizontalAlignment: Text.AlignHCenter
-                font.pixelSize: Constants.defaultFontPixelSize * Constants.x4largerTextFactor
-                MouseArea
-                {
-                    anchors.fill: parent
-                    onClicked: theDatePicker.theDate = Helper.incYears(theDatePicker.theDate, -1)
-                }
+                id: arrowLeftYear
+                rotation: -90
+                onClicked: theDatePicker.theDate = Helper.incYears(theDatePicker.theDate, -1)
             }
+
             YACText
             {
-                width: theDatePicker.width / 7 * 5
+                width: theDatePicker.width - 2 * arrowLeftYear.width
                 text: Helper.getYear(theDatePicker.theDate)
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: Constants.defaultFontPixelSize * Constants.x4largerTextFactor
             }
-            YACText
+            YACArrowButton
             {
-                width: theDatePicker.width / 7
-                text: ">"
-                horizontalAlignment: Text.AlignHCenter
-                font.pixelSize: Constants.defaultFontPixelSize * Constants.x4largerTextFactor
-                MouseArea
-                {
-                    anchors.fill: parent
-                    onClicked: theDatePicker.theDate = Helper.incYears(theDatePicker.theDate, +1)
-                }
+                id: arrowRightYear
+                rotation: 90
+                onClicked: theDatePicker.theDate = Helper.incYears(theDatePicker.theDate, +1)
             }
 
         }
@@ -111,36 +111,24 @@ Rectangle
         }
         Row
         {
-            YACText
+            YACArrowButton
             {
-                width: theDatePicker.width / 7
-                text: "<"
-                horizontalAlignment: Text.AlignHCenter
-                font.pixelSize: Constants.defaultFontPixelSize * Constants.x4largerTextFactor
-                MouseArea
-                {
-                    anchors.fill: parent
-                    onClicked: theDatePicker.theDate = Helper.incMonths(theDatePicker.theDate, -1)
-                }
+                id: arrowLeftMonth
+                rotation: -90
+                onClicked: theDatePicker.theDate = Helper.incMonths(theDatePicker.theDate, -1)
             }
             YACText
             {
-                width: theDatePicker.width / 7 * 5
+                width: theDatePicker.width - 2 * arrowLeftMonth.width
                 text: Helper.getMonthNameLongFromDate(theDatePicker.theDate)
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: Constants.defaultFontPixelSize * Constants.x4largerTextFactor
             }
-            YACText
+            YACArrowButton
             {
-                width: theDatePicker.width / 7
-                text: ">"
-                horizontalAlignment: Text.AlignHCenter
-                font.pixelSize: Constants.defaultFontPixelSize * Constants.x4largerTextFactor
-                MouseArea
-                {
-                    anchors.fill: parent
-                    onClicked: theDatePicker.theDate = Helper.incMonths(theDatePicker.theDate, +1)
-                }
+                id: arrowRightMonth
+                rotation: 90
+                onClicked: theDatePicker.theDate = Helper.incMonths(theDatePicker.theDate, +1)
             }
         }
         Item

@@ -94,5 +94,6 @@
         <file>qml/items/YACTriggerableItem.qml</file>
         <file>qml/YACPleaseWaitForm.qml</file>
         <file>qml/apppages/AppUserBasePage2.qml</file>
+        <file>qml/items/YACArrowButton.qml</file>
     </qresource>
 </RCC>

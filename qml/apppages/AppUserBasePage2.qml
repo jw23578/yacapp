@@ -77,43 +77,30 @@ Rectangle
         repeat: false
     }
 
-    YACImage
+    YACArrowButton
     {
         id: theBackImage
-        source: "qrc:/images/images/up-arrow.svg"
         rotation: waitTimer.running ? 90 : enableBack ? 270 : yacApp.superMenueMinized ? 0 : 180
-        Behavior on rotation {
-            NumberAnimation {
-                duration: Constants.fastAnimationDuration
-            }
-        }
-
         anchors.bottom: parent.bottom
         anchors.left: parent.left
-        anchors.margins: Constants.radius / 4
         anchors.top: theHeightInfoTextEdit.top
-        width: height
-        MouseArea
+        onClicked:
         {
-            anchors.fill: parent
-            onClicked:
+            if (enableBack)
             {
-                if (enableBack)
-                {
-                    closeClicked()
-                    return
-                }
+                closeClicked()
+                return
+            }
 
-                if (yacApp.superMenueMinized)
-                {
-                    yacApp.restoreMenue()
-                }
-                else
-                {
-                    yacApp.minimizeMenue()
-                }
-
+            if (yacApp.superMenueMinized)
+            {
+                yacApp.restoreMenue()
+            }
+            else
+            {
+                yacApp.minimizeMenue()
             }
         }
+
     }
 }

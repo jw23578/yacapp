@@ -34,14 +34,24 @@ QString Helper::formatTime(const QDateTime &dt) const
     return dt.toString(QLocale::system().timeFormat(QLocale::ShortFormat));
 }
 
-QString Helper::formatDate(const QDateTime &dt) const
+QString Helper::formatDateShort(const QDateTime &dt) const
 {
     return dt.toString(QLocale::system().dateFormat(QLocale::ShortFormat));
 }
 
+QString Helper::formatDateLong(const QDateTime &dt) const
+{
+    return dt.toString(QLocale::system().dateFormat(QLocale::LongFormat));
+}
+
+QString Helper::nameOfWeekDay(const QDateTime &dt) const
+{
+    return dt.toString("dddd");
+}
+
 QString Helper::formatDateTime(const QDateTime &dt) const
 {
-    return formatDate(dt) + " " + formatTime(dt);
+    return formatDateShort(dt) + " " + formatTime(dt);
 }
 
 QString Helper::smartFormatDateTime(const QDateTime &dt) const
@@ -49,7 +59,7 @@ QString Helper::smartFormatDateTime(const QDateTime &dt) const
     QString s;
     if (dt.date() < QDateTime::currentDateTime().date())
     {
-        s += formatDate(dt);
+        s += formatDateShort(dt);
         s += " ";
     }
     s += formatTime(dt);

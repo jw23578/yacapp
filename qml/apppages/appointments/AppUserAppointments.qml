@@ -60,7 +60,7 @@ AppUserBasePage
                     property date start: appointment.start_datetime
                     property date end: appointment.end_datetime
                     property bool sameDay: Helper.sameDay(start, end)
-                    text: sameDay ? Helper.formatDate(start) + " " + Helper.formatTime(start) + " - " + Helper.formatTime(end) :
+                    text: sameDay ? Helper.formatDateShort(start) + " " + Helper.formatTime(start) + " - " + Helper.formatTime(end) :
                                     Helper.formatDateTime(start) + " - " + Helper.formatDateTime(end)
                 }
                 YACText

@@ -16,6 +16,7 @@ Item
         onClicked: parent.leftClicked()
         anchors.left: parent.left
         visible: text != ""
+        width: parent.width / 3
     }
     YACButton
     {
@@ -23,5 +24,6 @@ Item
         onClicked: parent.rightClicked()
         anchors.right: parent.right
         visible: text != ""
+        width: parent.width / 3
     }
 }

@@ -2,7 +2,7 @@ import QtQuick 2.15
 import "../../items"
 import ".."
 
-AppUserBasePage
+AppUserBasePage2
 {
     id: worktimePage
     color: "green"
@@ -26,6 +26,11 @@ AppUserBasePage
         }
     }
     multiMenueButton.hide: overviewLoader.sourceComponent != null || beginEnd.visible
+
+    function insertEvent(worktimeType)
+    {
+        yacApp.appUserInsertWorktime(worktimeType, 0, 0, function(message){}, function(message){})
+    }
 
     YACPageColumn
     {
@@ -69,13 +74,8 @@ AppUserBasePage
                     CPPQMLAppAndConfigurator.badMessage(qsTr("Please start your Work first"), null, function() {})
                     return;
                 }
+                insertEvent(pauseStarted ? 4 : 3)
 
-                let worktimeType = 3;
-                if (pauseStarted)
-                {
-                    worktimeType = 4;
-                }
-                yacApp.appUserInsertWorktime(worktimeType, 0, 0, function(message){}, function(message){})
             }
         }
         YACButton
@@ -95,12 +95,7 @@ AppUserBasePage
                     CPPQMLAppAndConfigurator.badMessage(qsTr("Please end your Pause first"), null, function() {})
                     return;
                 }
-                let worktimeType = 5;
-                if (offSiteWorkStarted)
-                {
-                    worktimeType = 6;
-                }
-                yacApp.appUserInsertWorktime(worktimeType, 0, 0, function(message){}, function(message){})
+                insertEvent(offSiteWorkStarted ? 6 : 5)
             }
         }
     }

@@ -114,6 +114,7 @@ void YACAPP::init()
     m_knownMenueFiles.clear();
 
     globalConfig()->init(globalProjectConfigFilename(), constants);
+    DEFAULT_LOG(QString("Projectname: ") + globalConfig()->projectName());;
     network.setThirdMandant(globalConfig()->third(), globalConfig()->mandant());
     setApplicationTitle(globalConfig()->projectName());
 

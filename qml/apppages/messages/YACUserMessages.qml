@@ -80,7 +80,7 @@ AppUserBasePage2
                     height: visible ? contentHeight : 0
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: theMessageItem.model.daySwitch
-                    text: Helper.formatDate(theMessageItem.message.sent)
+                    text: Helper.formatDateShort(theMessageItem.message.sent)
                 }
                 Repeater
                 {
