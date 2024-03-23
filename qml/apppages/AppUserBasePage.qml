@@ -28,7 +28,7 @@ Rectangle
 
     YACTwoButtonRow
     {
-        z: 1
+        z: 0
         id: theButtonRow
         visible: false
         rightText: qsTr("Close")

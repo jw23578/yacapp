@@ -44,6 +44,7 @@ class Constants : public QObject
 
     YACAPPPROPERTY(double, defaultMargin, DefaultMargin, 0);
 
+    YACAPPPROPERTY(QColor, fontColor, FontColor, "black")
     YACAPPPROPERTY(double, defaultFontPixelSize, DefaultFontPixelSize, 0)
     YACAPPPROPERTY(double, smallerTextFactor, SmallerTextFactor, 3.0 / 4.0)
     YACAPPPROPERTY(double, largerTextFactor, LargerTextFactor, 5.0 / 4.0)
@@ -53,6 +54,7 @@ class Constants : public QObject
 
     YACAPPPROPERTY(QColor, spacingColor, SpacingColor, "orange");
     YACAPPPROPERTY(QColor, buttonColor, ButtonColor, "orange");
+    YACAPPPROPERTY(QColor, buttonDownColor, ButtonDownColor, "darkorange");
     YACAPPPROPERTY(QColor, waitColor, WaitColor, "orange");
     YACAPPPROPERTY(QColor, goodColor, GoodColor, "#A9CEA5");
     YACAPPPROPERTY(QColor, badColor, BadColor, "#F09494");

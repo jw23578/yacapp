@@ -784,11 +784,16 @@ void YACAPP::appUserFetchWorktimes(const QDateTime &since,
             WorktimeMainObject *activeMainObject(0);
             QDateTime currentWorkStart;
             QDateTime currentPauseStart;
+            QDateTime currentOffSiteWorkStart;
             for (int i(0); i < worktimes.size(); ++i)
             {
                 WorktimeObject *wo(new WorktimeObject);
                 QJsonObject worktime(worktimes[i].toObject());
                 wo->fromJSON(worktime);
+                if (activeMainObject == 0 && wo->type() != WorktimeObject::WorkStartType)
+                {
+                    continue;
+                }
                 if (wo->type() == WorktimeObject::WorkEndType)
                 {
                     activeMainObject->setend_ts(wo->ts());
@@ -830,6 +835,15 @@ void YACAPP::appUserFetchWorktimes(const QDateTime &since,
                     {
                         activeMainObject->setnetto_pause_minutes(activeMainObject->netto_pause_minutes() + minutes);
                     }
+                }
+                if (wo->type() == WorktimeObject::OffSiteWorkStartType)
+                {
+                    currentOffSiteWorkStart = wo->ts();
+                }
+                if (wo->type() == WorktimeObject::OffSiteWorkEndType)
+                {
+                    int minutes(helper.minutesBetween(currentOffSiteWorkStart, wo->ts()));
+                    activeMainObject->setbrutto_offsitework_minutes(activeMainObject->brutto_offsitework_minutes() + minutes);
                 }
                 if (wo->type() == WorktimeObject::WorkStartType)
                 {

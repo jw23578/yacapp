@@ -17,6 +17,7 @@ Item
         anchors.left: parent.left
         visible: text != ""
         width: parent.width / 3
+        anchors.bottom: parent.bottom
     }
     YACButton
     {
@@ -25,5 +26,6 @@ Item
         anchors.right: parent.right
         visible: text != ""
         width: parent.width / 3
+        anchors.bottom: parent.bottom
     }
 }

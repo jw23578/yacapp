@@ -65,7 +65,7 @@ AppUserBasePage
                     YACText
                     {
                         id: dateText
-                        text: Helper.formatDate(worktime.begin_ts)
+                        text: Helper.formatDateShort(worktime.begin_ts)
                     }
                     YACText
                     {

@@ -5,27 +5,10 @@ import ".."
 AppUserBasePage2
 {
     id: worktimePage
-    color: "green"
     anchors.fill: parent
     property bool workStarted: !isNaN(yacApp.appUserConfig.workStart)
     property bool pauseStarted: !isNaN(yacApp.appUserConfig.pauseStart)
     property bool offSiteWorkStarted: !isNaN(yacApp.appUserConfig.offSiteWorkStart)
-
-    multiMenueButton.visible: true
-    multiMenueButton.model: [{caption: qsTr("Add Begin/End")},
-        {caption: qsTr("Overview")}]
-    multiMenueButton.onClicked:
-    {
-        if (caption == qsTr("Add Begin/End"))
-        {
-            beginEnd.visible = true
-        }
-        if (caption == qsTr("Overview"))
-        {
-            showOverview()
-        }
-    }
-    multiMenueButton.hide: overviewLoader.sourceComponent != null || beginEnd.visible
 
     function insertEvent(worktimeType)
     {
@@ -99,6 +82,20 @@ AppUserBasePage2
             }
         }
     }
+    YACPageColumn
+    {
+        parent: content
+        centerVertical: false
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: height / 5
+        YACButton
+        {
+            width: parent.width
+            text: qsTr("Overview")
+            onClicked: showOverview()
+        }
+    }
+
     Rectangle
     {
         visible: false

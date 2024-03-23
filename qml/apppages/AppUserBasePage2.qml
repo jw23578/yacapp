@@ -18,10 +18,10 @@ Rectangle
     signal leftClicked();
     property bool enableBack: false
     property alias content: theContent
-    property alias backImage: theBackImage
     property alias bottomRectangle: theBottomRectangle
     property alias heightInfoTextEdit: theHeightInfoTextEdit
     property alias multiMenueButton: theMultiMenueButton
+    property alias arrowButton: theArrowButton
     MouseArea
     {
         anchors.fill: parent
@@ -42,6 +42,11 @@ Rectangle
         y: parent.height - theHeightInfoTextEdit.height// - theSuperMenue.smallElemHeight
         visible: false
         z: 1
+        openedCenterY: theArrowButton.height / 2 - Constants.radius / 4
+        openedCenterX: theArrowButton.x + theArrowButton.width / 2
+
+        closedCenterY: openedCenterY - theArrowButton.height * 2
+        closedCenterX: openedCenterX
     }
 
     YACTextEditWithBackground
@@ -79,7 +84,7 @@ Rectangle
 
     YACArrowButton
     {
-        id: theBackImage
+        id: theArrowButton
         rotation: waitTimer.running ? 90 : enableBack ? 270 : yacApp.superMenueMinized ? 0 : 180
         anchors.bottom: parent.bottom
         anchors.left: parent.left

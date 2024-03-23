@@ -3,15 +3,27 @@ import "../items"
 
 Item
 {
+    property double closedCenterX: 0
+    property double closedCenterY: 0
+    property double openedCenterY: 0
+    property double openedCenterX: 0
     id: theMultiMenueButton
-    height: 1
+    height: 0
     width: parent.width
+
+    YACTextEditWithBackground
+    {
+        id: buttonHeightCalc
+        visible: false
+        font.pixelSize: Constants.defaultFontPixelSize * Constants.x4largerTextFactor
+    }
+
     property double closedXOffset: inactiveButtonSize * 0.5
     property int aniDuration: 200
-    property double activeButtonSize: width / 7
-    property double inactiveButtonSize: width / 13
+    property double extraSize: 4
+    property double activeButtonSize: buttonHeightCalc.height + extraSize // width / 7
+    property double inactiveButtonSize: activeButtonSize // width / 13
     property bool isOpen: false
-    property bool positionLeft: true
     property bool behaviorsActive: false
     property alias model: theItemsRepeater.model
     signal clicked(string caption)
@@ -31,7 +43,8 @@ Item
         onFinished:
         {
             behaviorsActive = true
-            openCloseButton.x = positionLeft ? closedXOffset : theMultiMenueButton.width - activeButtonSize - closedXOffset
+            openCloseButton.x = theMultiMenueButton.closedCenterX - openCloseButton.width / 2
+            openCloseButton.y = theMultiMenueButton.closedCenterY - openCloseButton.height / 2 - extraSize / 2
         }
     }
 
@@ -41,15 +54,17 @@ Item
     }
     function moveOut()
     {
-        openCloseButton.x = theMultiMenueButton.positionLeft ? -width : theMultiMenueButton.width + width
+        console.log("move out")
+        openCloseButton.x = -theMultiMenueButton.width
     }
 
     function open()
     {
+        console.log("open")
         isOpen = true
         openCloseButton.width = inactiveButtonSize
-        openCloseButton.x = (positionLeft ? inactiveButtonSize * 0.25 : theMultiMenueButton.width - inactiveButtonSize - inactiveButtonSize * 0.25) + (activeButtonSize - inactiveButtonSize) * 0.75
-        openCloseButton.y = 0 // activeButtonSize / 2 // -inactiveButtonSize -inactiveButtonSize * 0.25
+        openCloseButton.x = theMultiMenueButton.openedCenterX - openCloseButton.width / 2
+        openCloseButton.y = theMultiMenueButton.openedCenterY - openCloseButton.height / 2 -  extraSize / 2
 
         for (var i = 0; i < theItemsRepeater.count; ++i)
         {
@@ -58,10 +73,11 @@ Item
     }
     function close()
     {
+        console.log("close")
         isOpen = false
         openCloseButton.width = activeButtonSize
-        openCloseButton.x = positionLeft ? closedXOffset : theMultiMenueButton.width - activeButtonSize - closedXOffset
-        openCloseButton.y = -activeButtonSize - theMultiMenueButton.closedXOffset
+        openCloseButton.x = theMultiMenueButton.closedCenterX - openCloseButton.width / 2
+        openCloseButton.y = theMultiMenueButton.closedCenterY - openCloseButton.height / 2 - extraSize / 2
 
         for (var i = 0; i < theItemsRepeater.count; ++i)
         {
@@ -85,7 +101,14 @@ Item
         id: theItemsRepeater
         MultiMenueItem
         {
-            anchors.centerIn: openCloseButton
+            visible: false
+            x: theMultiMenueButton.closedCenterX
+            y: theMultiMenueButton.closedCenterY - extraSize / 2
+            closedX: theMultiMenueButton.closedCenterX
+            closedY: theMultiMenueButton.closedCenterY - extraSize / 2
+            openedX: theMultiMenueButton.openedCenterX
+            openedY: theMultiMenueButton.openedCenterY - openCloseButton.height / 2 - extraSize
+//            anchors.centerIn: openCloseButton
             position: index
             maxPosition: theItemsRepeater.count
             activeButtonSize: theMultiMenueButton.activeButtonSize
@@ -100,12 +123,14 @@ Item
     Rectangle
     {
         id: openCloseButton
-        y: -height - theMultiMenueButton.closedXOffset
-        x: theMultiMenueButton.positionLeft ? -width : theMultiMenueButton.width + width
+        y: theMultiMenueButton.closedCenterY - openCloseButton.height / 2
+        x: -2 * width
         radius: width / 2
         width: activeButtonSize
         height: width
         color: Constants.multiMenueConfig.color
+        border.width: 1
+        border.color: Constants.multiMenueConfig.borderColor
         YACImage
         {
             anchors.centerIn: parent

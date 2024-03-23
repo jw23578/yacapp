@@ -67,7 +67,7 @@ Loader
         if (status == Loader.Ready)
         {
             item.multiMenueButton.moveIn()
-            item.backImage.visible = true
+            item.arrowButton.visible = true
         }
         yacApp.minimizeMenue()
     }
@@ -76,11 +76,11 @@ Loader
     {
         x = theItem.width / 2
         width = 0
-        y = -height
+        y = -Constants.appTotalHeight
         if (status == Loader.Ready)
         {
             item.multiMenueButton.moveOut()
-            item.backImage.visible = false
+            item.arrowButton.visible = false
         }
     }
     onLoaded: item.multiMenueButton.moveIn()

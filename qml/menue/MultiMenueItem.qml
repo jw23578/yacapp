@@ -6,6 +6,10 @@ Item
     id: theMultiMenueItem
     width: 0
     height: 0
+    property double openedX: 0
+    property double openedY: 0
+    property double closedX: 0
+    property double closedY: 0
     signal clicked(string caption)
     property alias color: menueOption1.color
     property alias caption: theCaption.text
@@ -26,6 +30,12 @@ Item
         {
             NumberAnimation
             {
+                target: theMultiMenueItem
+                property: "y"
+                to: openedY
+            }
+            NumberAnimation
+            {
                 target: menueOption1
                 property: "width"
                 to: activeButtonSize
@@ -35,13 +45,13 @@ Item
             {
                 target: menueOption1
                 property: "y"
-                to: (position + 1) * -activeButtonSize - activeButtonSize/2
+                to: (position + 1) * 1.2 * -activeButtonSize
                 duration: aniDuration
             }
         }
 
         PauseAnimation {
-            duration: (maxPosition - position) * Constants.fastAnimationDuration / 5
+            duration: (position * 1.2) * Constants.fastAnimationDuration / 5
         }
         ParallelAnimation
         {
@@ -56,7 +66,7 @@ Item
             {
                 target: theTextRectangle
                 property: "width"
-                to: activeButtonSize * 2
+                to: theCaption.contentWidth + theTextRectangle.radius * 2
                 duration: aniDuration
             }
         }
@@ -68,8 +78,15 @@ Item
         PauseAnimation {
             duration: position * Constants.fastAnimationDuration / 5
         }
+
         ParallelAnimation
         {
+            NumberAnimation
+            {
+                target: theMultiMenueItem
+                property: "y"
+                to: closedY
+            }
             NumberAnimation
             {
                 target: theTextRectangle
@@ -84,6 +101,13 @@ Item
                 to: - inactiveButtonSize / 2
                 duration: aniDuration
             }
+            SmoothedAnimation
+            {
+                target: menueOption1
+                property: "y"
+                to: -theMultiMenueItem.inactiveButtonSize / 2
+                duration: theMultiMenueItem.aniDuration
+            }
         }
         ParallelAnimation
         {
@@ -94,14 +118,6 @@ Item
                 to: inactiveButtonSize
                 duration: aniDuration
             }
-            SmoothedAnimation
-            {
-                target: menueOption1
-                property: "y"
-                to: -theMultiMenueItem.inactiveButtonSize / 2
-                duration: theMultiMenueItem.aniDuration
-            }
-
         }
     }
     SequentialAnimation
@@ -110,6 +126,7 @@ Item
     }
     function open()
     {
+        visible = true
         closeAnimation.stop()
         openAnimation.start()
     }
@@ -152,7 +169,7 @@ Item
         Text
         {
             anchors.centerIn: parent
-            text: "T"
+            text: position + 1
             color: Constants.multiMenueConfig.fontColor
         }
         color: Constants.multiMenueConfig.itemColor

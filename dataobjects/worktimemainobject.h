@@ -15,6 +15,7 @@ class WorktimeMainObject : public DataObjectInterface
 
     YACAPPPROPERTY(int, brutto_work_minutes, brutto_work_minutes, 0);
     YACAPPPROPERTY(int, brutto_pause_minutes, brutto_pause_minutes, 0);
+    YACAPPPROPERTY(int, brutto_offsitework_minutes, brutto_offsitework_minutes, 0);
 
     YACAPPPROPERTY(int, netto_work_minutes, netto_work_minutes, 0);
     YACAPPPROPERTY(int, netto_pause_minutes, netto_pause_minutes, 0);
