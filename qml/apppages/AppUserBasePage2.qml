@@ -4,6 +4,7 @@ import "../menue"
 
 Rectangle
 {
+    color: Constants.backgroundColor
     MouseArea
     {
         anchors.fill: parent

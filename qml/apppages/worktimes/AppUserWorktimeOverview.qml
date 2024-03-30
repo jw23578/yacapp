@@ -8,31 +8,30 @@ AppUserBasePage
     property date since: new Date()
     property date until: new Date()
     id: theOverviewPage
-    Row
+    YACDateSpanButton
     {
-        id: sinceUntilButtons
-        YACDateButton
-        {
-            id: sinceButton
-            width: theOverviewPage.width / 2
-            headerText: qsTr("Since")
-            theDate: theOverviewPage.since
-        }
-        YACDateButton
-        {
-            id: untilButton
-            width: theOverviewPage.width / 2
-            headerText: qsTr("Until")
-            theDate: until
-        }
+        id: spanButton
+        width: parent.width
+        sinceDate: theOverviewPage.since
+        untilDate: theOverviewPage.until
+        onClicked:
+            yacApp.appUserFetchWorktimes(sinceDate,
+                                         untilDate,
+                                         function(message)
+                                         {
+                                         },
+                                         function(message){})
     }
+
     ListView
     {
         id: theListview
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: sinceUntilButtons.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: Constants.defaultMargin
+        anchors.rightMargin: Constants.defaultMargin
+        anchors.top: spanButton.bottom
         anchors.bottom: buttonRow.top
-        width: parent.width * Constants.defaultWidthFactor
         model: WorktimesModel
         clip: true
         spacing: 1
@@ -59,14 +58,14 @@ AppUserBasePage
             {
                 id: theColumn
                 width: parent.width
+                YACText
+                {
+                    id: dateText
+                    text: Helper.formatDateLong(worktime.begin_ts)
+                }
                 Row
                 {
                     id: theRow
-                    YACText
-                    {
-                        id: dateText
-                        text: Helper.formatDateShort(worktime.begin_ts)
-                    }
                     YACText
                     {
                         text: qsTr("Begin: ") + Helper.formatTime(worktime.begin_ts)

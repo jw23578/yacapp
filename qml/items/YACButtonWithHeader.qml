@@ -9,6 +9,7 @@ FocusScope
     property alias text: button.text
     property alias emptyText: button.emptyText
     height: buttonEditWithHeader.height
+    property alias buttonHeight: button.height
     width: parent.width
     signal clicked()
     Column
@@ -28,19 +29,15 @@ FocusScope
             width: parent.width
             visible: theScope.showColumn
         }
-        Rectangle
+        Item
         {
             width: parent.width - x
             height: button.height
-//            border.color: "black"
-//            border.width: 1
             visible: theScope.showColumn
             YACButton
             {
                 id: button
-                width: parent.width - 4
-                x: 2
-                y: 2
+                width: parent.width
                 clip: true
                 focus: true
                 onClicked: theScope.clicked()

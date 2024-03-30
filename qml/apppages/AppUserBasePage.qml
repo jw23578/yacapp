@@ -6,6 +6,7 @@ import "../menue"
 
 Rectangle
 {
+    color: Constants.backgroundColor
     anchors.fill: parent
     property alias showCloseButton: theButtonRow.visible
     property alias buttonRow: theButtonRow

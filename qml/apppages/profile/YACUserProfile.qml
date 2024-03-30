@@ -27,7 +27,7 @@ AppUserBasePage2
     }
 
     property bool imageChanged: false
-    Rectangle
+    Item
     {
         anchors.fill: content
         YACPageColumn

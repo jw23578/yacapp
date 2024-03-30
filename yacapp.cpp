@@ -794,6 +794,10 @@ void YACAPP::appUserFetchWorktimes(const QDateTime &since,
                 {
                     continue;
                 }
+                if (activeMainObject)
+                {
+                    activeMainObject->subentries.append(wo);
+                }
                 if (wo->type() == WorktimeObject::WorkEndType)
                 {
                     activeMainObject->setend_ts(wo->ts());
@@ -822,6 +826,13 @@ void YACAPP::appUserFetchWorktimes(const QDateTime &since,
                     minutes -= autopauseMinutes;
                     activeMainObject->setautopause_minutes(autopauseMinutes);
                     activeMainObject->setnetto_work_minutes(minutes);
+
+                    DEFAULT_LOG(QString("worktimeMainsModel.count: ") + QString::number(worktimeMainsModel.size()));
+
+                    worktimeMainsModel.append(activeMainObject);
+
+                    DEFAULT_LOG(QString("worktimeMainsModel.count: ") + QString::number(worktimeMainsModel.size()));
+                    activeMainObject = 0;
                 }
                 if (wo->type() == WorktimeObject::PauseStartType)
                 {
@@ -848,12 +859,17 @@ void YACAPP::appUserFetchWorktimes(const QDateTime &since,
                 if (wo->type() == WorktimeObject::WorkStartType)
                 {
                     activeMainObject = new WorktimeMainObject;
+                    activeMainObject->setId(helper.generateUuid());
                     activeMainObject->setbegin_ts(wo->ts());
-                    worktimeMainsModel.append(activeMainObject);
                     currentWorkStart = wo->ts();
                 }
-                activeMainObject->subentries.append(wo);
             }
+            if (activeMainObject)
+            {
+                worktimeMainsModel.append(activeMainObject);
+                activeMainObject = 0;
+            }
+
             successCallback.call(QJSValueList());
         },
         [errorCallback](const QString &message) mutable

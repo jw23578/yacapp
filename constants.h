@@ -44,6 +44,8 @@ class Constants : public QObject
 
     YACAPPPROPERTY(double, defaultMargin, DefaultMargin, 0);
 
+    YACAPPPROPERTY(QColor, backgroundColor, BackgroundColor, "blanchedalmond");
+
     YACAPPPROPERTY(QColor, fontColor, FontColor, "black")
     YACAPPPROPERTY(double, defaultFontPixelSize, DefaultFontPixelSize, 0)
     YACAPPPROPERTY(double, smallerTextFactor, SmallerTextFactor, 3.0 / 4.0)

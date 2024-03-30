@@ -183,7 +183,6 @@ AppUserBasePage2
                                      overviewLoader.until,
                                      function(message)
                                      {
-
                                          overviewLoader.sourceComponent = theAppUserWorktimeOverviewComponent
                                      },
                                      function(message){})

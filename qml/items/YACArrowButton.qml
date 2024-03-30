@@ -14,8 +14,10 @@ YACRectangle
     radiusBottomRight:  true
     radiusTopRight: true
     radiusBottomLeft: true
+    property alias imageRotation: theImage.rotation
     YACImage
     {
+        id: theImage
         anchors.centerIn: parent
         source: "qrc:/images/images/up-arrow.svg"
         Behavior on rotation {
