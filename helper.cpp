@@ -29,9 +29,40 @@ bool Helper::passwordOk(const QString &password) const
     return true;
 }
 
+QString Helper::fillUpLeft(QString t, int length, QString fillUp) const
+{
+    if (fillUp.size() == 0)
+    {
+        fillUp = " ";
+    }
+    if (fillUp.size() == 1)
+    {
+        t = QString().fill(fillUp[0], std::max(0, length - t.size())) + t;
+        return t;
+    }
+    while (t.size() < length)
+    {
+        t = fillUp + t;
+    }
+    if (t.size() > length)
+    {
+        t = t.right(length);
+    }
+    return t;
+}
+
 QString Helper::formatTime(const QDateTime &dt) const
 {
     return dt.toString(QLocale::system().timeFormat(QLocale::ShortFormat));
+}
+
+QString Helper::formatTimeWithDateShortIfNeeded(const QDateTime &dt, const QDateTime &other) const
+{
+    if (other.date() != dt.date())
+    {
+        return formatDateShort(dt) + " " + formatTime(dt);
+    }
+    return formatTime(dt);
 }
 
 QString Helper::formatDateShort(const QDateTime &dt) const
@@ -52,6 +83,23 @@ QString Helper::nameOfWeekDay(const QDateTime &dt) const
 QString Helper::formatDateTime(const QDateTime &dt) const
 {
     return formatDateShort(dt) + " " + formatTime(dt);
+}
+
+QString Helper::formatMinutesToDaysAndHours(int minutes) const
+{
+    int days(minutes / (24 * 60));
+    minutes %= (24 * 60);
+    int hours(minutes / 60);
+    minutes %= 60;
+    QString ret;
+    if (days)
+    {
+        ret = QString::number(days) + QString(" ") + tr("Days") + QString(" ");
+    }
+    ret += fillUpLeft(QString::number(hours), 2, "0");
+    ret += ":";
+    ret += fillUpLeft(QString::number(minutes), 2, "0");
+    return ret;
 }
 
 QString Helper::smartFormatDateTime(const QDateTime &dt) const

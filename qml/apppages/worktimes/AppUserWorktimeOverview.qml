@@ -17,9 +17,7 @@ AppUserBasePage
         onClicked:
             yacApp.appUserFetchWorktimes(sinceDate,
                                          untilDate,
-                                         function(message)
-                                         {
-                                         },
+                                         function(message){},
                                          function(message){})
     }
 
@@ -35,24 +33,25 @@ AppUserBasePage
         model: WorktimesModel
         clip: true
         spacing: 1
-        delegate: Rectangle
+        delegate: Item
         {
             id: theRectangle
             width: theListview.width
             height: theColumn.height
-            Behavior on height
-            {
-                NumberAnimation {
-                    duration: Constants.fastAnimationDuration
-                }
-            }
             clip: true
 
-            color: "yellow"
             MouseArea
             {
                 anchors.fill: parent
-                onClicked: theRepeater.model = theRepeater.model == 0 ? worktime.getSubentries() : 0
+                onClicked:
+                {
+                    if (theRepeater.model == 0)
+                    {
+                        theRepeater.model = worktime.getSubentries();
+                        return
+                    }
+                    subentriesItem.height == 0 ? subentriesItem.height = subentriesColumn.height : subentriesItem.height = 0
+                }
             }
             Column
             {
@@ -60,72 +59,120 @@ AppUserBasePage
                 width: parent.width
                 YACText
                 {
+                    anchors.horizontalCenter: parent.horizontalCenter
                     id: dateText
                     text: Helper.formatDateLong(worktime.begin_ts)
-                }
-                Row
-                {
-                    id: theRow
-                    YACText
-                    {
-                        text: qsTr("Begin: ") + Helper.formatTime(worktime.begin_ts)
-                    }
-                    YACText
-                    {
-                        text: qsTr("End: ") + Helper.formatTime(worktime.end_ts)
-                    }
+                    font.pixelSize: Constants.defaultFontPixelSize * Constants.smallerTextFactor
                 }
                 Row
                 {
                     YACText
                     {
-                        text: qsTr("Brutto D: ") + worktime.brutto_work_minutes + qsTr(" P: ") + worktime.brutto_pause_minutes
+                        text: Helper.formatTime(worktime.begin_ts)
                     }
-                }
-                Row
-                {
                     YACText
                     {
-                        text: qsTr("Netto D: ") + worktime.netto_work_minutes + qsTr(" P: ") + worktime.netto_pause_minutes + qsTr(" AP: ") + worktime.autopause_minutes
+                        text:  " - "
                     }
-                }
-
-                Repeater
-                {
-                    id: theRepeater
-                    model: 0
+                    YACText
+                    {
+                        text: Helper.formatTimeWithDateShortIfNeeded(worktime.end_ts, worktime.begin_ts)
+                        id: letzterText
+                    }
                     Item
                     {
+                        height: 1
+                        width: theColumn.width / 2 - letzterText.x - letzterText.width
+                    }
+
+                    YACText
+                    {
+                        text: qsTr("Ergebnis: ")
+                        id: ergebnisText
+                    }
+
+                    YACText
+                    {
+                        width: ergebnisText.width
+                        horizontalAlignment: Text.AlignHCenter
+                        text: Helper.formatMinutesToDaysAndHours(worktime.netto_work_minutes)
+                    }
+                }
+                Row
+                {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    YACText
+                    {
+                        font.pixelSize: Constants.defaultFontPixelSize * Constants.smallerTextFactor
+                        text: qsTr(" Dauer: ") + Helper.formatMinutesToDaysAndHours(worktime.brutto_work_minutes)
+                    }
+                    YACText
+                    {
+                        font.pixelSize: Constants.defaultFontPixelSize * Constants.smallerTextFactor
+                        text: qsTr(" Pause: ") + Helper.formatMinutesToDaysAndHours(worktime.netto_pause_minutes)
+                    }
+                }
+
+                Item
+                {
+                    Behavior on height
+                    {
+                        NumberAnimation {
+                            duration: Constants.fastAnimationDuration
+                        }
+                    }
+                    id: subentriesItem
+                    width: parent.width
+                    height: subentriesColumn.height
+                    clip: true
+                    Column
+                    {
+                        id: subentriesColumn
                         width: parent.width
-                        height: entryRow.height
-                        Row
+                        Repeater
                         {
-                            id: entryRow
+                            id: theRepeater
+                            model: 0
                             Item
                             {
-                                width: entryTypeText.height * (entry.type < 3 ? 1 : entry.type < 5 ? 3 : 2)
-                                height: entryTypeText.height
-                            }
+                                width: parent.width
+                                height: entryRow.height
+                                Row
+                                {
+                                    id: entryRow
+                                    Item
+                                    {
+                                        width: entryTypeText.height * (entry.type < 3 ? 1 : entry.type < 5 ? 3 : 2)
+                                        height: entryTypeText.height
+                                    }
 
-                            YACText
-                            {
-                                id: entryTypeText
-                                text: entry.getTypeString() + " " + Helper.formatDateTime(entry.ts) + " " + entry.type
-                            }
-                            height: 20
-                        }
-                        YACButton
-                        {
-                            anchors.right: parent.right
-                            anchors.top: parent.top
-                            text: qsTr("Delete")
-                            visible: entry.type == 1 || entry.type == 3 || entry.type == 5
-                            onClicked:
-                            {
-                                yacApp.appUserDeleteWorktime(entry.id, function(message){}, function(message){})
+                                    YACText
+                                    {
+                                        id: entryTypeText
+                                        text: entry.getTypeString() + " " + Helper.formatDateTime(entry.ts)
+                                    }
+                                    height: 20
+                                }
+                                YACButton
+                                {
+                                    anchors.right: parent.right
+                                    anchors.top: parent.top
+                                    text: qsTr("Delete")
+                                    visible: entry.type == 1 || entry.type == 3 || entry.type == 5
+                                    onClicked:
+                                    {
+                                        yacApp.appUserDeleteWorktime(entry.id, function(message){}, function(message){})
+                                    }
+                                }
                             }
                         }
                     }
+                }
+                Rectangle
+                {
+                    height: 1
+                    width: parent.width
+                    color: Constants.buttonColor
                 }
             }
         }

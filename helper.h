@@ -15,11 +15,15 @@ public:
 
     Q_INVOKABLE bool passwordOk(const QString &password) const;
 
+    Q_INVOKABLE QString fillUpLeft(QString t, int length, QString fillUp) const;
+
     Q_INVOKABLE QString formatTime(const QDateTime &dt) const;
+    Q_INVOKABLE QString formatTimeWithDateShortIfNeeded(const QDateTime &dt, const QDateTime &other) const;
     Q_INVOKABLE QString formatDateShort(const QDateTime &dt) const;
     Q_INVOKABLE QString formatDateLong(const QDateTime &dt) const;
     Q_INVOKABLE QString nameOfWeekDay(const QDateTime &dt) const;
     Q_INVOKABLE QString formatDateTime(const QDateTime &dt) const;
+    Q_INVOKABLE QString formatMinutesToDaysAndHours(int minutes) const;
 
     Q_INVOKABLE QString smartFormatDateTime(const QDateTime &dt) const;
 
