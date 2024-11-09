@@ -3,7 +3,7 @@ import com.yacapp.parsedconfig 1.0
 import com.yacapp.globalprojectconfig 1.0
 import com.yacapp.headerconfig 1.0
 import com.yacapp.contentconfig 1.0
-import QtQuick.Dialogs 1.3
+import QtQuick.Dialogs
 import "qrc:/qml/items"
 import "qrc:/qml/dialogs"
 
@@ -21,6 +21,7 @@ Rectangle
         width: parent.width
         YACText
         {
+            useInConfigurator: true
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
             text: qsTr("Pages")
@@ -33,6 +34,7 @@ Rectangle
             spacing: 1
             YACComboBoxWithHeader
             {
+                useInConfigurator: true
                 id: fileCombobox
                 headerText: qsTr("Files")
                 onActivated: editorForm.loadConfig(text)
@@ -41,6 +43,7 @@ Rectangle
             }
             YACButton
             {
+                useInConfigurator: true
                 y: fileCombobox.comboBox.y
                 id: addFileButton
                 text: qsTr("Add File")
@@ -54,6 +57,7 @@ Rectangle
             }
             YACButton
             {
+                useInConfigurator: true
                 y: fileCombobox.comboBox.y
                 id: deleteCurrentFileButton
                 text: qsTr("Delete File")
@@ -87,6 +91,7 @@ Rectangle
 
                 YACComboBoxWithHeader
                 {
+                    useInConfigurator: true
                     id: menuefileCombobox
                     currentIndex: find(config.menueFilename)
                     headerText: qsTr("Menuefile")
@@ -103,6 +108,7 @@ Rectangle
                     sectionCaption: qsTr("AppUser")
                     YACButton
                     {
+                        useInConfigurator: true
                         width: parent.width
                         text: qsTr("APP-User Profile (create/login) enabled: ") + (global.appUserEnabled ? qsTr("Yes") : qsTr("No"))
                         onClicked: {
@@ -112,6 +118,7 @@ Rectangle
                     }
                     YACButton
                     {
+                        useInConfigurator: true
                         width: parent.width
                         text: qsTr("APP-User Messages enabled: ") + (global.appUserMessagesEnabled ? qsTr("Yes") : qsTr("No"))
                         onClicked: {
@@ -121,6 +128,7 @@ Rectangle
                     }
                     YACButton
                     {
+                        useInConfigurator: true
                         width: parent.width
                         text: qsTr("APP-User News enabled: ") + (global.appUserNewsEnabled ? qsTr("Yes") : qsTr("No"))
                         onClicked: {
@@ -130,6 +138,7 @@ Rectangle
                     }
                     YACButton
                     {
+                        useInConfigurator: true
                         width: parent.width
                         text: qsTr("APP-User Worktime: ") + (global.appUserWorktimeEnabled ? qsTr("Yes") : qsTr("No"))
                         onClicked: {
@@ -139,6 +148,7 @@ Rectangle
                     }
                     YACButton
                     {
+                        useInConfigurator: true
                         width: parent.width
                         text: qsTr("APP-User Appointments: ") + (global.appUserAppointmentsEnabled ? qsTr("Yes") : qsTr("No"))
                         onClicked: {
@@ -148,6 +158,7 @@ Rectangle
                     }
                     YACButton
                     {
+                        useInConfigurator: true
                         width: parent.width
                         text: qsTr("APP-User Spaces: ") + (global.appUserSpacesEnabled ? qsTr("Yes") : qsTr("No"))
                         onClicked: {
@@ -157,6 +168,7 @@ Rectangle
                     }
                     YACButton
                     {
+                        useInConfigurator: true
                         width: parent.width
                         text: qsTr("APP-User Spaces: ") + (global.appUserRightsEnabled ? qsTr("Yes") : qsTr("No"))
                         onClicked: {
@@ -171,12 +183,14 @@ Rectangle
                     sectionCaption: qsTr("Logo")
                     YACLineEditWithHeader
                     {
+                        useInConfigurator: true
                         headerText: qsTr("LogoUrl")
                         text: global.logoUrl
                         onDisplayTextChanged: global.logoUrl = text
                     }
                     YACLineEditWithHeader
                     {
+                        useInConfigurator: true
                         headerText: qsTr("Logo-Width per thousand")
                         intEdit: true
                         text: global.logoWidthPerThousand
@@ -184,6 +198,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
+                        useInConfigurator: true
                         headerText: qsTr("Logo-Offset-X per thousand")
                         intEdit: true
                         text: global.logoOffsetXPerThousand
@@ -191,6 +206,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
+                        useInConfigurator: true
                         headerText: qsTr("Logo-Height per thousand")
                         intEdit: true
                         text: global.logoHeightPerThousand
@@ -198,6 +214,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
+                        useInConfigurator: true
                         headerText: qsTr("Logo-Offset-Y per thousand")
                         intEdit: true
                         text: global.logoOffsetYPerThousand
@@ -210,12 +227,14 @@ Rectangle
                     sectionCaption: qsTr("Header")
                     YACLineEditWithHeader
                     {
+                        useInConfigurator: true
                         headerText: qsTr("Title")
                         text: config.header.title
                         onDisplayTextChanged: config.header.title = text
                     }
                     YACLineEditWithHeader
                     {
+                        useInConfigurator: true
                         headerText: qsTr("Height per thousand")
                         doubleEdit: true
                         text: config.header.heightPerThousand
@@ -223,6 +242,7 @@ Rectangle
                     }
                     YACColorDialogWithHeader
                     {
+                        useInConfigurator: true
                         headerText: qsTr("Color")
                         color: config.header.color
                         onColorChanged: config.header.color = color
@@ -233,6 +253,7 @@ Rectangle
                     sectionCaption: qsTr("Background")
                     YACColorDialogWithHeader
                     {
+                        useInConfigurator: true
                         headerText: qsTr("Color")
                         color: config.background.color
                         onColorChanged: config.background.color = color
@@ -244,12 +265,14 @@ Rectangle
                     sectionCaption: qsTr("Content")
                     YACSwitch
                     {
+                        useInConfigurator: true
                         text: qsTr("Login needed")
                         checked: config.content.loginNeeded
                         onCheckedChanged: config.content.loginNeeded = checked
                     }
                     YACComboBoxWithHeader
                     {
+                        useInConfigurator: true
                         id: contentType
                         headerText: qsTr("Type")
                         currentIndex: find(config.content.type)
@@ -258,6 +281,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
+                        useInConfigurator: true
                         showColumn: config.content.type == "grid"
                         intEdit: true
                         headerText: qsTr("Columns")
@@ -266,6 +290,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
+                        useInConfigurator: true
                         showColumn: config.content.type == "grid"
                         intEdit: true
                         headerText: qsTr("Rows")
@@ -274,6 +299,7 @@ Rectangle
                     }
                     YACLineEditWithHeader
                     {
+                        useInConfigurator: true
                         showColumn: config.content.type == "webview"
                         headerText: qsTr("Url")
                         text: config.content.url
@@ -308,6 +334,7 @@ Rectangle
                                 {
                                     YACComboBoxWithHeader
                                     {
+                                        useInConfigurator: true
                                         id: contentItemType
                                         width: itemColumn.width - removeItem.width
                                         headerText: qsTr("Type")
@@ -317,6 +344,7 @@ Rectangle
                                     }
                                     YACButton
                                     {
+                                        useInConfigurator: true
                                         id: removeItem
                                         text: qsTr("Remove Item")
                                         onClicked: CPPQMLAppAndConfigurator.yesNoQuestion(qsTr("Remove Item?")
@@ -334,6 +362,7 @@ Rectangle
                                 }
                                 YACLineEditWithHeader
                                 {
+                                    useInConfigurator: true
                                     id: theTarget
                                     headerText: qsTr("Target")
                                     text: config.content.items[index].target
@@ -341,6 +370,7 @@ Rectangle
                                 }
                                 YACLineEditWithHeader
                                 {
+                                    useInConfigurator: true
                                     id: theText
                                     headerText: qsTr("Text")
                                     text: currentItem.text
@@ -349,6 +379,7 @@ Rectangle
                                 }
                                 YACColorDialogWithHeader
                                 {
+                                    useInConfigurator: true
                                     headerText: qsTr("Color")
                                     color: currentItem.color
                                     onAccepted: currentItem.color = color
@@ -356,6 +387,7 @@ Rectangle
                                 }
                                 YACLineEditWithHeader
                                 {
+                                    useInConfigurator: true
                                     id: theFlipableFilename
                                     headerText: qsTr("FlipableFilename")
                                     text: currentItem.flipableFilename
@@ -364,6 +396,7 @@ Rectangle
                                 }
                                 YACLineEditWithHeader
                                 {
+                                    useInConfigurator: true
                                     id: theText2
                                     headerText: qsTr("Text2")
                                     text: currentItem.text2
@@ -372,6 +405,7 @@ Rectangle
                                 }
                                 YACColorDialogWithHeader
                                 {
+                                    useInConfigurator: true
                                     headerText: qsTr("Color2")
                                     color: currentItem.color2
                                     onAccepted: currentItem.color2 = color
@@ -379,6 +413,7 @@ Rectangle
                                 }
                                 YACLineEditWithHeader
                                 {
+                                    useInConfigurator: true
                                     id: theFlipableFilename2
                                     headerText: qsTr("FlipableFilename2")
                                     text: currentItem.flipableFilename2
@@ -388,6 +423,7 @@ Rectangle
 
                                 YACLineEditWithHeader
                                 {
+                                    useInConfigurator: true
                                     id: theUrl
                                     headerText: qsTr("Url")
                                     text: config.content.items[index].url
@@ -396,6 +432,7 @@ Rectangle
                                 }
                                 YACComboBoxWithHeader
                                 {
+                                    useInConfigurator: true
                                     id: theFillMode
                                     headerText: qsTr("Fillmode")
                                     visible: imageType || animatedimageType
@@ -416,6 +453,7 @@ Rectangle
                                     width: parent.width
                                     YACLineEditWithHeader
                                     {
+                                        useInConfigurator: true
                                         id: theFilename
                                         headerText: qsTr("Filename")
                                         text: config.content.items[index].filename
@@ -424,6 +462,7 @@ Rectangle
                                     }
                                     YACButton
                                     {
+                                        useInConfigurator: true
                                         id: editFileButton
                                         text: qsTr("Edit")
                                         onClicked: editorForm.loadConfig(config.content.items[index].filename)
@@ -431,6 +470,7 @@ Rectangle
                                 }
                                 YACLineEditWithHeader
                                 {
+                                    useInConfigurator: true
                                     headerText: qsTr("Width per thousand")
                                     doubleEdit: true
                                     text: config.content.items[index].widthPerThousand
@@ -439,6 +479,7 @@ Rectangle
                                 }
                                 YACLineEditWithHeader
                                 {
+                                    useInConfigurator: true
                                     headerText: qsTr("Height per thousand")
                                     doubleEdit: true
                                     text: config.content.items[index].heightPerThousand
@@ -447,6 +488,7 @@ Rectangle
                                 }
                                 YACLineEditWithHeader
                                 {
+                                    useInConfigurator: true
                                     headerText: qsTr("Left Margin per Thousand")
                                     intEdit: true
                                     text: config.content.items[index].leftMarginPerThousand
@@ -454,6 +496,7 @@ Rectangle
                                 }
                                 YACLineEditWithHeader
                                 {
+                                    useInConfigurator: true
                                     headerText: qsTr("Right Margin per Thousand")
                                     intEdit: true
                                     text: config.content.items[index].rightMarginPerThousand
@@ -461,6 +504,7 @@ Rectangle
                                 }
                                 YACLineEditWithHeader
                                 {
+                                    useInConfigurator: true
                                     headerText: qsTr("Top Margin per Thousand")
                                     intEdit: true
                                     text: config.content.items[index].topMarginPerThousand
@@ -468,6 +512,7 @@ Rectangle
                                 }
                                 YACLineEditWithHeader
                                 {
+                                    useInConfigurator: true
                                     headerText: qsTr("Bottom Margin per Thousand")
                                     intEdit: true
                                     text: config.content.items[index].bottomMarginPerThousand
@@ -477,6 +522,7 @@ Rectangle
                         }
                         YACButton
                         {
+                            useInConfigurator: true
                             visible: parent.showColumn || parent.showRow
                             text: qsTr("Add Item")
                             onClicked: config.content.addItem(-1)

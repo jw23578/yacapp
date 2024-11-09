@@ -45,7 +45,7 @@ Item
     {
         theRealMenue.close()
         yacApp.fetchMyProfile(function(message) {
-            profileLoader.open()
+            profileLoader.openBasePageLoader()
         },
         function(message)
         {
@@ -61,7 +61,7 @@ Item
         onPleaseRegisterOrLogin:
         {
             tokenLoginLoader.wantedCaption = wantedCaption
-            tokenLoginLoader.open()
+            tokenLoginLoader.openBasePageLoader()
         }
         onMenueOpened:
         {
@@ -75,7 +75,7 @@ Item
         {
             if (currentOpenedLoader != null)
             {
-                currentOpenedLoader.close()
+                currentOpenedLoader.closeBasePageLoader()
             }
             theSuperMenue.close()
 
@@ -84,23 +84,23 @@ Item
         onOpenNews:
         {
             theRealMenue.close()
-            newsPageLoader.open()
+            newsPageLoader.openBasePageLoader()
         }
         onOpenMessages:
         {
             theRealMenue.close()
-            knownProfilesLoader.open()
+            knownProfilesLoader.openBasePageLoader()
         }
         onOpenWorkTime:
         {
             theRealMenue.close()
-            worktimeLoader.open()
+            worktimeLoader.openBasePageLoader()
         }
         onOpenAppointments: {
             theRealMenue.close()
             yacApp.appUserFetchAppointments(function(message)
             {
-                appointmensLoader.open()
+                appointmensLoader.openBasePageLoader()
             },
             function(message)
             {
@@ -113,7 +113,7 @@ Item
         {
             theRealMenue.close()
             yacApp.appUserFetchRightGroups(function(message) {
-                rightgroupsLoader.open()
+                rightgroupsLoader.openBasePageLoader()
             },
             function(message) {
                 CPPQMLAppAndConfigurator.badMessage(qsTr("Could not load Rightgroups, please try again later. ") + message, null, null)
@@ -124,7 +124,7 @@ Item
         {
             theRealMenue.close()
             yacApp.appUserFetchSpaces(function(message) {
-                spacesLoader.open()
+                spacesLoader.openBasePageLoader()
             },
             function(message) {
                 CPPQMLAppAndConfigurator.badMessage(qsTr("Could not load Spaces, please try again later. ") + message, null, null)
@@ -142,12 +142,15 @@ Item
         target: yacApp
         function onMinimizeMenueSignal()
         {
-            contentItem.height = contentItem.parent.height
-
+            console.log("onMinimizeMenueSignal contentItem.parent.height: " + theItem.height)
+            console.log("onMinimizeMenueSignal contentItem.height: " + contentItem.height)
+            contentItem.height = theItem.height
         }
         function onRestoreMenueSignal()
         {
-            contentItem.height = contentItem.parent.height - theSuperMenue.smallElemHeight
+            console.log("onRestoreMenueSignal contentItem.parent.height: ");
+            console.log(theItem.height - theSuperMenue.smallElemHeight)
+            contentItem.height = theItem.height - theSuperMenue.smallElemHeight
         }
     }
     Item
@@ -167,8 +170,6 @@ Item
         Column
         {
             opacity: 1 - theSuperMenue.openValue
-
-
             width: parent.width
             id: mainForm
             YACHeader
@@ -198,6 +199,10 @@ Item
                 onUpdateTriggerChanged:
                 {
                     Helper.jsLog("ontestChanged")
+                    if (currentItem == null)
+                    {
+                        return;
+                    }
                     header.headerConfig = currentItem.config.header
                     theItem.currentItemChanged(currentItem.config)
                 }
@@ -274,10 +279,10 @@ Item
                 id: tokenLogin
                 YACUserTokenLogin
                 {
-                    onCloseClicked: tokenLoginLoader.close()
+                    onCloseClicked: tokenLoginLoader.closeBasePageLoader()
                     onLoginSuccessful:
                     {
-                        tokenLoginLoader.close()
+                        tokenLoginLoader.closeBasePageLoader()
                         theSuperMenue.actionSwitch(tokenLoginLoader.wantedCaption)
                     }
                 }
@@ -337,7 +342,7 @@ Item
             {
                 YACUserProfile
                 {
-                    onLogout: profileLoader.close()
+                    onLogout: profileLoader.closeBasePageLoader()
                 }
             }
         }

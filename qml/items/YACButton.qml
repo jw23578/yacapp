@@ -4,6 +4,7 @@ Item
 {
     id: theButton
     signal clicked()
+    property bool useInConfigurator: false
     property alias radius: theRectangle.radius
     property alias font: theText.font
     property alias text: theText.text
@@ -33,6 +34,7 @@ Item
         YACText
         {
             id: theText
+            useInConfigurator: theButton.useInConfigurator
             visible: text != ""
             anchors.top: parent.theInnerRectangle.top
             anchors.bottom: parent.theInnerRectangle.bottom
@@ -44,6 +46,7 @@ Item
         }
         YACText
         {
+            useInConfigurator: theButton.useInConfigurator
             visible: theText.text == "" && text != ""
             id: theEmptyText
             anchors.fill: theText

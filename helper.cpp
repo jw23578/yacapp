@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QUuid>
 #include "logger.h"
+#include <algorithm>
 
 Helper::Helper(QObject *parent)
     : QObject{parent},
@@ -37,7 +38,7 @@ QString Helper::fillUpLeft(QString t, int length, QString fillUp) const
     }
     if (fillUp.size() == 1)
     {
-        t = QString().fill(fillUp[0], std::max(0, length - t.size())) + t;
+        t = QString().fill(fillUp[0], std::max((int)0, (int)(length - t.size()))) + t;
         return t;
     }
     while (t.size() < length)

@@ -28,6 +28,7 @@ Rectangle
                 EditorSection
                 {
                     id: theMenueEditorSection
+                    useInConfigurator: true
                     sectionCaption: "Design"
                     Column
                     {
@@ -35,24 +36,28 @@ Rectangle
                         width: parent.width
                         YACLineEditWithHeader
                         {
+                            useInConfigurator: true
                             headerText: qsTr("APP-Info-Url")
                             text: global.appInfoUrl
                             onDisplayTextChanged: global.appInfoUrl = text
                         }
                         YACLineEditWithHeader
                         {
+                            useInConfigurator: true
                             headerText: qsTr("Search-Code")
                             text: global.searchCode
                             onDisplayTextChanged: global.searchCode = text
                         }
                         YACLineEditWithHeader
                         {
+                            useInConfigurator: true
                             headerText: qsTr("Installation-Code")
                             text: configurator.activeProjectData.installationCode
                             onDisplayTextChanged: configurator.activeProjectData.installationCode = text
                         }
                         YACComboBoxWithHeader
                         {
+                            useInConfigurator: true
                             headerText: qsTr("Fremdsystem (Loginsteuerung)")
                             initialText: yacApp.globalConfig.third
                             onCurrentTextChanged: yacApp.globalConfig.third = currentText
@@ -61,6 +66,7 @@ Rectangle
                         }
                         YACLineEditWithHeader
                         {
+                            useInConfigurator: true
                             headerText: qsTr("Fremdsystem-Mandant")
                             text: yacApp.globalConfig.mandant
                             onDisplayTextChanged: yacApp.globalConfig.mandant = text
@@ -68,9 +74,11 @@ Rectangle
                         YACText
                         {
                             text: qsTr("Font PointSize")
+                            useInConfigurator: true
                         }
                         YACIntEdit
                         {
+                            useInConfigurator: true
                             width: parent.width
                             value: Constants.globalDesignConfig.defaultFontPointSize
                             onValueChanged: Constants.globalDesignConfig.defaultFontPointSize = value
@@ -80,9 +88,11 @@ Rectangle
                         YACText
                         {
                             text: qsTr("smallElemCount")
+                            useInConfigurator: true
                         }
                         YACDoubleEdit
                         {
+                            useInConfigurator: true
                             width: parent.width
                             value: Constants.mainMenueConfig.smallElemCount
                             onValueChanged: Constants.mainMenueConfig.smallElemCount = value
@@ -93,9 +103,11 @@ Rectangle
                         YACText
                         {
                             text: qsTr("smallElemHeightFactor")
+                            useInConfigurator: true
                         }
                         YACDoubleEdit
                         {
+                            useInConfigurator: true
                             width: parent.width
                             value: Constants.mainMenueConfig.smallElemHeightFactor
                             onValueChanged: Constants.mainMenueConfig.smallElemHeightFactor = value
@@ -106,6 +118,7 @@ Rectangle
                         }
                         YACColorDialogWithHeader
                         {
+                            useInConfigurator: true
                             headerText: qsTr("smallElemColor")
                             color: Constants.mainMenueConfig.smallElemColor
                             onAccepted: Constants.mainMenueConfig.smallElemColor = color
@@ -115,6 +128,7 @@ Rectangle
 
                 YACButton
                 {
+                    useInConfigurator: true
                     text: qsTr("Close")
                     onClicked: designEditor.closeClicked()
                 }

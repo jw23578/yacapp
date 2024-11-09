@@ -31,6 +31,7 @@ FocusScope
     property alias text: inputItem.text
     property alias input: inputItem
     property alias displayText: inputItem.displayText
+    property bool useInConfigurator: false
     height: lineEditWithHeader.height
     width: parent.width
     Column
@@ -58,6 +59,7 @@ FocusScope
             id: header
             width: parent.width
             visible: theScope.showColumn
+            useInConfigurator: theScope.useInConfigurator
         }
         Rectangle
         {
@@ -70,6 +72,7 @@ FocusScope
             visible: theScope.showColumn
             YACTextInput
             {
+                useInConfigurator: theScope.useInConfigurator
                 width: parent.width - 4
                 x: 2
                 y: 2

@@ -1,13 +1,14 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Dialogs 1.3
+import QtQuick 2.6
+import QtQuick.Controls 2.6
+import Qt.labs.platform
 
 Column
 {
     id: column
     width: parent.width
+    property bool useInConfigurator: false
     property alias headerText: header.text
-    property alias color: colorDialog.color
+    property alias color: input.color
     signal accepted(color color)
     function find(needle)
     {
@@ -16,18 +17,23 @@ Column
     ColorDialog
     {
         id: colorDialog
-        onAccepted: column.accepted(color)
+        currentColor: column.color
+        onAccepted:
+        {
+            column.color = color
+            column.accepted(color)
+        }
     }
 
-    Text
+    YACText
     {
+        useInConfigurator: column.useInConfigurator
         id: header
         width: parent.width
     }
     Rectangle
     {
         id: input
-        color: colorDialog.color
         width: parent.width - x
         height: header.height * 2
         MouseArea

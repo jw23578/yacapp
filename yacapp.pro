@@ -161,7 +161,6 @@ DISTFILES += \
   android/gradlew \
   android/gradlew.bat \
   android/res/values/libs.xml \
-  android/settings.gradle \
   changelog.txt \
   currentWork.txt \
   deployToJW78.sh \
@@ -180,6 +179,9 @@ contains(QT_ARCH, x86_64) {
   LIBS += -lssl -lcrypto
 }
 
+QT_ANDROID_MIN_SDK_VERSION = 33
+QT_ANDROID_TARGET_SDK_VERSION = 33
+
 android {
   QMAKE_CXXFLAGS += -std=c++2a
   SOURCES += yacappfirebase.cpp
@@ -196,3 +198,4 @@ android {
   LIBS += -L/home/jw78/Android/android_openssl/ssl_3/arm64-v8a
 }
 
+android: include(/home/jw78/Android/android_openssl/openssl.pri)

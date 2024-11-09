@@ -15,6 +15,7 @@ Rectangle
         width: parent.width
         YACText
         {
+            useInConfigurator: true
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
             text: qsTr("Menues")
@@ -26,6 +27,7 @@ Rectangle
             spacing: 1
             YACComboBoxWithHeader
             {
+                useInConfigurator: true
                 id: fileCombobox
                 headerText: qsTr("Files")
                 onActivated: menueEditor.config = yacApp.getMenueConfig(text)
@@ -34,6 +36,7 @@ Rectangle
             }
             YACButton
             {
+                useInConfigurator: true
                 y: fileCombobox.comboBox.y
                 id: addFileButton
                 text: qsTr("Add File")
@@ -47,6 +50,7 @@ Rectangle
             }
             YACButton
             {
+                useInConfigurator: true
                 y: fileCombobox.comboBox.y
                 id: deleteCurrentFileButton
                 text: qsTr("Delete File")
@@ -83,6 +87,7 @@ Rectangle
                     sectionCaption: "Menue"
                     YACComboBoxWithHeader
                     {
+                        useInConfigurator: true
                         id: menueType
                         headerText: "Type"
                         currentIndex: config ? find(config.type) : 0
@@ -103,6 +108,7 @@ Rectangle
                                 {
                                     YACLineEditWithHeader
                                     {
+                                        useInConfigurator: true
                                         headerText: "Caption"
                                         width: columnItems.width - removeItem.width
                                         text: config.items[index].caption
@@ -110,6 +116,7 @@ Rectangle
                                     }
                                     YACButton
                                     {
+                                        useInConfigurator: true
                                         id: removeItem
                                         text: qsTr("Remove Item")
                                         onClicked: CPPQMLAppAndConfigurator.yesNoQuestion(qsTr("Remove Item?")
@@ -127,6 +134,7 @@ Rectangle
                                 }
                                 YACLineEditWithHeader
                                 {
+                                    useInConfigurator: true
                                     id: target
                                     headerText: "Target"
                                     text: config.items[index].target
@@ -136,6 +144,7 @@ Rectangle
                         }
                         YACButton
                         {
+                            useInConfigurator: true
                             text: qsTr("Add Item")
                             onClicked: config.addItem(-1)
                         }

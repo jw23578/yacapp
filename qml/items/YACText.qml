@@ -3,8 +3,9 @@ import "../../JSConstants.js" as JSConstants
 
 Text
 {
+    property bool useInConfigurator: false
     wrapMode: Text.WordWrap
-    font.pixelSize: Constants.defaultFontPixelSize
+    font.pixelSize: useInConfigurator ? Constants.configuratorDefaultFontPixelSize : Constants.defaultFontPixelSize
     font.family: JSConstants.urbanistMedium
     color: Constants.fontColor
 }

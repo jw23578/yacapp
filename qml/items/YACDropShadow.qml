@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtGraphicalEffects 1.15
+import QtQuick.Effects
 
 Item
 {
@@ -11,14 +11,14 @@ Item
     Component
     {
         id: theShadow
-        DropShadow
+        MultiEffect
         {
             anchors.fill: parent
-            horizontalOffset: theYACDropShadow.shadowHorizontalOffset
-            verticalOffset: theYACDropShadow.shadowVerticalOffset
-            radius: Math.floor(samples)
-            samples: Constants.shadowSamples
-            color: "#80000000"
+            shadowEnabled: Constants.shadowActive
+            shadowHorizontalOffset: theYACDropShadow.shadowHorizontalOffset
+            shadowVerticalOffset: theYACDropShadow.shadowVerticalOffset
+            shadowBlur: 0.6
+            shadowColor: "#80000000"
             source: theYACDropShadow.source
         }
     }

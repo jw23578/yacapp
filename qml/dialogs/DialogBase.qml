@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Dialogs 1.3
+import QtQuick.Dialogs
 import "qrc:/qml/items"
 
 Rectangle

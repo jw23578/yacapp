@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Dialogs 1.3
+import QtQuick.Dialogs
 import "qrc:/qml/items"
 import "qrc:/qml/dialogs"
 import com.yacapp.recentproject 1.0
@@ -13,8 +13,7 @@ Rectangle
     FileDialog
     {
         id: loadProjectDialog
-        selectExisting: true
-        selectMultiple: false
+        fileMode: FileDialog.OpenFile
         nameFilters: [ "yacApp-Project-Files (*.yacapp)" ]
         onAccepted:
         {

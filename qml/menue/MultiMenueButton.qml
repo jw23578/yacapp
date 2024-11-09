@@ -50,6 +50,11 @@ Item
 
     function moveIn()
     {
+        if (showAni.running)
+        {
+            return
+        }
+        console.log("move in")
         showAni.start()
     }
     function moveOut()

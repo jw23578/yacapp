@@ -4,6 +4,7 @@ Item
 {
     id: theDoubleEdit
     height: theRow.height
+    property bool useInConfigurator: false
     property int precision: 2
     property double value: 0
     property double step: 1
@@ -14,12 +15,14 @@ Item
         id: theRow
         YACButton
         {
+            useInConfigurator: theDoubleEdit.useInConfigurator
             width: theDoubleEdit.width / 3
             text: "-"
             onClicked: theDoubleEdit.value = Math.max(theDoubleEdit.minValue, theDoubleEdit.value - theDoubleEdit.step)
         }
         YACText
         {
+            useInConfigurator: theDoubleEdit.useInConfigurator
             width: theDoubleEdit.width / 3
             text: Number.parseFloat(theDoubleEdit.value).toFixed(theDoubleEdit.precision);
             horizontalAlignment: Text.AlignHCenter
@@ -27,6 +30,7 @@ Item
         }
         YACButton
         {
+            useInConfigurator: theDoubleEdit.useInConfigurator
             width: theDoubleEdit.width / 3
             text: "+"
             onClicked: theDoubleEdit.value = Math.min(theDoubleEdit.maxValue, theDoubleEdit.value + theDoubleEdit.step)

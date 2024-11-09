@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Dialogs 1.3
+import QtQuick.Dialogs
 import "qrc:/qml/items"
 import "qrc:/qml/dialogs"
 
@@ -40,13 +40,10 @@ DialogBase
         }
     }
 
-    FileDialog
+    FolderDialog
     {
         id: newProjectDialog
         title: qsTr("Select Projectfolder")
-        selectExisting: false
-        selectMultiple: false
-        selectFolder: true
         onAccepted:
         {
             if (!Helper.isFolderEmpty(folder))

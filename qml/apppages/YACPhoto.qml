@@ -1,6 +1,6 @@
-import QtQuick 2.15
-import QtMultimedia 5.15
-import QtGraphicalEffects 1.15
+import QtQuick
+import QtMultimedia
+import QtQuick.Effects
 
 import "../items"
 
@@ -11,46 +11,27 @@ Rectangle
     signal okClicked(var image)
     property bool squared: false
     property bool circled: true
+    property alias theOriginalSizeImage: originalSizeImage
     anchors.fill: parent
-    Camera {
-        id: camera
-
-        imageProcessing.whiteBalanceMode: CameraImageProcessing.WhiteBalanceFlash
-
-        exposure {
-            exposureCompensation: -1.0
-            exposureMode: Camera.ExposurePortrait
-        }
-
-        flash.mode: Camera.FlashRedEyeReduction
-
-        imageCapture {
-            onImageCaptured: {
-                originalSizeImage.source = preview
-                photoPreview.visible = true
-                photoPreview.source = preview  // Show the preview in an Image
-            }
-        }
-    }
-
-    Component
+    CaptureSession
     {
-        id: circleMask
-        OpacityMask
-        {
-            maskSource: Item
-            {
-                width: videoOutput.width
-                height: videoOutput.height
-                Rectangle
-                {
-                    anchors.centerIn: parent
-                    width: videoOutput.width
-                    height: videoOutput.height
-                    radius: Math.min(width, height) / 2
-                }
+        imageCapture: ImageCapture {
+            id: theImageCapture
+            onImageCaptured: function(requestId, preview) {
+                photoPreview.visible = true
             }
         }
+        camera: Camera {
+            active: true
+            id: camera
+
+            // exposureMode: Camera.ExposurePortrait
+            // exposureCompensation: -1
+            focusMode: Camera.FocusModeAuto
+            flashMode: Camera.FlashAuto
+
+        }
+        videoOutput: theVideoOutput
     }
 
     VideoOutput
@@ -58,38 +39,62 @@ Rectangle
         property alias squared: photoPage.squared
         property alias circled: photoPage.circled
         property double sizeFactor: 0.6
-        id: videoOutput
-        source: camera
+        id: theVideoOutput
+        visible: false
         anchors.centerIn: parent
         fillMode: (squared || circled) ? Image.PreserveAspectCrop : Image.PreserveAspectFit
         width: ((squared || circled) ? Math.min(photoPage.width, photoPage.height) : photoPage.width) * sizeFactor
         height: ((squared || circled) ? Math.min(photoPage.width, photoPage.height) : photoPage.width) * sizeFactor
-        focus : visible // to receive focus and capture key events when visible
-        layer.enabled: circled
-        layer.effect: circleMask
-        autoOrientation: true
+    }
+    Rectangle
+    {
+        id: theMask
+        layer.enabled: true
+        width: theVideoOutput.width
+        height: theVideoOutput.height
+        radius: Math.min(width, height) / 2
+        color: "black"
+        visible: false
+    }
+    MultiEffect
+    {
+        source: theVideoOutput
+        anchors.fill: theVideoOutput
+        maskEnabled: photoPage.circled
+        maskSource: theMask
     }
 
     Image
     {
         visible: false
-        anchors.fill: videoOutput
-        id: photoPreview
-        fillMode: videoOutput.fillMode
-        layer.enabled: videoOutput.layer.enabled
-        layer.effect: circleMask
+        anchors.fill: theVideoOutput
+        id: photoPreviewImage
+        source: theImageCapture.preview
+        fillMode: theVideoOutput.fillMode
         autoTransform: true
+    }
+    MultiEffect
+    {
+        visible: false
+        id: photoPreview
+        source: photoPreviewImage
+        anchors.fill: photoPreviewImage
+        maskEnabled: photoPage.circled
+        maskSource: theMask
     }
     Image
     {
         property alias squared: photoPage.squared
         property alias circled: photoPage.circled
+        anchors.horizontalCenter: parent.horizontalCenter
         id: originalSizeImage
-        visible: false
+        source: theImageCapture.preview
+        visible: true
         fillMode: (squared || circled) ? Image.PreserveAspectCrop : Image.PreserveAspectFit
         width: (squared || circled) ? Math.min(sourceSize.width, sourceSize.height) : sourceSize.width
         height: (squared || circled) ? Math.min(sourceSize.width, sourceSize.height) : sourceSize.height
     }
+
     YACButton
     {
         visible: !Constants.isDesktop
@@ -124,7 +129,7 @@ Rectangle
                 return
             }
 
-            onClicked: camera.imageCapture.capture();
+            onClicked: theImageCapture.capture();
         }
     }
 
@@ -140,7 +145,6 @@ Rectangle
                 CPPQMLAppAndConfigurator.badMessage(qsTr("Please take Photo first"), null, null);
                 return
             }
-
             originalSizeImage.grabToImage(function(result)
             {
                 originalSizeImage.source = result.url

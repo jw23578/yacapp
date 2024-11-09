@@ -5,6 +5,7 @@ import "../menue"
 Rectangle
 {
     color: Constants.backgroundColor
+    width: parent.width
     MouseArea
     {
         anchors.fill: parent
@@ -14,7 +15,6 @@ Rectangle
         waitTimer.start()
     }
 
-    anchors.fill: parent
     signal closeClicked();
     signal leftClicked();
     property bool enableBack: false

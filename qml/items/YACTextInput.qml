@@ -4,9 +4,10 @@ import "../../JSConstants.js" as JSConstants
 TextInput
 {
     property alias emptyText: theEmptyText
+    property bool useInConfigurator: false
     selectByMouse: Constants.isDesktop
     focus: true
-    font.pixelSize: Constants.defaultFontPixelSize
+    font.pixelSize: useInConfigurator ? Constants.configuratorDefaultFontPixelSize : Constants.defaultFontPixelSize
     font.family: JSConstants.urbanistMedium
     Text
     {

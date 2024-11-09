@@ -8,6 +8,7 @@ Item
     property int step: 1
     property int minValue: 0
     property int maxValue: 1000
+    property bool useInConfigurator: false
     Row
     {
         id: theRow
@@ -15,12 +16,14 @@ Item
         YACButton
         {
             id: plusButton
+            useInConfigurator: theIntEdit.useInConfigurator
             width: theIntEdit.width / 3
             text: "-"
             onClicked: theIntEdit.value = Math.max(theIntEdit.minValue, theIntEdit.value - theIntEdit.step)
         }
         YACText
         {
+            useInConfigurator: theIntEdit.useInConfigurator
             height: parent.height
             width: theIntEdit.width / 3
             text: value
@@ -29,6 +32,7 @@ Item
         }
         YACButton
         {
+            useInConfigurator: theIntEdit.useInConfigurator
             width: theIntEdit.width / 3
             text: "+"
             onClicked: theIntEdit.value = Math.min(theIntEdit.maxValue, theIntEdit.value + theIntEdit.step)

@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
-import QtQuick.Dialogs 1.0
+import QtQuick.Dialogs
 import "qml"
 import "qrc:/qml/items"
 import "qml/editor"
@@ -62,18 +62,21 @@ Window {
                     width: parent.width
                     YACButton
                     {
+                        useInConfigurator: true
                         width: parent.width / 3 - 2
                         text: qsTr("Other Project")
                         onClicked: startPage.visible = true
                     }
                     YACButton
                     {
+                        useInConfigurator: true
                         width: parent.width / 3 - 2
                         text: qsTr("Save Project")
                         onClicked: configurator.saveCurrentProject()
                     }
                     YACButton
                     {
+                        useInConfigurator: true
                         width: parent.width / 3 - 2
                         text: qsTr("Deploy Project")
                         onClicked: deployPage.visible = true
@@ -81,6 +84,7 @@ Window {
                 }
                 YACProjectText
                 {
+                    useInConfigurator: true
                     id: projectName
                     width: parent.width
                     text: qsTr("Project: ") + yacApp.globalConfig.projectName
@@ -91,18 +95,21 @@ Window {
                     width: parent.width
                     YACButton
                     {
+                        useInConfigurator: true
                         width: parent.width / 3 - 1
                         text: theSwipeView.currentIndex == 0 ? qsTr("Page Editor visible") : qsTr("Show Page Editor")
                         onClicked: theSwipeView.currentIndex = 0
                     }
                     YACButton
                     {
+                        useInConfigurator: true
                         width: parent.width / 3 - 1
                         text: theSwipeView.currentIndex == 1 ? qsTr("Menue Editor visible") : qsTr("Show Menue Editor")
                         onClicked: theSwipeView.currentIndex = 1
                     }
                     YACButton
                     {
+                        useInConfigurator: true
                         width: parent.width / 3 - 1
                         text: theSwipeView.currentIndex == 2 ? qsTr("Design Editor visible") : qsTr("Show Design Editor")
                         onClicked: theSwipeView.currentIndex = 2
@@ -173,8 +180,7 @@ Window {
     FileDialog
     {
         id: theImageFileDialog
-        selectFolder: false
-        selectMultiple: true
+        fileMode: FileDialog.OpenFiles
         nameFilters: [ "Image files (*.jpg *.png)", "All files (*)" ]
         property var okCallback: null
         onAccepted: okCallback(fileUrls)

@@ -5,6 +5,7 @@ import "../../JSConstants.js" as JSConstants
 
 Column
 {
+    id: theComboBoxWithHeader
     width: parent.width
     property string initialText: ""
     property alias headerText: header.text
@@ -12,6 +13,8 @@ Column
     property alias currentText: input.currentText
     property alias currentIndex: input.currentIndex
     property alias comboBox: input
+    property bool useInConfigurator: false
+
     function find(needle)
     {
         return ModelFunctions.find(input.model, needle)
@@ -19,10 +22,11 @@ Column
 
     signal activated(string text)
 
-    Text
+    YACText
     {
         id: header
         width: parent.width
+        useInConfigurator: theComboBoxWithHeader.useInConfigurator
     }
     ComboBox
     {
@@ -77,13 +81,12 @@ Column
             id: theDelegate
             width: input.width
             height: input.height
-            contentItem: Text {
+            contentItem: YACText {
                 text: modelData
                 color: Constants.fontColor
-                font.pixelSize: Constants.defaultFontPixelSize
-                font.family: JSConstants.urbanistMedium
                 elide: Text.ElideRight
                 verticalAlignment: Text.AlignVCenter
+                useInConfigurator: theComboBoxWithHeader.useInConfigurator
             }
             background: Item {
                 implicitWidth: 100

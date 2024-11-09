@@ -1,30 +1,40 @@
-import QtQuick 2.15
-import QtGraphicalEffects 1.15
+import QtQuick 2.6
+import QtQuick.Effects
 
-Image
+Item
 {
-    id: img
+    id: theItem
     property bool rounded: true
     property bool adapt: true
     property double radius: 0
     property bool circled: true
-    mipmap: true
-    fillMode: Image.PreserveAspectFit
-    layer.enabled: rounded
-    layer.effect: OpacityMask
+    property alias source: img.source
+    property alias autoTransform: img.autoTransform
+    Image
     {
-        maskSource: Item
-        {
-            width: img.width
-            height: img.height
-            Rectangle
-            {
-                id: theMask
-                anchors.centerIn: parent
-                width: img.adapt ? img.width : Math.min(img.width, img.height)
-                height: img.adapt ? img.height : width
-                radius: img.circled ? Math.min(width, height) : img.radius
-            }
-        }
+        id: img
+        visible: parent.rounded
+        anchors.fill: parent
+        mipmap: true
+        fillMode: Image.PreserveAspectFit
+    }
+    MultiEffect
+    {
+        visible: parent.rounded
+        source: img
+        anchors.fill: img
+        maskEnabled: parent.rounded
+        maskSource: theMask
+    }
+    Rectangle
+    {
+        visible: false
+        id: theMask
+        layer.enabled: true
+        anchors.centerIn: parent
+        width: parent.adapt ? img.width : Math.min(img.width, img.height)
+        height: parent.adapt ? img.height : img.width
+        radius: parent.circled ? Math.min(img.width, img.height) : parent.radius
     }
 }
+

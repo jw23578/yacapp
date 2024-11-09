@@ -7,31 +7,42 @@ Item
 //    border.width: 1
 //    border.color: "black"
     id: editorSectionItem
+    property bool useInConfigurator: false
     width: parent.width
     property alias sectionCaption: theSectionCaption.text
     clip: true
     height: theBackground.height + Constants.shadowVerticalOffset
     default property alias column: sectionColumn.data
-    Behavior on height
-    {
-        NumberAnimation {
-            duration: 200
-        }
-    }
+    property color closedColor: Constants.buttonColor
+    property color openedColor: "lightgrey"
+    property bool behaviorEnabled: false
+
     YACRectangle
     {
         id: theBackground
         width: sectionColumn.width + sectionColumn.x * 2
-        height: sectionColumn.height + sectionColumn.y * 2
-        color: "lightgrey"
+        height: sectionColumn.height + (sectionColumn.collapsed ? 0 : Constants.radius)
+        color: theSectionCaption.closedColor
         radius: Constants.radius
         radiusTopLeft: true
         radiusBottomRight: true
+        Behavior on color {
+            enabled: editorSectionItem.behaviorEnabled
+            ColorAnimation {
+                duration: 200
+            }
+        }
+        Behavior on height
+        {
+            enabled: editorSectionItem.behaviorEnabled
+            NumberAnimation {
+                duration: 200
+            }
+        }
     }
     Column
     {
         id: sectionColumn
-        y: Constants.radius
         x: Constants.radius
         width: parent.width - x * 2 - Constants.shadowHorizontalOffset
         property bool collapsed: false
@@ -49,6 +60,7 @@ Item
 
         function collapse()
         {
+            theBackground.color = closedColor
             for (var i = 1; i < children.length; ++i)
             {
                 children[i].visible = false
@@ -57,6 +69,8 @@ Item
         }
         function expand()
         {
+            behaviorEnabled = true
+            theBackground.color = openedColor
             for (var i = 1; i < children.length; ++i)
             {
                 children[i].visible = true
@@ -66,16 +80,21 @@ Item
 
         Item
         {
-            height: theSectionCaption.height
+            height: theSectionCaption.height + 2 * Constants.radius
+
             width: parent.width
-            Text
+            YACText
             {
+                y: Constants.radius
+                useInConfigurator: theSectionCaption.useInConfigurator
                 font.bold: true
                 id: theSectionCaption
                 width: parent.width
             }
-            Text
+            YACText
             {
+                y: Constants.radius
+                useInConfigurator: theSectionCaption.useInConfigurator
                 font.bold: true
                 anchors.right: parent.right
                 anchors.rightMargin: width / 2

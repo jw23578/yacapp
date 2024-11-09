@@ -22,6 +22,7 @@ void YACExtServerNetwork::yacappServerRegisterUser(QString loginEMail,
                       QByteArray &allData,
                       SRunningRequest &rr)
     {
+        Q_UNUSED(finishedReply);
         QJsonDocument replyDoc(QJsonDocument::fromJson(allData));
         QJsonObject object(replyDoc.object());
         QString message(object["message"].toString());
@@ -51,6 +52,7 @@ void YACExtServerNetwork::yacappServerVerifyUser(QString loginEMail, QString ver
                       QByteArray &allData,
                       SRunningRequest &rr)
     {
+        Q_UNUSED(finishedReply);
         QJsonDocument loginReplyDoc(QJsonDocument::fromJson(allData));
         QJsonObject object(loginReplyDoc.object());
         if (object["loginToken"].toString().size())
@@ -79,6 +81,7 @@ void YACExtServerNetwork::yacappServerLoginUser(QString loginEMail, QString pass
             QByteArray &allData,
             SRunningRequest &rr)
     {
+        Q_UNUSED(finishedReply);
         QJsonDocument loginReplyDoc(QJsonDocument::fromJson(allData));
         QJsonObject object(loginReplyDoc.object());
         if (object["loginToken"].toString().size())

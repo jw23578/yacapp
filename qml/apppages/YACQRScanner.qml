@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QZXing 3.3
-import QtMultimedia 5.15
+import QtMultimedia
 
 Rectangle {
 
@@ -9,31 +9,41 @@ Rectangle {
         decoder.decodeImageQML(imageToDecode);
     }
 
-    Camera {
-        id: camera
-        imageProcessing.whiteBalanceMode: CameraImageProcessing.WhiteBalanceFlash
-
-        exposure {
-            exposureCompensation: -1.0
-            exposureMode: Camera.ExposurePortrait
+    CaptureSession
+    {
+        imageCapture {
+            onImageCaptured: {
+                originalSizeImage.source = preview
+                photoPreview.visible = true
+                photoPreview.source = preview  // Show the preview in an Image
+            }
         }
+        camera: Camera {
+            id: camera
 
-        flash.mode: Camera.FlashRedEyeReduction
-        focus.focusMode: Camera.FocusContinuous
+            exposureMode: Camera.ExposurePortrait
+            exposureCompensation: -1
+            focusMode: Camera.FocusContinuous
+            flashMode: Camera.FlashRedEyeReduction
+
+        }
+        videoOutput: theVideoOutput
     }
+
     VideoOutput {
+        id: theVideoOutput
         anchors.centerIn: parent
         width: parent.width
         height: width
         fillMode: VideoOutput.PreserveAspectFit
-        autoOrientation: true
-        source: camera
-        filters: [ zxingFilter ]
     }
+
+
 
     QZXingFilter
     {
         id: zxingFilter
+        videoSink: theVideoOutput.videoSink()
         decoder {
             enabledDecoders: QZXing.DecoderFormat_QR_CODE
 

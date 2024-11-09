@@ -12,8 +12,8 @@ Loader
     width: 0
     height: parent.height
     x: parent.width / 2
-    y: -height
-    property bool isOpen: y == 0
+    y: -Constants.appTotalHeight
+    property bool isOpen: y === 0
     property int aniDuration: Constants.fastAnimationDuration
     Behavior on width
     {
@@ -36,7 +36,7 @@ Loader
             duration: pageLoader.aniDuration
         }
     }
-    function open()
+    function openBasePageLoader()
     {
         if (y == 0)
         {
@@ -53,7 +53,7 @@ Loader
         }
         if (parentCurrentOpenedLoader != null)
         {
-            parentCurrentOpenedLoader.close()
+            parentCurrentOpenedLoader.closeBasePageLoader()
         }
         if (parentSuperMenue != null)
         {
@@ -61,19 +61,20 @@ Loader
         }
         sourceComponent = theComponent
         x = 0
-        width =  parent.width
+        width = parent.width
         y = 0
         opened()
         if (status == Loader.Ready)
         {
-            item.multiMenueButton.moveIn()
-            item.arrowButton.visible = true
+           item.multiMenueButton.moveIn()
+           item.arrowButton.visible = true
         }
         yacApp.minimizeMenue()
     }
 
-    function close()
+    function closeBasePageLoader()
     {
+        console.log("BasePageLoader.qml.close")
         x = theItem.width / 2
         width = 0
         y = -Constants.appTotalHeight

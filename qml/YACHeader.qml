@@ -3,8 +3,8 @@ import "items"
 
 Rectangle
 {
-    height: parent.height * headerConfig.heightPerThousand / 1000.0
-    color: headerConfig.color
+    height: headerConfig == null ? 0 : parent.height * headerConfig.heightPerThousand / 1000.0
+    color: headerConfig == null ? "black" : headerConfig.color
     property var headerConfig: null
     YACText
     {

@@ -1368,13 +1368,16 @@ void YACAPP::fetchMyProfile(QJSValue successCallback,
         [this, successCallback](const QJsonDocument &jsonDoc) mutable
         {
             QJsonObject profile(jsonDoc.object());
-            appUserConfig()->setFstname(profile[tableFields.fstname].toString());
+            appUserConfig()->setFstname(profile[tableFields.fstname].toString() + "anna");
             appUserConfig()->setSurname(profile[tableFields.surname].toString());
             appUserConfig()->setVisibleName(profile[tableFields.visible_name].toString());
             appUserConfig()->setProfileImageId(profile[tableFields.image_id].toString());
             appUserConfig()->setSearchingExactlyAllowed(profile[tableFields.searching_exactly_allowed].toBool());
             appUserConfig()->setSearchingFuzzyAllowed(profile[tableFields.searching_fuzzy_allowed].toBool());
+            QString s(profile[tableFields.color].toString());
+            DEFAULT_LOG(QString("color: ") +s);
             appUserConfig()->setColor(coalesce(profile[tableFields.color].toString(), "orange"));
+            DEFAULT_LOG(QString("color: ") + appUserConfig()->color().name());
             appUserConfig()->setMessageFontColor(coalesce(profile[tableFields.message_font_color].toString(), "black"));
             successCallback.call(QJSValueList());
         },

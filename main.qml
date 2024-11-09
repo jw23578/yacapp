@@ -92,9 +92,10 @@ ApplicationWindow
             {
                 photoLoader.sourceComponent = null
             }
-            onOkClicked:
+            onOkClicked: function(image)
             {
                 target.source = ""
+                console.log("image.source: " + image.source)
                 target.source = image.source
                 photoLoader.sourceComponent = null
             }
