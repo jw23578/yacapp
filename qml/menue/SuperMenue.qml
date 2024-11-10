@@ -13,21 +13,19 @@ Item
     signal openRights()
     signal openProfile()
     signal openMessages()
+    signal openDocuments()
     signal menueOpened()
     signal menueClosed()
     signal pleaseRegisterOrLogin(string wantedCaption)
     function actionSwitch(caption)
     {
-        switch (caption)
+        for (var i = 0; i < allMenueItems.length; ++i)
         {
-        case qsTr("Menue"): openCustomMenue();break;
-        case qsTr("News"): openNews();break;
-        case qsTr("Worktime"): openWorkTime();break;
-        case qsTr("Appointments"): openAppointments();break;
-        case qsTr("Spaces"): openSpaces();break;
-        case qsTr("Rights"): openRights();break;
-        case qsTr("Profile"): openProfile();break;
-        case qsTr("Messages"): openMessages();break;
+            if (allMenueItems[i].caption == caption)
+            {
+                allMenueItems[i].functionToCall();
+                return
+            }
         }
     }
 
@@ -67,23 +65,33 @@ Item
         {menueEnabled: yacApp.globalConfig.appUserEnabled,
             caption: qsTr("Profile"),
             iconUrl: "",
-            loginNeeded: true},
+            loginNeeded: true,
+            functionToCall: openProfile},
         {menueEnabled: yacApp.globalConfig.appUserEnabled && yacApp.globalConfig.appUserMessagesEnabled,
             caption: qsTr("Messages"),
             iconUrl: "",
-            loginNeeded: true},
+            loginNeeded: true,
+            functionToCall: openMessages},
         {menueEnabled: yacApp.globalConfig.appUserNewsEnabled,
             caption: qsTr("News"),
             iconUrl: "",
-            loginNeeded: true},
+            loginNeeded: true,
+            functionToCall: openNews},
         {menueEnabled: yacApp.globalConfig.appUserEnabled && yacApp.globalConfig.appUserWorktimeEnabled,
             caption: qsTr("Worktime"),
             iconUrl: "qrc:/images/images/appointments_menue_icon.svg",
-            loginNeeded: true},
+            loginNeeded: true,
+            functionToCall: openWorkTime},
         {menueEnabled: yacApp.globalConfig.appUserEnabled && yacApp.globalConfig.appUserAppointmentsEnabled,
             caption: qsTr("Appointments"),
             iconUrl: "",
-            loginNeeded: true},
+            loginNeeded: true,
+            functionToCall: openAppointments},
+        {menueEnabled: yacApp.globalConfig.appUserEnabled && yacApp.globalConfig.appUserDocumentsEnabled,
+            caption: qsTr("Documents"),
+            iconUrl: "",
+            loginNeeded: true,
+            functionToCall: openDocuments},
         {menueEnabled: yacApp.globalConfig.appUserEnabled && yacApp.globalConfig.appUserSpacesEnabled,
             caption: qsTr("Spaces"),
             iconUrl: "",
@@ -91,7 +99,8 @@ Item
         {menueEnabled: yacApp.globalConfig.appUserEnabled && yacApp.globalConfig.appUserRightsEnabled,
             caption: qsTr("Rights"),
             iconUrl: "",
-            loginNeeded: true}
+            loginNeeded: true,
+            functionToCall: openRights}
     ]
     property int animationDuration: 400
     property int animationSlowdown: 30

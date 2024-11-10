@@ -7,6 +7,7 @@ import com.yacapp.menueconfig 1.0
 import "items"
 import "apppages"
 import "menue"
+import "apppages/documents"
 import "apppages/appointments"
 import "apppages/worktimes"
 import "apppages/rights"
@@ -105,6 +106,20 @@ Item
             function(message)
             {
                 CPPQMLAppAndConfigurator.badMessage(qsTr("could not load appointments, please try again later. ") + message, null, null)
+            }
+            )
+        }
+        onOpenDocuments: {
+            theRealMenue.close()
+            yacApp.appUserFetchDocuments(0,
+                                         10,
+                                         function(message)
+            {
+                documentsLoader.openBasePageLoader()
+            },
+            function(message)
+            {
+                CPPQMLAppAndConfigurator.badMessage(qsTr("could not load documents, please try again later. ") + message, null, null)
             }
             )
         }
@@ -263,6 +278,20 @@ Item
             theComponent: Component
             {
                 AppUserAppointments
+                {
+                }
+            }
+        }
+        BasePageLoader
+        {
+            id: documentsLoader
+            loginNeeded: true
+            parentSuperMenue: theSuperMenue
+            parentCurrentOpenedLoader: currentOpenedLoader
+            onOpened: currentOpenedLoader = documentsLoader
+            theComponent: Component
+            {
+                AppUserDocuments
                 {
                 }
             }

@@ -28,6 +28,7 @@ class GlobalProjectConfig : public ConfigInterface
     YACAPPPROPERTY(bool, appUserWorktimeEnabled, AppUserWorktimeEnabled, false);
     YACAPPPROPERTY(bool, appUserNewsEnabled, AppUserNewsEnabled, false);
     YACAPPPROPERTY(bool, appUserAppointmentsEnabled, AppUserAppointmentsEnabled, false);
+    YACAPPPROPERTY(bool, appUserDocumentsEnabled, AppUserDocumentsEnabled, false);
     YACAPPPROPERTY(bool, appUserSpacesEnabled, AppUserSpacesEnabled, false);
     YACAPPPROPERTY(bool, appUserRightsEnabled, AppUserRightsEnabled, false);
     YACAPPPROPERTY(bool, isTemplateApp, IsTemplateApp, false);

@@ -160,6 +160,16 @@ Rectangle
                     {
                         useInConfigurator: true
                         width: parent.width
+                        text: qsTr("APP-User Documents: ") + (global.appUserDocumentsEnabled ? qsTr("Yes") : qsTr("No"))
+                        onClicked: {
+                            global.appUserDocumentsEnabled = !global.appUserDocumentsEnabled
+                            yacApp.superMenueChanged()
+                        }
+                    }
+                    YACButton
+                    {
+                        useInConfigurator: true
+                        width: parent.width
                         text: qsTr("APP-User Spaces: ") + (global.appUserSpacesEnabled ? qsTr("Yes") : qsTr("No"))
                         onClicked: {
                             global.appUserSpacesEnabled = !global.appUserSpacesEnabled

@@ -263,6 +263,11 @@ public:
                                               QJSValue successCallback,
                                               QJSValue errorCallback);
 
+    Q_INVOKABLE void appUserFetchDocuments(int offset,
+                                           int limit,
+                                           QJSValue successCallback,
+                                           QJSValue errorCallback);
+
     Q_INVOKABLE void appUserFetchAppointments(QJSValue successCallback,
                                               QJSValue errorCallback);
     Q_INVOKABLE void appUserDeleteAppointment(const QString &id,

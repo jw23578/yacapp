@@ -96,5 +96,6 @@
         <file>qml/apppages/AppUserBasePage2.qml</file>
         <file>qml/items/YACArrowButton.qml</file>
         <file>qml/items/YACDateSpanButton.qml</file>
+        <file>qml/apppages/documents/AppUserDocuments.qml</file>
     </qresource>
 </RCC>

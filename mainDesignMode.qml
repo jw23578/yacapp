@@ -15,12 +15,24 @@ Window {
 
     DefaultsSetter {}
 
-    Loader
+    Rectangle
     {
-        id: mainFormLoader
-        width: 430
-        height: 932
+        id: theAppRectangle
+        x: 0
+        y: 0
+        width: mainFormLoader.x * 2  + mainFormLoader.width
+        height: mainFormLoader.y * 2 + mainFormLoader.height
+        color: "gray"
+        Loader
+        {
+            id: mainFormLoader
+            x:10
+            y: 10
+            width: 430
+            height: 932
+        }
     }
+
 
     Component
     {
@@ -38,7 +50,7 @@ Window {
     {
         id: editorFormLoader
         anchors.top: parent.top
-        anchors.left: mainFormLoader.right
+        anchors.left: theAppRectangle.right
         anchors.leftMargin: 10
         anchors.right: parent.right
         anchors.bottom: parent.bottom

@@ -67,6 +67,7 @@ void GlobalProjectConfig::setConfig(const QJsonValue &config)
     boolFromJSON(appUserWorktimeEnabled, AppUserWorktimeEnabled);
     boolFromJSON(appUserNewsEnabled, AppUserNewsEnabled);
     boolFromJSON(appUserAppointmentsEnabled, AppUserAppointmentsEnabled);
+    boolFromJSON(appUserDocumentsEnabled, AppUserDocumentsEnabled);
     boolFromJSON(appUserSpacesEnabled, AppUserSpacesEnabled);
     boolFromJSON(appUserRightsEnabled, AppUserRightsEnabled);
     if (projectID() == "")
@@ -117,6 +118,7 @@ QJsonObject GlobalProjectConfig::getConfig() const
     boolToJSON(appUserWorktimeEnabled);
     boolToJSON(appUserNewsEnabled);
     boolToJSON(appUserAppointmentsEnabled);
+    boolToJSON(appUserDocumentsEnabled);
     boolToJSON(appUserSpacesEnabled);
     boolToJSON(appUserRightsEnabled);
 

@@ -1032,6 +1032,15 @@ void YACAPP::appUserInsertAppointment(const QString &appointment_group_id,
         );
 }
 
+void YACAPP::appUserFetchDocuments(int offset,
+                                   int limit,
+                                   QJSValue successCallback,
+                                   QJSValue errorCallback)
+{
+    DEFAULT_LOG(QString("not yet implemented!"));
+    successCallback.call(QJSValueList());
+}
+
 void YACAPP::appUserFetchAppointments(QJSValue successCallback,
                                       QJSValue errorCallback)
 {
