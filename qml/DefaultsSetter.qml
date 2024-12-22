@@ -52,9 +52,16 @@ Item
         }
         Component.onCompleted:
         {
-            Constants.defaultMargin = parent.width / 20
+            Constants.defaultSpacing = 1
+            Constants.defaultMargin = parent.width / 100
+            Helper.jsLog("Constants.defaultMargin: " + Constants.defaultMargin)
         }
     }
-
+    property int parentWidth: parent.width
+    onParentWidthChanged:
+    {
+        Constants.defaultMargin = parent.width / 100
+        Helper.jsLog("Constants.defaultMargin: " + Constants.defaultMargin)
+    }
 
 }

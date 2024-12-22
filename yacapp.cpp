@@ -9,6 +9,7 @@
 #include "orm_implementions/t0028_message_images.h"
 #include "QUrlQuery"
 #include <QDir>
+#include "orm_implementions/t0030_documents.h"
 
 YACAPP::YACAPP(QQmlApplicationEngine &engine
                , CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator
@@ -37,7 +38,8 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
     spacesModel(engine, "SpacesModel", "space"),
     spaceRequestsModel(engine, "SpaceRequestsModel", "spaceRequest"),
     worktimeMainsModel(engine, "WorktimesModel", "worktime"),
-    newsModel(engine, "NewsModel", "news")
+    newsModel(engine, "NewsModel", "news"),
+    documentsModel(engine, "DocumentsModel", "document")
 {
     network.acceptErrors("/getAPP", 3);
     network.acceptErrors("/fetchMessageUpdates", 100);
@@ -114,7 +116,9 @@ void YACAPP::init()
     m_knownMenueFiles.clear();
 
     globalConfig()->init(globalProjectConfigFilename(), constants);
-    DEFAULT_LOG(QString("Projectname: ") + globalConfig()->projectName());;
+    DEFAULT_LOG(QString("Projectname: ") + globalConfig()->projectName());
+    DEFAULT_LOG(QString("Third: ") + globalConfig()->third());
+    DEFAULT_LOG(QString("Mandant: ") + globalConfig()->mandant());
     network.setThirdMandant(globalConfig()->third(), globalConfig()->mandant());
     setApplicationTitle(globalConfig()->projectName());
 
@@ -1032,13 +1036,94 @@ void YACAPP::appUserInsertAppointment(const QString &appointment_group_id,
         );
 }
 
+void YACAPP::appUserDeleteDocument(QString const &id,
+                                   QJSValue errorCallback)
+{
+    network.appUserDeleteORM(globalConfig()->projectID(),
+                             appUserConfig()->loginEMail(),
+                             appUserConfig()->loginToken(),
+                             t0030_documents().getORMName(),
+                             id,
+                             [this, id](const QJsonDocument &jsonDoc) mutable
+                             {
+        documentsModel.removeById(id);
+                             },
+                             [errorCallback](const QString &message) mutable
+                             {
+                                 errorCallback.call(QJSValueList() << message);
+                             }
+                             );
+}
+
 void YACAPP::appUserFetchDocuments(int offset,
                                    int limit,
                                    QJSValue successCallback,
                                    QJSValue errorCallback)
 {
-    DEFAULT_LOG(QString("not yet implemented!"));
-    successCallback.call(QJSValueList());
+    std::map<QString, QString> params = {{"offset", QString::number(offset)}, {"limit", QString::number(limit)}};
+    network.appUserFetchORM(globalConfig()->projectID(),
+                            appUserConfig()->loginEMail(),
+                            appUserConfig()->loginToken(),
+                            t0030_documents().getORMName(),
+                            params,
+                            [this, successCallback](const QJsonDocument &jsonDoc) mutable
+                            {
+                                QJsonObject object(jsonDoc.object());
+                                QJsonArray documents(object["documents"].toArray());
+                                for (int i(0); i < documents.size(); ++i)
+                                {
+                                    QJsonObject document(documents[i].toObject());
+                                    t0030_documents *t0030(new t0030_documents);
+                                    ORM2QJson o2j;
+                                    o2j.fromJson(document, *t0030);
+                                    DEFAULT_LOG(QString("document_name: ") + t0030->document_name());
+                                    documentsModel.append(t0030);
+                                }
+                                successCallback.call(QJSValueList());
+                            },
+                            [errorCallback](const QString &message) mutable
+                            {
+                                errorCallback.call(QJSValueList() << message);
+                            }
+                            );
+}
+
+void YACAPP::appUserPostDocument(const QUrl fileUrl,
+                                 QJSValue successCallback,
+                                 QJSValue errorCallback)
+{
+    QFile file(fileUrl.toLocalFile());
+    if (!file.exists())
+    {
+        errorCallback.call(QJSValueList() << "file not found");
+        return;
+    }
+    file.open(QIODeviceBase::ReadOnly);
+    t0030_documents *t0030(new t0030_documents);
+    QByteArray fileContent(file.readAll());
+    QString data(fileContent.toBase64());
+    t0030->generateID();
+    t0030->settransfer_document_base64(data);
+    t0030->setcreated_datetime(QDateTime::currentDateTime());
+    QFileInfo fileInfo(fileUrl.toLocalFile());
+    t0030->setdocument_name(fileInfo.baseName());
+    t0030->setdocument_type(fileInfo.completeSuffix());
+    t0030->setdocument_size(fileInfo.size());
+    t0030->setdocument_version(1);
+    t0030->setdocument_id(ExtUuid::generateUuid());
+    network.appUserPostORM(globalConfig()->projectID(),
+                           appUserConfig()->loginEMail(),
+                           appUserConfig()->loginToken(),
+                           *t0030,
+                           [successCallback](const QJsonDocument &jsonDoc) mutable
+                           {
+                               successCallback.call(QJSValueList());
+                           },
+                           [errorCallback](const QString &message) mutable
+                           {
+                               errorCallback.call(QJSValueList() << message);
+                           }
+                           );
 }
 
 void YACAPP::appUserFetchAppointments(QJSValue successCallback,

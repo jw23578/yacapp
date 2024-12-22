@@ -263,18 +263,14 @@ AppUserBasePage2
     }
 
 
-    ListView
+    AppPageListView
     {
         id: theListview
         rotation: 180
         clip: true
         anchors.top: profileHeader.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
         anchors.bottom: bottomRectangle.top
-        reuseItems: true
         model: MessagesModel
-        spacing: 1
         delegate: Loader
         {
             sourceComponent: messageDelegate // message.senderID = "" ? myMessageDelegate : otherMessageDelegate

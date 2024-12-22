@@ -5,11 +5,10 @@ import ".."
 import "qrc:/EMailPasswordFunctions.js" as EMailPasswordFunctions
 
 
-AppUserBasePage
+AppUserBasePage2
 {
     id: theTokenLogin
     anchors.fill: parent
-    showCloseButton: true
     signal loginSuccessful()
     SwipeView
     {
@@ -17,7 +16,8 @@ AppUserBasePage
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.bottom: buttonRow.top
+        anchors.bottom: bottomRectangle.top
+        interactive: false
         Rectangle
         {
             id: helloView
@@ -36,12 +36,12 @@ AppUserBasePage
             {
                 YACText
                 {
-                    text: qsTr("Please enter your E-Mail")
+                    text: yacApp.globalConfig.third == "aidoo" ? qsTr("Please enter your E-Mail/Login") : qsTr("Please enter your E-Mail")
                 }
                 YACLineEdit
                 {
                     id: login
-                    color: Helper.emailIsValid(displayText) ? Constants.goodColor : Constants.badColor
+                    color: Helper.loginIsValid(displayText, yacApp.globalConfig.third) ? Constants.goodColor : Constants.badColor
                     text: yacApp.appUserConfig.loginEMail
                     emailEdit: true
                 }
@@ -52,9 +52,21 @@ AppUserBasePage
                     onClicked:
                     {
                         Helper.jsLog("next clicked, checkEMail")
-                        if (!EMailPasswordFunctions.checkEMail(Helper, CPPQMLAppAndConfigurator, login.displayText, login))
+                        if (yacApp.globalConfig.third == "aidoo")
                         {
-                            return;
+                            // aidoo akzeptiert emails und andere logins -> fast keine prüfung notwendig
+                            if (login.displayText == "")
+                            {
+                                CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter a valid E-Mail / Login"), login, null)
+                                return
+                            }
+                        }
+                        else
+                        {
+                            if (!EMailPasswordFunctions.checkEMail(Helper, CPPQMLAppAndConfigurator, login.displayText, login))
+                            {
+                                return;
+                            }
                         }
                         Helper.jsLog("next clicked, email ok")
                         if (yacApp.globalConfig.third != "")
@@ -172,9 +184,21 @@ AppUserBasePage
                     text: qsTr("Login")
                     onClicked:
                     {
-                        if (!EMailPasswordFunctions.checkEMail(Helper, CPPQMLAppAndConfigurator, login.displayText, login))
+                        if (yacApp.globalConfig.third == "aidoo")
                         {
-                            return;
+                            // aidoo akzeptiert emails und andere logins -> fast keine prüfung notwendig
+                            if (login.displayText == "")
+                            {
+                                CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter a valid E-Mail / Login"), login, null)
+                                return
+                            }
+                        }
+                        else
+                        {
+                            if (!EMailPasswordFunctions.checkEMail(Helper, CPPQMLAppAndConfigurator, login.displayText, login))
+                            {
+                                return;
+                            }
                         }
                         if (!EMailPasswordFunctions.checkPassword(Helper, CPPQMLAppAndConfigurator, password.text, password))
                         {

@@ -16,11 +16,11 @@ void YACServerNetwork::yacappServerGetAllAPPs(CallbackFunction successCallback,
                                               CallbackFunction errorCallback)
 {
     auto replyHandler([](QNetworkReply *finishedReply,
-                      QByteArray &allData,
-                      SRunningRequest &rr)
-    {
-        rr.successCallback(allData);
-    });
+                         QByteArray &allData,
+                         SRunningRequest &rr)
+                      {
+                          rr.successCallback(allData);
+                      });
     const QUrlQuery query;
     yacappServerGet("/getAllAPPs",
                     query,
@@ -36,56 +36,56 @@ void YACServerNetwork::yacappServerGetAPP(const QString &app_id,
                                           CallbackFunction errorCallback)
 {
     auto replyHandler([this](QNetworkReply *finishedReply,
-                      QByteArray &allData,
-                      SRunningRequest &rr)
-    {
-        QJsonDocument replyDoc(QJsonDocument::fromJson(allData));
-        QJsonObject object(replyDoc.object());
-        QString message(object["message"].toString());
-        if (message == "app version is up to date")
-        {
-            rr.successCallback(message);
-            return;
-        }
-        if (message == "app found")
-        {
-            QString json_yacapp(object["json_yacapp"].toString());
-            QString app_id(object["app_id"].toString());
+                             QByteArray &allData,
+                             SRunningRequest &rr)
+                      {
+                          QJsonDocument replyDoc(QJsonDocument::fromJson(allData));
+                          QJsonObject object(replyDoc.object());
+                          QString message(object["message"].toString());
+                          if (message == "app version is up to date")
+                          {
+                              rr.successCallback(message);
+                              return;
+                          }
+                          if (message == "app found")
+                          {
+                              QString json_yacapp(object["json_yacapp"].toString());
+                              QString app_id(object["app_id"].toString());
 
-            QByteArray yacpck_base64(object["yacpck_base64"].toString().toLatin1());
-            QByteArray yacpck(QByteArray::fromBase64(yacpck_base64));
-            QFile file(constants.getYacAppConfigPath(app_id) + app_id + ".yacapp");
-            file.open(QIODevice::WriteOnly);
-            file.write(json_yacapp.toLatin1());
-            file.close();
+                              QByteArray yacpck_base64(object["yacpck_base64"].toString().toLatin1());
+                              QByteArray yacpck(QByteArray::fromBase64(yacpck_base64));
+                              QFile file(constants.getYacAppConfigPath(app_id) + app_id + ".yacapp");
+                              file.open(QIODevice::WriteOnly);
+                              file.write(json_yacapp.toLatin1());
+                              file.close();
 
-            QByteArray uncompressedData(qUncompress(yacpck));
-            int pos(0);
-            while (pos < uncompressedData.size())
-            {
-                int nextPos(uncompressedData.indexOf('\0', pos));
-                QString filename(uncompressedData.mid(pos, nextPos - pos));
-                pos = nextPos + 1;
-                nextPos = uncompressedData.indexOf('\0', pos);
-                if (nextPos == -1)
-                {
-                    nextPos = uncompressedData.size();
-                }
-                QByteArray data(uncompressedData.mid(pos, nextPos - pos));
+                              QByteArray uncompressedData(qUncompress(yacpck));
+                              int pos(0);
+                              while (pos < uncompressedData.size())
+                              {
+                                  int nextPos(uncompressedData.indexOf('\0', pos));
+                                  QString filename(uncompressedData.mid(pos, nextPos - pos));
+                                  pos = nextPos + 1;
+                                  nextPos = uncompressedData.indexOf('\0', pos);
+                                  if (nextPos == -1)
+                                  {
+                                      nextPos = uncompressedData.size();
+                                  }
+                                  QByteArray data(uncompressedData.mid(pos, nextPos - pos));
 
-                QFile file(constants.getYacAppConfigPath(app_id) + filename);
-                file.open(QIODevice::WriteOnly);
-                file.write(data);
-                file.close();
-                pos = nextPos + 1;
-            }
-            rr.successCallback(message);
-        }
-        else
-        {
-            rr.errorCallback(message);
-        }
-    });
+                                  QFile file(constants.getYacAppConfigPath(app_id) + filename);
+                                  file.open(QIODevice::WriteOnly);
+                                  file.write(data);
+                                  file.close();
+                                  pos = nextPos + 1;
+                              }
+                              rr.successCallback(message);
+                          }
+                          else
+                          {
+                              rr.errorCallback(message);
+                          }
+                      });
     QUrlQuery query;
     query.addQueryItem("app_id", app_id);
     query.addQueryItem("installation_code", installation_code);
@@ -205,6 +205,25 @@ void YACServerNetwork::appUserUpdatePassword(const QString &loginEMail,
                      successCallback,
                      errorCallback);
 
+}
+
+void YACServerNetwork::appUserDeleteORM(const QString &appId,
+                                        const QString &loginEMail,
+                                        const QString &loginToken,
+                                        const QString &ormName,
+                                        const QString &id,
+                                        JSONCallbackFunction successCallback,
+                                        CallbackFunction errorCallback)
+{
+    QUrlQuery query;
+    query.addQueryItem("id", id);
+    MACRO_RAW_HEADER();
+    yacappServerDelete(ormName,
+                       query,
+                       defaultReplyHandler,
+                       rawHeader,
+                       successCallback,
+                       errorCallback);
 }
 
 void YACServerNetwork::appUserFetchORM(const QString &appId,

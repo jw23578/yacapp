@@ -106,6 +106,7 @@ Item
         id: theItemsRepeater
         MultiMenueItem
         {
+            id: menueItem
             visible: false
             x: theMultiMenueButton.closedCenterX
             y: theMultiMenueButton.closedCenterY - extraSize / 2
@@ -121,7 +122,7 @@ Item
             caption: modelData.caption
             onClicked: {
                 theMultiMenueButton.close()
-                theMultiMenueButton.clicked(caption)
+                theMultiMenueButton.clicked(menueItem.caption)
             }
         }
     }

@@ -36,6 +36,7 @@
 #include "orm_implementions/t0021_right_group.h"
 #include "orm_implementions/t0022_right_group2appuser.h"
 #include "orm_implementions/t0023_right2rightgroup.h"
+#include "orm_implementions/t0030_documents.h"
 #include "orm_implementions/yacormfactory.h"
 
 class Configurator;
@@ -116,6 +117,8 @@ class YACAPP : public QObject
     TemplatedDataModel<WorktimeMainObject> worktimeMainsModel;
 
     TemplatedDataModel<NewsObject> newsModel;
+
+    TemplatedDataModel<t0030_documents> documentsModel;
 
     void cleanUpKnownFile();
 
@@ -263,10 +266,15 @@ public:
                                               QJSValue successCallback,
                                               QJSValue errorCallback);
 
+    Q_INVOKABLE void appUserDeleteDocument(const QString &id,
+                                           QJSValue errorCallback);
     Q_INVOKABLE void appUserFetchDocuments(int offset,
                                            int limit,
                                            QJSValue successCallback,
                                            QJSValue errorCallback);
+    Q_INVOKABLE void appUserPostDocument(const QUrl fileUrl,
+                                         QJSValue successCallback,
+                                         QJSValue errorCallback);
 
     Q_INVOKABLE void appUserFetchAppointments(QJSValue successCallback,
                                               QJSValue errorCallback);

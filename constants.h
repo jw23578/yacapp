@@ -43,6 +43,7 @@ class Constants : public QObject
     YACAPPPROPERTY(int, slowAnimationDuration, SlowAnimationDuration, 400)
 
     YACAPPPROPERTY(double, defaultMargin, DefaultMargin, 0);
+    YACAPPPROPERTY(double, defaultSpacing, DefaultSpacing, 0);
 
     YACAPPPROPERTY(QColor, backgroundColor, BackgroundColor, "blanchedalmond");
 

@@ -15,6 +15,15 @@ Helper::Helper(QObject *parent)
 
 }
 
+bool Helper::loginIsValid(const QString &login, const QString &third) const
+{
+    if (third == "aidoo")
+    {
+        return login.size() > 0;
+    }
+    return emailIsValid(login);
+}
+
 bool Helper::emailIsValid(const QString &email) const
 {
     static const QRegularExpression regex("^[_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,63})$");
@@ -254,4 +263,10 @@ QString Helper::generateUuid() const
 bool Helper::validUuid(const QString &u) const
 {
     return u.size() > 0 && u != nullUuidString;
+}
+
+QString Helper::extractFileNameWithExtension(const QString fullFileName) const
+{
+    QFileInfo fi(fullFileName);
+    return fi.fileName();
 }

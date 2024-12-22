@@ -63,6 +63,14 @@ public:
                                CallbackFunction successCallback,
                                CallbackFunction errorCallback);
 
+    void appUserDeleteORM(const QString &appId,
+                         const QString &loginEMail,
+                         const QString &loginToken,
+                         const QString &ormName,
+                         const QString &id,
+                         JSONCallbackFunction successCallback,
+                         CallbackFunction  errorCallback);
+
     void appUserFetchORM(const QString &appId,
                          const QString &loginEMail,
                          const QString &loginToken,

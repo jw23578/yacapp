@@ -9,8 +9,9 @@ class Helper : public QObject
     Q_OBJECT
     QString nullUuidString;
 public:
-    explicit Helper(QObject *parent = nullptr);       
+    explicit Helper(QObject *parent = nullptr);
 
+    Q_INVOKABLE bool loginIsValid(const QString &login, const QString &third) const;
     Q_INVOKABLE bool emailIsValid(const QString &email) const;
 
     Q_INVOKABLE bool passwordOk(const QString &password) const;
@@ -64,6 +65,8 @@ public:
 
     Q_INVOKABLE QString generateUuid() const;
     Q_INVOKABLE bool validUuid(const QString &u) const;
+
+    Q_INVOKABLE QString extractFileNameWithExtension(const QString fullFileName) const;
 
 signals:
 

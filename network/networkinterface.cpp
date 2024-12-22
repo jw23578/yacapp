@@ -117,6 +117,16 @@ void NetworkInterface::replyFinished(QNetworkReply *reply)
 
     DEFAULT_LOG(QString("Reply Finished Url: ") + reply->url().toString());
     ONLY_DESKTOP_LOG(allData.left(1024));
+    auto header(reply->request().rawHeaderList());
+    for (auto &h: header)
+    {
+        ONLY_DESKTOP_LOG(h + QString(": ") + reply->request().rawHeader(h));
+    }
+    auto headerPairs(reply->rawHeaderPairs());
+    for (auto &hp: headerPairs)
+    {
+        ONLY_DESKTOP_LOG(hp.first + QString(": ") + hp.second);
+    }
 
     if (reply->error() != QNetworkReply::NoError)
     {

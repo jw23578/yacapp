@@ -59,7 +59,7 @@ Item
     {
         z: currentOpenedLoader == null || Constants.superMenueOpen ? 1 : 0
         id: theSuperMenue
-        onPleaseRegisterOrLogin:
+        onPleaseRegisterOrLogin: function(wantedCaption)
         {
             tokenLoginLoader.wantedCaption = wantedCaption
             tokenLoginLoader.openBasePageLoader()
