@@ -137,3 +137,31 @@ void TemplatedDataModel<T>::internalDeleteById(const QString &id)
     objects.deleteByIndex(index);
     DataModelInterface<T>::endRemoveRows();
 }
+
+template<class T>
+void TemplatedDataModel<T>::fetchMore(const QModelIndex &parent)
+{
+    if (theFetchMoreFunction)
+    {
+        theFetchMoreFunction(*this);
+    }
+}
+
+template<class T>
+bool TemplatedDataModel<T>::canFetchMore(const QModelIndex &parent) const
+{
+    return moreDataAvailable;
+}
+
+template<class T>
+void TemplatedDataModel<T>::setFetchMoreFuntion(fetchMoreFunctionPointer fmfp)
+{
+    theFetchMoreFunction = fmfp;
+    moreDataAvailable = true;
+}
+
+template<class T>
+void TemplatedDataModel<T>::lastObjectFetched()
+{
+    moreDataAvailable = false;
+}

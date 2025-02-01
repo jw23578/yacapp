@@ -11,6 +11,11 @@
 #include <QDir>
 #include "orm_implementions/t0030_documents.h"
 
+bool testFunction(TemplatedDataModel<t0030_documents> &target)
+{
+    return true;
+}
+
 YACAPP::YACAPP(QQmlApplicationEngine &engine
                , CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator
                , ThirdPartyLogin &thirdPartyLogin
@@ -41,6 +46,10 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
     newsModel(engine, "NewsModel", "news"),
     documentsModel(engine, "DocumentsModel", "document")
 {
+    documentsModel.setFetchMoreFuntion([this](TemplatedDataModel<t0030_documents> &target)
+                                       {
+        appUserFetchDocuments(target.size(), 10, QJSValue::NullValue, QJSValue::NullValue);
+    });
     network.acceptErrors("/getAPP", 3);
     network.acceptErrors("/fetchMessageUpdates", 100);
     network.networkDefectCallback = [this](const QString &message){setServerConnectionDefectMessage(message);};
@@ -248,48 +257,48 @@ void YACAPP::fetchFiles()
         if (ftf.imageType == "appImage")
         {
             network.getAppImage(ftf.imageId,
-                [ftf](const QJsonDocument &jsonDoc)
-                {
-                    QJsonObject imageData(jsonDoc.object());
-                    QByteArray dataBase64(imageData["imageDataBase64"].toString().toUtf8());
-                    QByteArray data(QByteArray::fromBase64(dataBase64));
-                    QFile file(ftf.imageFilename);
-                    file.open(QFile::WriteOnly);
-                    file.write(data);
-                    file.close();
-                    QImage image(ftf.imageFilename);
-                    ftf.air->setImage(image);
-                }
-                ,
-                [](QString message)
-                {
-                    Q_UNUSED(message)
-                });
+                                [ftf](const QJsonDocument &jsonDoc)
+                                {
+                                    QJsonObject imageData(jsonDoc.object());
+                                    QByteArray dataBase64(imageData["imageDataBase64"].toString().toUtf8());
+                                    QByteArray data(QByteArray::fromBase64(dataBase64));
+                                    QFile file(ftf.imageFilename);
+                                    file.open(QFile::WriteOnly);
+                                    file.write(data);
+                                    file.close();
+                                    QImage image(ftf.imageFilename);
+                                    ftf.air->setImage(image);
+                                }
+                                ,
+                                [](QString message)
+                                {
+                                    Q_UNUSED(message)
+                                });
         }
         else
         {
             network.appUserFetchImage(globalConfig()->projectID(),
-                appUserConfig()->loginEMail(),
-                appUserConfig()->loginToken(),
-                ftf.imageType,
-                ftf.imageId,
-                [ftf](const QJsonDocument &jsonDoc)
-                {
-                    QJsonObject imageData(jsonDoc.object());
-                    QByteArray dataBase64(imageData["imageDataBase64"].toString().toUtf8());
-                    QByteArray data(QByteArray::fromBase64(dataBase64));
-                    QFile file(ftf.imageFilename);
-                    file.open(QFile::WriteOnly);
-                    file.write(data);
-                    file.close();
-                    QImage image(ftf.imageFilename);
-                    ftf.air->setImage(image);
-                }
-                ,
-                [](QString message)
-                {
-                    Q_UNUSED(message)
-                });
+                                      appUserConfig()->loginEMail(),
+                                      appUserConfig()->loginToken(),
+                                      ftf.imageType,
+                                      ftf.imageId,
+                                      [ftf](const QJsonDocument &jsonDoc)
+                                      {
+                                          QJsonObject imageData(jsonDoc.object());
+                                          QByteArray dataBase64(imageData["imageDataBase64"].toString().toUtf8());
+                                          QByteArray data(QByteArray::fromBase64(dataBase64));
+                                          QFile file(ftf.imageFilename);
+                                          file.open(QFile::WriteOnly);
+                                          file.write(data);
+                                          file.close();
+                                          QImage image(ftf.imageFilename);
+                                          ftf.air->setImage(image);
+                                      }
+                                      ,
+                                      [](QString message)
+                                      {
+                                          Q_UNUSED(message)
+                                      });
         }
     }
     filesToFetch.clear();
@@ -496,23 +505,23 @@ void YACAPP::yacappServerGetAPP(const QString &app_id,
                                 QJSValue errorCallback)
 {
     network.yacappServerGetAPP(app_id,
-        installation_code,
-        current_installed_version,
-        [this, app_id, successCallback](const QString &message) mutable
-        {
-            if (message == "app version is up to date")
-            {
-                successCallback.call(QJSValueList() << message);
-                return;
-            }
-            loadAppAndInitialize(constants.getYacAppConfigPath(app_id) + app_id + ".yacapp");
-            saveState();
-            successCallback.call(QJSValueList() << message);
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        });
+                               installation_code,
+                               current_installed_version,
+                               [this, app_id, successCallback](const QString &message) mutable
+                               {
+                                   if (message == "app version is up to date")
+                                   {
+                                       successCallback.call(QJSValueList() << message);
+                                       return;
+                                   }
+                                   loadAppAndInitialize(constants.getYacAppConfigPath(app_id) + app_id + ".yacapp");
+                                   saveState();
+                                   successCallback.call(QJSValueList() << message);
+                               },
+                               [errorCallback](const QString &message) mutable
+                               {
+                                   errorCallback.call(QJSValueList() << message);
+                               });
 }
 
 void YACAPP::appUserRegister(const QString &loginEMail,
@@ -521,17 +530,17 @@ void YACAPP::appUserRegister(const QString &loginEMail,
                              QJSValue errorCallback)
 {
     network.yacappServerAppUserRegister(loginEMail,
-        password,
-        globalConfig()->projectID(),
-        [successCallback](const QString &message) mutable
-        {
-            successCallback.call(QJSValueList() << message);
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                        password,
+                                        globalConfig()->projectID(),
+                                        [successCallback](const QString &message) mutable
+                                        {
+                                            successCallback.call(QJSValueList() << message);
+                                        },
+                                        [errorCallback](const QString &message) mutable
+                                        {
+                                            errorCallback.call(QJSValueList() << message);
+                                        }
+                                        );
 }
 
 void YACAPP::appUserRequestVerifyToken(const QString &loginEMail,
@@ -539,16 +548,16 @@ void YACAPP::appUserRequestVerifyToken(const QString &loginEMail,
                                        QJSValue errorCallback)
 {
     network.yacappServerAppUserRequestVerifyToken(loginEMail,
-        globalConfig()->projectID(),
-        [successCallback](const QString &message) mutable
-        {
-            successCallback.call(QJSValueList() << message);
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                                  globalConfig()->projectID(),
+                                                  [successCallback](const QString &message) mutable
+                                                  {
+                                                      successCallback.call(QJSValueList() << message);
+                                                  },
+                                                  [errorCallback](const QString &message) mutable
+                                                  {
+                                                      errorCallback.call(QJSValueList() << message);
+                                                  }
+                                                  );
 }
 
 void YACAPP::appUserVerify(const QString &loginEMail,
@@ -557,34 +566,34 @@ void YACAPP::appUserVerify(const QString &loginEMail,
                            QJSValue errorCallback)
 {
     network.yacappServerAppUserVerify(loginEMail,
-        verifyToken,
-        globalConfig()->projectID(),
-        [this, loginEMail, successCallback](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject object(jsonDoc.object());
-            QString fstname(object[tableFields.fstname].toString());
-            QString surname(object[tableFields.surname].toString());
-            QString loginToken(object["loginToken"].toString());
-            QString visible_name(object[tableFields.visible_name].toString());
-            appUserConfig()->setLoginEMail(loginEMail);
-            appUserConfig()->setLoginToken(loginToken);
-            appUserConfig()->setFstname(fstname);
-            appUserConfig()->setSurname(surname);
-            appUserConfig()->setVisibleName(visible_name);
-            appUserConfig()->setId(object[tableFields.id].toString());
-            saveState();
-            successCallback.call(QJSValueList());
+                                      verifyToken,
+                                      globalConfig()->projectID(),
+                                      [this, loginEMail, successCallback](const QJsonDocument &jsonDoc) mutable
+                                      {
+                                          QJsonObject object(jsonDoc.object());
+                                          QString fstname(object[tableFields.fstname].toString());
+                                          QString surname(object[tableFields.surname].toString());
+                                          QString loginToken(object["loginToken"].toString());
+                                          QString visible_name(object[tableFields.visible_name].toString());
+                                          appUserConfig()->setLoginEMail(loginEMail);
+                                          appUserConfig()->setLoginToken(loginToken);
+                                          appUserConfig()->setFstname(fstname);
+                                          appUserConfig()->setSurname(surname);
+                                          appUserConfig()->setVisibleName(visible_name);
+                                          appUserConfig()->setId(object[tableFields.id].toString());
+                                          saveState();
+                                          successCallback.call(QJSValueList());
 
-            //        successCallback.call(QJSValueList() << message);
-            //        appUserConfig()->setLoginEMail(loginEMail);
-            //        appUserConfig()->setLoginToken(message);
-            //        saveState();
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                          //        successCallback.call(QJSValueList() << message);
+                                          //        appUserConfig()->setLoginEMail(loginEMail);
+                                          //        appUserConfig()->setLoginToken(message);
+                                          //        saveState();
+                                      },
+                                      [errorCallback](const QString &message) mutable
+                                      {
+                                          errorCallback.call(QJSValueList() << message);
+                                      }
+                                      );
 }
 
 void YACAPP::appUserLogin(const QString &loginEMail,
@@ -593,33 +602,33 @@ void YACAPP::appUserLogin(const QString &loginEMail,
                           QJSValue errorCallback)
 {
     network.yacappServerAppUserLogin(loginEMail,
-        password,
-        globalConfig()->projectID(),
-        deviceToken,
-        [this, loginEMail, successCallback](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject object(jsonDoc.object());
-            QString fstname(object[tableFields.fstname].toString());
-            QString surname(object[tableFields.surname].toString());
-            QString loginToken(object["loginToken"].toString());
-            QString visible_name(object[tableFields.visible_name].toString());
-            appUserConfig()->setLoginEMail(loginEMail);
-            appUserConfig()->setLoginToken(loginToken);
-            appUserConfig()->setFstname(fstname);
-            appUserConfig()->setSurname(surname);
-            appUserConfig()->setVisibleName(visible_name);
-            appUserConfig()->setId(object[tableFields.id].toString());
-            appUserConfig()->setProfileImageId(object[tableFields.image_id].toString());
-            appUserConfig()->loadKeyPair();
-            saveState();
-            fetchMessageUpdates();
-            successCallback.call(QJSValueList());
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                     password,
+                                     globalConfig()->projectID(),
+                                     deviceToken,
+                                     [this, loginEMail, successCallback](const QJsonDocument &jsonDoc) mutable
+                                     {
+                                         QJsonObject object(jsonDoc.object());
+                                         QString fstname(object[tableFields.fstname].toString());
+                                         QString surname(object[tableFields.surname].toString());
+                                         QString loginToken(object["loginToken"].toString());
+                                         QString visible_name(object[tableFields.visible_name].toString());
+                                         appUserConfig()->setLoginEMail(loginEMail);
+                                         appUserConfig()->setLoginToken(loginToken);
+                                         appUserConfig()->setFstname(fstname);
+                                         appUserConfig()->setSurname(surname);
+                                         appUserConfig()->setVisibleName(visible_name);
+                                         appUserConfig()->setId(object[tableFields.id].toString());
+                                         appUserConfig()->setProfileImageId(object[tableFields.image_id].toString());
+                                         appUserConfig()->loadKeyPair();
+                                         saveState();
+                                         fetchMessageUpdates();
+                                         successCallback.call(QJSValueList());
+                                     },
+                                     [errorCallback](const QString &message) mutable
+                                     {
+                                         errorCallback.call(QJSValueList() << message);
+                                     }
+                                     );
 }
 
 void YACAPP::appUserLogout()
@@ -641,16 +650,16 @@ void YACAPP::appUserRequestPasswordUpdate(const QString &loginEMail,
                                           QJSValue errorCallback)
 {
     network.appUserRequestPasswordUpdate(loginEMail,
-        globalConfig()->projectID(),
-        [successCallback](const QString &message) mutable
-        {
-            successCallback.call(QJSValueList() << message);
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                         globalConfig()->projectID(),
+                                         [successCallback](const QString &message) mutable
+                                         {
+                                             successCallback.call(QJSValueList() << message);
+                                         },
+                                         [errorCallback](const QString &message) mutable
+                                         {
+                                             errorCallback.call(QJSValueList() << message);
+                                         }
+                                         );
 }
 
 void YACAPP::appUserUpdatePassword(const QString &loginEMail,
@@ -660,18 +669,18 @@ void YACAPP::appUserUpdatePassword(const QString &loginEMail,
                                    QJSValue errorCallback)
 {
     network.appUserUpdatePassword(loginEMail,
-        password,
-        updatePasswordToken,
-        globalConfig()->projectID(),
-        [successCallback](const QString &message) mutable
-        {
-            successCallback.call(QJSValueList() << message);
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                  password,
+                                  updatePasswordToken,
+                                  globalConfig()->projectID(),
+                                  [successCallback](const QString &message) mutable
+                                  {
+                                      successCallback.call(QJSValueList() << message);
+                                  },
+                                  [errorCallback](const QString &message) mutable
+                                  {
+                                      errorCallback.call(QJSValueList() << message);
+                                  }
+                                  );
 }
 
 void YACAPP::appUserGetWorktimeState(QJSValue successCallback,
@@ -683,25 +692,25 @@ void YACAPP::appUserGetWorktimeState(QJSValue successCallback,
         return;
     }
     network.appUserGetWorktimeState(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        [successCallback, this](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject object(jsonDoc.object());
-            QString message(object["message"].toString());
-            QString workStart(object["workStart"].toString());
-            QString pauseStart(object["pauseStart"].toString());
-            QString offSiteWorkStart(object["offSiteWorkStart"].toString());
-            appUserConfig()->setWorkStart(QDateTime::fromString(workStart, Qt::DateFormat::ISODateWithMs));
-            appUserConfig()->setPauseStart(QDateTime::fromString(pauseStart, Qt::DateFormat::ISODateWithMs));
-            appUserConfig()->setOffSiteWorkStart(QDateTime::fromString(offSiteWorkStart, Qt::DateFormat::ISODateWithMs));
-            successCallback.call(QJSValueList() << message);
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                    appUserConfig()->loginEMail(),
+                                    appUserConfig()->loginToken(),
+                                    [successCallback, this](const QJsonDocument &jsonDoc) mutable
+                                    {
+                                        QJsonObject object(jsonDoc.object());
+                                        QString message(object["message"].toString());
+                                        QString workStart(object["workStart"].toString());
+                                        QString pauseStart(object["pauseStart"].toString());
+                                        QString offSiteWorkStart(object["offSiteWorkStart"].toString());
+                                        appUserConfig()->setWorkStart(QDateTime::fromString(workStart, Qt::DateFormat::ISODateWithMs));
+                                        appUserConfig()->setPauseStart(QDateTime::fromString(pauseStart, Qt::DateFormat::ISODateWithMs));
+                                        appUserConfig()->setOffSiteWorkStart(QDateTime::fromString(offSiteWorkStart, Qt::DateFormat::ISODateWithMs));
+                                        successCallback.call(QJSValueList() << message);
+                                    },
+                                    [errorCallback](const QString &message) mutable
+                                    {
+                                        errorCallback.call(QJSValueList() << message);
+                                    }
+                                    );
 }
 
 void YACAPP::appUserInsertWorktime(int worktimeType,
@@ -716,29 +725,29 @@ void YACAPP::appUserInsertWorktime(int worktimeType,
         return;
     }
     network.appUserInsertWorktime(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        worktimeType,
-        userMood,
-        dayRating,
-        QDateTime::currentDateTime(),
-        [successCallback, this](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject object(jsonDoc.object());
-            QString message(object["message"].toString());
-            QString workStart(object["workStart"].toString());
-            QString pauseStart(object["pauseStart"].toString());
-            QString offSiteWorkStart(object["offSiteWorkStart"].toString());
-            appUserConfig()->setWorkStart(QDateTime::fromString(workStart, Qt::DateFormat::ISODateWithMs));
-            appUserConfig()->setPauseStart(QDateTime::fromString(pauseStart, Qt::DateFormat::ISODateWithMs));
-            appUserConfig()->setOffSiteWorkStart(QDateTime::fromString(offSiteWorkStart, Qt::DateFormat::ISODateWithMs));
-            successCallback.call(QJSValueList() << message);
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                  appUserConfig()->loginEMail(),
+                                  appUserConfig()->loginToken(),
+                                  worktimeType,
+                                  userMood,
+                                  dayRating,
+                                  QDateTime::currentDateTime(),
+                                  [successCallback, this](const QJsonDocument &jsonDoc) mutable
+                                  {
+                                      QJsonObject object(jsonDoc.object());
+                                      QString message(object["message"].toString());
+                                      QString workStart(object["workStart"].toString());
+                                      QString pauseStart(object["pauseStart"].toString());
+                                      QString offSiteWorkStart(object["offSiteWorkStart"].toString());
+                                      appUserConfig()->setWorkStart(QDateTime::fromString(workStart, Qt::DateFormat::ISODateWithMs));
+                                      appUserConfig()->setPauseStart(QDateTime::fromString(pauseStart, Qt::DateFormat::ISODateWithMs));
+                                      appUserConfig()->setOffSiteWorkStart(QDateTime::fromString(offSiteWorkStart, Qt::DateFormat::ISODateWithMs));
+                                      successCallback.call(QJSValueList() << message);
+                                  },
+                                  [errorCallback](const QString &message) mutable
+                                  {
+                                      errorCallback.call(QJSValueList() << message);
+                                  }
+                                  );
 
 }
 
@@ -754,20 +763,20 @@ void YACAPP::appUserInsertWorktimeBeginEnd(const int worktimeType,
         return;
     }
     network.appUserInsertWorktimeBeginEnd(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        worktimeType,
-        begin,
-        end,
-        [successCallback](const QString &message) mutable
-        {
-            successCallback.call(QJSValueList() << message);
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                          appUserConfig()->loginEMail(),
+                                          appUserConfig()->loginToken(),
+                                          worktimeType,
+                                          begin,
+                                          end,
+                                          [successCallback](const QString &message) mutable
+                                          {
+                                              successCallback.call(QJSValueList() << message);
+                                          },
+                                          [errorCallback](const QString &message) mutable
+                                          {
+                                              errorCallback.call(QJSValueList() << message);
+                                          }
+                                          );
 }
 
 void YACAPP::appUserFetchWorktimes(const QDateTime &since,
@@ -776,110 +785,110 @@ void YACAPP::appUserFetchWorktimes(const QDateTime &since,
                                    QJSValue errorCallback)
 {
     network.appUserFetchWorktimes(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        since,
-        until,
-        [successCallback, this](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject object(jsonDoc.object());
-            worktimeMainsModel.clear();
-            QJsonArray worktimes(object["worktimes"].toArray());
-            WorktimeMainObject *activeMainObject(0);
-            QDateTime currentWorkStart;
-            QDateTime currentPauseStart;
-            QDateTime currentOffSiteWorkStart;
-            for (int i(0); i < worktimes.size(); ++i)
-            {
-                WorktimeObject *wo(new WorktimeObject);
-                QJsonObject worktime(worktimes[i].toObject());
-                wo->fromJSON(worktime);
-                if (activeMainObject == 0 && wo->type() != WorktimeObject::WorkStartType)
-                {
-                    continue;
-                }
-                if (activeMainObject)
-                {
-                    activeMainObject->subentries.append(wo);
-                }
-                if (wo->type() == WorktimeObject::WorkEndType)
-                {
-                    activeMainObject->setend_ts(wo->ts());
-                    int minutes(helper.minutesBetween(currentWorkStart, wo->ts()));
-                    activeMainObject->setbrutto_work_minutes(minutes);
-                    minutes -= activeMainObject->brutto_pause_minutes();
-                    int autopauseMinutes(0);
-                    if (minutes > 60 * 9)
-                    {
-                        if (activeMainObject->netto_pause_minutes() < 45)
-                        {
-                            autopauseMinutes = std::min(minutes - 60 * 9, 45 - activeMainObject->netto_pause_minutes());
-                        }
-                    }
-                    else
-                    {
-                        if (minutes > 60 * 6)
-                        {
-                            if (activeMainObject->netto_pause_minutes() < 30)
-                            {
-                                autopauseMinutes = std::min(minutes - 60 * 6, 30 - activeMainObject->netto_pause_minutes());
-                            }
-                        }
+                                  appUserConfig()->loginEMail(),
+                                  appUserConfig()->loginToken(),
+                                  since,
+                                  until,
+                                  [successCallback, this](const QJsonDocument &jsonDoc) mutable
+                                  {
+                                      QJsonObject object(jsonDoc.object());
+                                      worktimeMainsModel.clear();
+                                      QJsonArray worktimes(object["worktimes"].toArray());
+                                      WorktimeMainObject *activeMainObject(0);
+                                      QDateTime currentWorkStart;
+                                      QDateTime currentPauseStart;
+                                      QDateTime currentOffSiteWorkStart;
+                                      for (int i(0); i < worktimes.size(); ++i)
+                                      {
+                                          WorktimeObject *wo(new WorktimeObject);
+                                          QJsonObject worktime(worktimes[i].toObject());
+                                          wo->fromJSON(worktime);
+                                          if (activeMainObject == 0 && wo->type() != WorktimeObject::WorkStartType)
+                                          {
+                                              continue;
+                                          }
+                                          if (activeMainObject)
+                                          {
+                                              activeMainObject->subentries.append(wo);
+                                          }
+                                          if (wo->type() == WorktimeObject::WorkEndType)
+                                          {
+                                              activeMainObject->setend_ts(wo->ts());
+                                              int minutes(helper.minutesBetween(currentWorkStart, wo->ts()));
+                                              activeMainObject->setbrutto_work_minutes(minutes);
+                                              minutes -= activeMainObject->brutto_pause_minutes();
+                                              int autopauseMinutes(0);
+                                              if (minutes > 60 * 9)
+                                              {
+                                                  if (activeMainObject->netto_pause_minutes() < 45)
+                                                  {
+                                                      autopauseMinutes = std::min(minutes - 60 * 9, 45 - activeMainObject->netto_pause_minutes());
+                                                  }
+                                              }
+                                              else
+                                              {
+                                                  if (minutes > 60 * 6)
+                                                  {
+                                                      if (activeMainObject->netto_pause_minutes() < 30)
+                                                      {
+                                                          autopauseMinutes = std::min(minutes - 60 * 6, 30 - activeMainObject->netto_pause_minutes());
+                                                      }
+                                                  }
 
-                    }
-                    minutes -= autopauseMinutes;
-                    activeMainObject->setautopause_minutes(autopauseMinutes);
-                    activeMainObject->setnetto_work_minutes(minutes);
+                                              }
+                                              minutes -= autopauseMinutes;
+                                              activeMainObject->setautopause_minutes(autopauseMinutes);
+                                              activeMainObject->setnetto_work_minutes(minutes);
 
-                    DEFAULT_LOG(QString("worktimeMainsModel.count: ") + QString::number(worktimeMainsModel.size()));
+                                              DEFAULT_LOG(QString("worktimeMainsModel.count: ") + QString::number(worktimeMainsModel.size()));
 
-                    worktimeMainsModel.append(activeMainObject);
+                                              worktimeMainsModel.append(activeMainObject);
 
-                    DEFAULT_LOG(QString("worktimeMainsModel.count: ") + QString::number(worktimeMainsModel.size()));
-                    activeMainObject = 0;
-                }
-                if (wo->type() == WorktimeObject::PauseStartType)
-                {
-                    currentPauseStart = wo->ts();
-                }
-                if (wo->type() == WorktimeObject::PauseEndType)
-                {
-                    int minutes(helper.minutesBetween(currentPauseStart, wo->ts()));
-                    activeMainObject->setbrutto_pause_minutes(activeMainObject->brutto_pause_minutes() + minutes);
-                    if (minutes >= 15)
-                    {
-                        activeMainObject->setnetto_pause_minutes(activeMainObject->netto_pause_minutes() + minutes);
-                    }
-                }
-                if (wo->type() == WorktimeObject::OffSiteWorkStartType)
-                {
-                    currentOffSiteWorkStart = wo->ts();
-                }
-                if (wo->type() == WorktimeObject::OffSiteWorkEndType)
-                {
-                    int minutes(helper.minutesBetween(currentOffSiteWorkStart, wo->ts()));
-                    activeMainObject->setbrutto_offsitework_minutes(activeMainObject->brutto_offsitework_minutes() + minutes);
-                }
-                if (wo->type() == WorktimeObject::WorkStartType)
-                {
-                    activeMainObject = new WorktimeMainObject;
-                    activeMainObject->setId(helper.generateUuid());
-                    activeMainObject->setbegin_ts(wo->ts());
-                    currentWorkStart = wo->ts();
-                }
-            }
-            if (activeMainObject)
-            {
-                worktimeMainsModel.append(activeMainObject);
-                activeMainObject = 0;
-            }
+                                              DEFAULT_LOG(QString("worktimeMainsModel.count: ") + QString::number(worktimeMainsModel.size()));
+                                              activeMainObject = 0;
+                                          }
+                                          if (wo->type() == WorktimeObject::PauseStartType)
+                                          {
+                                              currentPauseStart = wo->ts();
+                                          }
+                                          if (wo->type() == WorktimeObject::PauseEndType)
+                                          {
+                                              int minutes(helper.minutesBetween(currentPauseStart, wo->ts()));
+                                              activeMainObject->setbrutto_pause_minutes(activeMainObject->brutto_pause_minutes() + minutes);
+                                              if (minutes >= 15)
+                                              {
+                                                  activeMainObject->setnetto_pause_minutes(activeMainObject->netto_pause_minutes() + minutes);
+                                              }
+                                          }
+                                          if (wo->type() == WorktimeObject::OffSiteWorkStartType)
+                                          {
+                                              currentOffSiteWorkStart = wo->ts();
+                                          }
+                                          if (wo->type() == WorktimeObject::OffSiteWorkEndType)
+                                          {
+                                              int minutes(helper.minutesBetween(currentOffSiteWorkStart, wo->ts()));
+                                              activeMainObject->setbrutto_offsitework_minutes(activeMainObject->brutto_offsitework_minutes() + minutes);
+                                          }
+                                          if (wo->type() == WorktimeObject::WorkStartType)
+                                          {
+                                              activeMainObject = new WorktimeMainObject;
+                                              activeMainObject->setId(helper.generateUuid());
+                                              activeMainObject->setbegin_ts(wo->ts());
+                                              currentWorkStart = wo->ts();
+                                          }
+                                      }
+                                      if (activeMainObject)
+                                      {
+                                          worktimeMainsModel.append(activeMainObject);
+                                          activeMainObject = 0;
+                                      }
 
-            successCallback.call(QJSValueList());
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        });
+                                      successCallback.call(QJSValueList());
+                                  },
+                                  [errorCallback](const QString &message) mutable
+                                  {
+                                      errorCallback.call(QJSValueList() << message);
+                                  });
 }
 
 void YACAPP::appUserDeleteWorktime(const QString &id, QJSValue successCallback, QJSValue errorCallback)
@@ -890,18 +899,18 @@ void YACAPP::appUserDeleteWorktime(const QString &id, QJSValue successCallback, 
         return;
     }
     network.appUserDeleteWorktime(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        id,
-        [successCallback](const QString &message) mutable
-        {
-            successCallback.call(QJSValueList() << message);
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                  appUserConfig()->loginEMail(),
+                                  appUserConfig()->loginToken(),
+                                  id,
+                                  [successCallback](const QString &message) mutable
+                                  {
+                                      successCallback.call(QJSValueList() << message);
+                                  },
+                                  [errorCallback](const QString &message) mutable
+                                  {
+                                      errorCallback.call(QJSValueList() << message);
+                                  }
+                                  );
 }
 
 void YACAPP::appUserUpdateProfile(const QString &fstname,
@@ -925,33 +934,33 @@ void YACAPP::appUserUpdateProfile(const QString &fstname,
     appUserConfig()->setSearchingExactlyAllowed(searching_exactly_allowed);
     saveState();
     network.appUserUpdateProfile(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        fstname,
-        surname,
-        visible_name,
-        color,
-        message_font_color,
-        profileFilename,
-        searching_exactly_allowed,
-        searching_fuzzy_allowed,
-        password,
-        appUserConfig()->getPublicKey(),
-        [this, successCallback](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject object(jsonDoc.object());
-            QString image_id(object[tableFields.image_id].toString());
-            if (helper.validUuid(image_id))
-            {
-                appUserConfig()->setProfileImageId(image_id);
-            }
-            successCallback.call(QJSValueList());
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            Q_UNUSED(message);
-            errorCallback.call(QJSValueList());
-        });
+                                 appUserConfig()->loginEMail(),
+                                 appUserConfig()->loginToken(),
+                                 fstname,
+                                 surname,
+                                 visible_name,
+                                 color,
+                                 message_font_color,
+                                 profileFilename,
+                                 searching_exactly_allowed,
+                                 searching_fuzzy_allowed,
+                                 password,
+                                 appUserConfig()->getPublicKey(),
+                                 [this, successCallback](const QJsonDocument &jsonDoc) mutable
+                                 {
+                                     QJsonObject object(jsonDoc.object());
+                                     QString image_id(object[tableFields.image_id].toString());
+                                     if (helper.validUuid(image_id))
+                                     {
+                                         appUserConfig()->setProfileImageId(image_id);
+                                     }
+                                     successCallback.call(QJSValueList());
+                                 },
+                                 [errorCallback](const QString &message) mutable
+                                 {
+                                     Q_UNUSED(message);
+                                     errorCallback.call(QJSValueList());
+                                 });
 
 }
 
@@ -972,33 +981,33 @@ void YACAPP::appUserSearchProfiles(const QString &needle,
         return;
     }
     network.appUserSearchProfiles(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        needle,
-        limit,
-        offset,
-        [successCallback, this](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject object(jsonDoc.object());
-            QString message(object["message"].toString());
-            searchProfilesModel.clear();
-            QJsonArray profiles(object["profiles"].toArray());
-            for (int i(0); i < profiles.size(); ++i)
-            {
-                ProfileObject *po(new ProfileObject);
-                QJsonObject profile(profiles[i].toObject());
-                po->setId(profile["id"].toString());
-                po->setVisibleName(profile[tableFields.visible_name].toString());
-                po->setProfileImageId(profile[tableFields.image_id].toString());
-                searchProfilesModel.append(po);
-            }
-            successCallback.call(QJSValueList() << message);
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                  appUserConfig()->loginEMail(),
+                                  appUserConfig()->loginToken(),
+                                  needle,
+                                  limit,
+                                  offset,
+                                  [successCallback, this](const QJsonDocument &jsonDoc) mutable
+                                  {
+                                      QJsonObject object(jsonDoc.object());
+                                      QString message(object["message"].toString());
+                                      searchProfilesModel.clear();
+                                      QJsonArray profiles(object["profiles"].toArray());
+                                      for (int i(0); i < profiles.size(); ++i)
+                                      {
+                                          ProfileObject *po(new ProfileObject);
+                                          QJsonObject profile(profiles[i].toObject());
+                                          po->setId(profile["id"].toString());
+                                          po->setVisibleName(profile[tableFields.visible_name].toString());
+                                          po->setProfileImageId(profile[tableFields.image_id].toString());
+                                          searchProfilesModel.append(po);
+                                      }
+                                      successCallback.call(QJSValueList() << message);
+                                  },
+                                  [errorCallback](const QString &message) mutable
+                                  {
+                                      errorCallback.call(QJSValueList() << message);
+                                  }
+                                  );
 
 }
 
@@ -1012,28 +1021,28 @@ void YACAPP::appUserInsertAppointment(const QString &appointment_group_id,
                                       QJSValue errorCallback)
 {
     network.appUserInsertAppointment(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        appointment_group_id,
-        appointment_template_id,
-        caption,
-        start_datetime,
-        end_datetime,
-        visible_for_everybody,
-        [this, successCallback](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject object(jsonDoc.object());
-            QJsonObject appointment(object["appointment"].toObject());
-            AppointmentObject *a(new AppointmentObject);
-            a->fromJSON(appointment);
-            appointmentsModel.append(a);
-            successCallback.call(QJSValueList());
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                     appUserConfig()->loginEMail(),
+                                     appUserConfig()->loginToken(),
+                                     appointment_group_id,
+                                     appointment_template_id,
+                                     caption,
+                                     start_datetime,
+                                     end_datetime,
+                                     visible_for_everybody,
+                                     [this, successCallback](const QJsonDocument &jsonDoc) mutable
+                                     {
+                                         QJsonObject object(jsonDoc.object());
+                                         QJsonObject appointment(object["appointment"].toObject());
+                                         AppointmentObject *a(new AppointmentObject);
+                                         a->fromJSON(appointment);
+                                         appointmentsModel.append(a);
+                                         successCallback.call(QJSValueList());
+                                     },
+                                     [errorCallback](const QString &message) mutable
+                                     {
+                                         errorCallback.call(QJSValueList() << message);
+                                     }
+                                     );
 }
 
 void YACAPP::appUserDeleteDocument(QString const &id,
@@ -1046,13 +1055,62 @@ void YACAPP::appUserDeleteDocument(QString const &id,
                              id,
                              [this, id](const QJsonDocument &jsonDoc) mutable
                              {
-        documentsModel.removeById(id);
+                                 documentsModel.removeById(id);
                              },
                              [errorCallback](const QString &message) mutable
                              {
                                  errorCallback.call(QJSValueList() << message);
                              }
                              );
+}
+
+
+void YACAPP::appUserFetchDocument(QString const id,
+                                  QString const document_name,
+                                  QString const document_type,
+                                  QJSValue successCallback,
+                                  QJSValue errorCallback)
+{
+    QString idFilename(getCacheFile(id));
+    QString documentFilename(getCacheFile(document_name + "." + document_type));
+    QFileInfo fiIDFile(idFilename);
+    QFileInfo fiDocumentFile(documentFilename);
+    if (fiIDFile.exists()
+        && fiDocumentFile.exists()
+        && fiIDFile.lastRead() > fiDocumentFile.lastRead())
+    {
+        successCallback.call(QJSValueList() << documentFilename);
+        return;
+    }
+    std::map<QString, QString> params = {{"id", id}};
+    network.appUserFetchORM(globalConfig()->projectID(),
+                            appUserConfig()->loginEMail(),
+                            appUserConfig()->loginToken(),
+                            t0030_documents().getORMName(),
+                            params,
+                            [this, documentFilename, idFilename, successCallback, errorCallback](const QJsonDocument &jsonDoc) mutable
+                            {
+                                QJsonObject object(jsonDoc.object());
+                                t0030_documents *t0030(new t0030_documents);
+                                ORM2QJson o2j;
+                                o2j.fromJson(object, *t0030);
+                                {
+                                    QFile documentFile(documentFilename);
+                                    documentFile.open(QIODeviceBase::WriteOnly);
+                                    documentFile.write(QByteArray::fromBase64(t0030->transfer_document_base64().toUtf8()));
+                                }
+                                {
+                                QFile idFile(idFilename);
+                                idFile.open(QIODeviceBase::WriteOnly);
+                                idFile.write(documentFilename.toUtf8());
+                                }
+                                successCallback.call(QJSValueList() << documentFilename);
+                            },
+                            [errorCallback](const QString &message) mutable
+                            {
+                                errorCallback.call(QJSValueList() << message);
+                            }
+                            );
 }
 
 void YACAPP::appUserFetchDocuments(int offset,
@@ -1066,7 +1124,7 @@ void YACAPP::appUserFetchDocuments(int offset,
                             appUserConfig()->loginToken(),
                             t0030_documents().getORMName(),
                             params,
-                            [this, successCallback](const QJsonDocument &jsonDoc) mutable
+                            [this, limit, successCallback](const QJsonDocument &jsonDoc) mutable
                             {
                                 QJsonObject object(jsonDoc.object());
                                 QJsonArray documents(object["documents"].toArray());
@@ -1079,6 +1137,10 @@ void YACAPP::appUserFetchDocuments(int offset,
                                     DEFAULT_LOG(QString("document_name: ") + t0030->document_name());
                                     documentsModel.append(t0030);
                                 }
+                                if (documents.size() < limit)
+                                {
+                                    documentsModel.lastObjectFetched();
+                                }
                                 successCallback.call(QJSValueList());
                             },
                             [errorCallback](const QString &message) mutable
@@ -1089,6 +1151,7 @@ void YACAPP::appUserFetchDocuments(int offset,
 }
 
 void YACAPP::appUserPostDocument(const QUrl fileUrl,
+                                 const QStringList keywords,
                                  QJSValue successCallback,
                                  QJSValue errorCallback)
 {
@@ -1103,6 +1166,16 @@ void YACAPP::appUserPostDocument(const QUrl fileUrl,
     QByteArray fileContent(file.readAll());
     QString data(fileContent.toBase64());
     t0030->generateID();
+    QByteArray comma_separated_catchphrases;
+    for (auto const &cp: keywords)
+    {
+        if (comma_separated_catchphrases.size())
+        {
+            comma_separated_catchphrases += ",";
+        }
+        comma_separated_catchphrases += cp.toUtf8();
+    }
+    t0030->settransfer_comma_separated_catchphrases_base64(comma_separated_catchphrases.toBase64());
     t0030->settransfer_document_base64(data);
     t0030->setcreated_datetime(QDateTime::currentDateTime());
     QFileInfo fileInfo(fileUrl.toLocalFile());
@@ -1130,26 +1203,26 @@ void YACAPP::appUserFetchAppointments(QJSValue successCallback,
                                       QJSValue errorCallback)
 {
     network.appUserFetchAppointments(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        [this, successCallback](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject object(jsonDoc.object());
-            QJsonArray appointments(object["appointments"].toArray());
-            for (int i(0); i < appointments.size(); ++i)
-            {
-                QJsonObject appointment(appointments[i].toObject());
-                AppointmentObject *a(new AppointmentObject);
-                a->fromJSON(appointment);
-                appointmentsModel.append(a);
-            }
-            successCallback.call(QJSValueList());
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                     appUserConfig()->loginEMail(),
+                                     appUserConfig()->loginToken(),
+                                     [this, successCallback](const QJsonDocument &jsonDoc) mutable
+                                     {
+                                         QJsonObject object(jsonDoc.object());
+                                         QJsonArray appointments(object["appointments"].toArray());
+                                         for (int i(0); i < appointments.size(); ++i)
+                                         {
+                                             QJsonObject appointment(appointments[i].toObject());
+                                             AppointmentObject *a(new AppointmentObject);
+                                             a->fromJSON(appointment);
+                                             appointmentsModel.append(a);
+                                         }
+                                         successCallback.call(QJSValueList());
+                                     },
+                                     [errorCallback](const QString &message) mutable
+                                     {
+                                         errorCallback.call(QJSValueList() << message);
+                                     }
+                                     );
 }
 
 void YACAPP::appUserDeleteAppointment(const QString &id,
@@ -1157,18 +1230,18 @@ void YACAPP::appUserDeleteAppointment(const QString &id,
                                       QJSValue errorCallback)
 {
     network.appUserDeleteAppointment(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        id,
-        [successCallback, this, id](const QString &message) mutable
-        {
-            appointmentsModel.removeById(id);
-            successCallback.call(QJSValueList() << message);
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        });
+                                     appUserConfig()->loginEMail(),
+                                     appUserConfig()->loginToken(),
+                                     id,
+                                     [successCallback, this, id](const QString &message) mutable
+                                     {
+                                         appointmentsModel.removeById(id);
+                                         successCallback.call(QJSValueList() << message);
+                                     },
+                                     [errorCallback](const QString &message) mutable
+                                     {
+                                         errorCallback.call(QJSValueList() << message);
+                                     });
 }
 
 void YACAPP::appUserFetchRightGroups(QJSValue successCallback, QJSValue errorCallback)
@@ -1193,39 +1266,39 @@ void YACAPP::appUserInsertOrUpdateRightGroup(const QString &id, const QString &n
     t0021->setrequest_allowed(request_allowed);
     t0021->setvisible_for_non_members(visible_for_non_members);
     network.appUserPostORM(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        *t0021,
-        [t0021, this, successCallback](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject object(jsonDoc.object());
-            t0021->setid(object["id"].toString());
-            rightGroupsModel.append(t0021);
-            successCallback.call(QJSValueList());
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                           appUserConfig()->loginEMail(),
+                           appUserConfig()->loginToken(),
+                           *t0021,
+                           [t0021, this, successCallback](const QJsonDocument &jsonDoc) mutable
+                           {
+                               QJsonObject object(jsonDoc.object());
+                               t0021->setid(object["id"].toString());
+                               rightGroupsModel.append(t0021);
+                               successCallback.call(QJSValueList());
+                           },
+                           [errorCallback](const QString &message) mutable
+                           {
+                               errorCallback.call(QJSValueList() << message);
+                           }
+                           );
 }
 
 void YACAPP::appUserDeleteRightGroup(const QString &id, QJSValue successCallback, QJSValue errorCallback)
 {
     network.appUserDeleteRightGroup(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        id,
-        [this, id, successCallback](const QString &message) mutable
-        {
-            rightGroupsModel.deleteById(id);
-            successCallback.call(QJSValueList() << message);
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                    appUserConfig()->loginEMail(),
+                                    appUserConfig()->loginToken(),
+                                    id,
+                                    [this, id, successCallback](const QString &message) mutable
+                                    {
+                                        rightGroupsModel.deleteById(id);
+                                        successCallback.call(QJSValueList() << message);
+                                    },
+                                    [errorCallback](const QString &message) mutable
+                                    {
+                                        errorCallback.call(QJSValueList() << message);
+                                    }
+                                    );
 }
 
 void YACAPP::appUserFetchRightGroupRights(const QString &id,
@@ -1233,28 +1306,28 @@ void YACAPP::appUserFetchRightGroupRights(const QString &id,
                                           QJSValue errorCallback)
 {
     network.appUserFetchORM(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        "t0023_right2rightgroup",
-        {{tableFields.right_group_id, id}},
-        [this, successCallback](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject object(jsonDoc.object());
-            QJsonArray array(object["t0023_right2rightgroup"].toArray());
-            m_currentFetchedIds.clear();
-            for (int i(0); i < array.size(); ++i)
-            {
-                t0023_right2rightgroup t0023;
-                orm2json.fromJson(array[i].toObject(), t0023);
-                m_currentFetchedIds.push_back(QString::number(t0023.right_number()));
-            }
-            emit currentFetchedIdsChanged();
-            successCallback.call(QJSValueList());
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        });
+                            appUserConfig()->loginEMail(),
+                            appUserConfig()->loginToken(),
+                            "t0023_right2rightgroup",
+                            {{tableFields.right_group_id, id}},
+                            [this, successCallback](const QJsonDocument &jsonDoc) mutable
+                            {
+                                QJsonObject object(jsonDoc.object());
+                                QJsonArray array(object["t0023_right2rightgroup"].toArray());
+                                m_currentFetchedIds.clear();
+                                for (int i(0); i < array.size(); ++i)
+                                {
+                                    t0023_right2rightgroup t0023;
+                                    orm2json.fromJson(array[i].toObject(), t0023);
+                                    m_currentFetchedIds.push_back(QString::number(t0023.right_number()));
+                                }
+                                emit currentFetchedIdsChanged();
+                                successCallback.call(QJSValueList());
+                            },
+                            [errorCallback](const QString &message) mutable
+                            {
+                                errorCallback.call(QJSValueList() << message);
+                            });
 }
 
 void YACAPP::appUserFetchRightGroupMember(const QString &right_group_id,
@@ -1262,28 +1335,28 @@ void YACAPP::appUserFetchRightGroupMember(const QString &right_group_id,
                                           QJSValue errorCallback)
 {
     network.appUserFetchRightGroupMember(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        right_group_id,
-        [this, successCallback](const QJsonDocument &jsonDoc) mutable
-        {
-            selectedProfilesModel.clear();
-            QJsonObject object(jsonDoc.object());
-            QJsonArray member(object["member"].toArray());
-            for (int i(0); i < member.size(); ++i)
-            {
-                QJsonObject m(member[i].toObject());
-                ProfileObject *po(new ProfileObject);
-                po->fromJSON(m);
-                selectedProfilesModel.append(po);
-            }
-            successCallback.call(QJSValueList());
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                         appUserConfig()->loginEMail(),
+                                         appUserConfig()->loginToken(),
+                                         right_group_id,
+                                         [this, successCallback](const QJsonDocument &jsonDoc) mutable
+                                         {
+                                             selectedProfilesModel.clear();
+                                             QJsonObject object(jsonDoc.object());
+                                             QJsonArray member(object["member"].toArray());
+                                             for (int i(0); i < member.size(); ++i)
+                                             {
+                                                 QJsonObject m(member[i].toObject());
+                                                 ProfileObject *po(new ProfileObject);
+                                                 po->fromJSON(m);
+                                                 selectedProfilesModel.append(po);
+                                             }
+                                             successCallback.call(QJSValueList());
+                                         },
+                                         [errorCallback](const QString &message) mutable
+                                         {
+                                             errorCallback.call(QJSValueList() << message);
+                                         }
+                                         );
 }
 
 void YACAPP::appUserInsertOrUpdateRightGroup2AppUser(const QString &id,
@@ -1307,45 +1380,45 @@ void YACAPP::appUserInsertOrUpdateRightGroup2AppUser(const QString &id,
     t0022.setdenied_datetime(denied_datetime);
     t0022.setdenied_appuser_id(denied_appuser_id);
     network.appUserPostORM(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        t0022,
-        [successCallback](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject object(jsonDoc.object());
-            successCallback.call(QJSValueList() << object["message"].toString());
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                           appUserConfig()->loginEMail(),
+                           appUserConfig()->loginToken(),
+                           t0022,
+                           [successCallback](const QJsonDocument &jsonDoc) mutable
+                           {
+                               QJsonObject object(jsonDoc.object());
+                               successCallback.call(QJSValueList() << object["message"].toString());
+                           },
+                           [errorCallback](const QString &message) mutable
+                           {
+                               errorCallback.call(QJSValueList() << message);
+                           }
+                           );
 }
 
 void YACAPP::appUserFetchSpaces(QJSValue successCallback, QJSValue errorCallback)
 {
     network.appUserFetchSpaces(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        [this, successCallback](const QJsonDocument &jsonDoc) mutable
-        {
-            spacesModel.clear();
-            QJsonObject object(jsonDoc.object());
-            QJsonArray spaces(object["spaces"].toArray());
-            for (int i(0); i < spaces.size(); ++i)
-            {
-                QJsonObject space(spaces[i].toObject());
-                SpaceObject *so(new SpaceObject);
-                so->fromJSON(space);
-                spacesModel.append(so);
-            }
-            successCallback.call(QJSValueList());
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                               appUserConfig()->loginEMail(),
+                               appUserConfig()->loginToken(),
+                               [this, successCallback](const QJsonDocument &jsonDoc) mutable
+                               {
+                                   spacesModel.clear();
+                                   QJsonObject object(jsonDoc.object());
+                                   QJsonArray spaces(object["spaces"].toArray());
+                                   for (int i(0); i < spaces.size(); ++i)
+                                   {
+                                       QJsonObject space(spaces[i].toObject());
+                                       SpaceObject *so(new SpaceObject);
+                                       so->fromJSON(space);
+                                       spacesModel.append(so);
+                                   }
+                                   successCallback.call(QJSValueList());
+                               },
+                               [errorCallback](const QString &message) mutable
+                               {
+                                   errorCallback.call(QJSValueList() << message);
+                               }
+                               );
 }
 
 void YACAPP::appUserInsertOrUpdateSpace(const QString &id,
@@ -1357,132 +1430,132 @@ void YACAPP::appUserInsertOrUpdateSpace(const QString &id,
                                         QJSValue errorCallback)
 {
     network.appUserInsertOrUpdateSpace(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        id,
-        name,
-        access_code,
-        automatic,
-        request_allowed,
-        [this, id, successCallback](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject object(jsonDoc.object());
-            QJsonObject space(object["space"].toObject());
-            if (id.size())
-            {
-                SpaceObject *so(spacesModel.getById(id));
-                if (so)
-                {
-                    so->fromJSON(space);
-                }
-            }
-            else
-            {
-                SpaceObject *so(new SpaceObject);
-                so->fromJSON(space);
-                spacesModel.append(so);
-            }
-            successCallback.call(QJSValueList());
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                       appUserConfig()->loginEMail(),
+                                       appUserConfig()->loginToken(),
+                                       id,
+                                       name,
+                                       access_code,
+                                       automatic,
+                                       request_allowed,
+                                       [this, id, successCallback](const QJsonDocument &jsonDoc) mutable
+                                       {
+                                           QJsonObject object(jsonDoc.object());
+                                           QJsonObject space(object["space"].toObject());
+                                           if (id.size())
+                                           {
+                                               SpaceObject *so(spacesModel.getById(id));
+                                               if (so)
+                                               {
+                                                   so->fromJSON(space);
+                                               }
+                                           }
+                                           else
+                                           {
+                                               SpaceObject *so(new SpaceObject);
+                                               so->fromJSON(space);
+                                               spacesModel.append(so);
+                                           }
+                                           successCallback.call(QJSValueList());
+                                       },
+                                       [errorCallback](const QString &message) mutable
+                                       {
+                                           errorCallback.call(QJSValueList() << message);
+                                       }
+                                       );
 }
 
 void YACAPP::appUserDeleteSpace(const QString &id, QJSValue successCallback, QJSValue errorCallback)
 {
     network.appUserDeleteSpace(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        id,
-        [this, id, successCallback](const QString &message) mutable
-        {
-            spacesModel.deleteById(id);
-            successCallback.call(QJSValueList() << message);
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                               appUserConfig()->loginEMail(),
+                               appUserConfig()->loginToken(),
+                               id,
+                               [this, id, successCallback](const QString &message) mutable
+                               {
+                                   spacesModel.deleteById(id);
+                                   successCallback.call(QJSValueList() << message);
+                               },
+                               [errorCallback](const QString &message) mutable
+                               {
+                                   errorCallback.call(QJSValueList() << message);
+                               }
+                               );
 }
 
 void YACAPP::appUserFetchSpace(const QString &id, QJSValue successCallback, QJSValue errorCallback)
 {
     network.appUserFetchSpace(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        id,
-        [this, successCallback](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject object(jsonDoc.object());
-            QJsonObject space(object["space"].toObject());
-            QJsonArray member(space["member"].toArray());
-            m_currentFetchedIds.clear();
-            for (int i(0); i < member.size(); ++i)
-            {
-                m_currentFetchedIds.push_back(member[i].toString());
-            }
-            emit currentFetchedIdsChanged();
-            successCallback.call(QJSValueList());
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                              appUserConfig()->loginEMail(),
+                              appUserConfig()->loginToken(),
+                              id,
+                              [this, successCallback](const QJsonDocument &jsonDoc) mutable
+                              {
+                                  QJsonObject object(jsonDoc.object());
+                                  QJsonObject space(object["space"].toObject());
+                                  QJsonArray member(space["member"].toArray());
+                                  m_currentFetchedIds.clear();
+                                  for (int i(0); i < member.size(); ++i)
+                                  {
+                                      m_currentFetchedIds.push_back(member[i].toString());
+                                  }
+                                  emit currentFetchedIdsChanged();
+                                  successCallback.call(QJSValueList());
+                              },
+                              [errorCallback](const QString &message) mutable
+                              {
+                                  errorCallback.call(QJSValueList() << message);
+                              }
+                              );
 
 }
 
 void YACAPP::appUserRequestSpaceAccess(const QString space_id, QJSValue successCallback, QJSValue errorCallback)
 {
     network.appUserRequestSpaceAccess(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        space_id,
-        [successCallback](const QString &message) mutable
-        {
-            successCallback.call(QJSValueList() << message);
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        }
-        );
+                                      appUserConfig()->loginEMail(),
+                                      appUserConfig()->loginToken(),
+                                      space_id,
+                                      [successCallback](const QString &message) mutable
+                                      {
+                                          successCallback.call(QJSValueList() << message);
+                                      },
+                                      [errorCallback](const QString &message) mutable
+                                      {
+                                          errorCallback.call(QJSValueList() << message);
+                                      }
+                                      );
 }
 
 void YACAPP::fetchMyProfile(QJSValue successCallback,
                             QJSValue errorCallback)
 {
     network.appUserFetchMyProfile(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        [this, successCallback](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject profile(jsonDoc.object());
-            appUserConfig()->setFstname(profile[tableFields.fstname].toString() + "anna");
-            appUserConfig()->setSurname(profile[tableFields.surname].toString());
-            appUserConfig()->setVisibleName(profile[tableFields.visible_name].toString());
-            appUserConfig()->setProfileImageId(profile[tableFields.image_id].toString());
-            appUserConfig()->setSearchingExactlyAllowed(profile[tableFields.searching_exactly_allowed].toBool());
-            appUserConfig()->setSearchingFuzzyAllowed(profile[tableFields.searching_fuzzy_allowed].toBool());
-            QString s(profile[tableFields.color].toString());
-            DEFAULT_LOG(QString("color: ") +s);
-            appUserConfig()->setColor(coalesce(profile[tableFields.color].toString(), "orange"));
-            DEFAULT_LOG(QString("color: ") + appUserConfig()->color().name());
-            appUserConfig()->setMessageFontColor(coalesce(profile[tableFields.message_font_color].toString(), "black"));
-            successCallback.call(QJSValueList());
-        },
-        [this, errorCallback](const QString &message) mutable
-        {
-            if (message == "not logged in")
-            {
-                appUserLogout();
-            }
-            errorCallback.call(QJSValueList() << message);
-        });
+                                  appUserConfig()->loginEMail(),
+                                  appUserConfig()->loginToken(),
+                                  [this, successCallback](const QJsonDocument &jsonDoc) mutable
+                                  {
+                                      QJsonObject profile(jsonDoc.object());
+                                      appUserConfig()->setFstname(profile[tableFields.fstname].toString() + "anna");
+                                      appUserConfig()->setSurname(profile[tableFields.surname].toString());
+                                      appUserConfig()->setVisibleName(profile[tableFields.visible_name].toString());
+                                      appUserConfig()->setProfileImageId(profile[tableFields.image_id].toString());
+                                      appUserConfig()->setSearchingExactlyAllowed(profile[tableFields.searching_exactly_allowed].toBool());
+                                      appUserConfig()->setSearchingFuzzyAllowed(profile[tableFields.searching_fuzzy_allowed].toBool());
+                                      QString s(profile[tableFields.color].toString());
+                                      DEFAULT_LOG(QString("color: ") +s);
+                                      appUserConfig()->setColor(coalesce(profile[tableFields.color].toString(), "orange"));
+                                      DEFAULT_LOG(QString("color: ") + appUserConfig()->color().name());
+                                      appUserConfig()->setMessageFontColor(coalesce(profile[tableFields.message_font_color].toString(), "black"));
+                                      successCallback.call(QJSValueList());
+                                  },
+                                  [this, errorCallback](const QString &message) mutable
+                                  {
+                                      if (message == "not logged in")
+                                      {
+                                          appUserLogout();
+                                      }
+                                      errorCallback.call(QJSValueList() << message);
+                                  });
 }
 
 void YACAPP::minimizeMenue()
@@ -1509,129 +1582,129 @@ void YACAPP::fetchMessageUpdates()
         return;
     }
     network.appUserFetchMessageUpdates(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        serverNow(),
-        [this](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject object(jsonDoc.object());
-            QString sni(jsonDoc["serverNowISO"].toString());
-            setServerNow(QDateTime::fromString(sni, "yyyy-MM-ddThh:mm:ssZ"));
-            saveState();
-            QJsonArray spaceRequests(object["spaceRequests"].toArray());
-            for (int i(0); i < spaceRequests.size(); ++i)
-            {
-                const QJsonObject spaceRequest(spaceRequests[i].toObject());
-                SpaceRequestObject *sro(new SpaceRequestObject);
-                sro->fromJSON(spaceRequest);
-                NewsObject *no(new NewsObject);
-                sro->to(*no);
-                QString appuserId(sro->appuser_id());
-                spaceRequestsModel.append(sro);
-                newsModel.append(no);
+                                       appUserConfig()->loginEMail(),
+                                       appUserConfig()->loginToken(),
+                                       serverNow(),
+                                       [this](const QJsonDocument &jsonDoc) mutable
+                                       {
+                                           QJsonObject object(jsonDoc.object());
+                                           QString sni(jsonDoc["serverNowISO"].toString());
+                                           setServerNow(QDateTime::fromString(sni, "yyyy-MM-ddThh:mm:ssZ"));
+                                           saveState();
+                                           QJsonArray spaceRequests(object["spaceRequests"].toArray());
+                                           for (int i(0); i < spaceRequests.size(); ++i)
+                                           {
+                                               const QJsonObject spaceRequest(spaceRequests[i].toObject());
+                                               SpaceRequestObject *sro(new SpaceRequestObject);
+                                               sro->fromJSON(spaceRequest);
+                                               NewsObject *no(new NewsObject);
+                                               sro->to(*no);
+                                               QString appuserId(sro->appuser_id());
+                                               spaceRequestsModel.append(sro);
+                                               newsModel.append(no);
 
-                if (!knownProfilesModel.contains(appuserId))
-                {
-                    network.appUserFetchProfile(globalConfig()->projectID(),
-                        appUserConfig()->loginEMail(),
-                        appUserConfig()->loginToken(),
-                        appuserId,
-                        [this](const QJsonDocument &jsonDoc) mutable
-                        {
-                            QJsonObject profile(jsonDoc.object());
-                            ProfileObject *po(new ProfileObject);
-                            po->fromJSON(profile);
-                            if (knownProfilesModel.append(po))
-                            {
-                                localStorage->upsertKnownContact(*po);
-                            }
-                        },
-                        [](const QString &message) mutable
-                        {
-                            Q_UNUSED(message);
-                        });
-                }
-            }
+                                               if (!knownProfilesModel.contains(appuserId))
+                                               {
+                                                   network.appUserFetchProfile(globalConfig()->projectID(),
+                                                                               appUserConfig()->loginEMail(),
+                                                                               appUserConfig()->loginToken(),
+                                                                               appuserId,
+                                                                               [this](const QJsonDocument &jsonDoc) mutable
+                                                                               {
+                                                                                   QJsonObject profile(jsonDoc.object());
+                                                                                   ProfileObject *po(new ProfileObject);
+                                                                                   po->fromJSON(profile);
+                                                                                   if (knownProfilesModel.append(po))
+                                                                                   {
+                                                                                       localStorage->upsertKnownContact(*po);
+                                                                                   }
+                                                                               },
+                                                                               [](const QString &message) mutable
+                                                                               {
+                                                                                   Q_UNUSED(message);
+                                                                               });
+                                               }
+                                           }
 
-            QJsonArray messages(object["messages"].toArray());
-            for (int i(0); i < messages.size(); ++i)
-            {
-                const QJsonObject message(messages[i].toObject());
-                QByteArray content_base64(message["content_base64"].toString().toUtf8());
-                QByteArray content;
-                if (content_base64.contains("-"))
-                {
-                    content = content_base64;
-                }
-                else
-                {
-                    content = QByteArray::fromBase64(content_base64);
-                }
-                QString toId(message["to_id"].toString());
-                QString senderId(message["sender_id"].toString());
-                QString deleted_datetimeString(message[tableFields.deleted_datetime].toString());
-                QDateTime deleted_datetime(QDateTime::fromString(deleted_datetimeString, Qt::DateFormat::ISODateWithMs));
-                MessageObject *mo(new MessageObject(message["id"].toString(),
-                                                    senderId,
-                                                    toId,
-                                                    QDateTime::currentDateTime(),
-                                                    QDateTime::currentDateTime(),
-                                                    deleted_datetime,
-                                                    content,
-                                                    false,
-                                                    appUserConfig()->getPrivateKey()));
-                bool inserted(false);
-                bool updated(false);
-                localStorage->upsertMessage(*mo, inserted, updated);
-                if (inserted)
-                {
-                    if (mo->deleted_datetime().isNull() && !mo->read())
-                    {
-                        if (senderId != appUserConfig()->id())
-                        {
-                            if (!knownProfilesModel.incUnreadMessages(senderId))
-                            {
-                                network.appUserFetchProfile(globalConfig()->projectID(),
-                                    appUserConfig()->loginEMail(),
-                                    appUserConfig()->loginToken(),
-                                    senderId,
-                                    [this](const QJsonDocument &jsonDoc) mutable
-                                    {
-                                        QJsonObject profile(jsonDoc.object());
-                                        ProfileObject *po(new ProfileObject);
-                                        po->fromJSON(profile);
-                                        if (knownProfilesModel.append(po))
-                                        {
-                                            localStorage->upsertKnownContact(*po);
-                                            knownProfilesModel.incUnreadMessages(po->id());
-                                        }
-                                    },
-                                    [](const QString &message) mutable
-                                    {
-                                        Q_UNUSED(message);
-                                    });
-                            }
-                        }
-                    }
-                }
-                if (messagesModel.profileId() == senderId)
-                {
-                    if (mo->deleted_datetime().isValid())
-                    {
-                        messagesModel.removeById(mo->id());
-                    }
-                    else
-                    {
-                        messagesModel.append(mo);
-                    }
-                }
-            }
-        },
-        [](const QString &message) mutable
-        {
-            Q_UNUSED(message);
-        }
-        );
+                                           QJsonArray messages(object["messages"].toArray());
+                                           for (int i(0); i < messages.size(); ++i)
+                                           {
+                                               const QJsonObject message(messages[i].toObject());
+                                               QByteArray content_base64(message["content_base64"].toString().toUtf8());
+                                               QByteArray content;
+                                               if (content_base64.contains("-"))
+                                               {
+                                                   content = content_base64;
+                                               }
+                                               else
+                                               {
+                                                   content = QByteArray::fromBase64(content_base64);
+                                               }
+                                               QString toId(message["to_id"].toString());
+                                               QString senderId(message["sender_id"].toString());
+                                               QString deleted_datetimeString(message[tableFields.deleted_datetime].toString());
+                                               QDateTime deleted_datetime(QDateTime::fromString(deleted_datetimeString, Qt::DateFormat::ISODateWithMs));
+                                               MessageObject *mo(new MessageObject(message["id"].toString(),
+                                                                                   senderId,
+                                                                                   toId,
+                                                                                   QDateTime::currentDateTime(),
+                                                                                   QDateTime::currentDateTime(),
+                                                                                   deleted_datetime,
+                                                                                   content,
+                                                                                   false,
+                                                                                   appUserConfig()->getPrivateKey()));
+                                               bool inserted(false);
+                                               bool updated(false);
+                                               localStorage->upsertMessage(*mo, inserted, updated);
+                                               if (inserted)
+                                               {
+                                                   if (mo->deleted_datetime().isNull() && !mo->read())
+                                                   {
+                                                       if (senderId != appUserConfig()->id())
+                                                       {
+                                                           if (!knownProfilesModel.incUnreadMessages(senderId))
+                                                           {
+                                                               network.appUserFetchProfile(globalConfig()->projectID(),
+                                                                                           appUserConfig()->loginEMail(),
+                                                                                           appUserConfig()->loginToken(),
+                                                                                           senderId,
+                                                                                           [this](const QJsonDocument &jsonDoc) mutable
+                                                                                           {
+                                                                                               QJsonObject profile(jsonDoc.object());
+                                                                                               ProfileObject *po(new ProfileObject);
+                                                                                               po->fromJSON(profile);
+                                                                                               if (knownProfilesModel.append(po))
+                                                                                               {
+                                                                                                   localStorage->upsertKnownContact(*po);
+                                                                                                   knownProfilesModel.incUnreadMessages(po->id());
+                                                                                               }
+                                                                                           },
+                                                                                           [](const QString &message) mutable
+                                                                                           {
+                                                                                               Q_UNUSED(message);
+                                                                                           });
+                                                           }
+                                                       }
+                                                   }
+                                               }
+                                               if (messagesModel.profileId() == senderId)
+                                               {
+                                                   if (mo->deleted_datetime().isValid())
+                                                   {
+                                                       messagesModel.removeById(mo->id());
+                                                   }
+                                                   else
+                                                   {
+                                                       messagesModel.append(mo);
+                                                   }
+                                               }
+                                           }
+                                       },
+                                       [](const QString &message) mutable
+                                       {
+                                           Q_UNUSED(message);
+                                       }
+                                       );
 }
 
 void YACAPP::loadMessages(const QString &contactId)
@@ -1681,19 +1754,19 @@ void YACAPP::sendMessage(const QString &profileId,
     ProfileObject &receiver(knownProfilesModel.getById(profileId));
 
     network.appUserStoreMessage(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        mo->id(),
-        mo->receiverId(),
-        mo->encryptToBase64(receiver.public_key_base64()),
-        [](const QString &message)
-        {
-            Q_UNUSED(message);
-        },
-        [](const QString &message)
-        {
-            Q_UNUSED(message);
-        });
+                                appUserConfig()->loginEMail(),
+                                appUserConfig()->loginToken(),
+                                mo->id(),
+                                mo->receiverId(),
+                                mo->encryptToBase64(receiver.public_key_base64()),
+                                [](const QString &message)
+                                {
+                                    Q_UNUSED(message);
+                                },
+                                [](const QString &message)
+                                {
+                                    Q_UNUSED(message);
+                                });
 }
 
 QString YACAPP::storeMessageImage(const QString &imageFilename, int widht, int height)
@@ -1714,15 +1787,15 @@ QString YACAPP::storeMessageImage(const QString &imageFilename, int widht, int h
     t0028.settransfer_image_base64(imageData);
     DEFAULT_LOG(QString("imageData.size(): ") + QString::number(imageData.size()));
     network.appUserPostORM(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        t0028,
-        [](const QJsonDocument &document){
-            Q_UNUSED(document)
-        },
-        [](const QString &message){
-            Q_UNUSED(message)
-        });
+                           appUserConfig()->loginEMail(),
+                           appUserConfig()->loginToken(),
+                           t0028,
+                           [](const QJsonDocument &document){
+                               Q_UNUSED(document)
+                           },
+                           [](const QString &message){
+                               Q_UNUSED(message)
+                           });
     return t0028.id();
 }
 
@@ -1732,34 +1805,34 @@ void YACAPP::deleteMessage(const QString &messageId)
     query.addQueryItem("id", messageId);
 
     network.yacappServerDelete(tableNames.t0007_messages,
-        query,
-        globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        [this, messageId](const QJsonDocument &document){
-            Q_UNUSED(document)
-            messagesModel.removeById(messageId);
-            localStorage->deleteMessage(messageId);
-        },
-        [](const QString &message){
-            Q_UNUSED(message)
-        });
+                               query,
+                               globalConfig()->projectID(),
+                               appUserConfig()->loginEMail(),
+                               appUserConfig()->loginToken(),
+                               [this, messageId](const QJsonDocument &document){
+                                   Q_UNUSED(document)
+                                   messagesModel.removeById(messageId);
+                                   localStorage->deleteMessage(messageId);
+                               },
+                               [](const QString &message){
+                                   Q_UNUSED(message)
+                               });
 }
 
 void YACAPP::deleteAllMyMessages()
 {
     network.appUserDeleteAllMyMessages(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        [this](const QJsonDocument &document){
-            Q_UNUSED(document)
-            messagesModel.clear();
-            localStorage->deleteAllMessages();
-            ONLY_DESKTOP_LOG("all messages deleted");
-        },
-        [](const QString &message){
-            Q_UNUSED(message)
-        });
+                                       appUserConfig()->loginEMail(),
+                                       appUserConfig()->loginToken(),
+                                       [this](const QJsonDocument &document){
+                                           Q_UNUSED(document)
+                                           messagesModel.clear();
+                                           localStorage->deleteAllMessages();
+                                           ONLY_DESKTOP_LOG("all messages deleted");
+                                       },
+                                       [](const QString &message){
+                                           Q_UNUSED(message)
+                                       });
 }
 
 void YACAPP::addProfileToKnownProfiles(const QString &id)
@@ -1833,46 +1906,53 @@ QString YACAPP::getUuidCacheImageFilename(const QString &uuid) const
     return cacheImageFilename;
 }
 
+QString YACAPP::getCacheFile(const QString &fnameWithExtension) const
+{
+    QString cacheFilename(constants.getCachePath(globalConfig()->projectID()) + fnameWithExtension);
+    DEFAULT_LOG_VARIABLE(cacheFilename)
+    return cacheFilename;
+}
+
 #define STRING_FROM_JSON_OBJECT(field, jsonObject) \
 QString field(jsonObject[#field].toString())
 
     void YACAPP::fetchProfileAndUpsertKnownProfiles(const QString &profileId)
 {
     network.appUserFetchProfile(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        profileId,
-        [this](const QJsonDocument &jsonDoc) mutable
-        {
-            QJsonObject profile(jsonDoc.object());
-            STRING_FROM_JSON_OBJECT(id, profile);
-            STRING_FROM_JSON_OBJECT(image_id, profile);
-            STRING_FROM_JSON_OBJECT(visible_name, profile);
-            STRING_FROM_JSON_OBJECT(public_key_base64, profile);
-            if (knownProfilesModel.contains(id))
-            {
-                ProfileObject &po(knownProfilesModel.getById(id));
-                po.setProfileImageId(image_id);
-                po.setVisibleName(visible_name);
-                po.setPublic_key_base64(public_key_base64);
-                localStorage->upsertKnownContact(po);
-            }
-            return;
+                                appUserConfig()->loginEMail(),
+                                appUserConfig()->loginToken(),
+                                profileId,
+                                [this](const QJsonDocument &jsonDoc) mutable
+                                {
+                                    QJsonObject profile(jsonDoc.object());
+                                    STRING_FROM_JSON_OBJECT(id, profile);
+                                    STRING_FROM_JSON_OBJECT(image_id, profile);
+                                    STRING_FROM_JSON_OBJECT(visible_name, profile);
+                                    STRING_FROM_JSON_OBJECT(public_key_base64, profile);
+                                    if (knownProfilesModel.contains(id))
+                                    {
+                                        ProfileObject &po(knownProfilesModel.getById(id));
+                                        po.setProfileImageId(image_id);
+                                        po.setVisibleName(visible_name);
+                                        po.setPublic_key_base64(public_key_base64);
+                                        localStorage->upsertKnownContact(po);
+                                    }
+                                    return;
 
-            ProfileObject *po(new ProfileObject);
-            po->setId(id);
-            po->setVisibleName(visible_name);
-            po->setProfileImageId(image_id);
-            po->setPublic_key_base64(public_key_base64);
-            if (knownProfilesModel.append(po))
-            {
-                localStorage->upsertKnownContact(*po);
-            }
-        },
-        [](const QString &message) mutable
-        {
-            Q_UNUSED(message);
-        });
+                                    ProfileObject *po(new ProfileObject);
+                                    po->setId(id);
+                                    po->setVisibleName(visible_name);
+                                    po->setProfileImageId(image_id);
+                                    po->setPublic_key_base64(public_key_base64);
+                                    if (knownProfilesModel.append(po))
+                                    {
+                                        localStorage->upsertKnownContact(*po);
+                                    }
+                                },
+                                [](const QString &message) mutable
+                                {
+                                    Q_UNUSED(message);
+                                });
 }
 
 void YACAPP::deviceTokenChanged(QString deviceToken)
@@ -1890,17 +1970,17 @@ void YACAPP::deviceTokenChanged(QString deviceToken)
         return;
     }
     network.appUserUpdateDeviceToken(globalConfig()->projectID(),
-        appUserConfig()->loginEMail(),
-        appUserConfig()->loginToken(),
-        deviceToken,
-        [](const QString &message)
-        {
-            Q_UNUSED(message);
-        },
-        [](const QString &message)
-        {
-            Q_UNUSED(message);
-        });
+                                     appUserConfig()->loginEMail(),
+                                     appUserConfig()->loginToken(),
+                                     deviceToken,
+                                     [](const QString &message)
+                                     {
+                                         Q_UNUSED(message);
+                                     },
+                                     [](const QString &message)
+                                     {
+                                         Q_UNUSED(message);
+                                     });
 }
 
 void YACAPP::newMessages()

@@ -32,6 +32,17 @@ public:
     size_t size() const override;
     T *getById(const QString &id);
     void removeById(const QString &id);
+
+    // QAbstractItemModel interface
+protected:
+    typedef std::function<void(TemplatedDataModel<T> &)> fetchMoreFunctionPointer;
+    fetchMoreFunctionPointer theFetchMoreFunction = {0};
+    bool moreDataAvailable = {false};
+    void fetchMore(const QModelIndex &parent) override;
+    bool canFetchMore(const QModelIndex &parent) const override;
+public:
+    void setFetchMoreFuntion(fetchMoreFunctionPointer fmfp);
+    void lastObjectFetched();
 };
 
 #include "templateddatamodel.cpp"

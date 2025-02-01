@@ -268,5 +268,38 @@ bool Helper::validUuid(const QString &u) const
 QString Helper::extractFileNameWithExtension(const QString fullFileName) const
 {
     QFileInfo fi(fullFileName);
+    QString fn(fi.fileName());
     return fi.fileName();
 }
+
+int Helper::fileSize(const QString fullFileName) const
+{
+    QFileInfo fi(QUrl(fullFileName).toLocalFile());
+    return fi.size();
+}
+
+QString Helper::formatFileSize(int fileSize) const
+{
+    if (fileSize < 1024)
+    {
+        return QString::number(fileSize) + "B";
+    }
+    double fs(fileSize / 1024.0);
+    if (fs < 1024)
+    {
+        return QString::number(fs, 'f', 2) + "KB";
+    }
+    fs /= 1024;
+    if (fs < 1024)
+    {
+        return QString::number(fs, 'f', 2) + "MB";
+    }
+    fs /= 1024;
+    if (fs < 1024)
+    {
+        return QString::number(fs, 'f', 2) + "GB";
+    }
+    return "";
+}
+
+

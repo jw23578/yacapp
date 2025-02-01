@@ -67,6 +67,8 @@ public:
     Q_INVOKABLE bool validUuid(const QString &u) const;
 
     Q_INVOKABLE QString extractFileNameWithExtension(const QString fullFileName) const;
+    Q_INVOKABLE int fileSize(const QString fullFileName) const;
+    Q_INVOKABLE QString formatFileSize(int fileSize) const;
 
 signals:
 

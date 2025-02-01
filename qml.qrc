@@ -100,5 +100,10 @@
         <file>qml/apppages/documents/AppUserAddDocuments.qml</file>
         <file>qml/items/AppPageColumn.qml</file>
         <file>qml/items/AppPageListView.qml</file>
+        <file>qml/apppages/documents/AppUserDocumentsViewPdf.qml</file>
+        <file>qml/apppages/documents/AppUserDocumentsViewImage.qml</file>
+        <file>qml/items/YACTextDeleteable.qml</file>
+        <file>qml/items/AppPageGridView.qml</file>
+        <file>qml/items/AppPageGridLayout.qml</file>
     </qresource>
 </RCC>

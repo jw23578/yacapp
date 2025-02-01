@@ -268,11 +268,17 @@ public:
 
     Q_INVOKABLE void appUserDeleteDocument(const QString &id,
                                            QJSValue errorCallback);
+    Q_INVOKABLE void appUserFetchDocument(QString const id,
+                                          const QString document_name,
+                                          const QString document_type,
+                                          QJSValue successCallback,
+                                          QJSValue errorCallback);
     Q_INVOKABLE void appUserFetchDocuments(int offset,
                                            int limit,
                                            QJSValue successCallback,
                                            QJSValue errorCallback);
     Q_INVOKABLE void appUserPostDocument(const QUrl fileUrl,
+                                         const QStringList keywords,
                                          QJSValue successCallback,
                                          QJSValue errorCallback);
 
@@ -356,6 +362,7 @@ public:
     Q_INVOKABLE QString getNewProfileImageFilename();
     Q_INVOKABLE QString getCacheImageFilename() const;
     Q_INVOKABLE QString getUuidCacheImageFilename(const QString &uuid) const;
+    QString getCacheFile(const QString &fnameWithExtension) const;
 
     Q_INVOKABLE void fetchProfileAndUpsertKnownProfiles(const QString &profileId);
 

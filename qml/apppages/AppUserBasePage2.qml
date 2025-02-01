@@ -15,6 +15,24 @@ Rectangle
         waitTimer.start()
     }
 
+    function closePage()
+    {
+        if (enableBack)
+        {
+            closeClicked()
+            return
+        }
+
+        if (yacApp.superMenueMinized)
+        {
+            yacApp.restoreMenue()
+        }
+        else
+        {
+            yacApp.minimizeMenue()
+        }
+    }
+
     signal closeClicked();
     signal leftClicked();
     property bool enableBack: false
@@ -90,23 +108,6 @@ Rectangle
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.top: theHeightInfoTextEdit.top
-        onClicked:
-        {
-            if (enableBack)
-            {
-                closeClicked()
-                return
-            }
-
-            if (yacApp.superMenueMinized)
-            {
-                yacApp.restoreMenue()
-            }
-            else
-            {
-                yacApp.minimizeMenue()
-            }
-        }
-
+        onClicked: closePage()
     }
 }

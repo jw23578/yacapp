@@ -30,6 +30,23 @@ AppUserBasePage2
             onCloseClicked: theLoader.sourceComponent = null
         }
     }
+    Component
+    {
+        id: appUserDocumentsViewPdf
+        AppUserDocumentsViewPdf
+        {
+            onCloseClicked: theViewDocumentLoader.sourceComponent = null
+        }
+    }
+    Component
+    {
+        id: appUserDocumentsViewImage
+        AppUserDocumentsViewImage
+        {
+            onCloseClicked: theViewDocumentLoader.sourceComponent = null
+        }
+    }
+
     AppPageListView
     {
         id: theListview
@@ -50,13 +67,83 @@ AppUserBasePage2
             {
                 YACText
                 {
-                    text: document.document_name
+                    text: document.document_type + " " + document.document_name
                 }
                 YACText
                 {
                     text: Helper.formatDateLong(document.created_datetime) + " um " + Helper.formatTime(document.created_datetime)
                 }
+                YACText
+                {
+                    text: Helper.formatFileSize(document.document_size)
+                }
             }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: {
+                    if (document.document_type != "pdf" && document.document_type != "png")
+                    {
+                        CPPQMLAppAndConfigurator.badMessage(document.document_type + qsTr(" is currently not supported."), null, null)
+                        return;
+                    }
+                    onClicked: yacApp.appUserFetchDocument(document.id,
+                                                           document.document_name,
+                                                           document.document_type,
+                                                           function(message)
+                                                           {
+                                                               theViewDocumentLoader.fileName = "file:" + message
+                                                               if (document.document_type == "pdf")
+                                                               {
+                                                                    theViewDocumentLoader.sourceComponent = appUserDocumentsViewPdf
+                                                               }
+                                                               if (document.document_type == "png")
+                                                               {
+                                                                    theViewDocumentLoader.sourceComponent = appUserDocumentsViewImage
+                                                               }
+
+
+                                                           },
+                                                           function(message)
+                                                           {
+                                                               CPPQMLAppAndConfigurator.badMessage(qsTr("could not download document, please try again later. ") + message, null, null)
+                                                           }
+                                                           )
+
+                }
+            }
+
+            Item
+            {
+                id: downloadItem
+                anchors.right: deleteItem.left
+                anchors.verticalCenter: parent.verticalCenter
+                width: parent.height / 2
+                height: width
+                Image
+                {
+                    mipmap: true
+                    anchors.fill: parent
+                    source: "qrc:/images/images/download.svg"
+                }
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked: yacApp.appUserFetchDocument(document.id,
+                                                           document.document_name,
+                                                           document.document_type,
+                                                           function(message)
+                                                           {
+                                                               Helper.jsLog(message);
+                                                           },
+                                                           function(message)
+                                                           {
+                                                               CPPQMLAppAndConfigurator.badMessage(qsTr("could not download document, please try again later. ") + message, null, null)
+                                                           }
+                                                           )
+                }
+            }
+
             Item
             {
                 id: deleteItem
@@ -90,9 +177,18 @@ AppUserBasePage2
         }
 
     }
+    Loader
+    {
+        z: 2
+        id: theViewDocumentLoader
+        anchors.fill: parent
+        property string fileName: ""
+        onLoaded: item.source = fileName
+    }
 
     Loader
     {
+        z: 2
         anchors.fill: parent
         id: theLoader
     }
