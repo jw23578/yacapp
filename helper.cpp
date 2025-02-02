@@ -302,4 +302,9 @@ QString Helper::formatFileSize(int fileSize) const
     return "";
 }
 
+QString Helper::decodeBase64(const QString &encoded) const
+{
+    return QByteArray::fromBase64(encoded.toLatin1());
+}
+
 

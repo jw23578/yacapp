@@ -70,6 +70,8 @@ public:
     Q_INVOKABLE int fileSize(const QString fullFileName) const;
     Q_INVOKABLE QString formatFileSize(int fileSize) const;
 
+    Q_INVOKABLE QString decodeBase64(const QString &encoded) const;
+
 signals:
 
 };

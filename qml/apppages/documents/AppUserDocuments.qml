@@ -49,7 +49,7 @@ AppUserBasePage2
     YACLineEditWithHeader
     {
         id: needle
-        headerText: "Suche"
+        headerText: qsTr("Suche (mit Leerzeichen trennen)")
         width: theListview.width
         anchors.horizontalCenter: parent.horizontalCenter
         onDisplayTextChanged: yacApp.appUserFetchDocuments(needle.text,
@@ -62,7 +62,9 @@ AppUserBasePage2
     {
         id: countLabel
         anchors.top: needle.bottom
-        text: "Anzahl: " + DocumentsModel.count + " " + theListview.count
+        width: theListview.width
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: qsTr("Anzahl: ") + theListview.count
     }
 
     AppPageListView
@@ -95,6 +97,10 @@ AppUserBasePage2
                 YACText
                 {
                     text: Helper.formatFileSize(document.document_size)
+                }
+                YACText
+                {
+                    text: Helper.decodeBase64(document.transfer_comma_separated_catchphrases_base64)
                 }
             }
             MouseArea
