@@ -103,6 +103,7 @@ template<class T>
 void TemplatedDataModel<T>::internalClear()
 {
     objects.clear();
+    moreDataAvailable = true;
 }
 
 template<class T>

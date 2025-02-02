@@ -46,10 +46,29 @@ AppUserBasePage2
             onCloseClicked: theViewDocumentLoader.sourceComponent = null
         }
     }
+    YACLineEditWithHeader
+    {
+        id: needle
+        headerText: "Suche"
+        width: theListview.width
+        anchors.horizontalCenter: parent.horizontalCenter
+        onDisplayTextChanged: yacApp.appUserFetchDocuments(needle.text,
+                                                           0,
+                                                           10,
+                                                           function(message) {},
+                                                           function(message) {})
+    }
+    YACText
+    {
+        id: countLabel
+        anchors.top: needle.bottom
+        text: "Anzahl: " + DocumentsModel.count + " " + theListview.count
+    }
 
     AppPageListView
     {
         id: theListview
+        anchors.top: countLabel.bottom
         anchors.bottom: bottomRectangle.top
         model: DocumentsModel
         displaced: Transition {
@@ -176,7 +195,7 @@ AppUserBasePage2
 
         }
 
-    }
+    }    
     Loader
     {
         z: 2

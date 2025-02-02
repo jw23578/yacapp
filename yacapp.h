@@ -137,20 +137,20 @@ class YACAPP : public QObject
                                 appUserConfig()->loginToken(),
                                 ormName, needles,
                                 [this, ormName, &modelToAdd, successCallback](const QJsonDocument &jsonDoc) mutable
-        {
-            modelToAdd.clear();
-            QJsonObject jsonObject(jsonDoc.object());
-            QJsonArray array(jsonObject[ormName].toArray());
-            for (int i(0); i < array.size(); ++i)
-            {
-                modelToAdd.append(orm2json.fromJson(array[i].toObject(), factory));
-            }
-            successCallback.call(QJSValueList());
-        },
-        [errorCallback](const QString &message) mutable
-        {
-            errorCallback.call(QJSValueList() << message);
-        });
+                                {
+                                    modelToAdd.clear();
+                                    QJsonObject jsonObject(jsonDoc.object());
+                                    QJsonArray array(jsonObject[ormName].toArray());
+                                    for (int i(0); i < array.size(); ++i)
+                                    {
+                                        modelToAdd.append(orm2json.fromJson(array[i].toObject(), factory));
+                                    }
+                                    successCallback.call(QJSValueList());
+                                },
+                                [errorCallback](const QString &message) mutable
+                                {
+                                    errorCallback.call(QJSValueList() << message);
+                                });
     }
 
     QString coalesce(const QString &s, const QString &ifEmpty) const;
@@ -273,7 +273,9 @@ public:
                                           const QString document_type,
                                           QJSValue successCallback,
                                           QJSValue errorCallback);
-    Q_INVOKABLE void appUserFetchDocuments(int offset,
+    QString currentFetchDocumentsNeedle;
+    Q_INVOKABLE void appUserFetchDocuments(const QString &needle,
+                                           int offset,
                                            int limit,
                                            QJSValue successCallback,
                                            QJSValue errorCallback);

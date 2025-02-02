@@ -150,9 +150,9 @@ void DataModelInterface<T>::clear()
     {
         return;
     }
-    beginRemoveRows(QModelIndex(), 0, size() - 1);
+    beginResetModel();
     internalClear();
-    endRemoveRows();
+    endResetModel();
 }
 
 template<class T>

@@ -111,7 +111,8 @@ Item
         }
         onOpenDocuments: {
             theRealMenue.close()
-            yacApp.appUserFetchDocuments(0,
+            yacApp.appUserFetchDocuments("",
+                                         0,
                                          10,
                                          function(message)
             {

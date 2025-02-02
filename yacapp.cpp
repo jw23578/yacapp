@@ -48,7 +48,7 @@ YACAPP::YACAPP(QQmlApplicationEngine &engine
 {
     documentsModel.setFetchMoreFuntion([this](TemplatedDataModel<t0030_documents> &target)
                                        {
-        appUserFetchDocuments(target.size(), 10, QJSValue::NullValue, QJSValue::NullValue);
+        appUserFetchDocuments(currentFetchDocumentsNeedle, target.size(), 10, QJSValue::NullValue, QJSValue::NullValue);
     });
     network.acceptErrors("/getAPP", 3);
     network.acceptErrors("/fetchMessageUpdates", 100);
@@ -1100,9 +1100,9 @@ void YACAPP::appUserFetchDocument(QString const id,
                                     documentFile.write(QByteArray::fromBase64(t0030->transfer_document_base64().toUtf8()));
                                 }
                                 {
-                                QFile idFile(idFilename);
-                                idFile.open(QIODeviceBase::WriteOnly);
-                                idFile.write(documentFilename.toUtf8());
+                                    QFile idFile(idFilename);
+                                    idFile.open(QIODeviceBase::WriteOnly);
+                                    idFile.write(documentFilename.toUtf8());
                                 }
                                 successCallback.call(QJSValueList() << documentFilename);
                             },
@@ -1113,19 +1113,34 @@ void YACAPP::appUserFetchDocument(QString const id,
                             );
 }
 
-void YACAPP::appUserFetchDocuments(int offset,
+void YACAPP::appUserFetchDocuments(const QString &needle,
+                                   int offset,
                                    int limit,
                                    QJSValue successCallback,
                                    QJSValue errorCallback)
 {
+    bool clearTheModel(false);
+    if (currentFetchDocumentsNeedle != needle)
+    {
+        clearTheModel = true;
+        currentFetchDocumentsNeedle = needle;
+    }
     std::map<QString, QString> params = {{"offset", QString::number(offset)}, {"limit", QString::number(limit)}};
+    if (currentFetchDocumentsNeedle.size())
+    {
+        params["needle"] = currentFetchDocumentsNeedle;
+    }
     network.appUserFetchORM(globalConfig()->projectID(),
                             appUserConfig()->loginEMail(),
                             appUserConfig()->loginToken(),
                             t0030_documents().getORMName(),
                             params,
-                            [this, limit, successCallback](const QJsonDocument &jsonDoc) mutable
+                            [this, clearTheModel, limit, successCallback](const QJsonDocument &jsonDoc) mutable
                             {
+                                if (clearTheModel)
+                                {
+                                    documentsModel.clear();
+                                }
                                 QJsonObject object(jsonDoc.object());
                                 QJsonArray documents(object["documents"].toArray());
                                 for (int i(0); i < documents.size(); ++i)
