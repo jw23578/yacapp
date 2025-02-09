@@ -8,6 +8,7 @@ AppUserBasePage2
 {
 
     id: theProfilePage
+    theFocusObject: fstname
     signal logout()
     multiMenueButton.visible: true
     multiMenueButton.model: [{caption: qsTr("Logout")},

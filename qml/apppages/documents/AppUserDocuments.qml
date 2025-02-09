@@ -5,6 +5,7 @@ import ".."
 AppUserBasePage2
 {
     id: documentsPage
+    theFocusObject: needle
 
     multiMenueButton.visible: true
     multiMenueButton.model: [{caption: qsTr("Add Documents")},

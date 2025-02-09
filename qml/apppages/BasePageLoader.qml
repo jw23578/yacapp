@@ -66,8 +66,12 @@ Loader
         opened()
         if (status == Loader.Ready)
         {
-           item.multiMenueButton.moveIn()
-           item.arrowButton.visible = true
+            item.multiMenueButton.moveIn()
+            item.arrowButton.visible = true
+            if (item.theFocusObject !== null)
+            {
+                item.theFocusObject.forceActiveFocus()
+            }
         }
         yacApp.minimizeMenue()
     }
@@ -84,6 +88,12 @@ Loader
             item.arrowButton.visible = false
         }
     }
-    onLoaded: item.multiMenueButton.moveIn()
+    onLoaded: {
+        item.multiMenueButton.moveIn()
+        if (item.theFocusObject !== null)
+        {
+            item.theFocusObject.forceActiveFocus()
+        }
+    }
     onSourceComponentChanged: Constants.superMenueClicked = sourceComponent != null
 }

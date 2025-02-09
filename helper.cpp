@@ -63,7 +63,7 @@ QString Helper::fillUpLeft(QString t, int length, QString fillUp) const
 
 QString Helper::formatTime(const QDateTime &dt) const
 {
-    return dt.toString(QLocale::system().timeFormat(QLocale::ShortFormat));
+    return QLocale::system().toString(dt.time(), QLocale::ShortFormat);
 }
 
 QString Helper::formatTimeWithDateShortIfNeeded(const QDateTime &dt, const QDateTime &other) const
@@ -77,17 +77,17 @@ QString Helper::formatTimeWithDateShortIfNeeded(const QDateTime &dt, const QDate
 
 QString Helper::formatDateShort(const QDateTime &dt) const
 {
-    return dt.toString(QLocale::system().dateFormat(QLocale::ShortFormat));
+    return QLocale::system().toString(dt.date(), QLocale::ShortFormat);
 }
 
 QString Helper::formatDateLong(const QDateTime &dt) const
 {
-    return dt.toString(QLocale::system().dateFormat(QLocale::LongFormat));
+    return QLocale::system().toString(dt.date(), QLocale::LongFormat);
 }
 
 QString Helper::nameOfWeekDay(const QDateTime &dt) const
 {
-    return dt.toString("dddd");
+    return QLocale::system().toString(dt.date(), "dddd");
 }
 
 QString Helper::formatDateTime(const QDateTime &dt) const

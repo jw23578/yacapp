@@ -4,6 +4,7 @@ import "../menue"
 
 Rectangle
 {
+    property var theFocusObject: null
     color: Constants.backgroundColor
     width: parent.width
     MouseArea
