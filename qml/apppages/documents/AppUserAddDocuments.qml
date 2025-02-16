@@ -34,6 +34,7 @@ AppUserBasePage2
             theUploadRectangle.visible = true
         }
     }
+
     AppPageColumn
     {
         YACButton
@@ -54,10 +55,21 @@ AppUserBasePage2
             }
             width: parent.width
         }
+        YACButton
+        {
+            text: qsTr("Take Picture")
+            onClicked: yacApp.goTakePhoto(true, true, originalSizeImage)
+            width: parent.width
+        }
     }
-    ListModel
+    Image
     {
-        id: theKeywordModel
+        id: originalSizeImage
+        visible: false
+        onSourceChanged: {
+            theUploadRectangle.visible = true
+            visibleImage.source = source
+        }
     }
 
     Rectangle
@@ -65,84 +77,37 @@ AppUserBasePage2
         visible: false
         anchors.fill: parent
         id: theUploadRectangle
+        YACKeywordsEditor
+        {
+            id: theKeywordsEditor
+        }
         YACLineEditWithHeader
         {
-            id: keywordsEdit
-            headerText: qsTr("Keywords")
-            function appendKeyword(keyword)
-            {
-                for (var i = 0; i < theKeywordModel.count; ++i)
-                {
-                    var kw = theKeywordModel.get(i).keyword
-                    if (kw == keyword)
-                    {
-                        return
-                    }
-                }
-                theKeywordModel.append({"keyword": keyword})
-
-            }
-
-            Keys.onReturnPressed:  {
-                var s = displayText.trim()
-                if (s.length == 0)
-                {
-                    return
-                }
-                appendKeyword(s)
-                text = ""
-            }
-            Keys.onEnterPressed:  {
-                var s = displayText.trim()
-                if (s.length == 0)
-                {
-                    return
-                }
-                appendKeyword(s)
-                text = ""
-            }
-
-            onDisplayTextChanged: {
-                var s = displayText
-                if (s.toLowerCase() != s)
-                {
-                    text = s.toLowerCase()
-                    return
-                }
-
-                if (s.trim().length <= 1)
-                {
-                    return
-                }
-                var delimiter = ' ,;';
-                if (delimiter.indexOf(s[s.length - 1]) == -1)
-                {
-                    return
-                }
-                var keyword = s.substring(0, s.length - 1).trim()
-                text = ""
-                appendKeyword(keyword)
-            }
+            id: theFilename
+            headerText: qsTr("Filename (without extension)")
+            anchors.top: theKeywordsEditor.bottom
+            visible: visibleImage.visible
         }
-        AppPageListView
+
+        YACImage
         {
-            id: keywordsView
-            anchors.top: keywordsEdit.bottom
-            model: theKeywordModel
-            delegate: YACTextDeleteable
-            {
-                text: keyword
-                onDeleteClicked: theKeywordModel.remove(index)
+            width: parent.width
+            anchors.top: theFilename.bottom
+            anchors.bottom: bottomButtons.top
+            id: visibleImage
+            visible: false
+            onSourceChanged: {
+                visible = true
             }
-            height: contentHeight
         }
 
         AppPageListView
         {
             id: theUploadView
             model: theUploadModel
-            anchors.top: keywordsView.bottom
+            anchors.top: theKeywordsEditor.bottom
             anchors.bottom: bottomButtons.top
+            visible: !visibleImage.visible
             delegate:
                 Rectangle
             {
@@ -172,28 +137,57 @@ AppUserBasePage2
             rightText: qsTr("Abort")
             onRightClicked: theUploadRectangle.visible = false
             onLeftClicked: {
-                var keywords = []
-                for (var i = 0; i < theKeywordModel.count; ++i)
+                var keywords = theKeywordsEditor.getKeywords()
+                if (visibleImage.visible)
                 {
-                    keywords.push(theKeywordModel.get(i).keyword)
-                }
+                    var niceFilename = theFilename.displayText
+                    if (niceFilename == "")
+                    {
+                        CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter a filename"), theFilename, null)
+                        return
+                    }
 
-                for (var i = 0; i < theUploadModel.count; ++i)
+                    originalSizeImage.grabToImage(function(result)
+                    {
+                        var filename = yacApp.getCacheImageFilename();
+                        result.saveToFile(filename)
+                        yacApp.appUserPostDocument("file:" + filename,
+                                                   niceFilename,
+                                                   keywords,
+                                                   function(message)
+                                                   {
+                                                       CPPQMLAppAndConfigurator.goodMessage(message, null, null)
+                                                   },
+                                                   function(message)
+                                                   {
+                                                       CPPQMLAppAndConfigurator.badMessage(message, null. null)
+                                                   }
+                                                   )
+
+                        closePage()
+                    }
+                    )
+                }
+                else
                 {
-                    yacApp.appUserPostDocument(theUploadModel.get(i).fileUrl,
-                                               keywords,
-                                               function(message)
-                                               {
-                                                   CPPQMLAppAndConfigurator.goodMessage(message, null)
-                                               },
-                                               function(message)
-                                               {
-                                                   CPPQMLAppAndConfigurator.badMessage(message, null)
-                                               }
-                                               )
+                    for (var i = 0; i < theUploadModel.count; ++i)
+                    {
+                        yacApp.appUserPostDocument(theUploadModel.get(i).fileUrl,
+                                                   "",
+                                                   keywords,
+                                                   function(message)
+                                                   {
+                                                       CPPQMLAppAndConfigurator.goodMessage(message, null)
+                                                   },
+                                                   function(message)
+                                                   {
+                                                       CPPQMLAppAndConfigurator.badMessage(message, null)
+                                                   }
+                                                   )
 
+                    }
+                    closePage()
                 }
-                closePage()
             }
         }
     }

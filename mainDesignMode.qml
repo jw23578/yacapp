@@ -6,6 +6,7 @@ import "qml"
 import "qrc:/qml/items"
 import "qml/editor"
 import "qml/dialogs"
+import "qml/apppages"
 
 Window {
     width: 1280
@@ -230,6 +231,13 @@ Window {
     Connections
     {
         target: configurator
+        function onTakePhoto(squared, circled, target)
+        {
+            photoLoader.circled = circled
+            photoLoader.squared = squared
+            photoLoader.target = target
+            photoLoader.sourceComponent = photoComponent
+        }
         function onAddFileSignal(okCallback)
         {
             dialogAddFile.okCallback = okCallback
@@ -241,6 +249,40 @@ Window {
             theImageFileDialog.open()
         }
     }
+
+    Component
+    {
+        id: photoComponent
+        YACPhoto
+        {
+            onAbortClicked:
+            {
+                photoLoader.sourceComponent = null
+            }
+            onOkClicked: function(image)
+            {
+                target.source = ""
+                console.log("image.source: " + image.source)
+                target.source = image.source
+                photoLoader.sourceComponent = null
+            }
+        }
+    }
+
+    Loader
+    {
+        id: photoLoader
+        property bool squared: false
+        property bool circled: false
+        property var target: null
+        anchors.fill: parent
+        onLoaded:
+        {
+            item.circled = circled
+            item.squared = squared
+        }
+    }
+
     Component.onCompleted:
     {
         Constants.appTotalWidth = mainFormLoader.width

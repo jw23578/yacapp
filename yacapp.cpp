@@ -1166,6 +1166,7 @@ void YACAPP::appUserFetchDocuments(const QString &needle,
 }
 
 void YACAPP::appUserPostDocument(const QUrl fileUrl,
+                                 const QString niceFilename,
                                  const QStringList keywords,
                                  QJSValue successCallback,
                                  QJSValue errorCallback)
@@ -1194,7 +1195,7 @@ void YACAPP::appUserPostDocument(const QUrl fileUrl,
     t0030->settransfer_document_base64(data);
     t0030->setcreated_datetime(QDateTime::currentDateTime());
     QFileInfo fileInfo(fileUrl.toLocalFile());
-    t0030->setdocument_name(fileInfo.baseName());
+    t0030->setdocument_name(niceFilename.size() ? niceFilename : fileInfo.baseName());
     t0030->setdocument_type(fileInfo.completeSuffix());
     t0030->setdocument_size(fileInfo.size());
     t0030->setdocument_version(1);

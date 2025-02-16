@@ -105,5 +105,6 @@
         <file>qml/items/YACTextDeleteable.qml</file>
         <file>qml/items/AppPageGridView.qml</file>
         <file>qml/items/AppPageGridLayout.qml</file>
+        <file>qml/items/YACKeywordsEditor.qml</file>
     </qresource>
 </RCC>

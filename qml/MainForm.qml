@@ -156,6 +156,13 @@ Item
     Connections
     {
         target: yacApp
+        function onTakePhoto(squared, circled, target)
+        {
+            photoLoader.circled = circled
+            photoLoader.squared = squared
+            photoLoader.target = target
+            photoLoader.sourceComponent = photoComponent
+        }
         function onMinimizeMenueSignal()
         {
             console.log("onMinimizeMenueSignal contentItem.parent.height: " + theItem.height)

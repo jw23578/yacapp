@@ -87,6 +87,7 @@ AppUserBasePage2
             height: 100
             Column
             {
+                width: parent.width
                 YACText
                 {
                     text: document.document_type + " " + document.document_name
@@ -108,7 +109,9 @@ AppUserBasePage2
             {
                 anchors.fill: parent
                 onClicked: {
-                    if (document.document_type != "pdf" && document.document_type != "png")
+                    var imageTypes = ["png", "jpg"]
+                    if (document.document_type != "pdf"
+                            && imageTypes.indexOf(document.document_type) -1)
                     {
                         CPPQMLAppAndConfigurator.badMessage(document.document_type + qsTr(" is currently not supported."), null, null)
                         return;
@@ -123,7 +126,7 @@ AppUserBasePage2
                                                                {
                                                                     theViewDocumentLoader.sourceComponent = appUserDocumentsViewPdf
                                                                }
-                                                               if (document.document_type == "png")
+                                                               if (imageTypes.indexOf(document.document_type) != -1)
                                                                {
                                                                     theViewDocumentLoader.sourceComponent = appUserDocumentsViewImage
                                                                }

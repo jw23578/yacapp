@@ -78,7 +78,7 @@ AppUserBasePage2
                         MouseArea
                         {
                             anchors.fill: parent
-                            onClicked: yacApp.takePhoto(true, true, originalSizeProfileImage)
+                            onClicked: yacApp.goTakePhoto(true, true, originalSizeProfileImage)
                         }
                     }
                     Image

@@ -280,6 +280,7 @@ public:
                                            QJSValue successCallback,
                                            QJSValue errorCallback);
     Q_INVOKABLE void appUserPostDocument(const QUrl fileUrl,
+                                         const QString niceFilename,
                                          const QStringList keywords,
                                          QJSValue successCallback,
                                          QJSValue errorCallback);
