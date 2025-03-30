@@ -3,7 +3,7 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Dialogs
 import "qml"
-import "qrc:/qml/items"
+import "qml/items"
 import "qml/editor"
 import "qml/dialogs"
 import "qml/apppages"

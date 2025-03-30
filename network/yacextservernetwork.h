@@ -28,7 +28,7 @@ public:
 
     void yacappServerUploadApp(const QString &loginEMail,
                                const QString &loginToken,
-                               const QString &app_id,
+                               const QString &appId,
                                const QString &app_name,
                                const int app_version,
                                const QString &app_logo_url,

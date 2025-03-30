@@ -3,7 +3,6 @@
 #include <QQmlContext>
 #include "logger.h"
 
-#include "QZXing.h"
 #include <QLocale>
 #include <QTranslator>
 #include "configmodels/parsedconfig.h"
@@ -28,6 +27,10 @@
 #include "cppqmlobjects/thirdpartylogin.h"
 
 #include "opensslwrapper.h"
+
+#ifndef DISABLEQZXING
+#include "QZXing.h"
+#endif
 
 QString getAppParam(const QGuiApplication &app, const QString &param)
 {
@@ -89,7 +92,9 @@ int main(int argc, char *argv[])
     app.setOrganizationName("jw78");
     app.setOrganizationDomain("jw78.de");
 
+#ifndef DISABLEQZXING
     QZXing::registerQMLTypes();
+#endif
 
     qRegisterMetaType<QObjectList*>("QObjectList*");
     qmlRegisterType<TransmissionTracker>("com.yacapp.transmissiontracker", 1,  0, "TransmissionTracker");

@@ -239,7 +239,7 @@ ApplicationWindow
         }
         function onBadMessage(message, itemToFocus, okCallback)
         {
-            badMessage.show(message, itemToFocus)
+            badMessage.show(message, itemToFocus, okCallback)
         }
         function onGoodMessage(message, itemToFocus, okCallback)
         {

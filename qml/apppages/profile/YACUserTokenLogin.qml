@@ -21,8 +21,9 @@ AppUserBasePage2
         Rectangle
         {
             id: helloView
-            YACButton
+            YACButtonWithHeader
             {
+                headerText: qsTr("Login or Register first")
                 width: parent.width * Constants.defaultWidthFactor
                 anchors.centerIn: parent
                 text: qsTr("Let's start")
@@ -114,6 +115,7 @@ AppUserBasePage2
                     visible: tokenOrPasswort.byToken
                     id: tokenText
                     text: qsTr("Please enter the Code you received by E-Mail.")
+                    width: parent.width
                 }
                 YACLineEdit
                 {
@@ -153,7 +155,13 @@ AppUserBasePage2
 
                                              },
                                              function(message) {
-                                                 CPPQMLAppAndConfigurator.badMessage(message, verifyToken, null)
+                                                 CPPQMLAppAndConfigurator.hideWaitMessage()
+                                                 if (message == "wrong token")
+                                                 {
+                                                     CPPQMLAppAndConfigurator.badMessage(qsTr("This token is incorrect."), token, null)
+                                                     return
+                                                 }
+                                                 CPPQMLAppAndConfigurator.badMessage(message, token, null)
                                              })
                     }
                 }

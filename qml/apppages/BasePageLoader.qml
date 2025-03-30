@@ -4,6 +4,7 @@ Loader
 {
     z: 2
     id: pageLoader
+    property string name: ''
     property bool loginNeeded: false
     property var theComponent: null
     property var parentSuperMenue: null
@@ -13,6 +14,8 @@ Loader
     height: parent.height
     x: parent.width / 2
     y: -Constants.appTotalHeight
+    opacity: 1 - y / -Constants.appTotalHeight
+    visible: y !== -Constants.appTotalHeight
     property bool isOpen: y === 0
     property int aniDuration: Constants.fastAnimationDuration
     Behavior on width
@@ -38,7 +41,7 @@ Loader
     }
     function openBasePageLoader()
     {
-        if (y == 0)
+        if (y === 0)
         {
             return
         }
@@ -78,7 +81,8 @@ Loader
 
     function closeBasePageLoader()
     {
-        console.log("BasePageLoader.qml.close")
+        console.log("BasePageLoader.qml.close " + name)
+        console.log("set y to " + -Constants.appTotalHeight)
         x = theItem.width / 2
         width = 0
         y = -Constants.appTotalHeight

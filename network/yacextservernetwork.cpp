@@ -118,7 +118,7 @@ void YACExtServerNetwork::yacappServerUserLoggedIn(QString loginEMail, QString v
 
 void YACExtServerNetwork::yacappServerUploadApp(const QString &loginEMail,
                                                 const QString &loginToken,
-                                                const QString &app_id,
+                                                const QString &appId,
                                                 const QString &app_name,
                                                 const int app_version,
                                                 const QString &app_logo_url,
@@ -133,7 +133,7 @@ void YACExtServerNetwork::yacappServerUploadApp(const QString &loginEMail,
                                                 CallbackFunction errorCallback)
 {
     t0002_apps app;
-    app.setid(app_id);
+    app.setid(appId);
     app.setapp_name(app_name);
     app.setapp_version(app_version);
     app.setapp_logo_url(app_logo_url);

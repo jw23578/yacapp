@@ -4,6 +4,7 @@ import "../menue"
 
 Rectangle
 {
+    clip: true
     property var theFocusObject: null
     color: Constants.backgroundColor
     width: parent.width

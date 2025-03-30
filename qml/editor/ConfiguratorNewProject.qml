@@ -44,9 +44,10 @@ DialogBase
     {
         id: newProjectDialog
         title: qsTr("Select Projectfolder")
+        currentFolder: "/home/jw78"
         onAccepted:
         {
-            if (!Helper.isFolderEmpty(folder))
+            if (!Helper.isFolderEmpty(selectedFolder))
             {
                 CPPQMLAppAndConfigurator.badMessage(qsTr("Please select an empty folder for your new project."), null,
                                                     function()
@@ -56,7 +57,7 @@ DialogBase
                                                     )
                 return
             }
-            projectFolder.text = folder
+            projectFolder.text = selectedFolder
         }
     }
 }

@@ -1,10 +1,18 @@
-QT += quick widgets network webview sql multimedia svg
+QT += quick widgets network webview sql multimedia svg pdf
 
 DEFINES += YACAPPApp
+DEFINES += DISABLEQZXING
 
-CONFIG += qzxing_qml
-CONFIG += qzxing_multimedia
-include(qzxing/src/QZXing.pri)
+QZXINGPATH = qzxing/src/QZXing.pri
+android {
+QZXINGPATH =
+}
+
+!android {
+#CONFIG += qzxing_qml
+#CONFIG += qzxing_multimedia
+include($$QZXINGPATH)
+}
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -150,6 +158,7 @@ HEADERS += \
   yacappmacros.h
 
 DISTFILES += \
+  ../../.local/share/jw78/yacapp/yacAppState.json \
   .gitignore \
   README.md \
   android/AndroidManifest.xml \
@@ -161,6 +170,7 @@ DISTFILES += \
   android/gradlew \
   android/gradlew.bat \
   android/res/values/libs.xml \
+  android/res/xml/qtprovider_paths.xml \
   changelog.txt \
   currentWork.txt \
   deployToJW78.sh \
@@ -179,14 +189,14 @@ contains(QT_ARCH, x86_64) {
   LIBS += -lssl -lcrypto
 }
 
-QT_ANDROID_MIN_SDK_VERSION = 33
-QT_ANDROID_TARGET_SDK_VERSION = 33
+#QT_ANDROID_MIN_SDK_VERSION = 33
+#QT_ANDROID_TARGET_SDK_VERSION = 33
 
 android {
   QMAKE_CXXFLAGS += -std=c++2a
   SOURCES += yacappfirebase.cpp
   message("main pro android")
-  include(/home/jw78/Android/Sdk/android_openssl/openssl.pri)
+#  include(/home/jw78/Android/Sdk/android_openssl/openssl.pri)
   INCLUDEPATH += /home/jw78/Android/android_openssl/ssl_3/include
   INCLUDEPATH += $$PWD/firebase_cpp_sdk/include
 

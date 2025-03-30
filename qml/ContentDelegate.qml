@@ -1,8 +1,8 @@
 import QtQuick 2.15
 import QtWebView 1.15
 import com.yacapp.contentitem 1.0
-import "qrc:/MenueFunctions.js" as MenueFunctions
-import "qrc:/qml/items"
+import "../MenueFunctions.js" as MenueFunctions
+import "items"
 
 
 Item

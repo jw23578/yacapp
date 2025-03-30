@@ -116,6 +116,7 @@ void NetworkInterface::replyFinished(QNetworkReply *reply)
     QByteArray allData(reply->readAll());
 
     DEFAULT_LOG(QString("Reply Finished Url: ") + reply->url().toString());
+    DEFAULT_LOG(QString("Statuscode: ") + reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toString());
     ONLY_DESKTOP_LOG(allData.left(1024));
     auto header(reply->request().rawHeaderList());
     for (auto &h: header)

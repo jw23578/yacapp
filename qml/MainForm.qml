@@ -371,6 +371,7 @@ Item
         BasePageLoader
         {
             id: profileLoader
+            name: "YACUserProfile"
             loginNeeded: true
             parentSuperMenue: theSuperMenue
             parentCurrentOpenedLoader: currentOpenedLoader
