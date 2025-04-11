@@ -83,7 +83,7 @@ AppUserBasePage2
         delegate: Rectangle
         {
             color: index % 2 ? "silver" : "lightgrey"
-            width: parent.width
+            width: theListview.width
             height: 100
             Column
             {

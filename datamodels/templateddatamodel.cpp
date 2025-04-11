@@ -1,4 +1,5 @@
 #include "templateddatamodel.h"
+#include "utils/definitions.h"
 
 template<class T>
 size_t TemplatedDataModel<T>::size() const
@@ -142,6 +143,7 @@ void TemplatedDataModel<T>::internalDeleteById(const QString &id)
 template<class T>
 void TemplatedDataModel<T>::fetchMore(const QModelIndex &parent)
 {
+    UNUSED(parent);
     if (theFetchMoreFunction)
     {
         theFetchMoreFunction(*this);
@@ -151,6 +153,7 @@ void TemplatedDataModel<T>::fetchMore(const QModelIndex &parent)
 template<class T>
 bool TemplatedDataModel<T>::canFetchMore(const QModelIndex &parent) const
 {
+    UNUSED(parent);
     return moreDataAvailable;
 }
 

@@ -46,7 +46,6 @@ QString getAppParam(const QGuiApplication &app, const QString &param)
     }
     return "";
 }
-
 int main(int argc, char *argv[])
 {
 //    OpenSSLWrapper osw;

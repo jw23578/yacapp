@@ -1,4 +1,5 @@
 QT += quick widgets network webview sql multimedia svg pdf
+QMAKE_CXXFLAGS += -std=c++2a
 
 DEFINES += YACAPPApp
 DEFINES += DISABLEQZXING
@@ -193,7 +194,6 @@ contains(QT_ARCH, x86_64) {
 #QT_ANDROID_TARGET_SDK_VERSION = 33
 
 android {
-  QMAKE_CXXFLAGS += -std=c++2a
   SOURCES += yacappfirebase.cpp
   message("main pro android")
 #  include(/home/jw78/Android/Sdk/android_openssl/openssl.pri)
