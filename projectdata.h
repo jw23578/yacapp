@@ -11,13 +11,10 @@ class ProjectData : public QObject
     YACAPPPROPERTY(QString, projectName, ProjectName, "");
     YACAPPPROPERTY(QString, projectFilename, ProjectFilename, "");
     YACAPPPROPERTY(QString, logoUrl, LogoUrl, "");
-    YACAPPPROPERTY(QString, deployUser, DeployUser, "");
-    YACAPPPROPERTY(QString, deployPassword, DeployPassword, "");
     YACAPPPROPERTY(QString, installationCode, InstallationCode, "");
     YACAPPPROPERTY(QString, third, Third, "");
     YACAPPPROPERTY(QString, mandant, Mandant, "");
 
-    YACAPPPROPERTY(QString, yacappServerLoginToken, YacappServerLoginToken, "");
 public:
     explicit ProjectData(QObject *parent = nullptr);
 

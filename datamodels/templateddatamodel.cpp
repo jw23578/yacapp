@@ -1,5 +1,5 @@
 #include "templateddatamodel.h"
-#include "utils/definitions.h"
+#include "definitions.h"
 
 template<class T>
 size_t TemplatedDataModel<T>::size() const

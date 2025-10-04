@@ -18,6 +18,11 @@ class Constants : public QObject
     QString writeablePathWidthAppId;
     QString theCachePath;
     QString theCachePathWithAppId;
+    YACAPPPROPERTY(QColor, backgroundPrimaryColor, BackgroundPrimaryColor, 0x0d1117)
+
+
+
+    YACAPPPROPERTY(bool, dark, Dark, false)
     YACAPPPROPERTY(int, appTotalWidth, AppTotalWidth, 0)
     YACAPPPROPERTY(int, appTotalHeight, AppTotalheight, 0)
     YACAPPPROPERTY(double, designWidthFactor, DesignWidthFactor, 0)
@@ -49,6 +54,10 @@ class Constants : public QObject
 
     YACAPPPROPERTY(double, configuratorDefaultFontPixelSize, ConfiguratorDefaultFontPixelSize, 0)
 
+
+
+    YACAPPPROPERTY(QColor, textInputFontColor, TextInputFontColor, "black")
+    YACAPPPROPERTY(QColor, lineEditBackgroundColor, LineEditBackgroundColor, "white")
     YACAPPPROPERTY(QColor, fontColor, FontColor, "black")
     YACAPPPROPERTY(double, defaultFontPixelSize, DefaultFontPixelSize, 0)
     YACAPPPROPERTY(double, smallerTextFactor, SmallerTextFactor, 3.0 / 4.0)
@@ -59,6 +68,7 @@ class Constants : public QObject
 
     YACAPPPROPERTY(QColor, spacingColor, SpacingColor, "orange");
     YACAPPPROPERTY(QColor, buttonColor, ButtonColor, "orange");
+    YACAPPPROPERTY(QColor, buttonHoverColor, ButtonHoverColor, buttonColor().lighter(110));
     YACAPPPROPERTY(QColor, buttonDownColor, ButtonDownColor, "darkorange");
     YACAPPPROPERTY(QColor, waitColor, WaitColor, "orange");
     YACAPPPROPERTY(QColor, goodColor, GoodColor, "#A9CEA5");

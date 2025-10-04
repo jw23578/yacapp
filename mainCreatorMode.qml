@@ -8,7 +8,8 @@ import "qml/editor"
 import "qml/dialogs"
 import "qml/apppages"
 
-Window {
+Window
+{
     width: 1280
     height: 1000
     visible: true
@@ -145,6 +146,7 @@ Window {
                 ConfiguratorPageEditor
                 {
                     id: editorForm
+                    anchors.fill: null
                     config: yacApp.mainConfig
                     global: yacApp.globalConfig
                     onLoadConfig:
@@ -156,15 +158,16 @@ Window {
                 ConfiguratorMenueEditor
                 {
                     id: menueEditor
+                    anchors.fill: null
                     config: yacApp.getMenueConfig(yacApp.mainConfig.menueFilename)
                 }
                 ConfiguratorDesignEditor
                 {
                     id: designEditor
+                    anchors.fill: null
                     global: yacApp.globalConfig
                 }
             }
-
         }
     }
 
@@ -199,6 +202,11 @@ Window {
         onAccepted: okCallback(fileUrls)
     }
 
+    ConfiguratorLoginPage
+    {
+        visible: configurator.yacappServerLoginToken.length == 0
+    }
+
     YACBadMessageForm
     {
         id: badMessage
@@ -211,6 +219,7 @@ Window {
     {
         id: yesNoQuestion
     }
+
 
     Connections
     {
@@ -289,9 +298,9 @@ Window {
         Constants.appTotalHeight = mainFormLoader.height
     }
 
-//    ConfiguratorAppImagesPage
-//    {
-//        id: appImages
-//        visible: true
-//    }
+    //    ConfiguratorAppImagesPage
+    //    {
+    //        id: appImages
+    //        visible: true
+    //    }
 }

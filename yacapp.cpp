@@ -6,6 +6,7 @@
 #include <QCoreApplication>
 #include "yacAppAndServer/rightnumbers.h"
 #include "logger.h"
+#include "orm_implementions/t0007_messages.h"
 #include "orm_implementions/t0028_message_images.h"
 #include "QUrlQuery"
 #include <QDir>
@@ -529,7 +530,7 @@ void YACAPP::appUserRegister(const QString &loginEMail,
                              QJSValue successCallback,
                              QJSValue errorCallback)
 {
-    network.yacappServerAppUserRegister(loginEMail,
+    network.registerUser(loginEMail,
                                         password,
                                         globalConfig()->projectID(),
                                         [successCallback](const QString &message) mutable
@@ -547,7 +548,7 @@ void YACAPP::appUserRequestVerifyToken(const QString &loginEMail,
                                        QJSValue successCallback,
                                        QJSValue errorCallback)
 {
-    network.yacappServerAppUserRequestVerifyToken(loginEMail,
+    network.yacappServerUserRequestVerifyToken(loginEMail,
                                                   globalConfig()->projectID(),
                                                   [successCallback](const QString &message) mutable
                                                   {
@@ -565,7 +566,7 @@ void YACAPP::appUserVerify(const QString &loginEMail,
                            QJSValue successCallback,
                            QJSValue errorCallback)
 {
-    network.yacappServerAppUserVerify(loginEMail,
+    network.yacappServerUserVerify(loginEMail,
                                       verifyToken,
                                       globalConfig()->projectID(),
                                       [this, loginEMail, successCallback](const QJsonDocument &jsonDoc) mutable
@@ -601,7 +602,7 @@ void YACAPP::appUserLogin(const QString &loginEMail,
                           QJSValue successCallback,
                           QJSValue errorCallback)
 {
-    network.yacappServerAppUserLogin(loginEMail,
+    network.loginUser(loginEMail,
                                      password,
                                      globalConfig()->projectID(),
                                      deviceToken,
@@ -1181,7 +1182,7 @@ void YACAPP::appUserPostDocument(const QUrl fileUrl,
     t0030_documents *t0030(new t0030_documents);
     QByteArray fileContent(file.readAll());
     QString data(fileContent.toBase64());
-    t0030->generateID();
+    t0030->prepareFirstInsert();
     QByteArray comma_separated_catchphrases;
     for (auto const &cp: keywords)
     {
@@ -1386,10 +1387,10 @@ void YACAPP::appUserInsertOrUpdateRightGroup2AppUser(const QString &id,
                                                      QJSValue successCallback,
                                                      QJSValue errorCallback)
 {
-    t0022_right_group2appuser t0022;
+    t0022_right_group2user t0022;
     t0022.setid(id);
     t0022.setright_group_id(right_group_id);
-    t0022.setappuser_id(appuser_id);
+    t0022.setuser_id(appuser_id);
     t0022.setrequested_datetime(requested_datetime);
     t0022.setapproved_datetime(approved_datetime);
     t0022.setapproved_appuser_id(approved_appuser_id);
@@ -1820,7 +1821,7 @@ void YACAPP::deleteMessage(const QString &messageId)
     QUrlQuery query;
     query.addQueryItem("id", messageId);
 
-    network.yacappServerDelete(tableNames.t0007_messages,
+    network.yacappServerDelete(t0007_messages().getORMName(),
                                query,
                                globalConfig()->projectID(),
                                appUserConfig()->loginEMail(),

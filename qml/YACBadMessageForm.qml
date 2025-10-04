@@ -5,7 +5,15 @@ Rectangle
 {
     id: theBadMessageForm
     anchors.fill: parent
-    visible: false
+    layer.enabled: true
+    opacity: 0
+    visible: opacity > 0
+    Behavior on opacity {
+        NumberAnimation {
+            duration: Constants.fastAnimationDuration
+        }
+    }
+    color: Constants.backgroundPrimaryColor
     property var itemToFocus: null
     property var okCallback: null
     function show(message, itemToFocus, okCallback)
@@ -13,11 +21,11 @@ Rectangle
         messageText.text = message
         theBadMessageForm.itemToFocus = itemToFocus
         theBadMessageForm.okCallback = okCallback
-        visible = true
+        opacity = 1
     }
     function hide()
     {
-        visible = false
+        opacity = 0
         if (itemToFocus != null)
         {
             itemToFocus.forceActiveFocus()

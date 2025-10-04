@@ -1,7 +1,7 @@
 #include "messageobject.h"
 #include "opensslwrapper.h"
 #include "logger.h"
-#include "utils/extstring.h"
+#include "extstring.h"
 
 MessageObject::MessageObject(const QString &id,
                              const QString &senderId,

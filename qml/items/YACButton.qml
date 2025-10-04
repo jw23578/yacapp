@@ -23,7 +23,7 @@ Item
         width: theButton.width
         implicitHeight: theButton.height
         color: mouseArea.pressed ? Qt.darker(baseColor, 1.1) :
-                                   mouseArea.containsMouse ? Qt.lighter(baseColor, 1.1) : baseColor
+                                   mouseArea.containsMouse ? Constants.buttonHoverColor : baseColor
         shadow.visible: !mouseArea.pressed && Constants.shadowActive
         radius: width == height ? height / 2 : height / 4
         radiusTopLeft: true

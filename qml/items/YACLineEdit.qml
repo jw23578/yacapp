@@ -12,6 +12,7 @@ FocusScope
     property alias text: inputItem.text
     property alias input: inputItem
     property alias displayText: inputItem.displayText
+    property alias emptyText: inputItem.emptyText
     height: theRectangle.height
     width: parent.width
     DoubleValidator
@@ -32,16 +33,19 @@ FocusScope
     Rectangle
     {
         id: theRectangle
-        width: parent.width
-        height: inputItem.height + 4
-        border.color: "black"
+        property int theBorder: inputItem.height / 3
+        width: parent.width + 2 * theBorder
+        height: inputItem.height + 2 * theBorder
+        border.color: Constants.dark ? Qt.lighter(color) : Qt.darker(color)
         border.width: 1
+        radius: width == height ? height / 2 : height / 4
         visible: theScope.showColumn
+        color: Constants.lineEditBackgroundColor
         YACTextInput
         {
-            width: parent.width - 4
-            x: 2
-            y: 2
+            width: parent.width - 2 * parent.theBorder
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
             id: inputItem
             validator: theScope.doubleEdit ? doubleValidator : theScope.intEdit ? intValidator : null
             clip: true

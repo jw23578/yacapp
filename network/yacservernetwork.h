@@ -4,15 +4,16 @@
 #include "yacserverbasenetwork.h"
 #include "yacAppAndServer/yacappservermethodnames.h"
 #include "yacAppAndServer/tablefields.h"
-#include "orm/ormobjectinterface.h"
+#include "ormobjectinterface.h"
 #include "orm-mapper/orm2qjson.h"
 
 class YACServerNetwork: public YACServerBaseNetwork
 {
     Q_OBJECT
     ORM2QJson orm2json;
-    TableFields tableFields;
-    YACAPPServerMethodNames methodNames;
+    const TableFields tableFields;
+protected:
+    const YACAPPServerMethodNames methodNames;
 public:
     YACServerNetwork(QNetworkAccessManager &manager
                      , Constants &constants);
@@ -26,29 +27,38 @@ public:
                             CallbackFunction successCallback,
                             CallbackFunction  errorCallback);
 
-    void yacappServerAppUserRegister(const QString &loginEMail,
-                                     const QString &password,
-                                     const QString &appId,
-                                     CallbackFunction successCallback,
-                                     CallbackFunction  errorCallback);
+    void registerUser(const QString &loginEMail,
+                      const QString &password,
+                      const QString &appId,
+                      CallbackFunction successCallback,
+                      CallbackFunction  errorCallback);
 
-    void yacappServerAppUserRequestVerifyToken(const QString &loginEMail,
-                                               const QString &appId,
-                                               CallbackFunction successCallback,
-                                               CallbackFunction  errorCallback);
+    void yacappServerUserRequestVerifyToken(const QString &loginEMail,
+                                            const QString &appId,
+                                            CallbackFunction successCallback,
+                                            CallbackFunction  errorCallback);
 
-    void yacappServerAppUserVerify(const QString &loginEMail,
-                                   const QString &verifyToken,
-                                   const QString &appId,
-                                   JSONCallbackFunction jsonSuccessCallback,
-                                   CallbackFunction  errorCallback);
+    void yacappServerUserVerify(const QString &loginEMail,
+                                const QString &verifyToken,
+                                const QString &appId,
+                                JSONCallbackFunction jsonSuccessCallback,
+                                CallbackFunction  errorCallback);
 
-    void yacappServerAppUserLogin(const QString &loginEMail,
-                                  const QString &password,
-                                  const QString &appId,
-                                  const QString &deviceToken,
-                                  JSONCallbackFunction successCallback,
-                                  CallbackFunction  errorCallback);
+    void loginUser(const QString &loginEMail,
+                   const QString &password,
+                   const QString &appId,
+                   const QString &deviceToken,
+                   JSONCallbackFunction successCallback,
+                   CallbackFunction  errorCallback);
+    void userLoggedIn(const QString &loginEMail,
+                      const QString &loginToken,
+                      CallbackFunction successCallback,
+                      CallbackFunction errorCallback);
+    void logoutUser(const QString &loginEMail,
+                    const QString &loginToken,
+                    const QString &appId,
+                    CallbackFunction successCallback,
+                    CallbackFunction errorCallback);
 
 
     void appUserRequestPasswordUpdate(const QString &loginEMail,
@@ -64,12 +74,12 @@ public:
                                CallbackFunction errorCallback);
 
     void appUserDeleteORM(const QString &appId,
-                         const QString &loginEMail,
-                         const QString &loginToken,
-                         const QString &ormName,
-                         const QString &id,
-                         JSONCallbackFunction successCallback,
-                         CallbackFunction  errorCallback);
+                          const QString &loginEMail,
+                          const QString &loginToken,
+                          const QString &ormName,
+                          const QString &id,
+                          JSONCallbackFunction successCallback,
+                          CallbackFunction  errorCallback);
 
     void appUserFetchORM(const QString &appId,
                          const QString &loginEMail,

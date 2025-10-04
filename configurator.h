@@ -5,7 +5,7 @@
 #include "yacappmacros.h"
 #include "projectdata.h"
 #include <QMap>
-#include "network/yacextservernetwork.h"
+#include "network/yacextservernetworkdeprecated.h"
 #include <QJSValue>
 #include "yacapp.h"
 #include "configuratormodels/recentproject.h"
@@ -21,12 +21,16 @@ class Configurator : public QObject
     YACAPP &yacApp;
     Helper &helper;
     CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator;
-    YACExtServerNetwork &network;
+    YACExtServerNetworkDeprecated &network;
     const QString yacAppConfiguratorConfig;
+
+    const QString theCreatorAppAppId = "00000000-0000-0000-0000-000000000001";
 
     YACAPPPROPERTY(QString, lastProjectName, LastProjectName, "");
     YACAPPPROPERTY(QString, lastProjectFilename, LastProjectFilename, "");
     YACAPPPROPERTY(QString, lastProjectLogoUrl, LastProjectLogoUrl, "");
+    YACAPPPROPERTY(QString, deployUser, DeployUser, "");
+    YACAPPPROPERTY(QString, yacappServerLoginToken, YacappServerLoginToken, "");
 
     YACAPPPROPERTY(int, recentItemCount, RecentItemCount, 0);
     YACOBJECTLISTPROPERTY(RecentProject, recentProject, RecentProject, Configurator)
@@ -39,7 +43,7 @@ public:
     explicit Configurator(YACAPP &yacApp
                           , Helper &helper
                           , CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator
-                          , YACExtServerNetwork &network
+                          , YACExtServerNetworkDeprecated &network
                           , QObject *parent = nullptr);
 
     Q_INVOKABLE void save();
@@ -51,20 +55,28 @@ public:
 
     Q_INVOKABLE void yacserverLogin(const QString &loginEMail,
                                     const QString &password,
-                                    const QString &projectID,
                                     QJSValue goodCallback,
                                     QJSValue badCallback);
+    Q_INVOKABLE void yacserverLogout(const QString &loginEMail,
+                                     const QString &loginToken,
+                                     QJSValue goodCallback,
+                                     QJSValue badCallback);
 
-    Q_INVOKABLE void yacserverUserLoggedIn(const QString &loginEMail, const QString &loginToken, const QString &projectID);
+    Q_INVOKABLE void yacserverUserLoggedIn(const QString &loginEMail,
+                                           const QString &loginToken,
+                                           const QString &projectID);
     Q_INVOKABLE void yacserverRegister(const QString &loginEMail
                                        , const QString &password
                                        , QJSValue goodCallback
                                        , QJSValue badCallback);
+    Q_INVOKABLE void requestVerifyTokenCreator(const QString &loginEMail
+                                               , QJSValue goodCallback
+                                               , QJSValue badCallback);
 
-    Q_INVOKABLE void yacserverVerify(const QString &loginEMail
-                                     , const QString &verifyToken
-                                     , QJSValue goodCallback
-                                     , QJSValue badCallback);
+    Q_INVOKABLE void verifyCreator(const QString &loginEMail
+                                   , const QString &verifyToken
+                                   , QJSValue goodCallback
+                                   , QJSValue badCallback);
 
     Q_INVOKABLE void createNewProject(const QString &projectName
                                       , const QString &projectFolder
@@ -85,6 +97,7 @@ public:
 
 signals:
 
+    void takePhoto(bool squared, bool circled, QJSValue target);
     void addFileSignal(const QJSValue okCallback);
     void addImageSignal(const QJSValue okCallback);
 };

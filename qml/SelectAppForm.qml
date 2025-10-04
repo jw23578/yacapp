@@ -109,7 +109,7 @@ Rectangle
             id: topImage
             width: parent.width
             height: Constants.designWidthFactor * 250
-            source: "https://loremflickr.com/" + Math.floor(width) + "/" + Math.floor(height)
+            source: "https://picsum.photos/" + Math.floor(width) + "/" + Math.floor(height)
             Rectangle
             {
                 anchors.fill: parent

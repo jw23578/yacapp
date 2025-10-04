@@ -20,6 +20,11 @@ include($$QZXINGPATH)
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 DEFINES += ORMQTTypes
+DEFINES += ONLY_INSERT_DB_CREATED_BY_COLUMN=created_by_t0002_id
+DEFINES += ONLY_INSERT_DB_DELETE_BY_COLUMN=deleted_by_t0002_id
+include("JWORM/JWORM.pri")
+include("JWUtils/JWUtils.pri")
+include("JWLogStat/JWLogStat.pri")
 include("yacAppAndServer/yacAppAndServer.pri")
 
 
@@ -37,6 +42,7 @@ SOURCES += \
         configmodels/parsedconfig.cpp \
         configmodels/splashscreenconfig.cpp \
         configurator.cpp \
+        configuratorconstants.cpp \
         configuratormodels/recentproject.cpp \
         constants.cpp \
         cppqmlobjects/cppqmlappandconfigurator.cpp \
@@ -71,7 +77,7 @@ SOURCES += \
         network/asyncimageprovider.cpp \
         network/customservernetwork.cpp \
         network/networkinterface.cpp \
-        network/yacextservernetwork.cpp \
+        network/yacextservernetworkdeprecated.cpp \
         network/yacserverbasenetwork.cpp \
         network/yacservernetwork.cpp \
         opensslwrapper.cpp \
@@ -113,6 +119,7 @@ HEADERS += \
   configmodels/parsedconfig.h \
   configmodels/splashscreenconfig.h \
   configurator.h \
+  configuratorconstants.h \
   configuratormodels/recentproject.h \
   constants.h \
   cppqmlobjects/cppqmlappandconfigurator.h \
@@ -149,7 +156,7 @@ HEADERS += \
   network/asyncimageprovider.h \
   network/customservernetwork.h \
   network/networkinterface.h \
-  network/yacextservernetwork.h \
+  network/yacextservernetworkdeprecated.h \
   network/yacserverbasenetwork.h \
   network/yacservernetwork.h \
   opensslwrapper.h \
@@ -159,7 +166,9 @@ HEADERS += \
   yacappmacros.h
 
 DISTFILES += \
-  ../../.local/share/jw78/yacapp/yacAppState.json \
+  ../../.config/y \
+  ../../.config/yacAppConfiguratorConfig.json \
+  ../../MyYacApps/LocalYACAPPConfig/yacAppState.json \
   .gitignore \
   README.md \
   android/AndroidManifest.xml \

@@ -12,7 +12,7 @@ void SpaceRequestObject::fromJSON(const QJsonObject &o)
     setId(o[tableFields.id].toString());
     setName(o[tableFields.name].toString());
     setSpace_id(o[tableFields.space_id].toString());
-    setAppuser_id(o[tableFields.appuser_id].toString());
+    setAppuser_id(o[tableFields.user_id].toString());
 }
 
 void SpaceRequestObject::assign(const SpaceRequestObject &other)

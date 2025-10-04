@@ -4,7 +4,7 @@ import com.yacapp.menueconfig 1.0
 import com.yacapp.globalprojectconfig 1.0
 import "../items"
 
-Rectangle
+ConfiguratorPage
 {
     id: designEditor
     signal closeClicked()

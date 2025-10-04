@@ -34,7 +34,7 @@
 
 #include "orm-mapper/orm2qjson.h"
 #include "orm_implementions/t0021_right_group.h"
-#include "orm_implementions/t0022_right_group2appuser.h"
+#include "orm_implementions/t0022_right_group2user.h"
 #include "orm_implementions/t0023_right2rightgroup.h"
 #include "orm_implementions/t0030_documents.h"
 #include "orm_implementions/yacormfactory.h"

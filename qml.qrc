@@ -4,7 +4,7 @@
         <file>qml/SuperForm.qml</file>
         <file>qml/YACHeader.qml</file>
         <file>qml/MainForm.qml</file>
-        <file>mainDesignMode.qml</file>
+        <file>mainCreatorMode.qml</file>
         <file>qml/editor/ConfiguratorPageEditor.qml</file>
         <file>qml/editor/EditorSection.qml</file>
         <file>qml/items/YACButton.qml</file>
@@ -30,7 +30,6 @@
         <file>qml/SelectAppForm.qml</file>
         <file>HttpFunctions.js</file>
         <file>qml/YACBadMessageForm.qml</file>
-        <file>qml/editor/ConfiguratorRegisterVerifyPage.qml</file>
         <file>qml/YACGoodMessageForm.qml</file>
         <file>qml/YACYesNoQuestionForm.qml</file>
         <file>qml/editor/ConfiguratorNewProject.qml</file>
@@ -106,5 +105,7 @@
         <file>qml/items/AppPageGridView.qml</file>
         <file>qml/items/AppPageGridLayout.qml</file>
         <file>qml/items/YACKeywordsEditor.qml</file>
+        <file>qml/editor/ConfiguratorLoginPage.qml</file>
+        <file>qml/editor/ConfiguratorPage.qml</file>
     </qresource>
 </RCC>

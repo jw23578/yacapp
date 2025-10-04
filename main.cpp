@@ -14,6 +14,7 @@
 #include "configmodels/appimagesitem.h"
 #include "projectdata.h"
 #include "constants.h"
+#include "configuratorconstants.h"
 #include <QtWebView>
 #include "helper.h"
 #include "datamodels/messagesmodel.h"
@@ -162,7 +163,7 @@ int main(int argc, char *argv[])
     Logger::gi().setIsDesktop(Constants::gi().isDesktop());
 
     QNetworkAccessManager manager;
-    YACExtServerNetwork network(manager
+    YACExtServerNetworkDeprecated network(manager
                                 , Constants::gi());
     CustomServerNetwork customServerNetwork(manager
                                             , Constants::gi());
@@ -185,8 +186,16 @@ int main(int argc, char *argv[])
 
     if (app.arguments().contains("Configurator"))
     {
+        ConfiguratorConstants *cc(new ConfiguratorConstants(0));
+        engine.rootContext()->setContextProperty("ConfiguratorConstants", cc);
+        Constants::gi().setFontColor(cc->textPrimaryColor());
+        Constants::gi().setLineEditBackgroundColor(cc->inputBackgroundColor());
+        Constants::gi().setTextInputFontColor(cc->inputTextColor());
+        Constants::gi().setButtonColor(cc->buttonPrimaryColor());
+        Constants::gi().setButtonHoverColor(cc->buttonPrimaryHoverColor());
+        Constants::gi().setDark(true);
         Constants::gi().setIsConfigurator(true);
-        url = QStringLiteral("qrc:/mainDesignMode.qml");
+        url = QStringLiteral("qrc:/mainCreatorMode.qml");
         configurator = new Configurator(*yacApp
                                         , helper
                                         , cppQMLAppAndConfigurator

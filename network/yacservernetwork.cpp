@@ -97,50 +97,54 @@ void YACServerNetwork::yacappServerGetAPP(const QString &app_id,
                     errorCallback);
 }
 
-void YACServerNetwork::yacappServerAppUserRegister(const QString &loginEMail,
-                                                   const QString &password,
-                                                   const QString &appId,
-                                                   CallbackFunction successCallback,
-                                                   CallbackFunction errorCallback)
+void YACServerNetwork::registerUser(const QString &loginEMail,
+                                    const QString &password,
+                                    const QString &appId,
+                                    CallbackFunction successCallback,
+                                    CallbackFunction errorCallback)
 {
     QJsonObject obj;
     obj["loginEMail"] = loginEMail;
     obj["password"] = password;
-    obj["appId"] = appId;
-    yacappServerPost("/registerAppUser",
+    QMap<QByteArray, QByteArray> rawHeader;
+    rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    yacappServerPost(methodNames.registerUser,
                      obj,
                      defaultReplyHandler,
+                     rawHeader,
                      successCallback,
                      errorCallback);
 }
 
-void YACServerNetwork::yacappServerAppUserRequestVerifyToken(const QString &loginEMail,
-                                                             const QString &appId,
-                                                             CallbackFunction successCallback,
-                                                             CallbackFunction errorCallback)
+void YACServerNetwork::yacappServerUserRequestVerifyToken(const QString &loginEMail,
+                                                          const QString &appId,
+                                                          CallbackFunction successCallback,
+                                                          CallbackFunction errorCallback)
 {
     QJsonObject obj;
     obj["loginEMail"] = loginEMail;
-    obj["appId"] = appId;
-    yacappServerPost("/requestVerifyToken",
+    QMap<QByteArray, QByteArray> rawHeader;
+    rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    yacappServerPost(methodNames.requestVerifyToken,
                      obj,
                      defaultReplyHandler,
+                     rawHeader,
                      successCallback,
                      errorCallback);
 }
 
-void YACServerNetwork::yacappServerAppUserVerify(const QString &loginEMail,
-                                                 const QString &verifyToken,
-                                                 const QString &appId,
-                                                 JSONCallbackFunction jsonSuccessCallback,
-                                                 CallbackFunction errorCallback)
+void YACServerNetwork::yacappServerUserVerify(const QString &loginEMail,
+                                              const QString &verifyToken,
+                                              const QString &appId,
+                                              JSONCallbackFunction jsonSuccessCallback,
+                                              CallbackFunction errorCallback)
 {
     QJsonObject obj;
     obj["loginEMail"] = loginEMail;
     obj["verifyToken"] = verifyToken;
-    obj["appId"] = appId;
     QMap<QByteArray, QByteArray> rawHeader;
-    yacappServerPost("/verifyAppUser",
+    rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    yacappServerPost(methodNames.verifyUser,
                      obj,
                      defaultReplyHandler,
                      rawHeader,
@@ -149,27 +153,57 @@ void YACServerNetwork::yacappServerAppUserVerify(const QString &loginEMail,
                      errorCallback);
 }
 
-void YACServerNetwork::yacappServerAppUserLogin(const QString &loginEMail,
-                                                const QString &password,
-                                                const QString &appId,
-                                                const QString &deviceToken,
-                                                JSONCallbackFunction jsonSuccessCallback,
-                                                CallbackFunction errorCallback)
+void YACServerNetwork::loginUser(const QString &loginEMail,
+                                 const QString &password,
+                                 const QString &appId,
+                                 const QString &deviceToken,
+                                 JSONCallbackFunction jsonSuccessCallback,
+                                 CallbackFunction errorCallback)
 {
-    QJsonObject obj;
-    obj["loginEMail"] = loginEMail;
-    obj["password"] = password;
-    obj["appId"] = appId;
-    obj["deviceToken"] = deviceToken;
+    RequestData rd;
+    rd.method = methodNames.loginUser;
+    rd.object["loginEMail"] = loginEMail;
+    rd.object["password"] = password;
+    rd.object["deviceToken"] = deviceToken;
+    rd.handlerFunction = defaultReplyHandler;
     QString loginToken;
-    MACRO_RAW_HEADER();
-    yacappServerPost("/loginAppUser",
-                     obj,
-                     defaultReplyHandler,
-                     rawHeader,
-                     0,
-                     jsonSuccessCallback,
-                     errorCallback);
+    RD_MACRO_RAW_HEADER();
+    rd.successCallback = 0;
+    rd.jsonSuccessCallback = jsonSuccessCallback;
+    rd.errorCallback = errorCallback;
+    post(rd);
+}
+
+void YACServerNetwork::userLoggedIn(const QString &loginEMail,
+                                    const QString &loginToken,
+                                    CallbackFunction successCallback,
+                                    CallbackFunction errorCallback)
+{
+    QUrlQuery query;
+    query.addQueryItem("loginEMail", loginEMail);
+    query.addQueryItem("loginToken", loginToken);
+    yacappServerGet(methodNames.userLoggedIn,
+                    query,
+                    defaultReplyHandler,
+                    successCallback,
+                    errorCallback);
+}
+
+void YACServerNetwork::logoutUser(const QString &loginEMail,
+                                  const QString &loginToken,
+                                  const QString &appId,
+                                  CallbackFunction successCallback,
+                                  CallbackFunction errorCallback)
+{
+    RequestData rd;
+    rd.method = methodNames.logoutUser;
+    rd.handlerFunction = defaultReplyHandler;
+    rd.successCallback = successCallback;
+    rd.errorCallback = errorCallback;
+    rd.rawHeader["YACAPP-LoginEMail"] = loginEMail.toLatin1();
+    rd.rawHeader["YACAPP-LoginToken"] = loginToken.toLatin1();
+    rd.rawHeader["YACAPP-AppId"] = appId.toLatin1();
+    post(rd);
 }
 
 void YACServerNetwork::appUserRequestPasswordUpdate(const QString &loginEMail,
@@ -177,14 +211,14 @@ void YACServerNetwork::appUserRequestPasswordUpdate(const QString &loginEMail,
                                                     CallbackFunction successCallback,
                                                     CallbackFunction errorCallback)
 {
-    QJsonObject obj;
-    obj["loginEMail"] = loginEMail;
-    obj["appId"] = appId;
-    yacappServerPost("/requestUpdatePasswordAppUser",
-                     obj,
-                     defaultReplyHandler,
-                     successCallback,
-                     errorCallback);
+    RequestData rd;
+    rd.method = methodNames.requestUpdatePasswordUser;
+    rd.addLoginEMail(loginEMail);
+    rd.addAppId(appId);
+    rd.handlerFunction = defaultReplyHandler;
+    rd.successCallback = successCallback;
+    rd.errorCallback = errorCallback;
+    post(rd);
 }
 
 void YACServerNetwork::appUserUpdatePassword(const QString &loginEMail,
