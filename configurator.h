@@ -5,7 +5,7 @@
 #include "yacappmacros.h"
 #include "projectdata.h"
 #include <QMap>
-#include "network/yacextservernetworkdeprecated.h"
+#include "network/yacservernetwork.h"
 #include <QJSValue>
 #include "yacapp.h"
 #include "configuratormodels/recentproject.h"
@@ -21,7 +21,7 @@ class Configurator : public QObject
     YACAPP &yacApp;
     Helper &helper;
     CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator;
-    YACExtServerNetworkDeprecated &network;
+    YACServerNetwork &network;
     const QString yacAppConfiguratorConfig;
 
     const QString theCreatorAppAppId = "00000000-0000-0000-0000-000000000001";
@@ -43,7 +43,7 @@ public:
     explicit Configurator(YACAPP &yacApp
                           , Helper &helper
                           , CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator
-                          , YACExtServerNetworkDeprecated &network
+                          , YACServerNetwork &network
                           , QObject *parent = nullptr);
 
     Q_INVOKABLE void save();

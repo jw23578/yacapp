@@ -68,6 +68,7 @@ void YACServerBaseNetwork::yacappServerPost(QString method,
     RequestData rd;
     rd.method = method;
     rd.object = object;
+    rd.handlerFunction = handlerFunction;
     rd.rawHeader = rawHeader;
     rd.successCallback = successCallback;
     rd.jsonSuccessCallback = jsonSuccessCallback;
@@ -107,6 +108,36 @@ void YACServerBaseNetwork::yacappServerPost(const QString &method,
                      successCallback,
                      errorCallback,
                      trackerUuid);
+}
+
+void YACServerBaseNetwork::get(const RequestData &rd)
+{
+    QString method(rd.method);
+    if (method[0] != '/')
+    {
+        method = "/" + method;
+    }
+    QUrl url(yacappServerUrl + method);
+    url.setQuery(rd.query.query());
+    QNetworkRequest request;
+    request.setUrl(url);
+    QMap<QByteArray, QByteArray>::ConstIterator it(rd.rawHeader.begin());
+    while (it != rd.rawHeader.end())
+    {
+        request.setRawHeader(it.key(), it.value());
+        ++it;
+    }
+
+    QNetworkReply *reply(manager.get(request));
+
+    SRunningRequest rr;
+    rr.trackerUuid = rd.trackerUuid;
+    rr.handlerFunction = rd.handlerFunction;
+    rr.errorCallback = rd.errorCallback;
+    rr.successCallback = rd.successCallback;
+    rr.jsonSuccessCallback = rd.jsonSuccessCallback;
+    addRunningRequest(reply, rr);
+
 }
 
 void YACServerBaseNetwork::yacappServerGet(QString method,

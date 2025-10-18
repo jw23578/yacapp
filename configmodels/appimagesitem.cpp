@@ -16,6 +16,7 @@ void AppImagesItem::setConfig(const QJsonValue &config)
     }
     stringFromJSON(id, Id);
     stringFromJSON(fileUrl, FileUrl);
+    stringFromJSON(imageId, ImageId);
 }
 
 QJsonObject AppImagesItem::getConfig() const
@@ -23,6 +24,7 @@ QJsonObject AppImagesItem::getConfig() const
     QJsonObject config;
     stringToJSON(id);
     stringToJSON(fileUrl);
+    stringToJSON(imageId);
     return config;
 }
 

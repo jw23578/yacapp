@@ -77,7 +77,6 @@ SOURCES += \
         network/asyncimageprovider.cpp \
         network/customservernetwork.cpp \
         network/networkinterface.cpp \
-        network/yacextservernetworkdeprecated.cpp \
         network/yacserverbasenetwork.cpp \
         network/yacservernetwork.cpp \
         opensslwrapper.cpp \
@@ -156,7 +155,6 @@ HEADERS += \
   network/asyncimageprovider.h \
   network/customservernetwork.h \
   network/networkinterface.h \
-  network/yacextservernetworkdeprecated.h \
   network/yacserverbasenetwork.h \
   network/yacservernetwork.h \
   opensslwrapper.h \
@@ -169,6 +167,7 @@ DISTFILES += \
   ../../.config/y \
   ../../.config/yacAppConfiguratorConfig.json \
   ../../MyYacApps/LocalYACAPPConfig/yacAppState.json \
+  ../../MyYacApps/TestProject/projectFile.yacapp \
   .gitignore \
   README.md \
   android/AndroidManifest.xml \

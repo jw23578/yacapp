@@ -43,6 +43,7 @@ class Configurator;
 
 class YACAPP : public QObject
 {
+    const QString theCreatorAppAppId = "00000000-0000-0000-0000-000000000001";
     YACORMFactory factory;
     ORM2QJson orm2json;
     TableFields tableFields;

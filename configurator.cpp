@@ -23,7 +23,7 @@
 Configurator::Configurator(YACAPP &yacApp
                            , Helper &helper
                            , CPPQMLAppAndConfigurator &cppQMLAppAndConfigurator
-                           , YACExtServerNetworkDeprecated &network
+                           , YACServerNetwork &network
                            , QObject *parent)
     : QObject{parent}
     , yacApp(yacApp)
@@ -154,7 +154,7 @@ void Configurator::deploy(QJSValue goodCallback, QJSValue badCallback)
     appPackage = qCompress(appPackage);
 
     t0001_apps theApp;
-    theApp.setid(gpc->projectID());
+    theApp.setapp_id(gpc->projectID());
     theApp.setapp_name(gpc->projectName());
     theApp.setapp_version(gpc->version());
     theApp.setapp_logo_url(gpc->logoUrl());
@@ -166,12 +166,12 @@ void Configurator::deploy(QJSValue goodCallback, QJSValue badCallback)
     theApp.settransfer_yacpck_base64(gpc->getConfigAsString(yacApp.constants));
     theApp.setjson_yacapp(appPackage.toBase64());
 
-    network.yacappServerUploadApp(deployUser(),
+    network.uploadApp(deployUser(),
                                   yacappServerLoginToken(),
                                   theCreatorAppAppId,
                                   theApp,
                                   pd.installationCode(),
-                                  [goodCallback, this, &gpc, &pd](const QString &message) mutable
+                                  [goodCallback, this, gpc, &pd](const QString &message) mutable
                                   {
                                       Q_UNUSED(message);
                                       auto &aiModel(gpc->getappImages());
@@ -185,9 +185,10 @@ void Configurator::deploy(QJSValue goodCallback, QJSValue badCallback)
                                               QByteArray imageData(file.readAll().toBase64());
                                               t0027_app_images t0027;
                                               t0027.setposition(i);
+                                              t0027.setapp_image_id(aii.imageId());
                                               t0027.setapp_id(gpc->projectID());
                                               t0027.settransfer_image_base64(imageData);
-                                              network.appUserPostORM(gpc->projectID(),
+                                              network.appUserPostORM(theCreatorAppAppId,
                                                                      deployUser(),
                                                                      yacappServerLoginToken(),
                                                                      t0027,
@@ -195,7 +196,7 @@ void Configurator::deploy(QJSValue goodCallback, QJSValue badCallback)
                                                                      [](const QString &message){});
                                           }
                                       }
-                                      goodCallback.call();
+                                      goodCallback.call(QJSValueList());
                                       delete gpc;
                                   },
                                   [this, badCallback, gpc](const QString &message) mutable
@@ -422,6 +423,7 @@ void Configurator::addImageFile(QString fileUrl)
     AppImagesItem *aii(new AppImagesItem);
     aii->setFileUrl(fileUrl);
     aii->setId(fileUrl);
+    aii->setImageId(ExtUuid::generateUuid());
     yacApp.globalConfig()->getappImages().append(aii);
 }
 

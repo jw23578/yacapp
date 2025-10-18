@@ -93,7 +93,7 @@ Window
                         useInConfigurator: true
                         width: parent.width / 3 - 2
                         text: qsTr("Deploy Project")
-                        onClicked: deployPage.visible = true
+                        onClicked: deployPage.showPage()
                     }
                 }
                 YACProjectText
@@ -174,11 +174,11 @@ Window
     ConfiguratorDeployPage
     {
         id: deployPage
-        visible: false
     }
 
     ConfiguratorStartPage
     {
+        opacity: 1
         id: startPage
         onNewProjectLoaded:
         {
@@ -199,12 +199,12 @@ Window
         fileMode: FileDialog.OpenFiles
         nameFilters: [ "Image files (*.jpg *.png)", "All files (*)" ]
         property var okCallback: null
-        onAccepted: okCallback(fileUrls)
+        onAccepted: okCallback(selectedFiles)
     }
 
     ConfiguratorLoginPage
     {
-        visible: configurator.yacappServerLoginToken.length == 0
+        opacity: configurator.yacappServerLoginToken.length == 0 ? 1 : 0
     }
 
     YACBadMessageForm

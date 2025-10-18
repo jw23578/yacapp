@@ -489,7 +489,8 @@ void YACAPP::saveAppToFile(QString projectFilename)
 void YACAPP::yacappServerGetAllAPPs(QJSValue successCallback,
                                     QJSValue errorCallback)
 {
-    network.yacappServerGetAllAPPs([successCallback](const QString &message) mutable
+    network.yacappServerGetAllAPPs(theCreatorAppAppId,
+        [successCallback](const QString &message) mutable
                                    {
                                        successCallback.call(QJSValueList() << message);
                                    },

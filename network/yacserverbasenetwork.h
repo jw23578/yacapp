@@ -4,6 +4,7 @@
 #include "networkinterface.h"
 #include "extuuid.h"
 #include "QJsonObject"
+#include "QUrlQuery"
 
 #define MACRO_RAW_HEADER() \
 QMap<QByteArray, QByteArray> rawHeader; \
@@ -53,6 +54,7 @@ public:
         JSONCallbackFunction jsonSuccessCallback;
         CallbackFunction errorCallback;
         QString trackerUuid;
+        QUrlQuery query;
         RequestData():handlerFunction(0),
             successCallback(0),
             jsonSuccessCallback(0),
@@ -98,6 +100,7 @@ protected:
                           CallbackFunction errorCallback,
                           const QString &trackerUuid = "");
 
+    void get(const RequestData &rd);
     void yacappServerGet(QString method,
                          const QUrlQuery &query,
                          HandlerFunction handlerFunction,

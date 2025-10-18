@@ -12,7 +12,8 @@ YACServerNetwork::YACServerNetwork(QNetworkAccessManager &manager
 {
 }
 
-void YACServerNetwork::yacappServerGetAllAPPs(CallbackFunction successCallback,
+void YACServerNetwork::yacappServerGetAllAPPs(const QString &app_id,
+                                              CallbackFunction successCallback,
                                               CallbackFunction errorCallback)
 {
     auto replyHandler([](QNetworkReply *finishedReply,
@@ -21,12 +22,13 @@ void YACServerNetwork::yacappServerGetAllAPPs(CallbackFunction successCallback,
                       {
                           rr.successCallback(allData);
                       });
-    const QUrlQuery query;
-    yacappServerGet("/getAllAPPs",
-                    query,
-                    replyHandler,
-                    successCallback,
-                    errorCallback);
+    RequestData rd;
+    rd.method = methodNames.getAllAPPs;
+    rd.handlerFunction = replyHandler;
+    rd.errorCallback = errorCallback;
+    rd.successCallback = successCallback;
+    rd.addAppId(app_id);
+    get(rd);
 }
 
 void YACServerNetwork::yacappServerGetAPP(const QString &app_id,
@@ -86,15 +88,21 @@ void YACServerNetwork::yacappServerGetAPP(const QString &app_id,
                               rr.errorCallback(message);
                           }
                       });
-    QUrlQuery query;
-    query.addQueryItem("app_id", app_id);
-    query.addQueryItem("installation_code", installation_code);
-    query.addQueryItem("current_installed_version", QString::number(current_installed_version));
-    yacappServerGet("/getAPP",
-                    query,
-                    replyHandler,
-                    successCallback,
-                    errorCallback);
+    // QUrlQuery query;
+    // query.addQueryItem("app_id", app_id);
+    // query.addQueryItem("installation_code", installation_code);
+    // query.addQueryItem("current_installed_version", QString::number(current_installed_version));
+
+    RequestData rd;
+    rd.method = methodNames.getAPP;
+//    rd.query.addQueryItem("app_id", app_id);
+    rd.query.addQueryItem("installation_code", installation_code);
+    rd.query.addQueryItem("current_installed_version", QString::number(current_installed_version));
+    rd.addAppId(app_id);
+    rd.handlerFunction = replyHandler;
+    rd.successCallback = successCallback;
+    rd.errorCallback = errorCallback;
+    get(rd);
 }
 
 void YACServerNetwork::registerUser(const QString &loginEMail,
@@ -205,6 +213,30 @@ void YACServerNetwork::logoutUser(const QString &loginEMail,
     rd.rawHeader["YACAPP-AppId"] = appId.toLatin1();
     post(rd);
 }
+
+void YACServerNetwork::uploadApp(const QString &loginEMail,
+                                 const QString &loginToken,
+                                 const QString &appId,
+                                 t0001_apps &theApp,
+                                 const QString &installation_code,
+                                 CallbackFunction successCallback,
+                                 CallbackFunction errorCallback)
+{
+    RequestData rd;
+    rd.method = methodNames.uploadApp;
+    ORM2QJson orm2json;
+    orm2json.toJson(theApp, rd.object);
+    rd.object["installation_code"] = installation_code;
+    rd.handlerFunction = defaultReplyHandler;
+    rd.successCallback = successCallback;
+    rd.errorCallback = errorCallback;
+    rd.addAppId(appId);
+    rd.addLoginEMail(loginEMail);
+    rd.addLoginToken(loginToken);
+    post(rd);
+}
+
+
 
 void YACServerNetwork::appUserRequestPasswordUpdate(const QString &loginEMail,
                                                     const QString &appId,

@@ -163,8 +163,8 @@ int main(int argc, char *argv[])
     Logger::gi().setIsDesktop(Constants::gi().isDesktop());
 
     QNetworkAccessManager manager;
-    YACExtServerNetworkDeprecated network(manager
-                                , Constants::gi());
+    YACServerNetwork network(manager
+                             , Constants::gi());
     CustomServerNetwork customServerNetwork(manager
                                             , Constants::gi());
 

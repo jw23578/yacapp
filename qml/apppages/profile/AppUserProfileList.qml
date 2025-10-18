@@ -73,7 +73,7 @@ AppUserBasePage
         lastId = id;
     }
 
-    property alias emptyText: theEmptyText.text
+    property alias emptyText: theEmptyText
     onVisibleChanged: visible ? multiMenueButton.moveIn() : multiMenueButton.moveOut()
     showCloseButton: true
     multiMenueButton.visible: true

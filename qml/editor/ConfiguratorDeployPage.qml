@@ -52,13 +52,13 @@ ConfiguratorPage
         YACButton
         {
             text: qsTr("Abort")
-            onClicked: deployPage.visible = false
+            onClicked: deployPage.hidePage()
             width: parent.width
         }
         YACButton
         {
             text: qsTr("APP-Images")
-            onClicked: appImages.visible = true
+            onClicked: appImages.showPage()
             width: parent.width
         }
     }
@@ -69,6 +69,5 @@ ConfiguratorPage
     ConfiguratorAppImagesPage
     {
         id: appImages
-        visible: false
     }
 }

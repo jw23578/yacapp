@@ -8,7 +8,7 @@ Item
     property alias radius: theRectangle.radius
     property alias font: theText.font
     property alias text: theText.text
-    property alias emptyText: theEmptyText.text
+    property alias emptyText: theEmptyText
     property alias source: theImage.source
     property alias showLoadingImage: theImage.showLoadingImage
     property alias shadow: theRectangle.shadow

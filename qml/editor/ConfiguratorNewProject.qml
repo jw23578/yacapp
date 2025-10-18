@@ -35,7 +35,7 @@ DialogBase
         {
             id: projectFolder
             headerText: qsTr("Projectfolder")
-            emptyText: qsTr("Please select")
+            emptyText.text: qsTr("Please select")
             onClicked: newProjectDialog.open()
         }
     }

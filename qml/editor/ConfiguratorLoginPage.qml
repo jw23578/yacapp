@@ -46,7 +46,7 @@ ConfiguratorPage
         }
         YACLineEdit
         {
-            emptyText: qsTr("Verifytoken")
+            emptyText.text: qsTr("Verifytoken")
             width: parent.width
             id: theVerifyToken
         }
@@ -111,7 +111,7 @@ ConfiguratorPage
         anchors.verticalCenterOffset: parent.height / 2 - theVerifyColumn.anchors.verticalCenterOffset
         YACLineEdit
         {
-            emptyText: qsTr("LoginEMail")
+            emptyText.text: qsTr("LoginEMail")
             width: parent.width
             id: loginEMail
             text: configurator.deployUser
@@ -120,7 +120,7 @@ ConfiguratorPage
         }
         YACLineEdit
         {
-            emptyText: qsTr("Password")
+            emptyText.text: qsTr("Password")
             width: parent.width
             id: password
             echoMode: TextInput.Password

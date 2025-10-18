@@ -125,7 +125,7 @@ AppUserBasePage
         property string right_group_id: ""
         id: theAppUserProfileList
         visible: false
-        emptyText: qsTr("No Member yet")
+        emptyText.text: qsTr("No Member yet")
         onCloseClicked:
         {
             for (var i = 0; i < newSelected.length; ++i)

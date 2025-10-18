@@ -1,8 +1,25 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import "qrc:/qml/items"
 
 Rectangle
 {
+    layer.enabled: true;
+    function showPage()
+    {
+        opacity = 1
+    }
+    function hidePage()
+    {
+        opacity = 0
+    }
+    opacity: 0
+    visible: opacity > 0
+    Behavior on opacity {
+        NumberAnimation {
+            duration: Constants.fastAnimationDuration
+        }
+    }
+
     MouseArea
     {
         anchors.fill: parent

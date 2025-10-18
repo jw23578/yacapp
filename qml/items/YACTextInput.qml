@@ -3,7 +3,7 @@ import "../../JSConstants.js" as JSConstants
 
 TextInput
 {
-    property alias emptyText: theEmptyText.text
+    property alias emptyText: theEmptyText
     property bool useInConfigurator: false
     selectByMouse: Constants.isDesktop
     focus: true

@@ -4,8 +4,8 @@
 #include "yacserverbasenetwork.h"
 #include "yacAppAndServer/yacappservermethodnames.h"
 #include "yacAppAndServer/tablefields.h"
-#include "ormobjectinterface.h"
 #include "orm-mapper/orm2qjson.h"
+#include "orm_implementions/t0001_apps.h"
 
 class YACServerNetwork: public YACServerBaseNetwork
 {
@@ -18,7 +18,8 @@ public:
     YACServerNetwork(QNetworkAccessManager &manager
                      , Constants &constants);
 
-    void yacappServerGetAllAPPs(CallbackFunction successCallback,
+    void yacappServerGetAllAPPs(const QString &app_id,
+                                CallbackFunction successCallback,
                                 CallbackFunction  errorCallback);
 
     void yacappServerGetAPP(const QString &app_id,
@@ -59,6 +60,13 @@ public:
                     const QString &appId,
                     CallbackFunction successCallback,
                     CallbackFunction errorCallback);
+    void uploadApp(const QString &loginEMail,
+                               const QString &loginToken,
+                               const QString &appId,
+                               t0001_apps &theApp,
+                               const QString &installation_code,
+                               CallbackFunction successCallback,
+                               CallbackFunction errorCallback);
 
 
     void appUserRequestPasswordUpdate(const QString &loginEMail,

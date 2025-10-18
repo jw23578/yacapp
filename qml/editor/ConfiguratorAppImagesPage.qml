@@ -1,11 +1,10 @@
 import QtQuick 2.15
 import "../items"
 
-Rectangle
+ConfiguratorPage
 {
     id: appImages
     anchors.fill: parent
-    visible: false
     ListView
     {
         model: yacApp.globalConfig.appImages()
@@ -82,7 +81,7 @@ Rectangle
             onClicked:
             {
                 configurator.saveCurrentProject()
-                appImages.visible = false
+                appImages.hidePage()
             }
         }
     }
