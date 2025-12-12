@@ -5,10 +5,10 @@ Item
     property bool showLoadingImage: false
     property alias source: theImage.source
     property alias fillMode: theImage.fillMode
+    width: theImage.width
     Image
     {
         id: theImage
-        width: parent.width
         height: parent.height
         fillMode: Image.PreserveAspectFit
         cache: true

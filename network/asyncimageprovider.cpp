@@ -31,6 +31,10 @@ QQuickImageResponse *AsyncImageProvider::requestImageResponse(const QString &id,
     {
         return new AsyncImageResponse("");
     }
+    if (uuid == NullUuid)
+    {
+        return new AsyncImageResponse("");
+    }
     QString cachename(uuid);
     QString cacheFileName(yacApp.constants.getCachePath(yacApp.globalConfig()->projectID()) + cachename + ".jpg");
     if (QFile::exists(cacheFileName))

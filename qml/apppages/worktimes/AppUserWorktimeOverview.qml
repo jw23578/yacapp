@@ -172,7 +172,7 @@ AppUserBasePage
                 {
                     height: 1
                     width: parent.width
-                    color: Constants.buttonColor
+                    color: Constants.buttonPrimaryColor
                 }
             }
         }

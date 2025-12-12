@@ -90,22 +90,22 @@ AppUserBasePage2
                 }
             }
 
-            YACLineEditWithHeader
+            YACLineEdit
             {
                 id: fstname
-                headerText: qsTr("Name")
+                emptyText.text: qsTr("Name")
                 text: yacApp.appUserConfig.fstname
             }
-            YACLineEditWithHeader
+            YACLineEdit
             {
                 id: surname
-                headerText: qsTr("Surname")
+                emptyText.text: qsTr("Surname")
                 text: yacApp.appUserConfig.surname
             }
-            YACLineEditWithHeader
+            YACLineEdit
             {
                 id: visible_name
-                headerText: qsTr("Visiblename")
+                emptyText.text: qsTr("Visiblename")
                 text: yacApp.appUserConfig.visibleName
             }
             YACComboBoxWithHeader
@@ -140,10 +140,10 @@ AppUserBasePage2
                 color: yacApp.appUserConfig.messageFontColor
             }
 
-            YACLineEditWithHeader
+            YACLineEdit
             {
                 id: theNewPassword
-                headerText: qsTr("New Password")
+                emptyText.text: qsTr("New Password")
                 echoMode: TextInput.Password
             }
 
@@ -153,6 +153,22 @@ AppUserBasePage2
                 width: parent.width
                 function saveProfile(imageFilename)
                 {
+                    if (fstname.displayText == "")
+                    {
+                        CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter a Fstname."), fstname, null)
+                        return
+                    }
+                    if (surname.displayText == "")
+                    {
+                        CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter a Surname."), surname, null)
+                        return
+                    }
+                    if (visible_name.displayText == "")
+                    {
+                        CPPQMLAppAndConfigurator.badMessage(qsTr("Please enter a visible Name."), visible_name, null)
+                        return
+                    }
+
                     var searchingExactlyAllowed = searchOption.currentIndex == 1
                     var searchingFuzzyAllowed = searchOption.currentIndex == 2
                     yacApp.appUserUpdateProfile(fstname.displayText,

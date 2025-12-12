@@ -257,7 +257,8 @@ void YACAPP::fetchFiles()
     {
         if (ftf.imageType == "appImage")
         {
-            network.getAppImage(ftf.imageId,
+            network.getAppImage(theCreatorAppAppId,
+                                ftf.imageId,
                                 [ftf](const QJsonDocument &jsonDoc)
                                 {
                                     QJsonObject imageData(jsonDoc.object());
@@ -1553,7 +1554,7 @@ void YACAPP::fetchMyProfile(QJSValue successCallback,
                                   [this, successCallback](const QJsonDocument &jsonDoc) mutable
                                   {
                                       QJsonObject profile(jsonDoc.object());
-                                      appUserConfig()->setFstname(profile[tableFields.fstname].toString() + "anna");
+                                      appUserConfig()->setFstname(profile[tableFields.fstname].toString());
                                       appUserConfig()->setSurname(profile[tableFields.surname].toString());
                                       appUserConfig()->setVisibleName(profile[tableFields.visible_name].toString());
                                       appUserConfig()->setProfileImageId(profile[tableFields.image_id].toString());

@@ -314,7 +314,7 @@ Item
             theComponent: Component
             {
                 id: tokenLogin
-                YACUserTokenLogin
+                YACUserRegisterLogin
                 {
                     onCloseClicked: tokenLoginLoader.closeBasePageLoader()
                     onLoginSuccessful:

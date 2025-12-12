@@ -92,7 +92,7 @@ Rectangle
         anchors.right: parent.right
         height: theHeightInfoTextEdit.height + Constants.radius / 2
         anchors.bottom: parent.bottom
-        color: "orange"
+        color: Constants.buttonPrimaryColor
     }
 
     Timer
@@ -109,7 +109,7 @@ Rectangle
         rotation: waitTimer.running ? 90 : enableBack ? 270 : yacApp.superMenueMinized ? 0 : 180
         anchors.bottom: parent.bottom
         anchors.left: parent.left
-        anchors.top: theHeightInfoTextEdit.top
+        anchors.verticalCenter: theBottomRectangle.verticalCenter
         onClicked: closePage()
     }
 }

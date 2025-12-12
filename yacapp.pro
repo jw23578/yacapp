@@ -66,7 +66,6 @@ SOURCES += \
         dataobjects/worktimeobject.cpp \
         designoptions/globaldesignconfig.cpp \
         designoptions/mainmenueconfig.cpp \
-        designoptions/multimenueconfig.cpp \
         designoptions/newspageconfig.cpp \
         firebase2qt.cpp \
         helper.cpp \
@@ -145,7 +144,6 @@ HEADERS += \
   dataobjects/worktimeobject.h \
   designoptions/globaldesignconfig.h \
   designoptions/mainmenueconfig.h \
-  designoptions/multimenueconfig.h \
   designoptions/newspageconfig.h \
   firebase2qt.h \
   helper.h \

@@ -36,6 +36,9 @@ Column
         id: input
         width: parent.width - x
         height: header.height * 2
+        border.width: Constants.buttonBorderWidthbuttonBorderWidth
+        border.color: Constants.buttonPrimaryBorderColor
+        radius: width == height ? height / 2 : height / 4
         MouseArea
         {
             anchors.fill: parent

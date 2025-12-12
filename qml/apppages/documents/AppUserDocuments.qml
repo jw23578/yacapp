@@ -47,32 +47,34 @@ AppUserBasePage2
             onCloseClicked: theViewDocumentLoader.sourceComponent = null
         }
     }
-    YACLineEditWithHeader
+
+    YACText
     {
-        id: needle
-        headerText: qsTr("Suche (mit Leerzeichen trennen)")
+        id: countLabel
         width: theListview.width
         anchors.horizontalCenter: parent.horizontalCenter
+        text: qsTr("Anzahl: ") + theListview.count
+    }
+
+    YACLineEdit
+    {
+        id: needle
+        emptyText.text: qsTr("Suche (mit Leerzeichen trennen)")
+        width: theListview.width - Constants.defaultMargin * 2
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: content.bottom
         onDisplayTextChanged: yacApp.appUserFetchDocuments(needle.text,
                                                            0,
                                                            10,
                                                            function(message) {},
                                                            function(message) {})
     }
-    YACText
-    {
-        id: countLabel
-        anchors.top: needle.bottom
-        width: theListview.width
-        anchors.horizontalCenter: parent.horizontalCenter
-        text: qsTr("Anzahl: ") + theListview.count
-    }
 
     AppPageListView
     {
         id: theListview
         anchors.top: countLabel.bottom
-        anchors.bottom: bottomRectangle.top
+        anchors.bottom: needle.top
         model: DocumentsModel
         displaced: Transition {
             NumberAnimation { properties: "x,y"; duration: 1000 }

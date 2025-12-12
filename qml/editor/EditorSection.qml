@@ -13,7 +13,7 @@ Item
     clip: true
     height: theBackground.height + Constants.shadowVerticalOffset
     default property alias column: sectionColumn.data
-    property color closedColor: Constants.buttonColor
+    property color closedColor: Constants.buttonPrimaryColor
     property color openedColor: "lightgrey"
     property bool behaviorEnabled: false
 

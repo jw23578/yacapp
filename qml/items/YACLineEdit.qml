@@ -13,6 +13,8 @@ FocusScope
     property alias input: inputItem
     property alias displayText: inputItem.displayText
     property alias emptyText: inputItem.emptyText
+    property alias showGoodBadIndicator: theGoodBadIndicator.visible
+    property bool dataIsGood: false
     height: theRectangle.height
     width: parent.width
     DoubleValidator
@@ -40,7 +42,7 @@ FocusScope
         border.width: 1
         radius: width == height ? height / 2 : height / 4
         visible: theScope.showColumn
-        color: Constants.lineEditBackgroundColor
+        color: Constants.inputBackgroundColor
         YACTextInput
         {
             width: parent.width - 2 * parent.theBorder
@@ -52,6 +54,18 @@ FocusScope
             focus: true
             inputMethodHints: theScope.intEdit ? Qt.ImhDigitsOnly :
                                                  theScope.emailEdit ? Qt.ImhEmailCharactersOnly : Qt.ImhNone
+        }
+        Rectangle
+        {
+            id: theGoodBadIndicator
+            visible: false
+            color: theScope.dataIsGood ? Constants.goodColor : Constants.badColor
+            radius: height / 2
+            height: parent.height - (anchors.rightMargin * 2)
+            width: height
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.rightMargin: parent.height / 4
         }
     }
 }

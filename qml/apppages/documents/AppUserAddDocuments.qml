@@ -77,6 +77,7 @@ AppUserBasePage2
         visible: false
         anchors.fill: parent
         id: theUploadRectangle
+        color: Constants.backgroundColor
         YACKeywordsEditor
         {
             id: theKeywordsEditor
@@ -113,6 +114,7 @@ AppUserBasePage2
             {
                 width: theUploadRectangle.width
                 height: theColumn.height
+                color: Constants.backgroundColor
                 Column
                 {
                     id: theColumn

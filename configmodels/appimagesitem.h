@@ -10,6 +10,7 @@ class AppImagesItem : public ConfigInterface
     YACAPPPROPERTY(QString, id, Id, "");
     YACAPPPROPERTY(QString, fileUrl, FileUrl, "");
     YACAPPPROPERTY(ORMUuid, imageId, ImageId, "");
+    YACAPPPROPERTY(ORMUuid, largeobject2objectId, Largeobject2objectId, "");
 public:
     explicit AppImagesItem(QObject *parent = nullptr);
 

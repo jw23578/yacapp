@@ -38,8 +38,8 @@ Column
         background: Rectangle {
             implicitWidth: 120
             implicitHeight: 40
-            color: input.popup.visible  ? "white" : input.pressed ? Constants.buttonDownColor : Constants.buttonColor
-            border.color: Constants.buttonColor
+            color: input.popup.visible  ? "white" : input.pressed ? Constants.buttonDownColor : Constants.buttonPrimaryColor
+            border.color: Constants.buttonPrimaryColor
             radius: height / 4
         }
 
@@ -59,7 +59,7 @@ Column
 
                 highlight: YACRectangle
                 {
-                    color: Constants.buttonColor
+                    color: Constants.buttonPrimaryColor
                     radius: input.height / 2
                     radiusTopLeft: input.highlightedIndex == 0
                     radiusTopRight: input.highlightedIndex == 0
@@ -71,7 +71,7 @@ Column
             }
 
             background: Rectangle {
-                border.color: Constants.buttonColor
+                border.color: Constants.buttonPrimaryColor
                 radius: input.height / 2
             }
         }
@@ -83,7 +83,7 @@ Column
             height: input.height
             contentItem: YACText {
                 text: modelData
-                color: Constants.fontColor
+                color: Constants.textPrimaryColor
                 elide: Text.ElideRight
                 verticalAlignment: Text.AlignVCenter
                 useInConfigurator: theComboBoxWithHeader.useInConfigurator
@@ -97,7 +97,7 @@ Column
                     visible: index != input.count -1
                     width: parent.width
                     height: 1
-                    color: Constants.buttonColor
+                    color: Constants.buttonPrimaryColor
                     anchors.bottom: parent.bottom
                 }
             }

@@ -7,7 +7,6 @@
 #include "yacappmacros.h"
 #include "designoptions/mainmenueconfig.h"
 #include "designoptions/newspageconfig.h"
-#include "designoptions/multimenueconfig.h"
 #include "designoptions/globaldesignconfig.h"
 #include <QDateTime>
 
@@ -50,15 +49,15 @@ class Constants : public QObject
     YACAPPPROPERTY(double, defaultMargin, DefaultMargin, 0);
     YACAPPPROPERTY(double, defaultSpacing, DefaultSpacing, 0);
 
-    YACAPPPROPERTY(QColor, backgroundColor, BackgroundColor, "blanchedalmond");
+    YACAPPPROPERTY(QColor, backgroundColor, BackgroundColor, "0x0d1117");
 
     YACAPPPROPERTY(double, configuratorDefaultFontPixelSize, ConfiguratorDefaultFontPixelSize, 0)
 
 
 
-    YACAPPPROPERTY(QColor, textInputFontColor, TextInputFontColor, "black")
-    YACAPPPROPERTY(QColor, lineEditBackgroundColor, LineEditBackgroundColor, "white")
-    YACAPPPROPERTY(QColor, fontColor, FontColor, "black")
+    YACAPPPROPERTY(QColor, inputTextColor, InputTextColor, 0xf0f6fc)
+    YACAPPPROPERTY(QColor, inputBackgroundColor, InputBackgroundColor, 0x161b22)
+    YACAPPPROPERTY(QColor, textPrimaryColor, TextPrimaryColor, 0xf0f6fc)
     YACAPPPROPERTY(double, defaultFontPixelSize, DefaultFontPixelSize, 0)
     YACAPPPROPERTY(double, smallerTextFactor, SmallerTextFactor, 3.0 / 4.0)
     YACAPPPROPERTY(double, largerTextFactor, LargerTextFactor, 5.0 / 4.0)
@@ -67,8 +66,10 @@ class Constants : public QObject
     YACAPPPROPERTY(double, x4largerTextFactor, X4largerTextFactor, 8.0 / 4.0)
 
     YACAPPPROPERTY(QColor, spacingColor, SpacingColor, "orange");
-    YACAPPPROPERTY(QColor, buttonColor, ButtonColor, "orange");
-    YACAPPPROPERTY(QColor, buttonHoverColor, ButtonHoverColor, buttonColor().lighter(110));
+    YACAPPPROPERTY(int, buttonBorderWidth, ButtonBorderWidth, 1)
+    YACAPPPROPERTY(QColor, buttonPrimaryBorderColor, ButtonPrimaryBorderColor, QColor(0x1f6feb).darker(130))
+    YACAPPPROPERTY(QColor, buttonPrimaryColor, ButtonPrimaryColor, 0x1f6feb)
+    YACAPPPROPERTY(QColor, buttonPrimaryHoverColor, ButtonPrimaryHoverColor, 0x0969da)
     YACAPPPROPERTY(QColor, buttonDownColor, ButtonDownColor, "darkorange");
     YACAPPPROPERTY(QColor, waitColor, WaitColor, "orange");
     YACAPPPROPERTY(QColor, goodColor, GoodColor, "#A9CEA5");
@@ -77,7 +78,6 @@ class Constants : public QObject
     YACAPPPROPERTY(GlobalDesignConfig*, globalDesignConfig, GlobalDesignConfig, new GlobalDesignConfig);
     YACAPPPROPERTY(MainMenueConfig*, mainMenueConfig, MainMenueConfig, new MainMenueConfig);
     YACAPPPROPERTY(NewsPageConfig*, newsPageConfig, NewsPageConfig, new NewsPageConfig);
-    YACAPPPROPERTY(MultiMenueConfig*, multiMenueConfig, MultiMenueConfig, new MultiMenueConfig);
 
     Constants(const QString &customWriteablePath);
     static Constants *instance;

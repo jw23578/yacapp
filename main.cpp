@@ -188,11 +188,6 @@ int main(int argc, char *argv[])
     {
         ConfiguratorConstants *cc(new ConfiguratorConstants(0));
         engine.rootContext()->setContextProperty("ConfiguratorConstants", cc);
-        Constants::gi().setFontColor(cc->textPrimaryColor());
-        Constants::gi().setLineEditBackgroundColor(cc->inputBackgroundColor());
-        Constants::gi().setTextInputFontColor(cc->inputTextColor());
-        Constants::gi().setButtonColor(cc->buttonPrimaryColor());
-        Constants::gi().setButtonHoverColor(cc->buttonPrimaryHoverColor());
         Constants::gi().setDark(true);
         Constants::gi().setIsConfigurator(true);
         url = QStringLiteral("qrc:/mainCreatorMode.qml");

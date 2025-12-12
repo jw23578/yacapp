@@ -10,11 +10,6 @@ class ConfiguratorConstants : public QObject
     Q_OBJECT
     YACAPPPROPERTY(QColor, backgroundPrimaryColor, BackgroundPrimaryColor, 0x0d1117)
     YACAPPPROPERTY(QColor, backgroundSecondaryColor, BackgroundSecondaryColor, 0x161b22)
-    YACAPPPROPERTY(QColor, inputBackgroundColor, InputBackgroundColor, 0x161b22)
-    YACAPPPROPERTY(QColor, inputTextColor, InputTextColor, 0xf0f6fc)
-    YACAPPPROPERTY(QColor, textPrimaryColor, TextPrimaryColor, 0xf0f6fc)
-    YACAPPPROPERTY(QColor, buttonPrimaryColor, ButtonPrimaryColor, 0x1f6feb)
-    YACAPPPROPERTY(QColor, buttonPrimaryHoverColor, ButtonPrimaryHoverColor, 0x0969da)
     YACAPPPROPERTY(QColor, borderPrimaryColor, BorderPrimaryColor, 0x30363d)
 
 public:

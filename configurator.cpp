@@ -9,7 +9,8 @@
 #include "configmodels/globalprojectconfig.h"
 #include "configmodels/parsedconfig.h"
 #include "configmodels/appimagesitem.h"
-#include "orm_implementions/t0027_app_images.h"
+#include "orm_implementions/t0009_largeobject.h"
+#include "orm_implementions/t0010_largeobject2object.h"
 #include "logger.h"
 #include "orm_implementions/t0001_apps.h"
 
@@ -163,8 +164,8 @@ void Configurator::deploy(QJSValue goodCallback, QJSValue badCallback)
     theApp.setapp_color_name(gpc->projectColorName());
     theApp.setis_template_app(gpc->isTemplateApp());
     theApp.setyacpck_base64(0);
-    theApp.settransfer_yacpck_base64(gpc->getConfigAsString(yacApp.constants));
-    theApp.setjson_yacapp(appPackage.toBase64());
+    theApp.settransfer_yacpck_base64(appPackage.toBase64());
+    theApp.setjson_yacapp(gpc->getConfigAsString(yacApp.constants));
 
     network.uploadApp(deployUser(),
                                   yacappServerLoginToken(),
@@ -183,15 +184,28 @@ void Configurator::deploy(QJSValue goodCallback, QJSValue badCallback)
                                           if (file.open(QFile::ReadOnly))
                                           {
                                               QByteArray imageData(file.readAll().toBase64());
-                                              t0027_app_images t0027;
-                                              t0027.setposition(i);
-                                              t0027.setapp_image_id(aii.imageId());
-                                              t0027.setapp_id(gpc->projectID());
-                                              t0027.settransfer_image_base64(imageData);
+                                              t0009_largeobject appImage;
+                                              appImage.setlargeobject_id(aii.imageId());
+                                              appImage.prepareFirstInsert();
+                                              appImage.setapp_id(gpc->projectID());
+                                              appImage.settransfer_base64(imageData);
                                               network.appUserPostORM(theCreatorAppAppId,
                                                                      deployUser(),
                                                                      yacappServerLoginToken(),
-                                                                     t0027,
+                                                                     appImage,
+                                                                     [](const QJsonDocument &document){},
+                                                                     [](const QString &message){});
+
+                                              t0010_largeobject2object image2App;
+                                              image2App.setposition(i);
+                                              image2App.setlargeobject2object_id(aii.largeobject2objectId());
+                                              image2App.setlargeobject_id(appImage.getlargeobject_id());
+                                              image2App.setapp_id(gpc->projectID());
+                                              image2App.setobject_id(gpc->projectID());
+                                              network.appUserPostORM(theCreatorAppAppId,
+                                                                     deployUser(),
+                                                                     yacappServerLoginToken(),
+                                                                     image2App,
                                                                      [](const QJsonDocument &document){},
                                                                      [](const QString &message){});
                                           }
@@ -424,6 +438,7 @@ void Configurator::addImageFile(QString fileUrl)
     aii->setFileUrl(fileUrl);
     aii->setId(fileUrl);
     aii->setImageId(ExtUuid::generateUuid());
+    aii->setLargeobject2objectId(ExtUuid::generateUuid());
     yacApp.globalConfig()->getappImages().append(aii);
 }
 

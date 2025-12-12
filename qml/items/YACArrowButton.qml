@@ -4,7 +4,7 @@ YACRectangle
 {
     id: theButton
     signal clicked;
-    property color baseColor: Constants.buttonColor
+    property color baseColor: Constants.buttonPrimaryColor
     color: mouseArea.pressed ? Qt.darker(baseColor, 1.1) :
                                mouseArea.containsMouse ? Qt.lighter(baseColor, 1.1) : baseColor
     width: buttonHeightCalc.height + Constants.radius / 2

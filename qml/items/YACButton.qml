@@ -12,7 +12,7 @@ Item
     property alias source: theImage.source
     property alias showLoadingImage: theImage.showLoadingImage
     property alias shadow: theRectangle.shadow
-    property color baseColor: Constants.buttonColor
+    property color baseColor: Constants.buttonPrimaryColor
     width: theText.contentWidth + theText.contentHeight * 2
     height: theText.contentHeight * 2 + shadow.shadowVerticalOffset * 2
     property double captionStartX: theRectangle.x + theRectangle.radius
@@ -22,8 +22,10 @@ Item
         x: shadow.shadowHorizontalOffset
         width: theButton.width
         implicitHeight: theButton.height
+        border.width: Constants.buttonBorderWidth
+        border.color: Constants.buttonPrimaryBorderColor
         color: mouseArea.pressed ? Qt.darker(baseColor, 1.1) :
-                                   mouseArea.containsMouse ? Constants.buttonHoverColor : baseColor
+                                   mouseArea.containsMouse ? Constants.buttonPrimaryHoverColor : baseColor
         shadow.visible: !mouseArea.pressed && Constants.shadowActive
         radius: width == height ? height / 2 : height / 4
         radiusTopLeft: true

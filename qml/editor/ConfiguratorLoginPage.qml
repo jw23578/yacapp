@@ -117,6 +117,9 @@ ConfiguratorPage
             text: configurator.deployUser
             Keys.onTabPressed: password.focus = true
             Keys.onBacktabPressed: password.focus = true
+            emailEdit: true
+            showGoodBadIndicator: true
+            dataIsGood: Helper.loginIsValid(displayText, yacApp.globalConfig.third)
         }
         YACLineEdit
         {
@@ -177,7 +180,7 @@ ConfiguratorPage
                                                    if (message === "LoginEMail already exists.")
                                                    {
                                                        theVerifyColumn.open()
-                                                       theVerifyText.text = qsTr("Login-E-Mail already registered, please verify or Login..")
+                                                       theVerifyText.text = qsTr("Login-E-Mail already registered, please verify or Login.")
                                                        return
                                                    }
 

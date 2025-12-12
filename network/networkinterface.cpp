@@ -136,14 +136,14 @@ void NetworkInterface::replyFinished(QNetworkReply *reply)
         {
             return;
         }
-        if (networkDefectCallback)
-        {
-            networkDefectCallback(reply->errorString());
-        }
         DEFAULT_LOG(reply->errorString());
         QJsonDocument replyDoc(QJsonDocument::fromJson(allData));
         QJsonObject object(replyDoc.object());
         QString message(object["message"].toString());
+        if (networkDefectCallback)
+        {
+            networkDefectCallback(reply->errorString() + " " + message);
+        }
         if (message.size())
         {
             rr.errorCallback(message);

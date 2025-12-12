@@ -7,5 +7,5 @@ Text
     wrapMode: Text.WordWrap
     font.pixelSize: useInConfigurator ? Constants.configuratorDefaultFontPixelSize : Constants.defaultFontPixelSize
     font.family: JSConstants.urbanistMedium
-    color: Constants.fontColor
+    color: Constants.textPrimaryColor
 }

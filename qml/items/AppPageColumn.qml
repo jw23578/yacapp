@@ -1,6 +1,7 @@
 import QtQuick 2.15
 
-Column {
+Column
+{
     anchors.top: parent.top
     anchors.left: parent.left
     anchors.right: parent.right

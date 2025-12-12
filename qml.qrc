@@ -46,7 +46,7 @@
         <file>qml/items/YACTextEdit.qml</file>
         <file>qml/items/YACTextEditWithBackground.qml</file>
         <file>qml/items/YACRoundedRectangle.qml</file>
-        <file>qml/apppages/profile/YACUserTokenLogin.qml</file>
+        <file>qml/apppages/profile/YACUserRegisterLogin.qml</file>
         <file>qml/items/YACLineEdit.qml</file>
         <file>qml/apppages/YACPhoto.qml</file>
         <file>qml/items/YACRoundedImage.qml</file>

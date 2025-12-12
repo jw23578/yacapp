@@ -579,7 +579,7 @@ void YACServerNetwork::appUserUpdateProfile(const QString &appId,
         }
     }
 
-    yacappServerPost("/updateAppUserProfile",
+    yacappServerPost(methodNames.updateUserProfile,
                      obj,
                      defaultReplyHandler,
                      rawHeader,
@@ -646,17 +646,19 @@ void YACServerNetwork::appUserFetchMyProfile(const QString &appId,
                                     errorCallback);
 }
 
-void YACServerNetwork::getAppImage(const QString &imageId, JSONCallbackFunction jsonSuccessCallback, CallbackFunction errorCallback)
+void YACServerNetwork::getAppImage(const QString &app_id,
+                                   const QString &imageId,
+                                   JSONCallbackFunction jsonSuccessCallback,
+                                   CallbackFunction errorCallback)
 {
-    QUrlQuery query;
-    query.addQueryItem("imageId", imageId);
-    yacappServerGet(methodNames.getAPPImage,
-                    query,
-                    defaultReplyHandler,
-                    {},
-                    0,
-                    jsonSuccessCallback,
-                    errorCallback);
+    RequestData rd;
+    rd.method = methodNames.getAPPImage;
+    rd.handlerFunction = defaultReplyHandler;
+    rd.errorCallback = errorCallback;
+    rd.jsonSuccessCallback = jsonSuccessCallback;
+    rd.addAppId(app_id);
+    rd.query.addQueryItem("imageId", imageId);
+    get(rd);
 }
 
 void YACServerNetwork::appUserFetchImage(const QString &appId,

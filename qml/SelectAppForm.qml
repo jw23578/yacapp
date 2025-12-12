@@ -335,6 +335,12 @@ Rectangle
                         }
                     }
                 }
+                Item
+                {
+                    width: Constants.designWidthFactor * 36
+                    height: appView.elemHeight
+                }
+
             }
         }
     }

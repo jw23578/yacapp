@@ -210,7 +210,8 @@ public:
                                JSONCallbackFunction jsonSuccessCallback,
                                CallbackFunction  errorCallback);
 
-    void getAppImage(const QString &imageId,
+    void getAppImage(const QString &app_id,
+                     const QString &imageId,
                      JSONCallbackFunction jsonSuccessCallback,
                      CallbackFunction errorCallback);
 

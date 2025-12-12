@@ -4,6 +4,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include "extuuid.h"
 
 GlobalProjectConfig::GlobalProjectConfig(bool noProjectId,
                                          QObject *parent)

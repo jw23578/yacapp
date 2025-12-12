@@ -9,24 +9,33 @@ TextInput
     focus: true
     font.pixelSize: useInConfigurator ? Constants.configuratorDefaultFontPixelSize : Constants.defaultFontPixelSize
     font.family: JSConstants.urbanistMedium
-    color: Constants.textInputFontColor
+    color: Constants.inputTextColor
     Text
     {
         z: -1
         id: theEmptyText
-        visible: opacity > 0
-        opacity: parent.displayText == "" ? 1 : 0.1
+        opacity: parent.displayText === "" ? 1 : 0.7
         Behavior on opacity {
             NumberAnimation {
                 duration: Constants.slowAnimationDuration
             }
         }
 
-        anchors.fill: parent
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
+        Behavior on anchors.horizontalCenterOffset {
+            NumberAnimation {
+                duration: Constants.fastAnimationDuration
+            }
+        }
+        anchors.horizontalCenterOffset: parent.displayText === "" ? 0 : parent.width / 2 - contentWidth / 2
+        Behavior on anchors.verticalCenterOffset {
+            NumberAnimation {
+                duration: Constants.fastAnimationDuration
+            }
+        }
+        anchors.verticalCenterOffset: parent.displayText === "" ? 0 : parent.height / 2 - contentHeight / 2
+        anchors.centerIn: parent
         font.family: parent.font.family
-        font.pixelSize: parent.font.pixelSize * 0.8
+        font.pixelSize: parent.font.pixelSize *  (parent.displayText === "" ? 0.8 : 0.6)
         color: Qt.darker(parent.color)
     }
 }

@@ -75,6 +75,10 @@ const QString Constants::getAppConfigFilename(QString appId)
 
 const QString &Constants::getCachePath(QString const &appId)
 {
+    if (appId == "")
+    {
+        return theCachePath;
+    }
     if (!theCachePathWithAppId.contains(appId))
     {
         theCachePathWithAppId = theCachePath + appId + "/";

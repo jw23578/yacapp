@@ -70,7 +70,7 @@ FocusScope
             border.color: "black"
             border.width: 1
             visible: theScope.showColumn
-            color: Constants.lineEditBackgroundColor
+            color: Constants.inputBackgroundColor
             YACTextInput
             {
                 useInConfigurator: theScope.useInConfigurator

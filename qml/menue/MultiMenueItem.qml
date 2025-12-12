@@ -13,9 +13,8 @@ Item
     signal clicked(string caption)
     property alias color: menueOption1.color
     property alias caption: theCaption.text
-    property double activeButtonSize: 0
-    property double inactiveButtonSize: 0
-    property double myActiveSize: activeButtonSize * 0.8
+    property double buttonSize: 0
+    property double myActiveSize: buttonSize * 0.8
     property int position: 0
     property int maxPosition: 0
     property int aniDuration: Constants.fastAnimationDuration
@@ -38,14 +37,14 @@ Item
             {
                 target: menueOption1
                 property: "width"
-                to: activeButtonSize
+                to: buttonSize
                 duration: aniDuration
             }
             SmoothedAnimation
             {
                 target: menueOption1
                 property: "y"
-                to: (position + 1) * 1.2 * -activeButtonSize
+                to: (position + 1) * 1.2 * -buttonSize
                 duration: aniDuration
             }
         }
@@ -59,7 +58,7 @@ Item
             {
                 target: theTextRectangle
                 property: "x"
-                to: activeButtonSize / 1.5
+                to: buttonSize / 1.5
                 duration: aniDuration
             }
             NumberAnimation
@@ -91,21 +90,21 @@ Item
             {
                 target: theTextRectangle
                 property: "width"
-                to: inactiveButtonSize
+                to: buttonSize
                 duration: aniDuration
             }
             NumberAnimation
             {
                 target: theTextRectangle
                 property: "x"
-                to: - inactiveButtonSize / 2
+                to: - buttonSize / 2
                 duration: aniDuration
             }
             SmoothedAnimation
             {
                 target: menueOption1
                 property: "y"
-                to: -theMultiMenueItem.inactiveButtonSize / 2
+                to: -theMultiMenueItem.buttonSize / 2
                 duration: theMultiMenueItem.aniDuration
             }
         }
@@ -115,7 +114,7 @@ Item
             {
                 target: menueOption1
                 property: "width"
-                to: inactiveButtonSize
+                to: buttonSize
                 duration: aniDuration
             }
         }
@@ -141,16 +140,18 @@ Item
         id: theTextRectangle
         anchors.verticalCenter: menueOption1.verticalCenter
         x: menueOption1.x
-        width: inactiveButtonSize
-        height: inactiveButtonSize
+        width: buttonSize
+        height: buttonSize
         radius: height / 2
-        color: Constants.multiMenueConfig.itemColor
+        border.width: Constants.buttonBorderWidth
+        border.color: Constants.buttonPrimaryBorderColor
+        color: Constants.buttonPrimaryColor
         clip: true
         YACText
         {
             id: theCaption
             anchors.centerIn: parent
-            color: Constants.multiMenueConfig.fontColor
+            color: Constants.textPrimaryColor
         }
         MouseArea
         {
@@ -161,18 +162,20 @@ Item
     Rectangle
     {
         id: menueOption1
-        width: parent.inactiveButtonSize
+        width: parent.buttonSize
         height: width
         anchors.horizontalCenter: parent.horizontalCenter
         y: - height / 2
         radius: width / 2
+        border.width: Constants.buttonBorderWidth
+        border.color: Constants.buttonPrimaryBorderColor
         Text
         {
             anchors.centerIn: parent
             text: position + 1
-            color: Constants.multiMenueConfig.fontColor
+            color: Constants.textPrimaryColor
         }
-        color: Constants.multiMenueConfig.itemColor
+        color: Constants.buttonPrimaryColor
         MouseArea
         {
             anchors.fill: parent
